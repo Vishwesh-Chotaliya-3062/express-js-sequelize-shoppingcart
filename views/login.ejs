@@ -1,0 +1,89 @@
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body onload="script()">
+
+    <section id="login">
+        <img src="images/pre-login/banner-with-overlay.jpg" id="login-bg-img" alt="">
+
+        <div id="login-content">
+            <div id="logo">
+                <img src="images/pre-login/top-logo.png" class="img-fluid" alt="" style="margin-top: -20px;">
+            </div>
+
+            <div id="forgot-pw-text-1" style="margin-top: 20px;">
+                <p style="color: #47cf48;"><img src="images/Artboard 1.png" style="width: 15px; height: 15px; transform: translateY(-2px);" alt=""> Your account has been successfully created.</p>
+            </div>
+            <div class="container-cust" id="login-form" style="margin-bottom: 0px; margin-top: -30px;">
+
+                
+                <div id="login-heading" style="margin-top:-20px;">
+                    <p>Login</p>
+                </div>
+
+                <div id="login-text-1">
+                    <p>Enter your username and password to login</p>
+                </div>
+                <form action="/login" method="post" name="Form">
+                    <div class="form-group ip-text" style="margin-top: -10px;">
+                        <div class="input-auth">
+                            <label for="email">UserName</label>
+                            <input type="text" class="form-control input-field" name="UserName" id="UserName"
+                                placeholder="Enter your email address">
+                        </div>
+                    </div>
+                    <div class="form-group ip-text">
+                        <div class="input-auth">
+                            <label for="password">Password</label>
+                            <label for="forgot" style="display: inline-block; margin-left: 271px; color: #6255a5">Forgot
+                                Password?</label>
+                            <input type="password" class="form-control input-field" name="Password" id="Password"
+                                placeholder="Enter your password"
+                                style="background: url(images/eye.png) no-repeat scroll 440px 17px; background-color: white; padding-left:10px; border: 1px solid red; margin-bottom: 0px;">
+                        </div>
+                        <label for="password_error" style="color: red; margin-left: 50px; font-size: 12px;">The password
+                            that you've entered is incorrect</label>
+                    </div>
+
+                    <div class="form-group ip-cb">
+                        <div class="input-auth">
+                            <input type="checkbox" id="exampleCheck1" style="margin-bottom: 30px;">
+                            <label for="exampleCheck1" style="vertical-align: middle; margin-top: -10px;">Remember
+                                me</label>
+                        </div>
+                    </div>
+                    <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-login" id="submit" value="Sign Up"
+                          data-toggle="modal">LOGIN</button>
+                      </div>
+                    <div id="login-text-2" style="margin-left: 170px; margin-top: -30px; margin-bottom: -20px;">
+                        <p style="display: inline-block;">Don't have an account?</p>
+                        <p style="display: inline-block; color: #6255a5">Sign Up</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </section>
+
+    <script type="text/javascript">
+        function script() { 
+            var UserName = document.forms["Form"]["UserName"].value;
+            alert("You are successfully registered. Please Login to continue."); 
+        }
+    </script>
+
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+</body>

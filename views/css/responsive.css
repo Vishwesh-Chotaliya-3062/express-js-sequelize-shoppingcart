@@ -1,0 +1,705 @@
+@media (max-width: 1200px) and (min-width: 993px) {
+
+    .mem-det-value p,
+    .mem-det-field p {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    #note-details-page #note-details-title h3 {
+        font-size: 24px;
+        line-height: 28px;
+    }
+
+    #note-details-page #note-details-category p,
+    #note-details-page #note-details-text p {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    #note-details-page #note-details-info p span,
+    #note-details-page #note-details-info p {
+        font-size: 14px;
+        line-height: 28px;
+    }
+}
+
+@media (max-width: 992px) and (min-width: 768px) {
+    #testimonials .rounded-circle {
+        background-color: #fff;
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    .mem-det-value p,
+    .mem-det-field p {
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+    ul.navbar-nav li a.nav-link {
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 600;
+    }
+
+    #note-details-page #note-details-heading p {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    #note-details-page #note-details-category p,
+    #note-details-page #note-details-text p {
+        font-size: 10px;
+        line-height: 14px;
+    }
+
+    #note-details-page #note-details-info p span,
+    #note-details-page #note-details-info p {
+        font-size: 10px;
+        line-height: 28px;
+    }
+
+    .btn-note-details-download {
+        width: 150px;
+    }
+
+    #note-details-download-btn .btn-cmn {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    #note-details-page #note-details #note-details-img {
+        margin-right: 20px;
+    }
+
+    #note-details-page #customer-reviews {
+        margin-bottom: 30px;
+    }
+
+    #downloaded-notes-page .table-wrapper-inner select {
+        max-width: 100px;
+        font-size: 12px;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    #user-dash-left {
+        height: 100%;
+    }
+}
+
+@media (max-width: 767.9px) {
+
+    .mem-det-value p,
+    .mem-det-field p {
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+    #member-info-left {
+        border-bottom: 1px solid #d1d1d1;
+    }
+
+    #member-info-right {
+        margin-top: 30px;
+        justify-content: center;
+    }
+
+    #member-info-right .col-8 {
+        margin-left: auto;
+        margin-right: auto;
+        /* display: block; */
+    }
+
+    nav.navbar {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    nav .container {
+        background-color: #fff;
+        box-shadow: 0px 15px 30px -15px rgba(0, 0, 0, 0.08);
+    }
+
+    .navbar-toggler-icon {
+        background: url("../images/toggle.svg");
+    }
+
+    ul.navbar-nav li a.nav-link {
+        padding-left: 16px;
+    }
+
+    ul.navbar-nav li a#nav-btn {
+        margin: 10px 0 20px 16px;
+        padding-left: 0;
+    }
+
+    ul.navbar-nav li {
+        border-top: 1px solid #d1d1d1;
+        width: 100%;
+    }
+
+    .navbar-toggler-icon {
+        color: #333333;
+    }
+
+    .img-logo .navbar-brand img {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 16px;
+    }
+
+    #my-profile select#ph-code,
+    #add-admin select#ph-code {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #user-profile select#ph-code {
+        padding-left: 2px;
+        padding-right: 0;
+    }
+
+    #filters #search-filter-heading h3,
+    #user-profile .user-profile-heading h3,
+    #filters #filter-result-heading h3 {
+        text-align: center;
+    }
+
+    #user-profile label.input-file {
+        margin-bottom: 0;
+    }
+
+    #user-profile select#gender,
+    #note-info select {
+        margin-bottom: 30px;
+    }
+
+    #note-details-page #note-details-info {
+        margin-top: 30px;
+    }
+
+    #note-details-page #note-details-heading p {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    #note-details-page #customer-reviews {
+        margin-bottom: 30px;
+    }
+
+    #note-details-page #note-details-title h3 {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    #note-details-page #note-details-title h3,
+    #note-details-page #note-details-category p {
+        margin-bottom: 10px;
+    }
+
+    .btn-note-details-download {
+        width: 150px;
+    }
+
+    #note-details-download-btn .btn-cmn {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    #note-details-page #note-details-category p,
+    #note-details-page #note-details-text p {
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    #note-details-info {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    #note-details-page #note-details-info p span,
+    #note-details-page #note-details-info p {
+        font-size: 16px;
+        line-height: 32px;
+    }
+
+    #forgot-pw-content,
+    #login-content {
+        width: 80%;
+    }
+
+    #login .container-cust,
+    #sign-up .container,
+    #forgot-pw .container,
+    #change-pw .container {
+        width: 100%;
+        padding: 0;
+    }
+
+    .input-auth {
+        max-width: 80%;
+    }
+
+    .btn-login,
+    .btn-forgot-pw,
+    .btn-email-verification {
+        max-width: 80%;
+    }
+
+    #forgot-pw input[type="text"],
+    #forgot-pw input[type="password"],
+    #change-pw input[type="password"],
+    #login input[type="text"],
+    #login input[type="password"],
+    #sign-up input[type="text"],
+    #sign-up input[type="password"] {
+        padding: 0 0 0 10px;
+        border-radius: 3px;
+        height: 40px;
+    }
+
+    #login-heading p,
+    #forgot-pw-heading p {
+        margin-top: 30px;
+        font-size: 24px;
+        line-height: 28px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #sign-up input {
+        font-size: 14px;
+    }
+
+    #login-text-1 p,
+    #forgot-pw-text-1,
+    #login-text-2 p,
+    #sign-up-text-2 p {
+        margin-bottom: 20px;
+        font-size: 14px;
+        line-height: 16px;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #login span.field-icon {
+        transform: translate(-15px, -22px);
+    }
+
+    #sign-up span.field-icon {
+        transform: translate(-15px, -2px);
+    }
+
+    #published-notes-page .table-wrapper-inner #select-seller,
+    #rejected-notes-page .table-wrapper-inner #select-seller,
+    #notes-under-review-page .table-wrapper-inner #select-seller {
+        width: 150px;
+    }
+
+    #my-downloads-btn,
+    #in-progress-btn,
+    #dashboard-page #published-btn,
+    #downloaded-notes-btn,
+    #buyers-requests-btn,
+    #spam-btn,
+    #publ-notes-btn,
+    #rejected-notes-btn,
+    #notes-under-review-btn,
+    #my-sold-notes-btn,
+    #my-rejected-notes-btn,
+    #members-btn,
+    #mng-ctg-btn,
+    #mng-type-btn,
+    #mng-adm-btn,
+    #mng-cntry-btn {
+        width: 25%;
+        margin-bottom: 10px;
+    }
+
+    #admin-dashboard-page #published-btn {
+        width: 25%;
+    }
+
+    #admin-dashboard-page #select-month {
+        width: 25%;
+        padding-left: 3px;
+        padding-right: 3px;
+        font-size: 14px;
+    }
+
+    #my-downloads-page .search-ip,
+    #dashboard-page .search-ip,
+    #downloaded-notes-page .search-ip,
+    #buyers-requests-page .search-ip,
+    #spam-page .search-ip,
+    #rejected-notes-page .search-ip,
+    #published-notes-page .search-ip,
+    #notes-under-review-page .search-ip,
+    #my-sold-notes-page .search-ip,
+    #my-rejected-page .search-ip,
+    #members-page .search-ip,
+    #manage-category .search-ip,
+    #manage-type .search-ip,
+    #manage-admin .search-ip,
+    #manage-country .search-ip {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #how-it-works #hiw-seller,
+    #how-it-works #hiw-download {
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+    }
+
+    #about #about-heading h2 {
+        text-align: center;
+    }
+
+    #home-content {
+        text-align: center;
+    }
+
+    .hiw-btn {
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .mem-det-value p,
+    .mem-det-field p {
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+    #admin-dashboard-page .col-12:not(:last-child) {
+        margin-bottom: 20px;
+    }
+
+    #add-admin .add-admin-headings h3,
+    #my-profile .my-profile-headings h3,
+    #manage-sys-config .manage-sys-config-headings h3,
+    #admin-dashboard #admin-dashboard-heading h3,
+    #dashboard-page #dashboard-heading h3,
+    #FAQ .FAQ-headings h3 {
+        text-align: center;
+    }
+
+    #contact-us .get-in-touch-heading h3 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    input#contact-us-subject {
+        margin-bottom: 30px;
+    }
+
+    #add-category .add-category-heading h3,
+    #add-country .add-country-heading h3,
+    #add-type .add-type-heading h3,
+    #note-info .add-note-heading h3 {
+        text-align: center;
+    }
+
+    #search-title .search-header h1,
+    #contact-title .contact-header h1,
+    #FAQ-title .FAQ-header h1,
+    #add-note .add-note-header h1 {
+        font-size: 30px;
+        text-align: center;
+    }
+
+    #search-title,
+    #contact-title,
+    #FAQ-title,
+    #add-note {
+        height: 200px;
+    }
+
+    .contact-us-btn,
+    .btn-mng-cnt-us,
+    .add-admin-btn,
+    .my-profile-btn,
+    .btn-my-profile,
+    .btn-my-profile,
+    input#contact-us-subject,
+    .btn-add,
+    .add-note-btn .btn-cmn {
+        width: 100%;
+    }
+
+    #note-selling-details .add-note-btn {
+        width: 40%;
+    }
+
+    #note-selling-details .btn-add-note {
+        width: 100%;
+    }
+
+    #save-publish {
+        text-align: center;
+    }
+
+    input#note-institution-name,
+    input#professor-note {
+        margin-bottom: 0;
+    }
+
+    .add-category-btn,
+    .add-country-btn,
+    .add-type-btn,
+    .manage-sys-config-btn,
+    .add-note-btn {
+        width: 100%;
+    }
+
+    textarea#contact-us-queries {
+        height: 80px;
+    }
+
+    #filters #search-select select.form-control,
+    #filters #search-select input.form-control {
+        font-size: 10px;
+        line-height: 12px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #note-details-page #note-details-title h3 {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    #note-details-page #note-details-title h3,
+    #note-details-page #note-details-category p,
+    #note-details-page #note-details-text p {
+        margin-bottom: 8px;
+    }
+
+    .btn-note-details-download {
+        width: 120px;
+    }
+
+    #note-details-download-btn .btn-cmn {
+        font-size: 12px;
+        line-height: 16px;
+        height: 35px;
+    }
+
+    #note-details-page #note-details-category p,
+    #note-details-page #note-details-text p {
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    #note-details-page #note-details #note-details-img {
+        margin-right: 15px;
+    }
+
+    #note-details-img img {
+        width: 160px;
+        height: 200px;
+    }
+
+    #note-details-info {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    #note-details-page #note-details-info p span,
+    #note-details-page #note-details-info p {
+        font-size: 12px;
+        line-height: 32px;
+    }
+
+    .customer-review {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #downloaded-notes-page .table-wrapper-inner select {
+        max-width: 100px;
+        font-size: 12px;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .dashboard-content-wrapper-left .dashboard-content-inner h2 {
+        font-family: "Open Sans", sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 24px;
+        color: #6255a5;
+        margin-bottom: 0;
+    }
+
+    .dashboard-content-wrapper-left .dashboard-content-inner h3,
+    .dashboard-content-wrapper .dashboard-content-inner h3 {
+        font-family: "Open Sans", sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 28px;
+        color: #6255a5;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    .dashboard-content-wrapper-left .dashboard-content-inner p,
+    .dashboard-content-wrapper .dashboard-content-inner p {
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #333333;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    footer p {
+        width: 100%;
+        text-align: center;
+    }
+
+    footer#admin-ft p {
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    ul.social-list {
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .testimonial .auth-info h3 {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .testimonial .auth-info p {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .testimonial p.statement {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .dashboard-content-wrapper-left .dashboard-content-inner p,
+    .dashboard-content-wrapper .dashboard-content-inner p {
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        color: #333333;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    #note-details-img img {
+        width: 120px;
+        height: 150px;
+    }
+
+    #customer-reviews .customer-review .rev-cust-name h3 {
+        font-family: "Open sans";
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 26px;
+        color: #333333;
+        margin-top: 30px;
+    }
+
+    .review-content .rev-text p {
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .review-content .star-rating {
+        margin-bottom: 10px;
+    }
+
+    #my-downloads-btn,
+    #published-btn,
+    #in-progress-btn,
+    #publ-notes-btn,
+    #downloaded-notes-btn,
+    #spam-btn,
+    #rejected-notes-btn,
+    #notes-under-review-btn,
+    #my-sold-notes-btn,
+    #my-rejected-notes-btn,
+    #members-btn,
+    #mng-ctg-btn,
+    #mng-type-btn,
+    #mng-adm-btn,
+    #mng-cntry-btn {
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    .table-wrapper-inner .table-heading-1 h3,
+    .table-wrapper-inner .table-heading h3 {
+        text-align: center;
+    }
+
+    #add-category-btn,
+    #add-type-btn,
+    #add-admin-btn,
+    #add-country-btn {
+        width: 100%;
+    }
+
+    #downloaded-notes-page .table-wrapper-inner select {
+        max-width: 90px;
+    }
+
+    #admin-dashboard-page #published-btn {
+        width: 25%;
+        margin-right: 0;
+    }
+
+    #admin-dashboard-page #select-month {
+        display: none;
+    }
+
+    #admin-dashboard-page #select-month-alt {
+        height: 50px;
+    }
+
+    #admin-dashboard-page #alt-select-month {
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    #admin-dashboard-page .search-ip {
+        width: 100%;
+    }
+
+    #testimonials .rounded-circle {
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+    .pager-nav span {
+        margin: 0 5px;
+    }
+
+    div#footer-row {
+        height: 120px;
+    }
+
+}

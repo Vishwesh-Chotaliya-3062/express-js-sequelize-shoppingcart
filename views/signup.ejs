@@ -1,0 +1,81 @@
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <section id="sign-up">
+        <img src="images/pre-login/banner-with-overlay.jpg" id="forgot-pw-bg-img" alt="" >
+        <div id="forgot-pw-content" style="margin-top: -200px;">
+            <div id="logo">
+                <img src="images/pre-login/top-logo.png" alt="" style="margin-top: 400px;">
+            </div>
+            <div class="container" id="forgot-pw-form" style="margin-bottom: 10px;">
+                <div id="forgot-pw-heading" style="margin-top: -20px;">
+                    <p>Create an Account</p>
+                </div>
+                <div id="forgot-pw-text-1" style="margin-top: 0px;">
+                    <p>Enter your details to sign up</p>
+                </div>
+
+                <form action="http://localhost:8080/signup" method="post" name="Form">
+                    <div class="form-group ip-text">
+                        <div class="input-auth" >
+                            <label for="username" style="margin-top: -20px;">UserName*</label>
+                            <input type="text" class="form-control input-field" name="UserName" id="UserName" placeholder="Enter name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group ip-text">
+                        <div class="input-auth">
+                            <label for="email">Email*</label>
+                            <input type="text" class="form-control input-field" name="Email" id="Email" placeholder="Enter your email address" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group ip-text">
+                        <div class="input-auth">
+                            <label for="password">Password*</label>
+                            <input type="password" class="form-control input-field" name="Password" id="Password" placeholder="Enter your password" style="background: url(images/eye.png) no-repeat scroll 440px 17px; background-color: white; padding-left:10px;" required>
+                        </div>
+                    </div>
+                
+                    <div class="form-group ip-text">
+                      <div class="input-auth">
+                          <label for="status">Status</label>
+                          <input type="text" class="form-control input-field" name="Status" id="Status" placeholder="Enter your last name">
+                      </div>
+                  </div>
+                  
+                    <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-login" id="submit" value="Sign Up"
+                          data-toggle="modal">SIGN UP</button>
+                      </div>
+
+                </form>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- <script type="text/javascript">
+        function validateForm() {
+          alert("You are successfully registered. Please Login to continue.")
+        }
+    </script> -->
+
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
