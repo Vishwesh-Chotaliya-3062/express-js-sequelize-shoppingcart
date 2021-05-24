@@ -29,8 +29,8 @@ module.exports = (sequelize, Sequelize) => {
       },
       Token: {
         type: Sequelize.STRING,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       freezeTableName: true,

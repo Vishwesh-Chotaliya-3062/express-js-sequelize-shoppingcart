@@ -21,11 +21,12 @@
             </div>
 
             <div id="forgot-pw-text-1" style="margin-top: 20px;">
-                <p style="color: #47cf48;"><img src="images/Artboard 1.png" style="width: 15px; height: 15px; transform: translateY(-2px);" alt=""> You got 500 rupees in your wallet.</p>
+                <p style="color: #47cf48;"><img src="images/Artboard 1.png"
+                        style="width: 15px; height: 15px; transform: translateY(-2px);" alt=""> 500 rupees added to your
+                    wallet.</p>
             </div>
             <div class="container-cust" id="login-form" style="margin-bottom: 0px; margin-top: -30px;">
 
-                
                 <div id="login-heading" style="margin-top:-20px;">
                     <p>Login</p>
                 </div>
@@ -36,9 +37,9 @@
                 <form action="/login" method="post" name="Form">
                     <div class="form-group ip-text" style="margin-top: -10px;">
                         <div class="input-auth">
-                            <label for="email">UserName</label>
+                            <label for="username">User Name</label>
                             <input type="text" class="form-control input-field" name="UserName" id="UserName"
-                                placeholder="Enter your email address">
+                                placeholder="Enter your name">
                         </div>
                     </div>
                     <div class="form-group ip-text">
@@ -63,11 +64,11 @@
                     </div>
                     <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
                         <button type="submit" class="btn btn-login" id="submit" value="Sign Up"
-                          data-toggle="modal">LOGIN</button>
-                      </div>
+                            data-toggle="modal">LOGIN</button>
+                    </div>
                     <div id="login-text-2" style="margin-left: 170px; margin-top: -30px; margin-bottom: -20px;">
                         <p style="display: inline-block;">Don't have an account?</p>
-                        <p style="display: inline-block; color: #6255a5">Sign Up</p>
+                        <a style="display: inline-block; color: #6255a5" href="/signup">Sign Up</a>
                     </div>
                 </form>
             </div>
@@ -76,9 +77,8 @@
     </section>
 
     <script type="text/javascript">
-        function script() { 
-            var UserName = document.forms["Form"]["UserName"].value;
-            alert("You are successfully registered. Please Login to continue."); 
+        function script() {
+            alert(`You are successfully registered. Please Login to continue.`);
         }
     </script>
 

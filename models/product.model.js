@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
       SKU: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
       Price: {
         type: Sequelize.INTEGER,

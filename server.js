@@ -1,13 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require('path');
+const path = require("path");
 const db = require("./models");
 const app = express();
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-app.set('view engine', 'ejs');
-app.set('views', 'views');
+app.set("view engine", "ejs");
+app.set("views", "views");
 
 app.use(bodyParser.json());
 
@@ -36,7 +36,7 @@ require("./routes/signup.routes")(app);
 require("./routes/welcome.routes")(app);
 require("./routes/verify.routes")(app);
 
-app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, "views")));
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

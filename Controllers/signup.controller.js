@@ -5,17 +5,16 @@ const Wallet = db.wallet;
 const Op = db.Sequelize.Op;
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
-var otpGenerator = require('otp-generator');
-const { sendVerifyEmail } = require('../helper/mailer.helper');
- 
-let secretcode = otpGenerator.generate(6, { upperCase: true, specialChars: false });
+var otpGenerator = require("otp-generator");
+const { sendVerifyEmail } = require("../helper/mailer.helper");
+
+let secretcode = otpGenerator.generate(6, {
+  upperCase: true,
+  specialChars: false,
+});
 
 exports.getUser = async (req, res, next) => {
   try {
-    // const userList = await User.findAll({
-    //   attributes: ["UserName", "Email"],
-    // });
-
     res.render("signup");
   } catch (error) {
     return res.status(500).json(500, false, error.message);
@@ -25,37 +24,20 @@ exports.getUser = async (req, res, next) => {
 // Create and Save a new User
 exports.create = (req, res) => {
 
-  // console.log(req.body.Email);
-  // // Validate request
-  // if (!req.body.UserName) {
-  //   res.status(400).send({
-  //     message: "UserName can not be empty!",
-  //   });
-  //   return;
-  // }
-
-  // if (!req.body.Email) {
-  //   res.status(400).send({
-  //     message: "Email can not be empty!",
-  //   });
-  //   return;
-  // }
-
-
   User.hasOne(Wallet, {
-    foreignKey : 'UserID',
-    onDelete: 'CASCADE'
+    foreignKey: "UserID",
+    onDelete: "CASCADE",
   });
-  Wallet.belongsTo(User,{foreignKey : 'UserID'});
+  Wallet.belongsTo(User, { foreignKey: "UserID" });
 
   // Create a User
-    const user = {
-      UserName: req.body.UserName,
-      Email: req.body.Email,
-      Password: req.body.Password,
-      Status: req.body.Status,
-      wallet: {}
-    };
+  const user = {
+    UserName: req.body.UserName,
+    Email: req.body.Email,
+    Password: req.body.Password,
+    Status: req.body.Status,
+    wallet: {},
+  };
 
   User.findOne({
     where: {
@@ -63,7 +45,6 @@ exports.create = (req, res) => {
     },
   })
     .then((data) => {
-
       if (!data) {
         User.findOne({
           where: {
@@ -81,7 +62,7 @@ exports.create = (req, res) => {
                       throw err;
                     } else {
                       user.Password = hash;
-                      User.create(user, {include :{ model: Wallet}})
+                      User.create(user, { include: { model: Wallet } })
                         .then((data) => {
                           // res.json({
                           //   UserID: data.UserID,
@@ -89,10 +70,16 @@ exports.create = (req, res) => {
                           //   Email: data.Email,
                           //   Status: data.Status,
                           // });
-                          
-                          Secretcode.create({Email : req.body.Email, Code : secretcode});
-                          sendVerifyEmail({ UserName: data.UserName, Email: data.Email }, secretcode);
-                          res.redirect("verify/"+ data.UserID);
+
+                          Secretcode.create({
+                            Email: req.body.Email,
+                            Code: secretcode,
+                          });
+                          sendVerifyEmail(
+                            { UserName: data.UserName, Email: data.Email },
+                            secretcode
+                          );
+                          res.redirect("verify/" + data.UserID);
                         })
                         .catch((err) => {
                           // res.json({
@@ -120,15 +107,13 @@ exports.create = (req, res) => {
           error: "USER WITH UserName = " + user.UserName + " ALREADY EXISTS",
         });
       }
-  })
+    })
     .catch((err) => {
       res.json({
         error: err.message,
       });
     });
 };
-
-
 
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
