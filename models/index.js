@@ -27,4 +27,6 @@ db.salesorder = require("./salesorder.model.js")(sequelize, Sequelize);
 
 db.secretcode = require("./secretcode.model.js")(sequelize, Sequelize);
 
+db.wallet = require("./wallet.model.js")(sequelize, Sequelize);
+
 module.exports = db;

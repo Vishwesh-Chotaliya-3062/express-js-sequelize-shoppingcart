@@ -1,5 +1,5 @@
 {
-  "name": "express-js-with-sequelize-shoppingcart",
+  "name": "express-js-sequelize-shoppingcart",
   "version": "1.0.0",
   "description": "A demo repo for nodejs sequelize shoppingcart",
   "main": "server.js",
@@ -17,6 +17,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "headers": "^0.9.6",
@@ -24,6 +25,8 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "mysql2": "^2.2.5",
+    "nodemailer": "^6.6.1",
+    "otp-generator": "^2.0.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "sequelize": "^6.6.2"

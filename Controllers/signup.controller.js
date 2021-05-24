@@ -1,8 +1,14 @@
 const db = require("../models");
 const User = db.user;
+const Secretcode = db.secretcode;
+const Wallet = db.wallet;
 const Op = db.Sequelize.Op;
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
+var otpGenerator = require('otp-generator');
+const { sendVerifyEmail } = require('../helper/mailer.helper');
+ 
+let secretcode = otpGenerator.generate(6, { upperCase: true, specialChars: false });
 
 exports.getUser = async (req, res, next) => {
   try {
@@ -19,21 +25,28 @@ exports.getUser = async (req, res, next) => {
 // Create and Save a new User
 exports.create = (req, res) => {
 
-  console.log(req.body.Email);
-  // Validate request
-  if (!req.body.UserName) {
-    res.status(400).send({
-      message: "UserName can not be empty!",
-    });
-    return;
-  }
+  // console.log(req.body.Email);
+  // // Validate request
+  // if (!req.body.UserName) {
+  //   res.status(400).send({
+  //     message: "UserName can not be empty!",
+  //   });
+  //   return;
+  // }
 
-  if (!req.body.Email) {
-    res.status(400).send({
-      message: "Email can not be empty!",
-    });
-    return;
-  }
+  // if (!req.body.Email) {
+  //   res.status(400).send({
+  //     message: "Email can not be empty!",
+  //   });
+  //   return;
+  // }
+
+
+  User.hasOne(Wallet, {
+    foreignKey : 'UserID',
+    onDelete: 'CASCADE'
+  });
+  Wallet.belongsTo(User,{foreignKey : 'UserID'});
 
   // Create a User
     const user = {
@@ -41,6 +54,7 @@ exports.create = (req, res) => {
       Email: req.body.Email,
       Password: req.body.Password,
       Status: req.body.Status,
+      wallet: {}
     };
 
   User.findOne({
@@ -67,7 +81,7 @@ exports.create = (req, res) => {
                       throw err;
                     } else {
                       user.Password = hash;
-                      User.create(user)
+                      User.create(user, {include :{ model: Wallet}})
                         .then((data) => {
                           // res.json({
                           //   UserID: data.UserID,
@@ -75,12 +89,16 @@ exports.create = (req, res) => {
                           //   Email: data.Email,
                           //   Status: data.Status,
                           // });
-                          res.redirect("login");
+                          
+                          Secretcode.create({Email : req.body.Email, Code : secretcode});
+                          sendVerifyEmail({ UserName: data.UserName, Email: data.Email }, secretcode);
+                          res.redirect("verify/"+ data.UserID);
                         })
                         .catch((err) => {
-                          res.json({
-                            error: err.message,
-                          });
+                          // res.json({
+                          //   error: err.message,
+                          // });
+                          res.redirect("signup");
                         });
                     }
                   });
@@ -109,6 +127,8 @@ exports.create = (req, res) => {
       });
     });
 };
+
+
 
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {

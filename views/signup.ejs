@@ -51,7 +51,7 @@
                     <div class="form-group ip-text">
                       <div class="input-auth">
                           <label for="status">Status</label>
-                          <input type="text" class="form-control input-field" name="Status" id="Status" placeholder="Enter your last name">
+                          <input type="text" class="form-control input-field" name="Status" id="Status" readonly>
                       </div>
                   </div>
                   
@@ -71,6 +71,10 @@
           alert("You are successfully registered. Please Login to continue.")
         }
     </script> -->
+
+    <script type="text/javascript">
+        document.getElementById('Status').value = 'pending';
+    </script>
 
     <script src="js/jquery-3.5.1.js"></script>
     <script src="js/popper.min.js"></script>

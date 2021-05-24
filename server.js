@@ -20,21 +20,21 @@ try {
   console.error("Unable to connect to the database:", error);
 }
 
-// db.sequelize.sync();
+db.sequelize.sync();
 // drop the table if it already exists
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });
 
 // simple route
 app.get("/", (req, res) => {
-
   res.json({ message: "Welcome to application." });
 });
 
 require("./routes/login.routes")(app);
 require("./routes/signup.routes")(app);
 require("./routes/welcome.routes")(app);
+require("./routes/verify.routes")(app);
 
 app.use(express.static(path.join(__dirname, 'views')));
 

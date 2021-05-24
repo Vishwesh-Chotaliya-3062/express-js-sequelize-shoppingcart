@@ -26,12 +26,14 @@ module.exports = (sequelize, Sequelize) => {
       },
       Status: {
         type: Sequelize.STRING,
-        default: "pending",
       },
+      Token: {
+        type: Sequelize.STRING,
+        allowNull: true
+      }
     },
     {
       freezeTableName: true,
-      timestamps: false,
     }
   );
 

@@ -20,15 +20,9 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      DateCreated: {
-        type: Sequelize.DATE,
-        default: Date.now(),
-        expires: 600,
-      },
     },
     {
       freezeTableName: true,
-      timestamps: false,
     }
   );
 

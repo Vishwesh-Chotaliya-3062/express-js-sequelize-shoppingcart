@@ -15,8 +15,9 @@
         <img src="images/pre-login/banner-with-overlay.jpg" id="login-bg-img" alt="">
   
         <div id="login-content" style="margin-top: -80px;">
-           
-                <form action="http://localhost:8080/login" method="get">
+          <% for(let user in userDetails) { %>
+                <form action="http://localhost:8080/verify/<%= userDetails[user].UserID %>" method="get">
+                  <% } %>
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -24,7 +25,7 @@
                           <span aria-hidden="true" style="font-size: 30px;">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body">
+                      <div class="modal-body" style="text-align: center;">
                         <div class="modal-img">
                           <img src="images/SUCCESS.png" alt="">
                         </div>
@@ -40,12 +41,19 @@
                           <p>You activation is <%= userDetails[user].Status %> right now.</p>
                           <% } %>
                           <p style="margin-bottom: 0;">Have a good day.</p>
-                        </div>
+                          </div>
                       </div>
+                      <% for(let user in userDetails) { %>
+                      <% if(userDetails[user].Status == 'pending') { %>
+                      <div id="login-btn" style="margin-bottom: 40px;">
+                        <button type="submit" class="btn btn-login" id="submit" value="Sign Up"
+                          data-toggle="modal" style="width: 200px;">Verify Email</button>
+                      </div>
+                      <% } %>
+                      <% } %>
                     </div>
                   </div>
                 </form>
-          
         </div>
   
     </section>

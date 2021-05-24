@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const User = db.user;
 const bcrypt = require("bcryptjs");
-const { use } = require("passport");
 
 exports.getAuthentication = async (req, res, next) => {
   try {
@@ -13,13 +12,15 @@ exports.getAuthentication = async (req, res, next) => {
   }
 };
 
-const getUser = async (obj) => {
-  return await User.findOne({
-    where: obj,
-  });
-};
+
 
 exports.userAuthentication = async function (req, res, next) {
+
+  const getUser = async (obj) => {
+    return await User.findOne({
+      where: obj,
+    });
+  };
 
   const { UserName, Password } = req.body;
   console.log(UserName)
@@ -35,20 +36,19 @@ exports.userAuthentication = async function (req, res, next) {
       } else if (!isMatch) {
         res.json({ msg: "Password doest not match" });
       } else {
-        let payload = { id: user.UserID, name: user.UserName };
+        let payload = { UserID: user.UserID, UserName: user.UserName };
         let token = jwt.sign(payload, "thisismysecret", {expiresIn:10000});
+        user.Token = token;
+        await user.save();
         res.cookie("token", token);
         console.log("Generated Token:", token);
         console.log(user.Status);
-        
+        await res.redirect("welcome");
         // res.json({
         //   msg: "Hello there, This is your Authentication Token",
         //   token: token,
         // });
       }
-
-      await res.redirect("welcome");
-
     });
   } 
   else {

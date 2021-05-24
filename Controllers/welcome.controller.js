@@ -1,11 +1,13 @@
+var express = require("express");
+var app = express();
 const db = require("../models");
 const User = db.user;
 const jwt_decode = require("jwt-decode");
 const jwt = require('jsonwebtoken');
-var express = require("express");
-var app = express();
+
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
+
 
 exports.userAuthorization = async (req, res, next) => {
   try {
@@ -30,18 +32,16 @@ exports.userAuthorization = async (req, res, next) => {
             console.log("Verified");
             var decoded = jwt_decode(token);
             console.log(decoded);
-            var username = decoded.name;
-            console.log("user",username)
+            var UserName = decoded.UserName;
+            console.log("user", UserName)
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
               where: {
-                UserName: username,
+                UserName: UserName,
               }
             });
             
-            res.clearCookie('token');
-
             res.render("welcome", {
               userDetails: userDetails
             });
