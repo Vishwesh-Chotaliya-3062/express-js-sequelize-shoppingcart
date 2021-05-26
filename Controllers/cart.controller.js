@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-exports.userAuthorization = async (req, res, next) => {
+exports.getCart = async (req, res, next) => {
   try {
     const token = req.cookies.token;
 
@@ -72,13 +72,32 @@ exports.userAuthorization = async (req, res, next) => {
             //   },
             // });
 
-            const countProducts = await Product.count();
+           
 
-            const productDetails = await Product.findAll();
+            
 
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;
+
+              const countProducts = await Cart.count({
+                where : {
+                  UserID : userid
+                }
+              });
+
+              const productQuantity = await Cart.findAll({
+                include : {
+                  model : Product,
+                },
+                where : {
+                  UserID : userid
+                }
+              });
+
+              // for(product1 in productQuantity){
+              //   console.log(productQuantity[product1].product.ProductName);
+              // }
 
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
@@ -91,16 +110,16 @@ exports.userAuthorization = async (req, res, next) => {
                   UserID: userid,
                 },
               });
-  
+
               const cartCount = cartTotalQuantity.Quantity;
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-              res.render("welcome", {
+              res.render("cart", {
                 userDetails: userDetails,
                 countProducts: countProducts,
-                productDetails: productDetails,
                 walletBalance: walletBalance,
+                productQuantity : productQuantity,
                 cartCount : cartCount,
                 link: link,
               });

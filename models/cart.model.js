@@ -1,8 +1,8 @@
 module.exports = (sequelize, Sequelize) => {
-  const Wallet = sequelize.define(
-    "wallet",
+  const Cart = sequelize.define(
+    "cart",
     {
-      WalletID: {
+      CartID: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -16,17 +16,24 @@ module.exports = (sequelize, Sequelize) => {
           key: "UserID",
         },
       },
-      Balance: {
-        type: Sequelize.DECIMAL(20, 2),
+      ProductID: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        references: {
+          model: "product",
+          key: "ProductID",
+        },
       },
+      Quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        default: 0,
+      }
     },
     {
       freezeTableName: true,
-      paranoid: true,
     }
   );
 
-  return Wallet;
+  return Cart;
 };

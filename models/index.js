@@ -29,4 +29,6 @@ db.secretcode = require("./secretcode.model.js")(sequelize, Sequelize);
 
 db.wallet = require("./wallet.model.js")(sequelize, Sequelize);
 
+db.cart = require("./cart.model.js")(sequelize, Sequelize); 
+
 module.exports = db;

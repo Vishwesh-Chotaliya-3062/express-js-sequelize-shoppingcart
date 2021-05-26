@@ -35,6 +35,7 @@ require("./routes/login.routes")(app);
 require("./routes/signup.routes")(app);
 require("./routes/welcome.routes")(app);
 require("./routes/verify.routes")(app);
+require("./routes/cart.routes")(app);
 
 app.use(express.static(path.join(__dirname, "views")));
 

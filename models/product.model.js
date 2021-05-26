@@ -24,6 +24,18 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      CompanyName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      Category: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      SubCategory: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
     },
     {
       freezeTableName: true,

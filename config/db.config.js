@@ -6,6 +6,7 @@ const config = {
     user: env.DB_USER || 'root',
     password: env.DB_PASSWORD || '',
     database: env.DB_NAME || 'db_shoppingcart',
+    dialect: 'mysql',
     waitForConnections: true,
     connectionLimit: env.DB_CONN_LIMIT || 2,
     queueLimit: 0,
