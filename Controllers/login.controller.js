@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const db = require("../models");
-const User = db.user;
+const {sequelize} = require("../models/db");
+const {User} = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 
 exports.getAuthentication = async (req, res, next) => {

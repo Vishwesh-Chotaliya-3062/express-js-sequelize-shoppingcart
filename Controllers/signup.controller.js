@@ -1,8 +1,9 @@
-const db = require("../models");
-const User = db.user;
-const Secretcode = db.secretcode;
-const Wallet = db.wallet;
-const Op = db.Sequelize.Op;
+const {sequelize} = require("../models/db");
+const {User} = require("../models/user.model");
+const {Wallet} = require("../models/wallet.model");
+const {Secretcode} = require("../models/secretcode.model");
+
+const {Op} = require("sequelize");
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 var otpGenerator = require("otp-generator");
@@ -31,11 +32,6 @@ exports.create = (req, res) => {
       alert,
     });
   } else {
-    User.hasOne(Wallet, {
-      foreignKey: "UserID",
-      onDelete: "CASCADE",
-    });
-    Wallet.belongsTo(User, { foreignKey: "UserID" });
 
     // Create a User
     const user = {

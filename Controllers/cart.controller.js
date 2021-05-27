@@ -1,10 +1,10 @@
 var express = require("express");
 var app = express();
-const db = require("../models");
-const User = db.user;
-const Product = db.product;
-const Wallet = db.wallet;
-const Cart = db.cart;
+const {sequelize} = require("../models/db");
+const {User} = require("../models/user.model");
+const {Product} = require("../models/product.model");
+const {Wallet} = require("../models/wallet.model");
+const {Cart} = require("../models/cart.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 
@@ -35,24 +35,6 @@ exports.getCart = async (req, res, next) => {
             var UserName = decoded.UserName;
             res.cookie("username", UserName);
             console.log("user", UserName);
-
-            User.hasOne(Wallet, {
-              foreignKey: "UserID",
-              onDelete: "CASCADE",
-            });
-            Wallet.belongsTo(User, { foreignKey: "UserID" });
-
-            User.hasMany(Cart, {
-              foreignKey: "UserID",
-              onDelete: "CASCADE",
-            });
-            Cart.belongsTo(User, { foreignKey: "UserID" });
-
-            Product.hasMany(Cart, {
-              foreignKey: "ProductID",
-              onDelete: "CASCADE",
-            });
-            Cart.belongsTo(Product, { foreignKey: "ProductID" });
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
@@ -102,7 +84,7 @@ exports.getCart = async (req, res, next) => {
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
                   [
-                    db.sequelize.fn("SUM", db.sequelize.col("Quantity")),
+                    sequelize.fn("SUM", sequelize.col("Quantity")),
                     "Quantity",
                   ],
                 ],

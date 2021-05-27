@@ -1,4 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
+const Sequelize = require("sequelize");
+const {sequelize} = require("./db");
+const {User} = require("./user.model");
+
   const Wallet = sequelize.define(
     "wallet",
     {
@@ -28,5 +31,10 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
 
-  return Wallet;
-};
+  User.hasOne(Wallet, {
+    foreignKey: "UserID",
+    onDelete: "CASCADE",
+  });
+  Wallet.belongsTo(User, { foreignKey: "UserID" });
+
+  module.exports = {Wallet};

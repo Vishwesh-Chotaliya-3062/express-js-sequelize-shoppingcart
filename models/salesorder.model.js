@@ -1,5 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
-  const Salesorder = sequelize.define(
+const Sequelize = require("sequelize");
+const {sequelize} = require("./db");
+
+const Salesorder = sequelize.define(
     "salesorder",
     {
       SalesorderID: {
@@ -50,5 +52,4 @@ module.exports = (sequelize, Sequelize) => {
   // sequelize.query("delete from salesorder");
   // sequelize.query("ALTER TABLE salesorder AUTO_INCREMENT = 1");
 
-  return Salesorder;
-};
+  module.exports = {Salesorder};

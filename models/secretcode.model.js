@@ -1,5 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
-  const Secretcode = sequelize.define(
+const Sequelize = require("sequelize");
+const {sequelize} = require("./db");
+
+const Secretcode = sequelize.define(
     "secretcode",
     {
       SecretcodeID: {
@@ -26,5 +28,4 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
 
-  return Secretcode;
-};
+  module.exports = {Secretcode};

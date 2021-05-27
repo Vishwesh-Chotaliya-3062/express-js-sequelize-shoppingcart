@@ -1,5 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
-  var Product = sequelize.define(
+const Sequelize = require("sequelize");
+const {sequelize} = require("./db");
+
+const Product = sequelize.define(
     "product",
     {
       ProductID: {
@@ -42,5 +44,4 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
 
-  return Product;
-};
+  module.exports = {Product};

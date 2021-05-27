@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const db = require("./models");
+const {sequelize} = require("./models/db");
 const app = express();
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
@@ -14,15 +14,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 try {
-  db.sequelize.authenticate();
+  sequelize.authenticate();
   console.log("Connection has been established successfully.");
 } catch (error) {
   console.error("Unable to connect to the database:", error);
 }
 
-db.sequelize.sync();
+sequelize.sync();
 // drop the table if it already exists
-// db.sequelize.sync({ force: true }).then(() => {
+// sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
 

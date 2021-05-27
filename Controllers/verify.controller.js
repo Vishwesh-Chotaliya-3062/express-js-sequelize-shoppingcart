@@ -1,7 +1,7 @@
-const db = require("../models");
-const User = db.user;
-const Secretcode = db.secretcode;
-const Wallet = db.wallet;
+const {sequelize} = require("../models/db");
+const {User} = require("../models/user.model");
+const {Wallet} = require("../models/wallet.model");
+const {Secretcode} = require("../models/secretcode.model");
 
 exports.getVerify = async (req, res, next) => {
   try {
@@ -15,17 +15,12 @@ exports.getVerify = async (req, res, next) => {
 
 exports.postVerify = async function (req, res, next) {
   // await res.redirect('login');
-  User.hasOne(Wallet, {
-    foreignKey: "UserID",
-    onDelete: "CASCADE",
-  });
-  Wallet.belongsTo(User, { foreignKey: "UserID" });
 
   const { UserID, secretcode } = req.body;
   if (!secretcode) {
     res.status(400).redirect("verify/" + UserID);
   }
-  const verifyTransaction = await db.sequelize.transaction();
+  const verifyTransaction = await sequelize.transaction();
   try {
     const user = await User.findOne({ where: { UserID }, include: Wallet });
     const verified = await Secretcode.findOne({

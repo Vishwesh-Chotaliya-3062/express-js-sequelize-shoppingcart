@@ -1,5 +1,9 @@
-module.exports = (sequelize, Sequelize) => {
-  const Cart = sequelize.define(
+const Sequelize = require("sequelize");
+const {sequelize} = require("./db");
+const {User} = require("./user.model");
+const {Product} = require("./product.model");
+
+const Cart = sequelize.define(
     "cart",
     {
       CartID: {
@@ -35,5 +39,16 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
 
-  return Cart;
-};
+  User.hasMany(Cart, {
+    foreignKey: "UserID",
+    onDelete: "CASCADE",
+  });
+  Cart.belongsTo(User, { foreignKey: "UserID" });
+
+  Product.hasMany(Cart, {
+    foreignKey: "ProductID",
+    onDelete: "CASCADE",
+  });
+  Cart.belongsTo(Product, { foreignKey: "ProductID" });
+
+  module.exports = {Cart};

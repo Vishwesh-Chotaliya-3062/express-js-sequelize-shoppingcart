@@ -1,4 +1,6 @@
-module.exports = (sequelize, Sequelize) => {
+const Sequelize = require("sequelize");
+const {sequelize} = require("./db");
+
   const User = sequelize.define(
     "user",
     {
@@ -34,5 +36,4 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
 
-  return User;
-};
+  module.exports = {User};
