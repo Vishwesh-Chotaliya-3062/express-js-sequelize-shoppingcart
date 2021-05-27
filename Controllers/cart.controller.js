@@ -43,21 +43,6 @@ exports.getCart = async (req, res, next) => {
                 UserName: UserName,
               },
             });
-
-            // const cartCount = await Cart.count({
-            //   include: {
-            //     model: User,
-            //     attributes: ["UserName"],
-            //     where: {
-            //       UserName: UserName,
-            //     },
-            //   },
-            // });
-
-           
-
-            
-
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;
