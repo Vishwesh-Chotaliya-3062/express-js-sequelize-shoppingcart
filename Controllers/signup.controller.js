@@ -17,18 +17,18 @@ let secretcode = otpGenerator.generate(6, {
 
 exports.getUser = async (req, res, next) => {
   try {
-    res.render("signup");
+    await res.render("signup");
   } catch (error) {
     return res.status(500).json(500, false, error.message);
   }
 };
 
 // Create and Save a new User
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const alert = errors.array();
-    res.render("signup", {
+    await res.render("signup", {
       alert,
     });
   } else {
@@ -42,31 +42,31 @@ exports.create = (req, res) => {
       wallet: {},
     };
 
-    User.findOne({
+    await User.findOne({
       where: {
         UserName: user.UserName,
       },
     })
-      .then((data) => {
+      .then(async (data) => {
         if (!data) {
-          User.findOne({
+          await User.findOne({
             where: {
               Email: user.Email,
             },
           })
-            .then((data) => {
+            .then(async (data) => {
               if (!data) {
-                bcrypt.genSalt(saltRounds, function (err, salt) {
+                bcrypt.genSalt(saltRounds, async function (err, salt) {
                   if (err) {
                     throw err;
                   } else {
-                    bcrypt.hash(req.body.Password, salt, function (err, hash) {
+                    bcrypt.hash(req.body.Password, salt, async function (err, hash) {
                       if (err) {
                         throw err;
                       } else {
                         user.Password = hash;
-                        User.create(user, { include: { model: Wallet } })
-                          .then((data) => {
+                        await User.create(user, { include: { model: Wallet } })
+                          .then(async (data) => {
                             // res.json({
                             //   UserID: data.UserID,
                             //   UserName: data.UserName,
@@ -74,21 +74,26 @@ exports.create = (req, res) => {
                             //   Status: data.Status,
                             // });
 
-                            Secretcode.create({
+                            await Secretcode.create({
                               Email: req.body.Email,
                               Code: secretcode,
                             });
-                            sendVerifyEmail(
-                              { UserName: data.UserName, Email: data.Email },
-                              secretcode
-                            );
-                            res.redirect("verify/" + data.UserID);
+
+                            // sequelize.addHook('afterCreate')
+
+                              sendVerifyEmail(
+                                { UserName: data.UserName, Email: data.Email },
+                                secretcode
+                              ),
+                              await res.redirect("verify/" + data.UserID)                    
+                            
+                            
                           })
-                          .catch((err) => {
-                            // res.json({
-                            //   error: err.message,
-                            // });
-                            res.redirect("signup");
+                          .catch(async (err) => {
+                            console.log(err);
+                            res.json({
+                              error: err.message,
+                            });
                           });
                       }
                     });

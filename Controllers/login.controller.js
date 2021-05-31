@@ -13,7 +13,7 @@ exports.getAuthentication = async (req, res, next) => {
 
 exports.userAuthentication = async function (req, res, next) {
   const getUser = async (obj) => {
-    return await User.findOne({
+      return await User.findOne({
       where: obj,
     });
   };

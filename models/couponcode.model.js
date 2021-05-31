@@ -1,41 +1,31 @@
 const Sequelize = require("sequelize");
 const {sequelize} = require("./db");
-const { sendVerifyEmail } = require("../helper/mailer.helper");
 
-  const User = sequelize.define(
-    "user",
+const Couponcode = sequelize.define(
+    "couponcode",
     {
-      UserID: {
+      CouponcodeID: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-      },
-      UserName: {
-        type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       Email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
+        validate: {
+          isEmail: true,
+        },
       },
-      Password: {
+      CouponCode: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      Status: {
-        type: Sequelize.STRING,
-      },
-      Token: {
-        type: Sequelize.STRING,
-        allowNull: true,
       },
     },
     {
       freezeTableName: true,
-    },
-    
+    }
   );
 
-  module.exports = {User};
+  module.exports = {Couponcode};

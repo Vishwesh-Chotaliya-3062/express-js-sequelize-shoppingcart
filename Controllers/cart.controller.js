@@ -33,7 +33,7 @@ exports.getCart = async (req, res, next) => {
             var decoded = jwt_decode(token);
             console.log(decoded);
             var UserName = decoded.UserName;
-            res.cookie("username", UserName);
+            await res.cookie("username", UserName);
             console.log("user", UserName);
 
             const userDetails = await User.findAll({
@@ -82,7 +82,7 @@ exports.getCart = async (req, res, next) => {
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-              res.render("cart", {
+              await res.render("cart", {
                 userDetails: userDetails,
                 countProducts: countProducts,
                 walletBalance: walletBalance,
@@ -104,3 +104,40 @@ exports.getCart = async (req, res, next) => {
     return res.status(500).json(error.message);
   }
 };
+
+exports.addToCart = async (req, res, next) => {
+
+  const ProductID = req.params.productid;
+  const UserID = req.cookies.userid;
+
+  try {
+      await sequelize.query('CALL AddToCart( :UserID, :ProductID)', {
+          replacements: { UserID, ProductID },
+          logging: false
+      });
+      return res.redirect('/welcome');
+      // return res.status(200).send("SuccessFull!");
+  } catch (e) {
+      console.log(e);
+      return res.status(500).send("Something went wrong!");
+  }
+};
+
+exports.updateCart = async (req, res, next) => {
+
+  const ProductID = req.params.productid;
+  const UserID = req.cookies.userid;
+  const Quantity = req.body.Quantity;
+  console.log(Quantity);
+
+  try {
+      await sequelize.query('CALL UpdateCart( :UserID, :ProductID, :Quantity)', {
+          replacements: { UserID, ProductID, Quantity },
+          logging: false
+      });
+      return res.redirect('/cart');
+  } catch(e) {
+      console.log(e);
+      return res.send(500).send("Something went wrong!");
+  }
+}

@@ -32,7 +32,11 @@ const Cart = sequelize.define(
         type: Sequelize.INTEGER,
         allowNull: false,
         default: 0,
-      }
+      },
+      Total: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
     },
     {
       freezeTableName: true,
@@ -43,12 +47,12 @@ const Cart = sequelize.define(
     foreignKey: "UserID",
     onDelete: "CASCADE",
   });
-  Cart.belongsTo(User, { foreignKey: "UserID" });
+  Cart.belongsTo(User, { foreignKey: "UserID", onDelete: "CASCADE" });
 
   Product.hasMany(Cart, {
     foreignKey: "ProductID",
     onDelete: "CASCADE",
   });
-  Cart.belongsTo(Product, { foreignKey: "ProductID" });
+  Cart.belongsTo(Product, { foreignKey: "ProductID", onDelete: "CASCADE" });
 
   module.exports = {Cart};

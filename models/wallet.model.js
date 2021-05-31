@@ -35,6 +35,6 @@ const {User} = require("./user.model");
     foreignKey: "UserID",
     onDelete: "CASCADE",
   });
-  Wallet.belongsTo(User, { foreignKey: "UserID" });
+  Wallet.belongsTo(User, { foreignKey: "UserID", onDelete: "CASCADE" });
 
   module.exports = {Wallet};

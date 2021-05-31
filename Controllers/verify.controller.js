@@ -2,6 +2,13 @@ const {sequelize} = require("../models/db");
 const {User} = require("../models/user.model");
 const {Wallet} = require("../models/wallet.model");
 const {Secretcode} = require("../models/secretcode.model");
+const {Couponcode} = require("../models/couponcode.model");
+const { sendGifts } = require("../helper/mailer.helper");
+
+var otpGenerator = require("otp-generator");
+
+let couponcode = otpGenerator.generate(20, {
+});
 
 exports.getVerify = async (req, res, next) => {
   try {
@@ -35,6 +42,16 @@ exports.postVerify = async function (req, res, next) {
         where: { Email: user.Email },
         transaction: verifyTransaction,
       });
+      await Couponcode.create({
+        Email: user.Email,
+        CouponCode: couponcode,
+      });
+
+        sendGifts(
+          { UserName: user.UserName, Email: user.Email },
+          couponcode
+        )
+      
       await verifyTransaction.commit();
       return res.redirect("login");
     }

@@ -7,7 +7,6 @@ const {Wallet} = require("../models/wallet.model");
 const {Cart} = require("../models/cart.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
-
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
@@ -33,7 +32,13 @@ exports.userAuthorization = async (req, res, next) => {
             var decoded = jwt_decode(token);
             console.log(decoded);
             var UserName = decoded.UserName;
-            res.cookie("username", UserName);
+            await res.cookie("username", UserName);
+            const u = await User.findOne({
+              where :{
+                UserName : UserName
+              }
+            })
+            await res.cookie("userid", u.UserID);
             console.log("user", UserName);
 
             const userDetails = await User.findAll({
@@ -68,7 +73,7 @@ exports.userAuthorization = async (req, res, next) => {
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-              res.render("welcome", {
+              await res.render("welcome", {
                 userDetails: userDetails,
                 countProducts: countProducts,
                 productDetails: productDetails,
