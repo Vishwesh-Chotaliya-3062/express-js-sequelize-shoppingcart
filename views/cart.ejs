@@ -60,20 +60,36 @@
                                             </li>
                                             <% } %>
 
-                                                <% for(let user in userDetails) { %>
-                                                    <% if(userDetails[user].Status=='pending' ) { %>
+                                                <% if(!countCouponcode) { %>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                            CODE</a>
+                                                    </li>
+
+                                                    <% } else{ %>
                                                         <li class="nav-item">
-                                                            <a id="nav-btn" style="width: 150px;"
-                                                                class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                href="<%= link %>" role="button">VERIFY EMAIL</a>
+                                                            <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                                CODE(<b style="color: #6255a6;">
+                                                                    <%= countCouponcode %>
+                                                                </b>)</a>
                                                         </li>
                                                         <% } %>
-                                                            <% } %>
-                                                                <li class="nav-item">
-                                                                    <a id="nav-btn"
-                                                                        class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                        href="#">LOGOUT</a>
-                                                                </li>
+
+                                                            <% for(let user in userDetails) { %>
+                                                                <% if(userDetails[user].Status=='pending' ) { %>
+                                                                    <li class="nav-item">
+                                                                        <a id="nav-btn" style="width: 150px;"
+                                                                            class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                            href="<%= link %>" role="button">VERIFY
+                                                                            EMAIL</a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <li class="nav-item">
+                                                                                <a id="nav-btn"
+                                                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                                    href="#">LOGOUT</a>
+                                                                            </li>
                         </ul>
                     </div>
                 </div>
@@ -131,7 +147,8 @@
                                                                             %>
                                                                     </p>
                                                                 </div>
-                                                                <div class="res-book-content">
+                                                                <div class="res-book-content"
+                                                                    style="margin-bottom: -15px;">
                                                                     <div
                                                                         style="display: inline-flex; width: 100%; margin-bottom: 10px;">
                                                                         <div class="img-icon"><img
@@ -150,49 +167,61 @@
                                                                                 %>
                                                                         </p>
                                                                     </div>
-                                                                    <form action="/cart/updated/<%= productQuantity[product1].product.ProductID %>" method="POST">
-                                                                    <div
-                                                                        style="display: inline-flex; width: 100%; margin-top: 10px; margin-bottom: -10px;">
-                                                                        <div class="img-icon"><img
-                                                                                src="images/pages.png" alt="">
-                                                                        </div>
-                                                                        <div>
-                                                                            <p>Quantity:</p>
-                                                                        </div>
-                                                                        <div class=""
-                                                                            style="width:70px; right: auto; margin-left: 8px; margin-top: -8px;">
-                                                                            <select name="Quantity" class="form-control"
-                                                                                id="Quantity">
-                                                                                <option
-                                                                                    value="<%= productQuantity[product1].Quantity %>"
-                                                                                    selected hidden>
-                                                                                    <%= productQuantity[product1].Quantity
-                                                                                        %>
-                                                                                </option>
-                                                                                <option value="0">0 (delete)</option>
-                                                                                <% for(let i=1;
-                                                                                    i<=productQuantity[product1].product.QuantityLeft
-                                                                                    ; i++) { %>
-                                                                                    <option value="<%= i %>">
-                                                                                        <%= i %>
-                                                                                    </option>
-                                                                                    <% } %>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div
-                                                                        style="display: inline-flex; width: 100%;">
+                                                                    <form
+                                                                        action="/cart/updated/<%= productQuantity[product1].product.ProductID %>"
+                                                                        method="POST">
                                                                         <div
-                                                                            style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
+                                                                            style="display: inline-flex; width: 100%; margin-top: 10px; margin-bottom: -10px;">
+                                                                            <div class="img-icon"><img
+                                                                                    src="images/pages.png" alt="">
+                                                                            </div>
+                                                                            <div>
+                                                                                <p>Quantity:</p>
+                                                                            </div>
+                                                                            <div class=""
+                                                                                style="width:70px; right: auto; margin-left: 8px; margin-top: -8px;">
+                                                                                <select name="Quantity"
+                                                                                    class="form-control" id="Quantity">
+                                                                                    <option
+                                                                                        value="<%= productQuantity[product1].Quantity %>"
+                                                                                        selected hidden>
+                                                                                        <%= productQuantity[product1].Quantity
+                                                                                            %>
+                                                                                    </option>
+                                                                                    <option value="0">0 (delete)
+                                                                                    </option>
+                                                                                    <% for(let i=1;
+                                                                                        i<=productQuantity[product1].product.QuantityLeft
+                                                                                        ; i++) { %>
+                                                                                        <option value="<%= i %>">
+                                                                                            <%= i %>
+                                                                                        </option>
+                                                                                        <% } %>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div
+                                                                            style="display: inline-flex; width: 62.5%;">
                                                                             <button type="submit" class="btn btn-login"
-                                                                                style="height: 40px;"
+                                                                                style="height: 40px; width: 94%;"
                                                                                 onclick="return script()">UPDATE
                                                                                 CART</button>
                                                                         </div>
-                                                                    </div>
                                                                     </form>
+                                                                    <form
+                                                                        action="/cart/deleted/<%= productQuantity[product1].product.ProductID %>"
+                                                                        method="POST">
 
+                                                                        <div
+                                                                            style="display: inline-flex; width: 32.5%; margin-top: -56px; margin-left: 224px; ">
+                                                                            <button type="submit" class="btn btn-login"
+                                                                                style="height: 40px;">
+                                                                                REMOVE
+                                                                            </button>
+                                                                        </div>
+
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -210,16 +239,16 @@
 
     </section>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         function script() {
             const Quantity = document.getElementById('Quantity').value;
-            if(Quantity == 0){
+            if (Quantity == 0) {
                 alert(`Product Deleted from your cart.`);
             } else {
                 alert(`Product Updated in your cart.`);
             }
-            }
-    </script>
+        }
+    </script> -->
 
     <script src="js/jquery-3.5.1.js"></script>
     <script src="js/popper.min.js"></script>

@@ -33,38 +33,60 @@
                             <% for(let user in userDetails) { %>
                                 <li class="nav-item">
                                     <a class="nav-link purple-link">Welcome <b style="color: #6255a6;">&nbsp;<%=
-                                            userDetails[user].UserName %>!</b></a>
+                                                userDetails[user].UserName %>!</b></a>
                                 </li>
                                 <% } %>
                                     <li class="nav-item">
-                                        <a class="nav-link purple-link" href="#">WALLET(<b style="color: #6255a6;"><%= walletBalance %>$</b>)</a>
+                                        <a class="nav-link purple-link" href="#">WALLET( <b style="color: #6255a6;">
+                                                <%= walletBalance %>$
+                                            </b> )</a>
                                     </li>
 
                                     <% if(!cartCount) { %>
                                         <li class="nav-item">
                                             <a class="nav-link purple-link" href="/cart">CART</a>
                                         </li>
-                                    
-                                    <% } else{ %>
-                                        <li class="nav-item">
-                                            <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;"><%= cartCount %></b>)</a>
-                                        </li>
-                                    <% } %>
 
-                                    <% for(let user in userDetails) { %>
-                                        <% if(userDetails[user].Status=='pending' ) { %>
+                                        <% } else{ %>
                                             <li class="nav-item">
-                                                <a id="nav-btn" style="width: 150px;"
-                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                    href="<%= link %>" role="button">VERIFY EMAIL</a>
+                                                <a class="nav-link purple-link" href="/cart">CART( <b
+                                                        style="color: #6255a6;">
+                                                        <%= cartCount %>
+                                                    </b> )</a>
                                             </li>
                                             <% } %>
-                                                <% } %>
+
+                                                <% if(countCouponcode <= 0) { %>
                                                     <li class="nav-item">
-                                                        <a id="nav-btn"
-                                                            class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                            href="#">LOGOUT</a>
+                                                        <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                            CODE</a>
                                                     </li>
+
+                                                    <% } else { %>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                                CODE(<b style="color: #6255a6;">
+                                                                    <%= countCouponcode %>
+                                                                </b>)</a>
+                                                        </li>
+                                                        <% } %>
+
+                                                            <% for(let user in userDetails) { %>
+                                                                <% if(userDetails[user].Status=='pending' ) { %>
+                                                                    <li class="nav-item">
+                                                                        <a id="nav-btn" style="width: 150px;"
+                                                                            class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                            href="<%= link %>" role="button">VERIFY
+                                                                            EMAIL</a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <li class="nav-item">
+                                                                                <a id="nav-btn"
+                                                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                                    href="#">LOGOUT</a>
+                                                                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -78,8 +100,6 @@
             <div id="filter-result-heading">
                 <h3>Total <%= countProducts %> Products</h3>
             </div>
-
-
 
             <div id="filter-result">
 
@@ -103,19 +123,22 @@
                                                             <%= productDetails[product].ProductName %>
                                                         </h3>
                                                     </div>
-                                                    <div class="res-book-company" style="display: inline-block; margin-bottom: 10px;">
+                                                    <div class="res-book-company"
+                                                        style="display: inline-block; margin-bottom: 10px;">
                                                         <p style="font-size: 15px;">
                                                             &nbsp; by <%= productDetails[product].CompanyName %>
                                                         </p>
                                                     </div>
                                                     <div class="res-book-content">
-                                                        <div style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                        <div
+                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px;">
                                                             <div class="img-icon"><img src="images/university.png"
                                                                     alt=""></div>
                                                             <p>Price : <%= productDetails[product].Price %>$
                                                             </p>
                                                         </div>
-                                                        <div style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                        <div
+                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px;">
                                                             <div class="img-icon"><img src="images/pages.png" alt="">
                                                             </div>
                                                             <p>Quantity Left : <%= productDetails[product].QuantityLeft
@@ -135,12 +158,17 @@
 
                                                         <% for(let user in userDetails) { %>
                                                             <% if(userDetails[user].Status=='active' ) { %>
-                                                            <form action="/cart/added/<%= productDetails[product].ProductID %>" method="POST">
-                                                                <div
-                                                                    style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
-                                                                    <button type="submit" class="btn btn-login" style="height: 40px;" onclick="return script()">ADD TO CART</button>   
-                                                                </div>
-                                                            </form>
+                                                                <form
+                                                                    action="/cart/added/<%= productDetails[product].ProductID %>"
+                                                                    method="POST">
+                                                                    <div
+                                                                        style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
+                                                                        <button type="submit" class="btn btn-login"
+                                                                            style="height: 40px;"
+                                                                            onclick="return script()">ADD TO
+                                                                            CART</button>
+                                                                    </div>
+                                                                </form>
                                                                 <% } %>
                                                                     <% } %>
 
@@ -159,11 +187,11 @@
 
     </section>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         function script() {
             alert(`Product Added to your cart.`);
-            }
-    </script>
+        }
+    </script> -->
 
     <script src="js/jquery-3.5.1.js"></script>
     <script src="js/popper.min.js"></script>

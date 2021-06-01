@@ -25,14 +25,7 @@ exports.getUser = async (req, res, next) => {
 
 // Create and Save a new User
 exports.create = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const alert = errors.array();
-    await res.render("signup", {
-      alert,
-    });
-  } else {
-
+ 
     // Create a User
     const user = {
       UserName: req.body.UserName,
@@ -121,7 +114,6 @@ exports.create = async (req, res) => {
           error: err.message,
         });
       });
-  }
 };
 
 // Retrieve all Users from the database.

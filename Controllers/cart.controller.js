@@ -1,10 +1,12 @@
 var express = require("express");
 var app = express();
-const {sequelize} = require("../models/db");
-const {User} = require("../models/user.model");
-const {Product} = require("../models/product.model");
-const {Wallet} = require("../models/wallet.model");
-const {Cart} = require("../models/cart.model");
+const { sequelize } = require("../models/db");
+const { User } = require("../models/user.model");
+const { Product } = require("../models/product.model");
+const { Wallet } = require("../models/wallet.model");
+const { Cart } = require("../models/cart.model");
+const { Salesorder } = require("../models/salesorder.model");
+const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 
@@ -14,6 +16,7 @@ app.use(cookieParser());
 exports.getCart = async (req, res, next) => {
   try {
     const token = req.cookies.token;
+    const userid = req.cookies.userid;
 
     if (!token) {
       res.json({
@@ -43,23 +46,38 @@ exports.getCart = async (req, res, next) => {
                 UserName: UserName,
               },
             });
+
+            const user1 = await User.findOne({
+              where: {
+                UserID : userid,
+              }
+            })
+
+            console.log(user1.Email);
+
+            const countCouponcode = await Couponcode.count({
+              where: {
+                Email : user1.Email,
+              },
+            });
+
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;
 
               const countProducts = await Cart.count({
-                where : {
-                  UserID : userid
-                }
+                where: {
+                  UserID: userid,
+                },
               });
 
               const productQuantity = await Cart.findAll({
-                include : {
-                  model : Product,
+                include: {
+                  model: Product,
                 },
-                where : {
-                  UserID : userid
-                }
+                where: {
+                  UserID: userid,
+                },
               });
 
               // for(product1 in productQuantity){
@@ -68,10 +86,7 @@ exports.getCart = async (req, res, next) => {
 
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
-                  [
-                    sequelize.fn("SUM", sequelize.col("Quantity")),
-                    "Quantity",
-                  ],
+                  [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
                 ],
                 where: {
                   UserID: userid,
@@ -86,9 +101,10 @@ exports.getCart = async (req, res, next) => {
                 userDetails: userDetails,
                 countProducts: countProducts,
                 walletBalance: walletBalance,
-                productQuantity : productQuantity,
-                cartCount : cartCount,
+                productQuantity: productQuantity,
+                cartCount: cartCount,
                 link: link,
+                countCouponcode: countCouponcode
               });
             }
           }
@@ -106,38 +122,78 @@ exports.getCart = async (req, res, next) => {
 };
 
 exports.addToCart = async (req, res, next) => {
-
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
 
   try {
-      await sequelize.query('CALL AddToCart( :UserID, :ProductID)', {
+    const productQuantity = await Product.findOne({
+      where: {
+        ProductID: ProductID,
+      },
+    });
+
+    const cartProductQuantity = await Cart.findOne({
+      model: Product,
+      where: {
+        ProductID: ProductID,
+      },
+    });
+
+    if (cartProductQuantity) {
+      if (cartProductQuantity.Quantity >= productQuantity.QuantityLeft) {
+        return res.redirect("/welcome");
+      } else {
+        await sequelize.query("CALL AddToCart( :UserID, :ProductID)", {
           replacements: { UserID, ProductID },
-          logging: false
+          logging: false,
+        });
+        return res.redirect("/welcome");
+      }
+    } else {
+      await sequelize.query("CALL AddToCart( :UserID, :ProductID)", {
+        replacements: { UserID, ProductID },
+        logging: false,
       });
-      return res.redirect('/welcome');
-      // return res.status(200).send("SuccessFull!");
+      return res.redirect("/welcome");
+    }
+    // return res.status(200).send("SuccessFull!");
   } catch (e) {
-      console.log(e);
-      return res.status(500).send("Something went wrong!");
+    console.log(e);
+    return res.status(500).send("Something went wrong!");
   }
 };
 
 exports.updateCart = async (req, res, next) => {
-
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
   const Quantity = req.body.Quantity;
-  console.log(Quantity);
+  console.log("Update:", ProductID, UserID);
 
   try {
-      await sequelize.query('CALL UpdateCart( :UserID, :ProductID, :Quantity)', {
-          replacements: { UserID, ProductID, Quantity },
-          logging: false
-      });
-      return res.redirect('/cart');
-  } catch(e) {
-      console.log(e);
-      return res.send(500).send("Something went wrong!");
+    await sequelize.query("CALL UpdateCart( :UserID, :ProductID, :Quantity)", {
+      replacements: { UserID, ProductID, Quantity },
+      logging: false,
+    });
+    return res.redirect("/cart");
+  } catch (e) {
+    console.log(e);
+    return res.send(500).send("Something went wrong!");
   }
-}
+};
+
+exports.deleteCart = async (req, res, next) => {
+  const ProductID = req.params.productid;
+  const UserID = req.cookies.userid;
+  console.log("Delete:", ProductID, UserID);
+
+  try {
+    await sequelize.query("CALL DeleteCart( :UserID, :ProductID)", {
+      replacements: { UserID, ProductID },
+      logging: false,
+    });
+    return res.redirect("/cart");
+  } catch (e) {
+    console.log(e);
+    return res.send(500).send("Something went wrong!");
+  }
+};

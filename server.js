@@ -36,6 +36,7 @@ require("./routes/signup.routes")(app);
 require("./routes/welcome.routes")(app);
 require("./routes/verify.routes")(app);
 require("./routes/cart.routes")(app);
+require("./routes/couponcode.routes")(app);
 
 app.use(express.static(path.join(__dirname, "views")));
 

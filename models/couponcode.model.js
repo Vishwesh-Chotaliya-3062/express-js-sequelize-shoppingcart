@@ -14,14 +14,15 @@ const Couponcode = sequelize.define(
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-        validate: {
-          isEmail: true,
-        },
       },
       CouponCode: {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      Details: {
+        type: Sequelize.STRING,
+        allowNull:false
+      }
     },
     {
       freezeTableName: true,

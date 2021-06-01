@@ -10,6 +10,8 @@ var otpGenerator = require("otp-generator");
 let couponcode = otpGenerator.generate(20, {
 });
 
+let details = "50% OFF";
+
 exports.getVerify = async (req, res, next) => {
   try {
     const UserID = req.params.UserID;
@@ -45,6 +47,7 @@ exports.postVerify = async function (req, res, next) {
       await Couponcode.create({
         Email: user.Email,
         CouponCode: couponcode,
+        Details: details
       });
 
         sendGifts(
