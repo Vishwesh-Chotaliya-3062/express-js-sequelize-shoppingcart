@@ -16,7 +16,10 @@ app.use(cookieParser());
 exports.getCart = async (req, res, next) => {
   try {
     const token = req.cookies.token;
-    const userid = req.cookies.userid;
+    const cookieuserid = req.cookies.userid;
+
+    cookieflag = req.cookies.flag;
+    console.log("Flag", cookieflag);
 
     if (!token) {
       // res.json({
@@ -50,60 +53,135 @@ exports.getCart = async (req, res, next) => {
 
             const countCouponcode = await Couponcode.count({
               where: {
-                UserID : userid,
+                UserID : cookieuserid,
               },
             });
 
-            for (user in userDetails) {
-              let userid = userDetails[user].UserID;
+            const couponcodeDetails = await Couponcode.findAll({
+              where: {
+                UserID: cookieuserid
+              }
+            });
 
-              const countProducts = await Cart.count({
-                where: {
-                  UserID: userid,
-                },
-              });
+            const cartSubTotalPrice = await Cart.findOne({
+              attributes: [
+                [sequelize.fn("SUM", sequelize.col("Total")), "Total"],
+              ],
+              where: {
+                UserID: cookieuserid,
+              },
+            });
 
-              const productQuantity = await Cart.findAll({
-                include: {
-                  model: Product,
-                },
-                where: {
-                  UserID: userid,
-                },
-              });
+            if(cookieflag == 1)
+            {
+              for (user in userDetails) {
 
-              const cartTotalQuantity = await Cart.findOne({
-                attributes: [
-                  [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
-                ],
-                where: {
-                  UserID: userid,
-                },
-              });
+                let userid = userDetails[user].UserID;
+  
+                const countProducts = await Cart.count({
+                  where: {
+                    UserID: userid,
+                  },
+                });
+  
+                const productQuantity = await Cart.findAll({
+                  include: {
+                    model: Product,
+                  },
+                  where: {
+                    UserID: userid,
+                  },
+                });
+  
+                const cartTotalQuantity = await Cart.findOne({
+                  attributes: [
+                    [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                  ],
+                  where: {
+                    UserID: userid,
+                  },
+                });
+  
+                const discountPrice = cartSubTotalPrice.Total/2;
 
-              const cartTotalPrice = await Cart.findOne({
-                attributes: [
-                  [sequelize.fn("SUM", sequelize.col("Total")), "Total"],
-                ],
-                where: {
-                  UserID: userid,
-                },
-              });
-
-              const cartCount = cartTotalQuantity.Quantity;
-
-              const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
-
-              await res.render("orderdetails", {
-                userDetails: userDetails,
-                countProducts: countProducts,
-                walletBalance: walletBalance,
-                productQuantity: productQuantity,
-                cartCount: cartCount,
-                countCouponcode: countCouponcode,
-                cartTotalPrice: cartTotalPrice
-              });
+                const cartTotalPrice = cartSubTotalPrice.Total - discountPrice;
+  
+                const cartCount = cartTotalQuantity.Quantity;
+  
+                const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
+  
+                await res.render("orderdetails", {
+                  userDetails: userDetails,
+                  countProducts: countProducts,
+                  walletBalance: walletBalance,
+                  productQuantity: productQuantity,
+                  cartCount: cartCount,
+                  countCouponcode: countCouponcode,
+                  cartSubTotalPrice: cartSubTotalPrice,
+                  cookieuserid: cookieuserid,
+                  discountPrice: discountPrice,
+                  cookieflag: cookieflag,
+                  couponcodeDetails: couponcodeDetails,
+                  cartTotalPrice: cartTotalPrice
+                });
+              }
             }
+            else {
+
+              for (user in userDetails) {
+
+                let userid = userDetails[user].UserID;
+  
+                const countProducts = await Cart.count({
+                  where: {
+                    UserID: userid,
+                  },
+                });
+  
+                const productQuantity = await Cart.findAll({
+                  include: {
+                    model: Product,
+                  },
+                  where: {
+                    UserID: userid,
+                  },
+                });
+  
+                const cartTotalQuantity = await Cart.findOne({
+                  attributes: [
+                    [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                  ],
+                  where: {
+                    UserID: userid,
+                  },
+                });
+  
+                const discountPrice = 0;
+                
+                const cartTotalPrice = cartSubTotalPrice.Total - discountPrice;
+  
+                const cartCount = cartTotalQuantity.Quantity;
+  
+                const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
+  
+                await res.render("orderdetails", {
+                  userDetails: userDetails,
+                  countProducts: countProducts,
+                  walletBalance: walletBalance,
+                  productQuantity: productQuantity,
+                  cartCount: cartCount,
+                  countCouponcode: countCouponcode,
+                  cartSubTotalPrice: cartSubTotalPrice,
+                  cookieuserid: cookieuserid,
+                  discountPrice: discountPrice,
+                  cookieflag: cookieflag,
+                  couponcodeDetails: couponcodeDetails,
+                  cartTotalPrice: cartTotalPrice
+                });
+              }
+
+            }
+
           }
         });
       } catch (err) {
@@ -118,77 +196,53 @@ exports.getCart = async (req, res, next) => {
   }
 };
 
-exports.addToCart = async (req, res, next) => {
-  const ProductID = req.params.productid;
-  const UserID = req.cookies.userid;
+exports.checkCouponCode = async (req, res, next) => {
+
+  const UserID = req.params.userid;
+  const CouponCode = req.body.CouponCode;
+
+  console.log("Userid:", UserID);
+
+  console.log("Coupon Code:", CouponCode);
 
   try {
-    const productQuantity = await Product.findOne({
-      where: {
-        ProductID: ProductID,
-      },
-    });
-
-    const cartProductQuantity = await Cart.findOne({
-      model: Product,
-      where: {
-        ProductID: ProductID,
-      },
-    });
-
-    if (cartProductQuantity) {
-      if (cartProductQuantity.Quantity >= productQuantity.QuantityLeft) {
-        return res.redirect("/welcome");
-      } else {
-        await sequelize.query("CALL AddToCart( :UserID, :ProductID)", {
-          replacements: { UserID, ProductID },
-          logging: false,
-        });
-        return res.redirect("/welcome");
+    const userCouponCode = await Couponcode.findOne({
+      where : {
+        UserID : UserID
       }
-    } else {
-      await sequelize.query("CALL AddToCart( :UserID, :ProductID)", {
-        replacements: { UserID, ProductID },
-        logging: false,
-      });
-      return res.redirect("/welcome");
-    }
-    // return res.status(200).send("SuccessFull!");
-  } catch (e) {
-    console.log(e);
-    return res.status(500).send("Something went wrong!");
-  }
-};
-
-exports.updateCart = async (req, res, next) => {
-  const ProductID = req.params.productid;
-  const UserID = req.cookies.userid;
-  const Quantity = req.body.Quantity;
-  console.log("Update:", ProductID, UserID);
-
-  try {
-    await sequelize.query("CALL UpdateCart( :UserID, :ProductID, :Quantity)", {
-      replacements: { UserID, ProductID, Quantity },
-      logging: false,
     });
-    return res.redirect("/cart");
+
+    console.log("user coupon", userCouponCode.CouponCode);
+    let flag = 0;
+
+    if(CouponCode !== userCouponCode.CouponCode)
+    {
+      flag = 0;
+      res.cookie("flag", flag);
+      return res.redirect("/orderdetails");
+    }
+
+    else{
+      flag = 1;
+      console.log("True", flag);
+      res.cookie("flag", flag);
+      return res.redirect("/orderdetails");
+    }
+
   } catch (e) {
     console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };
 
-exports.deleteCart = async (req, res, next) => {
-  const ProductID = req.params.productid;
-  const UserID = req.cookies.userid;
-  console.log("Delete:", ProductID, UserID);
+exports.removeCouponCode = async (req, res, next) => {
 
   try {
-    await sequelize.query("CALL DeleteCart( :UserID, :ProductID)", {
-      replacements: { UserID, ProductID },
-      logging: false,
-    });
-    return res.redirect("/cart");
+    let flag = 0;
+    res.clearCookie("flag");
+    res.cookie("flag", flag);
+    return res.redirect("/orderdetails");
+
   } catch (e) {
     console.log(e);
     return res.send(500).send("Something went wrong!");

@@ -17,6 +17,8 @@ exports.getCart = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
+    let cookieflag = 0;
+    res.cookie("flag", cookieflag);
 
     if (!token) {
       res.redirect("login");
