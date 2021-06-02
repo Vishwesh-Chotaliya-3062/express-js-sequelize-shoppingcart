@@ -11,6 +11,7 @@ const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 
 var cookieParser = require("cookie-parser");
+const { Useraddress } = require("../models/useraddress.model");
 app.use(cookieParser());
 
 exports.getCart = async (req, res, next) => {
@@ -56,6 +57,12 @@ exports.getCart = async (req, res, next) => {
                 UserID : cookieuserid,
               },
             });
+
+            const useraddress = await Useraddress.findOne({
+              where : {
+                UserID : cookieuserid
+              }
+            })
 
             const couponcodeDetails = await Couponcode.findAll({
               where: {
@@ -122,7 +129,8 @@ exports.getCart = async (req, res, next) => {
                   discountPrice: discountPrice,
                   cookieflag: cookieflag,
                   couponcodeDetails: couponcodeDetails,
-                  cartTotalPrice: cartTotalPrice
+                  cartTotalPrice: cartTotalPrice,
+                  useraddress: useraddress
                 });
               }
             }
@@ -176,7 +184,8 @@ exports.getCart = async (req, res, next) => {
                   discountPrice: discountPrice,
                   cookieflag: cookieflag,
                   couponcodeDetails: couponcodeDetails,
-                  cartTotalPrice: cartTotalPrice
+                  cartTotalPrice: cartTotalPrice,
+                  useraddress: useraddress
                 });
               }
 

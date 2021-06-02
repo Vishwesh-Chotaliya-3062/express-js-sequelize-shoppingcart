@@ -120,7 +120,7 @@
                     <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-0 offset-md-2 offset-sm-1">
                         <div class="mobile h5">Billing Address</div>
                         <div id="details" class="bg-white rounded pb-5">
-                            <form>
+                            <form action="address/<%= cookieuserid %>" method="POST">
                                 <div class="h5" style="color: #6255a5; margin-top: -10px;"> <b>Billing Address</b> </div>
                                 <div class="form-group"> <label class="text-muted" style="margin-top: 20px;">Name</label> <input type="text" style="margin-top: 0px;" value="<%= userDetails[user].UserName %>" class="form-control"> </div>
                                 <div class="form-group"> <label class="text-muted" >Email</label>
@@ -129,30 +129,38 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group"> <label>City</label>
-                                            <div class="d-flex jusify-content-start align-items-center rounded p-2"> <input type="text" value="Ahmedabad"> <span class="fas fa-check text-success pr-2"></span> </div>
+                                            <div class="d-flex jusify-content-start align-items-center rounded p-2"> <input type="text" name="City" value="Ahmedabad"> <span class="fas fa-check text-success pr-2"></span> </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group"> <label>Zip code</label>
-                                            <div class="d-flex jusify-content-start align-items-center rounded p-2"> <input type="text" value="300000"> <span class="fas fa-check text-success pr-2"></span> </div>
+                                            <div class="d-flex jusify-content-start align-items-center rounded p-2"> <input type="text" name="Zipcode" value="300000"> <span class="fas fa-check text-success pr-2"></span> </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group"> <label>Address</label>
-                                            <div class="d-flex jusify-content-start align-items-center rounded p-2"> <input type="text" value="502, New Ranip"> <span class="fas fa-check text-success pr-2"></span> </div>
+                                            <div class="d-flex jusify-content-start align-items-center rounded p-2"> <input type="text" name="Address" value="502, New Ranip"> <span class="fas fa-check text-success pr-2"></span> </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group"> <label>State</label>
-                                            <div class="d-flex jusify-content-start align-items-center rounded p-2"> <input type="text" value="Gujarat"> <span class="fas fa-check text-success pr-2"></span> </div>
+                                            <div class="d-flex jusify-content-start align-items-center rounded p-2"> <input type="text" name="State" value="Gujarat"> <span class="fas fa-check text-success pr-2"></span> </div>
                                         </div>
                                     </div>
-                                </div> <label>Country</label> <select name="country" id="country">
-                                    <option value="ind">INDIA</option>
-                                    <option value="usa">USA</option>
+                                </div> 
+                                <label>Country</label> 
+                                <select name="Country" id="Country">
+                                    <option value="INDIA">INDIA</option>
+                                    <option value="USA">USA</option>
                                 </select>
+                                <% if(!useraddress) { %>
+                                <div id="login-btn" style="margin-bottom: -10px;">
+                                    <button type="submit" class="btn btn-login" id="submit" value="Sign Up"
+                                        data-toggle="modal" style="width: 100%; height: 40px;">SAVE ADDRESS</button>
+                                </div>
+                                <% } %>
                             </form>
                         </div> 
                         <div id="address" class="bg-light rounded mt-3">
