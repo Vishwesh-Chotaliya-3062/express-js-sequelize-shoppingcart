@@ -19,7 +19,7 @@ const Product = sequelize.define(
         unique: true,
       },
       Price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL(10,2),
         allowNull: false,
       },
       QuantityLeft: {

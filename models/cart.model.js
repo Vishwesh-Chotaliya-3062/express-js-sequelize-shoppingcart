@@ -34,7 +34,7 @@ const Cart = sequelize.define(
         default: 0,
       },
       Total: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL(10,2),
         allowNull: false,
       },
     },

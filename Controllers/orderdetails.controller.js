@@ -19,10 +19,10 @@ exports.getCart = async (req, res, next) => {
     const userid = req.cookies.userid;
 
     if (!token) {
-      res.redirect("login");
       // res.json({
       //   error: "Unauthorized",
       // });
+      res.redirect("login");
     } else {
       try {
         console.log("Authentication Token:", token);
@@ -41,7 +41,7 @@ exports.getCart = async (req, res, next) => {
             console.log("user", UserName);
 
             const userDetails = await User.findAll({
-              attributes: ["UserID", "UserName", "Status"],
+              attributes: ["UserID", "UserName", "Email", "Status"],
               include: Wallet,
               where: {
                 UserName: UserName,
@@ -56,7 +56,6 @@ exports.getCart = async (req, res, next) => {
 
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
-              let link = `/verify/${userid}`;
 
               const countProducts = await Cart.count({
                 where: {
@@ -72,10 +71,6 @@ exports.getCart = async (req, res, next) => {
                   UserID: userid,
                 },
               });
-
-              // for(product1 in productQuantity){
-              //   console.log(productQuantity[product1].product.ProductName);
-              // }
 
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
@@ -99,13 +94,12 @@ exports.getCart = async (req, res, next) => {
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-              await res.render("cart", {
+              await res.render("orderdetails", {
                 userDetails: userDetails,
                 countProducts: countProducts,
                 walletBalance: walletBalance,
                 productQuantity: productQuantity,
                 cartCount: cartCount,
-                link: link,
                 countCouponcode: countCouponcode,
                 cartTotalPrice: cartTotalPrice
               });

@@ -38,7 +38,7 @@ const Salesorder = sequelize.define(
         unique: true,
       },
       Total: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL(10,2),
         allowNull: false,
       },
       OrderedQuantity: {

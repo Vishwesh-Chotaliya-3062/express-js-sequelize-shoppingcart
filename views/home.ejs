@@ -79,3 +79,30 @@
     <p class="expire">Expires: Jan 03, 2021</p>
   </div>
 </div> -->
+
+<div class="res-book-info">
+  <div class="res-book-info-wrapper">
+      
+      <div class="res-book-content"
+          style="margin-bottom: -15px;">
+          <div
+              style="display: inline-flex; width: 100%; margin-bottom: 10px;">
+              <div class="img-icon"><img
+                      src="images/university.png" alt="">
+              </div>
+              <p>Total : <%= productQuantity[product1].Total
+                      %>$
+              </p>
+          </div>
+          <div style="display: inline-flex; width: 100%; ">
+              <div class="img-icon"><img
+                      src="images/pages.png" alt="">
+              </div>
+              <p>Quantity Left : <%=
+                      productQuantity[product1].product.QuantityLeft
+                      %>
+              </p>
+          </div>
+      </div>
+  </div>
+</div>

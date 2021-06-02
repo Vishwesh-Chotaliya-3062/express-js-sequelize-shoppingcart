@@ -16,9 +16,10 @@ exports.userAuthorization = async (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-      res.json({
-        error: "Unauthorized",
-      });
+      // res.json({
+      //   error: "Unauthorized",
+      // });
+      res.redirect("login");
     } else {
       try {
         console.log("Authentication Token:", token);

@@ -41,8 +41,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link purple-link" href="#">WALLET(<b style="color: #6255a6;">
-                                                <%= walletBalance %>$
+                                        <a class="nav-link purple-link" href="#">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
                                             </b>)</a>
                                     </li>
 
@@ -97,7 +96,7 @@
         </header>
     </section>
 
-    <section id="filters" style="margin-top: 30px;">
+    <section id="filters" style="margin-top: 10px;">
 
         <div class="container">
 
@@ -109,8 +108,32 @@
 
                     <% if(countProducts>0 ) { %>
 
-                        <div id="filter-result-heading">
+                        <div id="filter-result-heading" style="margin-top: 50px;">
                             <h3>Total <%= countProducts %> Products</h3>
+                        </div>
+
+                        <div id="filter-result-heading" style="border: 1px; border-radius: 20px; background-color: #F8F8FF;
+                                display: inline-block; margin-top: -90px; margin-bottom: 15px; 
+                                margin-left: 820px; height: 105px; width: 373px;">
+                            <div class="res-book-info" style="border-radius: 15px;" >
+                                
+                                <form action="/orderdetails" method="POST">
+                                    <div style="text-align: center; margin-top: 7px;">
+                                        <div class="res-book-title" >
+                                            <h5 style="color: #6255a6;">
+                                                Subtotal (<%= cartCount %> items): $<%= cartTotalPrice.Total %>
+                                            </h5>
+                                        </div>
+                                        <p style="font-size: 12px; margin-top: -2px;">Have a Coupon code? Apply on next page.</p>
+                                        <div
+                                            style="display: inline-flex; width: 80%;margin-top: -8px;">
+                                            <button type="submit" class="btn btn-login" style="height: 32px; border-radius: 8px; font-size: medium;">
+                                                Proceed to Buy
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
 
                         <div id="filter-result">
@@ -152,18 +175,18 @@
                                                                     <div
                                                                         style="display: inline-flex; width: 100%; margin-bottom: 10px;">
                                                                         <div class="img-icon"><img
-                                                                                src="images/university.png" alt="">
+                                                                                src="images/pages.png" alt="">
                                                                         </div>
-                                                                        <p>Total : <%= productQuantity[product1].Total
-                                                                                %>$
+                                                                        <p>Price : $<%=
+                                                                                productQuantity[product1].product.Price
+                                                                                %>
                                                                         </p>
                                                                     </div>
                                                                     <div style="display: inline-flex; width: 100%; ">
                                                                         <div class="img-icon"><img
                                                                                 src="images/pages.png" alt="">
                                                                         </div>
-                                                                        <p>Quantity Left : <%=
-                                                                                productQuantity[product1].product.QuantityLeft
+                                                                        <p>Total : $<%= productQuantity[product1].Total
                                                                                 %>
                                                                         </p>
                                                                     </div>
@@ -173,7 +196,7 @@
                                                                         <div
                                                                             style="display: inline-flex; width: 100%; margin-top: 10px; margin-bottom: -10px;">
                                                                             <div class="img-icon"><img
-                                                                                    src="images/pages.png" alt="">
+                                                                                    src="images/university.png" alt="">
                                                                             </div>
                                                                             <div>
                                                                                 <p>Quantity:</p>
