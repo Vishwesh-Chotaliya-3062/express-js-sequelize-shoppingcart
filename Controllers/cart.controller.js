@@ -47,17 +47,9 @@ exports.getCart = async (req, res, next) => {
               },
             });
 
-            const user1 = await User.findOne({
-              where: {
-                UserID : userid,
-              }
-            })
-
-            console.log(user1.Email);
-
             const countCouponcode = await Couponcode.count({
               where: {
-                Email : user1.Email,
+                UserID : userid,
               },
             });
 

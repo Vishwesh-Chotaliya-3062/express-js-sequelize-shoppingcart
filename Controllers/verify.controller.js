@@ -4,6 +4,7 @@ const {Wallet} = require("../models/wallet.model");
 const {Secretcode} = require("../models/secretcode.model");
 const {Couponcode} = require("../models/couponcode.model");
 const { sendGifts } = require("../helper/mailer.helper");
+const { dateAfterWeeks } = require('../helper/autoDate.helper');
 
 var otpGenerator = require("otp-generator");
 
@@ -38,30 +39,33 @@ exports.postVerify = async function (req, res, next) {
     if (verified) {
       user.Status = "active";
       user.wallet.Balance = 500;
+      console.log(user.UserID);
+      await Couponcode.create({
+        UserID: user.UserID,
+        CouponCode: couponcode,
+        Details: details,
+        ExpiryDate: dateAfterWeeks(2),
+      });
+
       await user.wallet.save({ transaction: verifyTransaction });
       await user.save({ transaction: verifyTransaction });
       await Secretcode.destroy({
         where: { Email: user.Email },
         transaction: verifyTransaction,
       });
-      await Couponcode.create({
-        Email: user.Email,
-        CouponCode: couponcode,
-        Details: details
-      });
-
-        sendGifts(
-          { UserName: user.UserName, Email: user.Email },
-          couponcode
-        )
+  
+      sendGifts(
+        { UserName: user.UserName, Email: user.Email },
+        couponcode
+      )  
       
       await verifyTransaction.commit();
       return res.redirect("login");
     }
     res.status(400).redirect("verify/" + UserID);
   } catch (err) {
-    await verifyTransaction.rollback();
     console.log(err.message);
+    await verifyTransaction.rollback();
     res.status(500).redirect("verify/" + UserID);
   }
 };

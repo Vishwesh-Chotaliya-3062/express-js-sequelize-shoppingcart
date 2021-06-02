@@ -54,17 +54,9 @@ exports.userAuthorization = async (req, res, next) => {
 
             const productDetails = await Product.findAll();
 
-            const user1 = await User.findOne({
-              where: {
-                UserName : UserName,
-              }
-            })
-
-            console.log(user1.Email);
-
             const countCouponcode = await Couponcode.count({
               where: {
-                Email : user1.Email,
+                UserID : u.UserID,
               },
             });
 
