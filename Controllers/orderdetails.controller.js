@@ -161,15 +161,24 @@ exports.getCart = async (req, res, next) => {
                   },
                   include: Product
                 });
-              
 
                 for(u in orderdetails){
 
-                const ndiscountPrice = (orderdetails[u].SubTotal)/2;
-                const ntotalPrice = (orderdetails[u].SubTotal) - ndiscountPrice;
+                const ndiscountPrice = orderdetails[u].SubTotal * 0.50;
+                console.log("Discount",ndiscountPrice);
+                const ntotalPrice = orderdetails[u].SubTotal - ndiscountPrice;
 
-                sequelize.query(`update Orderdetails set DiscountPrice = ${ndiscountPrice}, Total = ${ntotalPrice} where UserID = ${userid} AND ProductID = ${orderdetails[u].ProductID}`);
-                
+                await Orderdetails.update({
+                  DiscountPrice: ndiscountPrice,
+                  Total: ntotalPrice
+                },{
+                  where: {
+                    UserID: userid,
+                    ProductID: orderdetails[u].ProductID
+                  }
+                }
+                );
+              
                 }
 
                 const productQuantity = await Cart.findAll({
