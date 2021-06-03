@@ -11,7 +11,7 @@ var otpGenerator = require("otp-generator");
 let couponcode = otpGenerator.generate(20, {
 });
 
-let details = "50% OFF";
+let details = "FLAT 50% OFF";
 
 exports.getVerify = async (req, res, next) => {
   try {

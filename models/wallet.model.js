@@ -23,6 +23,9 @@ const {User} = require("./user.model");
         type: Sequelize.DECIMAL(20, 2),
         allowNull: false,
         defaultValue: 0,
+        validate: {
+          min:0,
+        }
       },
     },
     {

@@ -11,5 +11,7 @@ module.exports = (app) => {
 
   router.post("/couponcode/remove/:userid", orderdetails.removeCouponCode);
 
+  // router.post("/transactions", orderdetails.getTransaction);
+
   app.use("/", router);
 };

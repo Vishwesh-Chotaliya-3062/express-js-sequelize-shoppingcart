@@ -39,29 +39,32 @@ header .active {
 
 header .active .fa-check {
     position: absolute;
-    left: 50%;
+    left: 47%;
     bottom: -27px;
+    margin-bottom: 3px;
     background-color: #fff;
     font-size: 0.7rem;
     padding: 5px;
-    border: 1px solid #008000;
+    border: 1px solid #6255a5;
     border-radius: 50%;
-    color: #008000
 }
 
 .progress {
-    height: 2px;
+    height: 3px;
     background-color: #ccc
 }
 
 .progress div {
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    
 }
 
 .progress .progress-bar {
-    width: 40%
+    width: 44%;
+    border: 3px solid #6255a5;
+    background-color: #6255a5;
 }
 
 #details {
@@ -182,21 +185,27 @@ tr.text-muted td {
 .btn.text-uppercase {
     border: 1px solid #333;
     font-weight: 600;
-    border-radius: 0px
+    border-radius: 0px;
+    height: 50px;
+    padding-top: 10px;
 }
 
 .btn.text-uppercase:hover {
-    background-color: #333;
-    color: #eee
+    background-color: #6255a5;
+    color: #eee;
+    
 }
 
-.btn.text-white {
-    background-color: #66cdaa;
+.btn.text-uppercase.main {
+    background-color: #6255a5;
+    color: #eee;
+    border: 1px solid #eee
+}
+
+.btn.text-uppercase.main:hover {
+    font-weight: 600;
+    color: #333;
     border-radius: 0px
-}
-
-.btn.text-white:hover {
-    background-color: #3cb371
 }
 
 .wrapper .row+div.text-muted {

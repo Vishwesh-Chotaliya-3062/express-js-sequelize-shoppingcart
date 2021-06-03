@@ -3,10 +3,10 @@ const {sequelize} = require("./db");
 const {User} = require("./user.model");
 const {Product} = require("./product.model");
 
-const Salesorder = sequelize.define(
-    "salesorder",
+const Orderdetails = sequelize.define(
+    "orderdetails",
     {
-      SalesorderID: {
+      OrderdetailsID: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -28,14 +28,10 @@ const Salesorder = sequelize.define(
           key: "ProductID",
         },
       },
-      ProductName: {
-        type: Sequelize.STRING,
+      Quantity: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-      },
-      SKU: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
+        default: 0,
       },
       SubTotal: {
         type: Sequelize.DECIMAL(10,2),
@@ -44,39 +40,28 @@ const Salesorder = sequelize.define(
       DiscountPrice: {
         type: Sequelize.DECIMAL(10,2),
         allowNull: false,
+        default: 0
       },
       Total: {
         type: Sequelize.DECIMAL(10,2),
         allowNull: false,
       },
-      OrderedQuantity: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      Status: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: "success"
-      }
     },
     {
       freezeTableName: true,
     }
   );
 
-  User.hasMany(Salesorder, {
+  User.hasMany(Orderdetails, {
     foreignKey: "UserID",
     onDelete: "CASCADE",
   });
-  Salesorder.belongsTo(User, { foreignKey: "UserID", onDelete: "CASCADE" });
+  Orderdetails.belongsTo(User, { foreignKey: "UserID", onDelete: "CASCADE" });
 
-  Product.hasMany(Salesorder, {
+  Product.hasMany(Orderdetails, {
     foreignKey: "ProductID",
     onDelete: "CASCADE",
   });
-  Salesorder.belongsTo(Product, { foreignKey: "ProductID", onDelete: "CASCADE" });
+  Orderdetails.belongsTo(Product, { foreignKey: "ProductID", onDelete: "CASCADE" });
 
-  // sequelize.query("delete from salesorder");
-  // sequelize.query("ALTER TABLE salesorder AUTO_INCREMENT = 1");
-
-  module.exports = {Salesorder};
+  module.exports = {Orderdetails};

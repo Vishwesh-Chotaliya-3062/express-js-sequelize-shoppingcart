@@ -3,9 +3,9 @@ const {sequelize} = require("./db");
 const {User} = require("./user.model");
 const {Product} = require("./product.model");
 
-const Salesorder = sequelize.define(
-    "salesorder",
-    {
+const Failedorder = sequelize.define(
+    "failedorder",
+    {  
       SalesorderID: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -44,6 +44,7 @@ const Salesorder = sequelize.define(
       DiscountPrice: {
         type: Sequelize.DECIMAL(10,2),
         allowNull: false,
+        default: 0
       },
       Total: {
         type: Sequelize.DECIMAL(10,2),
@@ -56,7 +57,7 @@ const Salesorder = sequelize.define(
       Status: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: "success"
+        defaultValue: "failed"
       }
     },
     {
@@ -64,19 +65,19 @@ const Salesorder = sequelize.define(
     }
   );
 
-  User.hasMany(Salesorder, {
+  User.hasMany(Failedorder, {
     foreignKey: "UserID",
     onDelete: "CASCADE",
   });
-  Salesorder.belongsTo(User, { foreignKey: "UserID", onDelete: "CASCADE" });
+  Failedorder.belongsTo(User, { foreignKey: "UserID", onDelete: "CASCADE" });
 
-  Product.hasMany(Salesorder, {
+  Product.hasMany(Failedorder, {
     foreignKey: "ProductID",
     onDelete: "CASCADE",
   });
-  Salesorder.belongsTo(Product, { foreignKey: "ProductID", onDelete: "CASCADE" });
+  Failedorder.belongsTo(Product, { foreignKey: "ProductID", onDelete: "CASCADE" });
 
   // sequelize.query("delete from salesorder");
   // sequelize.query("ALTER TABLE salesorder AUTO_INCREMENT = 1");
 
-  module.exports = {Salesorder};
+  module.exports = {Failedorder};

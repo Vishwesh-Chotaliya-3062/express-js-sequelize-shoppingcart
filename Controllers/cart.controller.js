@@ -127,8 +127,11 @@ exports.getCart = async (req, res, next) => {
 };
 
 exports.addToCart = async (req, res, next) => {
+
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
+
+  console.log(ProductID, UserID);
 
   try {
     const productQuantity = await Product.findOne({
@@ -137,12 +140,17 @@ exports.addToCart = async (req, res, next) => {
       },
     });
 
+    console.log(productQuantity);
+
     const cartProductQuantity = await Cart.findOne({
       model: Product,
       where: {
         ProductID: ProductID,
+        UserID: UserID
       },
     });
+
+    console.log(cartProductQuantity);
 
     if (cartProductQuantity) {
       if (cartProductQuantity.Quantity >= productQuantity.QuantityLeft) {

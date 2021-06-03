@@ -7,7 +7,6 @@ const {Op} = require("sequelize");
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 var otpGenerator = require("otp-generator");
-const { validationResult } = require("express-validator");
 const { sendVerifyEmail } = require("../helper/mailer.helper");
 
 let secretcode = otpGenerator.generate(6, {

@@ -25,6 +25,9 @@ const Product = sequelize.define(
       QuantityLeft: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        validate: {
+          min: 0
+        }
       },
       CompanyName: {
         type: Sequelize.STRING,

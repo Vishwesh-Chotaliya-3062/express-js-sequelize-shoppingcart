@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
-<body>
+<body style="background-color: #eee;">
 
     <section id="nav-header" style="height: 100px;">
         <header>
@@ -64,7 +64,7 @@
                                                     <% } else { %>
                                                         <li class="nav-item">
                                                             <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                                CODE(<b style="color: #6255a6;">
+                                                                CODE (<b style="color: #6255a6;">
                                                                     <%= countCouponcode %>
                                                                 </b>)</a>
                                                         </li>
@@ -115,7 +115,7 @@
                                         </div>
 
                                         <div class="col-xl-12">
-                                            <div class="res-book-info">
+                                            <div class="res-book-info" style="background-color: white;">
                                                 <div class="res-book-info-wrapper">
                                                     <div class="res-book-title" style="display: inline-block;">
                                                         <h3 style="color: #6255a6;">
@@ -133,7 +133,8 @@
                                                             style="display: inline-flex; width: 100%; margin-bottom: 5px;">
                                                             <div class="img-icon"><img src="images/university.png"
                                                                     alt=""></div>
-                                                            <p>Price : <%= productDetails[product].Price %>$
+                                                            <p>Price : $<%= productDetails[product].Price %> 
+                                                                <p style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">each</p>
                                                             </p>
                                                         </div>
                                                         <div
