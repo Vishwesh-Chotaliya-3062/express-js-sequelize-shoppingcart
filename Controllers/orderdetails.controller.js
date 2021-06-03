@@ -170,7 +170,6 @@ exports.getCart = async (req, res, next) => {
 
                 sequelize.query(`update Orderdetails set DiscountPrice = ${ndiscountPrice}, Total = ${ntotalPrice} where UserID = ${userid} AND ProductID = ${orderdetails[u].ProductID}`);
                 
-                console.log("Discount", orderdetails[u].DiscountPrice);
                 }
 
                 const productQuantity = await Cart.findAll({
@@ -193,7 +192,7 @@ exports.getCart = async (req, res, next) => {
                   },
                 });
 
-                console.log("Before:", fullTotal);
+                console.log("After:", fullTotal);
 
                 const beforeCoupon = await Orderdetails.findAll({
                   where: {
@@ -204,7 +203,7 @@ exports.getCart = async (req, res, next) => {
                   }
                 })
 
-                console.log("Before", beforeCoupon);
+                console.log("After", beforeCoupon);
   
                 const cartTotalQuantity = await Cart.findOne({
                   attributes: [
