@@ -1,0 +1,149 @@
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Wallet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body style="background-color: #eee">
+
+    <section id="nav-header" style="height: 100px;">
+        <header>
+            <nav class="navbar navbar-expand-md fixed-top white-nav">
+                <div class="container">
+                    <div class="img-logo">
+                        <a href="/welcome" class="navbar-brand">
+                            <img src="images/logo.png" class="img-fluid" alt="">
+                        </a>
+                    </div>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
+                        id="navbarSupportedContent">
+                        <ul class="navbar-nav" style="margin-left: auto;">
+                            <% for(let user in userDetails) { %>
+                                <li class="nav-item">
+                                    <a class="nav-link purple-link">Welcome <b style="color: #6255a6;">&nbsp;<%=
+                                                userDetails[user].UserName %>!</b></a>
+                                </li>
+                                <% } %>
+                                    <li class="nav-item">
+                                        <a class="nav-link purple-link" href="/welcome">HOME</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link purple-link" href="/walllet">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
+                                            </b>)</a>
+                                    </li>
+
+                                    <% if(!cartCount) { %>
+                                        <li class="nav-item">
+                                            <a class="nav-link purple-link" href="/cart">CART</a>
+                                        </li>
+
+                                        <% } else{ %>
+                                            <li class="nav-item">
+                                                <a class="nav-link purple-link" href="/cart">CART(<b
+                                                        style="color: #6255a6;">
+                                                        <%= cartCount %>
+                                                    </b>)</a>
+                                            </li>
+                                            <% } %>
+
+                                                <% if(!countCouponcode) { %>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                            CODE</a>
+                                                    </li>
+
+                                                    <% } else{ %>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                                CODE (<b style="color: #6255a6;">
+                                                                    <%= countCouponcode %>
+                                                                </b>)</a>
+                                                        </li>
+                                                        <% } %>
+
+                                                            <% for(let user in userDetails) { %>
+                                                                <% if(userDetails[user].Status=='pending' ) { %>
+                                                                    <li class="nav-item">
+                                                                        <a id="nav-btn" style="width: 150px;"
+                                                                            class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                            href="<%= link %>" role="button">VERIFY
+                                                                            EMAIL</a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <li class="nav-item">
+                                                                                <a id="nav-btn"
+                                                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                                    href="#">LOGOUT</a>
+                                                                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </section>
+
+    <section id="add-type">
+      
+        <div class="container">
+          <div id="add-type-content">
+        
+            <div class="add-type-heading">
+                <h3>Wallet Amount: $<%= walletBalance %>.00</h3>
+                <h4 style="color: #6255a6; font-size: x-large; margin-bottom: 30px;">Add Balance</h4>
+            </div>
+  
+            <div class="row">
+  
+              <div class="col-xl-6">
+  
+                  <form action="/wallet" method="POST">
+                    <div class="ip-field">
+                      <label for="amount" class="add-type-lbl">Amount*</label>
+                      <input type="number" class="form-control input-field" name="Amount" id="Amount" placeholder="Enter amount" min="0" step=".00" value="0">
+                    </div>
+  
+                    <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px; margin-left: -480px;">
+                        <button type="submit" class="btn btn-login" id="submit" value="Sign Up" style="width: 10%; height: 35px;"
+                            data-toggle="modal">ADD</button>
+                    </div>
+                  </form>
+                </div>
+                
+              </div>
+  
+            </div>
+  
+          </div>
+      </section>
+
+    <!-- <script type="text/javascript">
+        function script() {
+            const Quantity = document.getElementById('Quantity').value;
+            if (Quantity == 0) {
+                alert(`Product Deleted from your cart.`);
+            } else {
+                alert(`Product Updated in your cart.`);
+            }
+        }
+    </script> -->
+
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+
+</body>

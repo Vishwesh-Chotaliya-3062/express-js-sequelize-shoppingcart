@@ -4,15 +4,15 @@ const { sequelize } = require("../models/db");
 const { User } = require("../models/user.model");
 const { Wallet } = require("../models/wallet.model");
 const { Cart } = require("../models/cart.model");
+const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 
 var cookieParser = require("cookie-parser");
-const { Couponcode } = require("../models/couponcode.model");
 app.use(cookieParser());
 
-exports.getCouponcode = async (req, res, next) => {
-  try {
+exports.getWallet = async (req, res, next) => {
+  try {     
     const token = req.cookies.token;
     const userid = req.cookies.userid;
 
@@ -48,25 +48,16 @@ exports.getCouponcode = async (req, res, next) => {
 
             const countCouponcode = await Couponcode.count({
               where: {
-                UserID: userid
+                UserID : userid,
               },
-            });
-            
-            const couponcodeDetails = await Couponcode.findAll({
-              where: {
-                UserID: userid
-              }
             });
 
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
-              let link = `/verify/${userid}`;
 
-              const countProducts = await Cart.count({
-                where: {
-                  UserID: userid,
-                },
-              });
+              // for(product1 in productQuantity){
+              //   console.log(productQuantity[product1].product.ProductName);
+              // }
 
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
@@ -81,14 +72,11 @@ exports.getCouponcode = async (req, res, next) => {
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-              await res.render("couponcode", {
+              await res.render("wallet", {
                 userDetails: userDetails,
-                countProducts: countProducts,
                 walletBalance: walletBalance,
                 cartCount: cartCount,
-                link: link,
                 countCouponcode: countCouponcode,
-                couponcodeDetails: couponcodeDetails
               });
             }
           }
@@ -104,3 +92,20 @@ exports.getCouponcode = async (req, res, next) => {
     return res.status(500).json(error.message);
   }
 };
+
+exports.addWallet = async (req, res, next) => {
+    const Amount = req.body.Amount; 
+    const UserID = req.cookies.userid;
+    console.log("Amount:", Amount);
+    
+    try {
+      await sequelize.query("CALL addWallet( :UserID, :Amount)", {
+        replacements: { Amount, UserID },
+        logging: false,
+      });
+      return res.redirect("/wallet");
+    } catch (e) {
+      console.log(e);
+      return res.send(500).send("Something went wrong!");
+    }
+  };

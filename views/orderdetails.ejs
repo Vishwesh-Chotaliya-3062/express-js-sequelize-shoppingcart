@@ -44,7 +44,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link purple-link" href="#">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
+                                        <a class="nav-link purple-link" href="/wallet">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
                                             </b>)</a>
                                     </li>
 
@@ -215,30 +215,32 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-0 offset-md-2 offset-sm-1 pt-lg-0 pt-3">
-                        <form action="/transaction" method="POST">
+                        
+                        <form action="/transactions" method="GET">
+
                         <div id="cart" class="bg-white rounded">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="h5" style="color: #6255a5;"> <b>Cart Summary</b> </div>
                                 <div class="h6"> <a href="/cart" style="color: #6255a5;">Edit</a> </div>
                             </div>
-                            <% for(product in beforeCoupon) { %>
+                            <% for(product in productQuantity) { %>
                             <div class="d-flex jusitfy-content-between align-items-center pt-3 pb-2 border-bottom">
                                 <div class="item pr-2"> <img src="images/Search/1.jpg" alt="" width="80" height="80">
-                                    <div class="number" style="height: 31px; width: 33px; padding-top: 2px; text-align: center; background-color: #6255a5;"><%= beforeCoupon[product].Quantity %></div>
+                                    <div class="number" style="height: 31px; width: 33px; padding-top: 2px; text-align: center; background-color: #6255a5;"><%= productQuantity[product].Quantity %></div>
                                 </div>
-                                <div class="d-flex flex-column px-3"> <b class="h5"><%= beforeCoupon[product].product.ProductName %></b> <a href="#" style="color: #6255a5;">By <%= beforeCoupon[product].product.CompanyName %></a> </div>
-                                <div class="ml-auto"> <b class="h5">$<%= beforeCoupon[product].SubTotal %></b> </div>
+                                <div class="d-flex flex-column px-3"> <b class="h5"><%= productQuantity[product].product.ProductName %></b> <a href="#" style="color: #6255a5;">By <%= productQuantity[product].product.CompanyName %></a> </div>
+                                <div class="ml-auto"> <b class="h5">$<%= productQuantity[product].Total %></b> </div>
                             </div>
                             <% } %>
                             <div class="d-flex align-items-center" style="margin-top: 150px;">
                                 <div class="display-5">Subtotal (<%= cartCount %> items)</div>
                                 <div class="ml-auto font-weight-bold">
-                                    $<%= fullTotal.SubTotal %>
+                                    $<%= cartSubTotalPrice.Total %>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center" style="margin-top: 7px;">
                                 <div class="display-5">Discount Price</div>
-                                <div class="ml-auto font-weight-bold" style="color: #6255a5;">- $<%= fullTotal.DiscountPrice %></div>
+                                <div class="ml-auto font-weight-bold" style="color: #6255a5;">- $<%= discountPrice %>.00</div>
                             </div>
                             <div class="d-flex align-items-center py-2" style="margin-bottom: 10px;">
                                 <div class="display-5">Delivery Charges</div>
@@ -249,22 +251,28 @@
                                 <div class="display-5">Total Amount</div>
                                 <div class="ml-auto d-flex">
                                     <div style="color: #6255a5;"><b>USD</b>&nbsp;&nbsp;</div>
-                                    <div class="font-weight-bold">$<%= fullTotal.Total %></div>
+                                    <div class="font-weight-bold">$<%= cartTotalPrice %>.00</div>
                                 </div>
                             </div>
                             
                             <div class="d-flex align-items-center py-2 border-bottom" style="margin-top: -8px;"></div>
-                            <div class="display-5" style="color: #6255a5; text-align: center; font-size: 17px; margin-top: 10px; margin-bottom: 100px;">You will save $<%= fullTotal.DiscountPrice %> on this order.</div>
-                        
+                            <div class="display-5" style="color: #6255a5; text-align: center; font-size: 17px; margin-top: 10px; margin-bottom: 200px;">You will save $<%= discountPrice %> on this order.</div>
+                                
                         </div>
-                        
+                        <% if(walletBalance >= cartTotalPrice) { %>
                         <div class="row pt-lg-3 pt-2 buttons mb-sm-0 mb-2" style="margin-top: 10px; margin-left: 45px;">
                             <a href="/welcome" style="margin-top: -100px; color: #6255a5;">BACK TO SHOPPING</a>
-                            <button type="submit" class="btn btn-login" id="submit" value="Sign Up" style="height: 50px; margin-left: 60px; border-radius: 0px; width: 40%; margin-top: -110px;" data-toggle="modal">CONFIRM ORDER</button>
+                            <button type="submit" class="btn btn-login" id="submit" value="Sign Up" style="height: 50px; margin-left: 60px; border-radius: 0px; width: 40%; margin-top: -110px;" data-toggle="modal">PLACE ORDER</button>
                         </div>
+                        <% } else { %>
+                        <div class="row pt-lg-3 pt-2 buttons mb-sm-0 mb-2" style="margin-top: 10px; margin-left: 95px;">
+                            <a href="/welcome" style="margin-top: -100px; color: #6255a5;">BACK TO SHOPPING</a>
+                            <a href="/wallet" style="margin-top: -100px; color: #6255a5; margin-left: 60px;">ADD AMOUNT</a>
+                        </div>
+                        <% } %>
                         </form>
 
-                        <div style="margin-top: -510px; margin-left: 50px;">
+                        <div style="margin-top: -605px; margin-left: 50px;">
                         
                         <% if(cookieflag == 0) { %>
                             <form action="couponcode/apply/<%= cookieuserid %>" method="POST">
@@ -282,6 +290,22 @@
                             <% } %>
                         <% } %>
                         </div>
+
+                        <div style="margin-top: 260px;">
+                            <div class="d-flex align-items-center py-2 border-bottom" style="margin-top: -8px; width: 500px;"></div>
+                            <div class="d-flex align-items-center py-2" style="margin-top: 10px;">
+                                <div class="display-5" style="margin-left: 50px;">Wallet Balance</div>
+                                <div class="ml-auto d-flex" style="margin-right: 90px;">
+                                    <div style="color: #6255a5;"><b>USD</b>&nbsp;&nbsp;</div>
+                                    <div class="font-weight-bold">$<%= walletBalance %>.00</div>
+                                </div>
+                            </div>
+                            <% if(walletBalance >= cartTotalPrice) { %>
+                                <p style="margin-left: 115px; color: green; margin-top: 10px ;">You are allowed to confirm your order.</p>
+                            <% } else { %>
+                                <p style="margin-left: 125px; color: red; margin-top: 10px ;">You need to add $<%= sufficientBalance %> to your cart.</p>  
+                            <% } %>
+                        </div>  
                     </div>
                 </div>
                 <div class="text-muted"> <span class="fas fa-lock"></span> Your information is saved. </div>

@@ -11,7 +11,7 @@ const {User} = require("./user.model");
         primaryKey: true,
         allowNull: false,
       },
-      UserID: {
+      UserID: { 
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -22,7 +22,7 @@ const {User} = require("./user.model");
       Balance: {
         type: Sequelize.DECIMAL(20, 2),
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0.00,
         validate: {
           min:0,
         }

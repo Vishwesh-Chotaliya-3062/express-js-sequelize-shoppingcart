@@ -5,7 +5,6 @@ const { User } = require("../models/user.model");
 const { Product } = require("../models/product.model");
 const { Wallet } = require("../models/wallet.model");
 const { Cart } = require("../models/cart.model");
-const { Salesorder } = require("../models/salesorder.model");
 const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
@@ -152,6 +151,13 @@ exports.addToCart = async (req, res, next) => {
 
     console.log(cartProductQuantity);
 
+    if(productQuantity.QuantityLeft <= 0)
+    {
+      return res.redirect("/welcome");
+    }
+    else{
+
+    
     if (cartProductQuantity) {
       if (cartProductQuantity.Quantity >= productQuantity.QuantityLeft) {
         return res.redirect("/welcome");
@@ -169,6 +175,7 @@ exports.addToCart = async (req, res, next) => {
       });
       return res.redirect("/welcome");
     }
+  }
     // return res.status(200).send("SuccessFull!");
   } catch (e) {
     console.log(e);

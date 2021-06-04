@@ -5,15 +5,13 @@ const { User } = require("../models/user.model");
 const { Product } = require("../models/product.model");
 const { Wallet } = require("../models/wallet.model");
 const { Cart } = require("../models/cart.model");
-const { Salesorder } = require("../models/salesorder.model");
-const { Failedorder } = require("../models/failedorder.model");
 const { Couponcode } = require("../models/couponcode.model");
-const { Orderdetails } = require("../models/orderdetails.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 
 var cookieParser = require("cookie-parser");
 const { Useraddress } = require("../models/useraddress.model");
+const { OrderDetail, Order } = require("../models/order.model");
 app.use(cookieParser());
 
 exports.getCart = async (req, res, next) => {
@@ -60,77 +58,6 @@ exports.getCart = async (req, res, next) => {
               },
             });
 
-            const checkOrderDetails = await Orderdetails.findAll({
-              where: {
-                UserID: cookieuserid
-              }
-            })
-
-            if(!checkOrderDetails.length)
-            {
-              const products = await Cart.findAll({
-                where: {
-                  UserID: cookieuserid
-                },
-                include: {
-                  model: Product
-                }
-              })
-
-              for(u in products)
-              {
-                console.log(products[u].Quantity);
-                
-                let cartSubTotalPrice = products[u].product.Price * products[u].Quantity;
-
-                const orderInfo = {
-                  UserID: cookieuserid,
-                  ProductID: products[u].product.ProductID,
-                  Quantity: products[u].Quantity, 
-                  SubTotal: cartSubTotalPrice,
-                  DiscountPrice: 0,
-                  Total: cartSubTotalPrice
-                };
-
-                Orderdetails.create(orderInfo);
-              }
-
-            }
-            else{
-              Orderdetails.destroy({
-                where : {
-                  UserID: cookieuserid
-                }
-              });
-
-              const products = await Cart.findAll({
-                where: {
-                  UserID: cookieuserid
-                },
-                include: {
-                  model: Product
-                }
-              })
-
-              for(u in products)
-              {
-                console.log(products[u].Quantity);
-                
-                let cartSubTotalPrice = products[u].product.Price * products[u].Quantity;
-
-                const orderInfo = {
-                  UserID: cookieuserid,
-                  ProductID: products[u].product.ProductID,
-                  Quantity: products[u].Quantity, 
-                  SubTotal: cartSubTotalPrice,
-                  DiscountPrice: 0,
-                  Total: cartSubTotalPrice
-                };
-
-                Orderdetails.create(orderInfo);
-              }
-            }
-
             const useraddress = await Useraddress.findOne({
               where : {
                 UserID : cookieuserid
@@ -141,6 +68,15 @@ exports.getCart = async (req, res, next) => {
               where: {
                 UserID: cookieuserid
               }
+            });
+
+            const cartSubTotalPrice = await Cart.findOne({
+              attributes: [
+                [sequelize.fn("SUM", sequelize.col("Total")), "Total"],
+              ],
+              where: {
+                UserID: cookieuserid,
+              },
             });
 
             if(cookieflag == 1)
@@ -154,33 +90,7 @@ exports.getCart = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
-                
-                const orderdetails = await Orderdetails.findAll({
-                  where: {
-                    UserID : userid,
-                  },
-                  include: Product
-                });
-
-                for(u in orderdetails){
-
-                const ndiscountPrice = orderdetails[u].SubTotal * 0.50;
-                console.log("Discount",ndiscountPrice);
-                const ntotalPrice = orderdetails[u].SubTotal - ndiscountPrice;
-
-                await Orderdetails.update({
-                  DiscountPrice: ndiscountPrice,
-                  Total: ntotalPrice
-                },{
-                  where: {
-                    UserID: userid,
-                    ProductID: orderdetails[u].ProductID
-                  }
-                }
-                );
-              
-                }
-
+  
                 const productQuantity = await Cart.findAll({
                   include: {
                     model: Product,
@@ -189,30 +99,6 @@ exports.getCart = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
-
-                const fullTotal = await Orderdetails.findOne({
-                  attributes: [
-                    [sequelize.fn("SUM", sequelize.col("SubTotal")), "SubTotal"],
-                    [sequelize.fn("SUM", sequelize.col("DiscountPrice")), "DiscountPrice"],
-                    [sequelize.fn("SUM", sequelize.col("Total")), "Total"],
-                  ],
-                  where: {
-                    UserID: cookieuserid,
-                  },
-                });
-
-                console.log("After:", fullTotal);
-
-                const beforeCoupon = await Orderdetails.findAll({
-                  where: {
-                    UserID: userid
-                  },
-                  include: {
-                    model: Product
-                  }
-                })
-
-                console.log("After", beforeCoupon);
   
                 const cartTotalQuantity = await Cart.findOne({
                   attributes: [
@@ -223,10 +109,81 @@ exports.getCart = async (req, res, next) => {
                   },
                 });
   
+                const discountPrice = cartSubTotalPrice.Total * 0.50;
+
+                const cartTotalPrice = cartSubTotalPrice.Total - discountPrice;
+  
                 const cartCount = cartTotalQuantity.Quantity;
   
                 const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
-  
+                
+                const sufficientBalance = cartTotalPrice - walletBalance;
+
+                await Couponcode.update({
+                  Status: "applied"
+                },
+                {
+                  where: {
+                    UserID: userid
+                  }
+                });
+
+                
+                const user1 = await User.findOne({
+                  attributes: [ 'UserID', 'UserName', 'Email' ],
+                  where: {
+                      UserID: userid,
+                  },
+                  include: {
+                      model: Cart,
+                      include: {
+                          model: Product,
+                      }
+                  }
+                });
+
+                let sum = 0;
+
+                const cartDetail = await user1.carts.map(i => {
+                  sum += i.Quantity * i.product.Price;
+                  return {
+                      productProductID: i.ProductID,
+                      Quantity: i.Quantity,
+                      Total: i.Quantity * i.product.Price
+                  }
+                });
+
+                await Order.destroy({
+                  where: {
+                    Status: "pending",
+                    userUserID: userid
+                  }
+                });
+
+                let orderData = {
+                  userUserID: userid,
+                  TotalAmount: sum,
+                  DiscountedAmount: discountPrice,
+                  orderdetails: cartDetail,
+                  Status: "pending",
+                  Remark: "order not placed"
+                };
+
+                const order = await Order.create(orderData, {
+                  include: {
+                      model: OrderDetail
+                  },
+                });
+
+                await Couponcode.update({
+                  Status: "not applied"
+                },
+                {
+                  where: {
+                    UserID: userid
+                  }
+                })
+
                 await res.render("orderdetails", {
                   userDetails: userDetails,
                   countProducts: countProducts,
@@ -234,12 +191,14 @@ exports.getCart = async (req, res, next) => {
                   productQuantity: productQuantity,
                   cartCount: cartCount,
                   countCouponcode: countCouponcode,
+                  cartSubTotalPrice: cartSubTotalPrice,
                   cookieuserid: cookieuserid,
+                  discountPrice: discountPrice,
                   cookieflag: cookieflag,
                   couponcodeDetails: couponcodeDetails,
+                  cartTotalPrice: cartTotalPrice,
                   useraddress: useraddress,
-                  fullTotal: fullTotal,
-                  beforeCoupon: beforeCoupon
+                  sufficientBalance: sufficientBalance,
                 });
               }
             }
@@ -253,7 +212,7 @@ exports.getCart = async (req, res, next) => {
                   where: {
                     UserID: userid,
                   },
-                }); 
+                });
   
                 const productQuantity = await Cart.findAll({
                   include: {
@@ -272,34 +231,71 @@ exports.getCart = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
+  
+                const discountPrice = 0;
                 
-                const fullTotal = await Orderdetails.findOne({
-                  attributes: [
-                    [sequelize.fn("SUM", sequelize.col("SubTotal")), "SubTotal"],
-                    [sequelize.fn("SUM", sequelize.col("DiscountPrice")), "DiscountPrice"],
-                    [sequelize.fn("SUM", sequelize.col("Total")), "Total"],
-                  ],
-                  where: {
-                    UserID: cookieuserid,
-                  },
-                });
-
-                console.log("Before:", fullTotal);
-
-                const beforeCoupon = await Orderdetails.findAll({
-                  where: {
-                    UserID: userid
-                  },
-                  include: {
-                    model: Product
-                  }
-                })
-
-                console.log("Before", beforeCoupon);
-
+                const cartTotalPrice = cartSubTotalPrice.Total - discountPrice;
+  
                 const cartCount = cartTotalQuantity.Quantity;
   
                 const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
+
+                const sufficientBalance = cartTotalPrice - walletBalance;
+
+                const user1 = await User.findOne({
+                  attributes: [ 'UserID', 'UserName', 'Email' ],
+                  where: {
+                      UserID: userid,
+                  },
+                  include: {
+                      model: Cart,
+                      include: {
+                          model: Product,
+                      }
+                  }
+                });
+
+                let sum = 0;
+
+                const cartDetail = await user1.carts.map(i => {
+                  sum += i.Quantity * i.product.Price;
+                  return {
+                      productProductID: i.ProductID,
+                      Quantity: i.Quantity,
+                      Total: i.Quantity * i.product.Price
+                  }
+                });
+
+                await Order.destroy({
+                  where: {
+                    Status: "pending",
+                    userUserID: userid
+                  }
+                });
+
+                let orderData = {
+                  userUserID: userid,
+                  TotalAmount: sum,
+                  DiscountedAmount: discountPrice,
+                  orderdetails: cartDetail,
+                  Status: "pending",
+                  Remark: "order not placed"
+                };
+
+                const order = await Order.create(orderData, {
+                  include: {
+                      model: OrderDetail
+                  },
+                });
+
+                await Couponcode.update({
+                  Status: "not applied"
+                },
+                {
+                  where: {
+                    UserID: userid
+                  }
+                })
   
                 await res.render("orderdetails", {
                   userDetails: userDetails,
@@ -308,12 +304,14 @@ exports.getCart = async (req, res, next) => {
                   productQuantity: productQuantity,
                   cartCount: cartCount,
                   countCouponcode: countCouponcode,
+                  cartSubTotalPrice: cartSubTotalPrice,
                   cookieuserid: cookieuserid,
+                  discountPrice: discountPrice,
                   cookieflag: cookieflag,
                   couponcodeDetails: couponcodeDetails,
+                  cartTotalPrice: cartTotalPrice,
                   useraddress: useraddress,
-                  fullTotal: fullTotal,
-                  beforeCoupon: beforeCoupon
+                  sufficientBalance: sufficientBalance
                 });
               }
 
@@ -385,4 +383,3 @@ exports.removeCouponCode = async (req, res, next) => {
     return res.send(500).send("Something went wrong!");
   }
 };
-

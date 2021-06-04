@@ -39,7 +39,7 @@
                   </li>
 
                   <li class="nav-item">
-                    <a class="nav-link purple-link" href="#">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
+                    <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
                       </b>)</a>
                   </li>
 
@@ -126,10 +126,10 @@
                                                     <div class="res-book-info" style="background-color: white;">
                                                         <div class="res-book-info-wrapper" style="height: 210px; width: 503px;">
                                                             <div class="res-book-title"
-                                                                style="display: inline-block; margin-bottom: 10px;">
-                                                                 <h3 style="color: #6255a6;">
+                                                                style="margin-bottom: 10px;">
+                                                                 <h3 style="color: #6255a6; display: inline-block;">
                                                                     <%= couponcodeDetails[c1].Details
-                                                                        %>
+                                                                        %><h4 style="margin-left: 190px; margin-top: -35px;">(<%= couponcodeDetails[c1].Status %>)</h4>
                                                                 </h3>
                                                             </div>
 

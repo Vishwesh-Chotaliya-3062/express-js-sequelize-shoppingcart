@@ -29,9 +29,9 @@ const Couponcode = sequelize.define(
         allowNull:false
       },
       Status: {
-        type: Sequelize.ENUM("unused", "used"),
+        type: Sequelize.ENUM("applied","not applied","unused", "used"),
         allowNull: false,
-        defaultValue: "unused"
+        defaultValue: "not applied"
       },
       ExpiryDate: {
           type: Sequelize.DATE,
