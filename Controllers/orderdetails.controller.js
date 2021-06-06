@@ -760,6 +760,19 @@ exports.getStatus = async (req, res, next) => {
 
                 await result.commit();
 
+                const Data1 = await Order.findOne({
+                  where: {
+                    userUserID: userid,
+                    id: orderId,
+                  },
+                  include: {
+                    model: OrderDetail,
+                    include: {
+                      model: Product,
+                    },
+                  },
+                });
+
                 await res.render("status", {
                   userDetails: userDetails,
                   countProducts: countProducts,
@@ -771,6 +784,7 @@ exports.getStatus = async (req, res, next) => {
                   sufficientBalance: sufficientBalance,
                   orderId: orderId,
                   orderOrderDetails: orderOrderDetails,
+                  Data1: Data1
                 });
               }
             } catch (err) {
@@ -847,6 +861,8 @@ exports.getStatus = async (req, res, next) => {
                   },
                 });
 
+                console.log(Data.Status);
+
                 const orderOrderDetails = Data.orderdetails;
                 
                 const cartCount = cartTotalQuantity.Quantity;
@@ -856,6 +872,19 @@ exports.getStatus = async (req, res, next) => {
                 );
 
                 const sufficientBalance = Data.PurchaseTotal - walletBalance;
+
+                const Data1 = await Order.findOne({
+                  where: {
+                    userUserID: userid,
+                    id: orderId,
+                  },
+                  include: {
+                    model: OrderDetail,
+                    include: {
+                      model: Product,
+                    },
+                  },
+                });
 
                 await res.render("status", {
                   userDetails: userDetails,
@@ -868,6 +897,7 @@ exports.getStatus = async (req, res, next) => {
                   sufficientBalance: sufficientBalance,
                   orderId: orderId,
                   orderOrderDetails: orderOrderDetails,
+                  Data1: Data1
                 });
               }
             }
