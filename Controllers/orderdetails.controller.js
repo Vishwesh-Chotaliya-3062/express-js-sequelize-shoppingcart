@@ -54,20 +54,20 @@ exports.getCart = async (req, res, next) => {
 
             const countCouponcode = await Couponcode.count({
               where: {
-                UserID : cookieuserid,
+                UserID: cookieuserid,
               },
             });
 
             const useraddress = await Useraddress.findOne({
-              where : {
-                UserID : cookieuserid
-              }
-            })
+              where: {
+                UserID: cookieuserid,
+              },
+            });
 
             const couponcodeDetails = await Couponcode.findAll({
               where: {
-                UserID: cookieuserid
-              }
+                UserID: cookieuserid,
+              },
             });
 
             const cartSubTotalPrice = await Cart.findOne({
@@ -79,18 +79,16 @@ exports.getCart = async (req, res, next) => {
               },
             });
 
-            if(cookieflag == 1)
-            {
+            if (cookieflag == 1) {
               for (user in userDetails) {
-
                 let userid = userDetails[user].UserID;
-  
+
                 const countProducts = await Cart.count({
                   where: {
                     UserID: userid,
                   },
                 });
-  
+
                 const productQuantity = await Cart.findAll({
                   include: {
                     model: Product,
@@ -99,90 +97,113 @@ exports.getCart = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
-  
+
                 const cartTotalQuantity = await Cart.findOne({
                   attributes: [
-                    [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                    [
+                      sequelize.fn("SUM", sequelize.col("Quantity")),
+                      "Quantity",
+                    ],
                   ],
                   where: {
                     UserID: userid,
                   },
                 });
-  
-                const discountPrice = cartSubTotalPrice.Total * 0.50;
+
+                const discountPrice = cartSubTotalPrice.Total * 0.5;
 
                 const cartTotalPrice = cartSubTotalPrice.Total - discountPrice;
-  
+
                 const cartCount = cartTotalQuantity.Quantity;
-  
-                const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
-                
+
+                const walletBalance = Math.ceil(
+                  userDetails[user].wallet.Balance
+                );
+
                 const sufficientBalance = cartTotalPrice - walletBalance;
 
-                await Couponcode.update({
-                  Status: "applied"
-                },
-                {
-                  where: {
-                    UserID: userid
-                  }
-                });
-
-                
-                const user1 = await User.findOne({
-                  attributes: [ 'UserID', 'UserName', 'Email' ],
-                  where: {
+                await Couponcode.update(
+                  {
+                    Status: "applied",
+                  },
+                  {
+                    where: {
                       UserID: userid,
+                    },
+                  }
+                );
+
+                const user1 = await User.findOne({
+                  attributes: ["UserID", "UserName", "Email"],
+                  where: {
+                    UserID: userid,
                   },
                   include: {
-                      model: Cart,
-                      include: {
-                          model: Product,
-                      }
-                  }
+                    model: Cart,
+                    include: {
+                      model: Product,
+                    },
+                  },
                 });
 
                 let sum = 0;
 
-                const cartDetail = await user1.carts.map(i => {
+                const cartDetail = await user1.carts.map((i) => {
                   sum += i.Quantity * i.product.Price;
                   return {
-                      productProductID: i.ProductID,
-                      Quantity: i.Quantity,
-                      Total: i.Quantity * i.product.Price
-                  }
+                    productProductID: i.ProductID,
+                    Quantity: i.Quantity,
+                    Total: i.Quantity * i.product.Price,
+                  };
                 });
 
                 await Order.destroy({
                   where: {
                     Status: "pending",
-                    userUserID: userid
-                  }
+                    userUserID: userid,
+                  },
                 });
+
+                const purchaseTotal = sum - discountPrice;
 
                 let orderData = {
                   userUserID: userid,
                   TotalAmount: sum,
                   DiscountedAmount: discountPrice,
+                  PurchaseTotal: purchaseTotal,
                   orderdetails: cartDetail,
                   Status: "pending",
-                  Remark: "order not placed"
+                  Remark: "order not placed",
                 };
 
                 const order = await Order.create(orderData, {
                   include: {
-                      model: OrderDetail
+                    model: OrderDetail,
                   },
                 });
 
-                await Couponcode.update({
-                  Status: "not applied"
-                },
-                {
-                  where: {
-                    UserID: userid
+                await Couponcode.update(
+                  {
+                    Status: "not applied",
+                  },
+                  {
+                    where: {
+                      UserID: userid,
+                    },
                   }
-                })
+                );
+
+                const Data = await OrderDetail.findOne({
+                  include: {
+                    model: Order,
+                    where: {
+                      userUserID: userid,
+                      Status: "pending",
+                    },
+                  },
+                });
+
+                console.log(Data);
 
                 await res.render("orderdetails", {
                   userDetails: userDetails,
@@ -199,21 +220,19 @@ exports.getCart = async (req, res, next) => {
                   cartTotalPrice: cartTotalPrice,
                   useraddress: useraddress,
                   sufficientBalance: sufficientBalance,
+                  Data: Data,
                 });
               }
-            }
-            else {
-
+            } else {
               for (user in userDetails) {
-
                 let userid = userDetails[user].UserID;
-  
+
                 const countProducts = await Cart.count({
                   where: {
                     UserID: userid,
                   },
                 });
-  
+
                 const productQuantity = await Cart.findAll({
                   include: {
                     model: Product,
@@ -222,81 +241,101 @@ exports.getCart = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
-  
+
                 const cartTotalQuantity = await Cart.findOne({
                   attributes: [
-                    [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                    [
+                      sequelize.fn("SUM", sequelize.col("Quantity")),
+                      "Quantity",
+                    ],
                   ],
                   where: {
                     UserID: userid,
                   },
                 });
-  
-                const discountPrice = 0;
-                
-                const cartTotalPrice = cartSubTotalPrice.Total - discountPrice;
-  
-                const cartCount = cartTotalQuantity.Quantity;
-  
-                const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-                const sufficientBalance = cartTotalPrice - walletBalance;
+                const discountPrice = 0;
+
+                const cartTotalPrice = cartSubTotalPrice.Total - discountPrice;
+
+                const cartCount = cartTotalQuantity.Quantity;
+
+                const walletBalance = Math.ceil(
+                  userDetails[user].wallet.Balance
+                );
 
                 const user1 = await User.findOne({
-                  attributes: [ 'UserID', 'UserName', 'Email' ],
+                  attributes: ["UserID", "UserName", "Email"],
                   where: {
-                      UserID: userid,
+                    UserID: userid,
                   },
                   include: {
-                      model: Cart,
-                      include: {
-                          model: Product,
-                      }
-                  }
+                    model: Cart,
+                    include: {
+                      model: Product,
+                    },
+                  },
                 });
 
                 let sum = 0;
 
-                const cartDetail = await user1.carts.map(i => {
+                const cartDetail = await user1.carts.map((i) => {
                   sum += i.Quantity * i.product.Price;
                   return {
-                      productProductID: i.ProductID,
-                      Quantity: i.Quantity,
-                      Total: i.Quantity * i.product.Price
-                  }
+                    productProductID: i.ProductID,
+                    Quantity: i.Quantity,
+                    Total: i.Quantity * i.product.Price,
+                  };
                 });
 
                 await Order.destroy({
                   where: {
                     Status: "pending",
-                    userUserID: userid
-                  }
+                    userUserID: userid,
+                  },
                 });
+
+                const purchaseTotal = sum - discountPrice;
 
                 let orderData = {
                   userUserID: userid,
                   TotalAmount: sum,
                   DiscountedAmount: discountPrice,
+                  PurchaseTotal: purchaseTotal,
                   orderdetails: cartDetail,
                   Status: "pending",
-                  Remark: "order not placed"
+                  Remark: "order not placed",
                 };
 
                 const order = await Order.create(orderData, {
                   include: {
-                      model: OrderDetail
+                    model: OrderDetail,
                   },
                 });
 
-                await Couponcode.update({
-                  Status: "not applied"
-                },
-                {
-                  where: {
-                    UserID: userid
+                await Couponcode.update(
+                  {
+                    Status: "not applied",
+                  },
+                  {
+                    where: {
+                      UserID: userid,
+                    },
                   }
-                })
-  
+                );
+
+                const Data = await OrderDetail.findOne({
+                  include: {
+                    model: Order,
+                    where: {
+                      userUserID: userid,
+                      Status: "pending",
+                    },
+                  },
+                });
+
+                console.log(Data);
+
                 await res.render("orderdetails", {
                   userDetails: userDetails,
                   countProducts: countProducts,
@@ -311,12 +350,10 @@ exports.getCart = async (req, res, next) => {
                   couponcodeDetails: couponcodeDetails,
                   cartTotalPrice: cartTotalPrice,
                   useraddress: useraddress,
-                  sufficientBalance: sufficientBalance
+                  Data: Data,
                 });
               }
-
             }
-
           }
         });
       } catch (err) {
@@ -332,7 +369,6 @@ exports.getCart = async (req, res, next) => {
 };
 
 exports.checkCouponCode = async (req, res, next) => {
-
   const UserID = req.params.userid;
   const CouponCode = req.body.CouponCode;
 
@@ -342,28 +378,24 @@ exports.checkCouponCode = async (req, res, next) => {
 
   try {
     const userCouponCode = await Couponcode.findOne({
-      where : {
-        UserID : UserID
-      }
+      where: {
+        UserID: UserID,
+      },
     });
 
     console.log("user coupon", userCouponCode.CouponCode);
     let flag = 0;
 
-    if(CouponCode !== userCouponCode.CouponCode)
-    {
+    if (CouponCode !== userCouponCode.CouponCode) {
       flag = 0;
       res.cookie("flag", flag);
       return res.redirect("/orderdetails");
-    }
-
-    else{
+    } else {
       flag = 1;
       console.log("True", flag);
       res.cookie("flag", flag);
       return res.redirect("/orderdetails");
     }
-
   } catch (e) {
     console.log(e);
     return res.send(500).send("Something went wrong!");
@@ -371,15 +403,484 @@ exports.checkCouponCode = async (req, res, next) => {
 };
 
 exports.removeCouponCode = async (req, res, next) => {
-
   try {
     let flag = 0;
     res.clearCookie("flag");
     res.cookie("flag", flag);
     return res.redirect("/orderdetails");
-
   } catch (e) {
     console.log(e);
     return res.send(500).send("Something went wrong!");
+  }
+};
+
+exports.getPayment = async (req, res, next) => {
+  try {
+    const token = req.cookies.token;
+    const userid = req.cookies.userid;
+    const orderId = req.params.orderId;
+
+    if (!token) {
+      res.render("login");
+      // res.json({
+      //   error: "Unauthorized",
+      // });
+    } else {
+      try {
+        console.log("Authentication Token:", token);
+
+        jwt.verify(token, "thisismysecret", async (err, data) => {
+          if (err) {
+            res.render("login");
+          } else {
+            console.log("Verified");
+            var decoded = jwt_decode(token);
+            console.log(decoded);
+            var UserName = decoded.UserName;
+            await res.cookie("username", UserName);
+            console.log("user", UserName);
+
+            const userDetails = await User.findAll({
+              attributes: ["UserID", "UserName", "Status"],
+              include: Wallet,
+              where: {
+                UserName: UserName,
+              },
+            });
+
+            const countCouponcode = await Couponcode.count({
+              where: {
+                UserID: userid,
+              },
+            });
+
+            for (user in userDetails) {
+              let userid = userDetails[user].UserID;
+
+              const countProducts = await Cart.count({
+                where: {
+                  UserID: userid,
+                },
+              });
+
+              const productQuantity = await Cart.findAll({
+                include: {
+                  model: Product,
+                },
+                where: {
+                  UserID: userid,
+                },
+              });
+
+              const cartTotalQuantity = await Cart.findOne({
+                attributes: [
+                  [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                ],
+                where: {
+                  UserID: userid,
+                },
+              });
+
+              console.log(orderId);
+
+              const Data = await Order.findOne({
+                where: {
+                  userUserID: userid,
+                  id: orderId,
+                },
+                include: {
+                  model: OrderDetail,
+                  include: {
+                    model: Product,
+                  },
+                },
+              });
+
+              console.log(Data);
+
+              const cartCount = cartTotalQuantity.Quantity;
+
+              const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
+
+              const sufficientBalance = Data.PurchaseTotal - walletBalance;
+
+              await res.render("payment", {
+                userDetails: userDetails,
+                countProducts: countProducts,
+                walletBalance: walletBalance,
+                productQuantity: productQuantity,
+                cartCount: cartCount,
+                countCouponcode: countCouponcode,
+                Data: Data,
+                sufficientBalance: sufficientBalance,
+                orderId: orderId,
+              });
+            }
+          }
+        });
+      } catch (err) {
+        console.log("Error occured while Aunthenticattion: ", err.message);
+        res.json({
+          error: "Error occured while Aunthenticattion: ",
+        });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+exports.getStatus = async (req, res, next) => {
+  try {
+    const token = req.cookies.token;
+    const userid = req.cookies.userid;
+    const orderId = req.params.orderId;
+    const flag = req.cookies.flag;
+
+    if (!token) {
+      res.render("login");
+      // res.json({
+      //   error: "Unauthorized",
+      // });
+    } else {
+      try {
+        console.log("Authentication Token:", token);
+
+        jwt.verify(token, "thisismysecret", async (err, data) => {
+          if (err) {
+            res.render("login");
+          } else {
+            console.log("Verified");
+            var decoded = jwt_decode(token);
+            console.log(decoded);
+            var UserName = decoded.UserName;
+            await res.cookie("username", UserName);
+            console.log("user", UserName);
+
+            const result = await sequelize.transaction();
+
+            try {
+
+              const userDetails = await User.findAll({
+                attributes: ["UserID", "UserName", "Status"],
+                include: Wallet,
+                where: {
+                  UserName: UserName,
+                },
+              });
+
+              const countCouponcode = await Couponcode.count({
+                where: {
+                  UserID: userid,
+                },
+              });
+
+              for (user in userDetails) {
+                let userid = userDetails[user].UserID;
+
+                const countProducts = await Cart.count({
+                  where: {
+                    UserID: userid,
+                  },
+                });
+
+                const productQuantity = await Cart.findAll({
+                  include: {
+                    model: Product,
+                  },
+                  where: {
+                    UserID: userid,
+                  },
+                });
+
+                const cartTotalQuantity = await Cart.findOne({
+                  attributes: [
+                    [
+                      sequelize.fn("SUM", sequelize.col("Quantity")),
+                      "Quantity",
+                    ],
+                  ],
+                  where: {
+                    UserID: userid,
+                  },
+                });
+
+                console.log(orderId);
+
+                const Data = await Order.findOne({
+                  where: {
+                    userUserID: userid,
+                    id: orderId,
+                  },
+                  include: {
+                    model: OrderDetail,
+                    include: {
+                      model: Product,
+                    },
+                  },
+                });
+
+                const orderOrderDetails = Data.orderdetails;
+                const ID = [];
+                const Quantity = [];
+                const QuantityLeft = [];
+
+                for(u in orderOrderDetails)
+                {
+                  ID.push(orderOrderDetails[u].product.ProductID);
+                  Quantity.push(orderOrderDetails[u].Quantity);
+                  QuantityLeft.push(orderOrderDetails[u].product.QuantityLeft);
+
+                  if(orderOrderDetails[u].product.QuantityLeft < 1)
+                  {
+                    throw new Error(
+                      `One of the items is out of stock`
+                    );
+                  }
+
+                  else if(orderOrderDetails[u].product.QuantityLeft < orderOrderDetails[u].Quantity)
+                  {
+                    throw new Error(
+                      `One of the items is out of stock`
+                    );
+                  }
+                }
+
+                const flagT = await sequelize.transaction();
+                try {
+                  if(flag == 0)
+                  {
+                    throw new Error(
+                      `No coupon`
+                    );
+                  }
+                  
+                  await Couponcode.update(
+                    {
+                      Status: "used",
+                    },
+                    {
+                      where: {
+                        UserID: userid,
+                      },
+                    },
+                    {
+                      transaction: flagT,
+                    }
+                  );
+
+                  await flagT.commit();
+                }
+                catch {
+                  await flagT.rollback();
+                }
+
+                const cartCount = cartTotalQuantity.Quantity;
+
+                const walletBalance = Math.ceil(
+                  userDetails[user].wallet.Balance
+                );
+
+                const sufficientBalance = Data.PurchaseTotal - walletBalance;
+                
+                const updatedBalance = walletBalance - Data.PurchaseTotal;
+                
+                const walletT = await sequelize.transaction();
+                try {
+                  
+                  await Wallet.update(
+                    {
+                      Balance: updatedBalance
+                    },
+                    {
+                      where: {
+                        UserID: userid,
+                      },
+                    },
+                    {
+                      transaction: walletT,
+                    }
+                  );
+
+                  await walletT.commit();
+                }
+                catch {
+                  await walletT.rollback();
+                }
+
+                const succesT = await sequelize.transaction();
+                try {
+                  
+                  await Order.update(
+                    {
+                      Status: "success",
+                      Remark: "order placed"
+                    },
+                    {
+                      where: {
+                        userUserID: userid,
+                        id: orderId
+                      },
+                    },
+                    {
+                      transaction: succesT,
+                    }
+                  );
+
+                  await succesT.commit();
+                }
+                catch {
+                  await succesT.rollback();
+                }
+                  
+                console.log("ID", ID);
+                console.log("Quantity", Quantity);
+                console.log("Quantity Left", QuantityLeft);
+
+                for(u in orderOrderDetails){  
+
+                  const minus = orderOrderDetails[u].product.QuantityLeft - orderOrderDetails[u].Quantity;
+                  console.log(minus);
+
+                  await Product.update(
+                    {
+                      QuantityLeft: minus
+                    },
+                    {
+                      where: {
+                        ProductID: orderOrderDetails[u].productProductID
+                      }
+                    },
+                    {
+                      transaction: result
+                    }
+                  );
+
+                }
+
+                await result.commit();
+
+                await res.render("status", {
+                  userDetails: userDetails,
+                  countProducts: countProducts,
+                  walletBalance: walletBalance,
+                  productQuantity: productQuantity,
+                  cartCount: cartCount,
+                  countCouponcode: countCouponcode,
+                  Data: Data,
+                  sufficientBalance: sufficientBalance,
+                  orderId: orderId,
+                  orderOrderDetails: orderOrderDetails,
+                });
+              }
+            } catch (err) {
+              await result.rollback();
+
+              await Order.update(
+                {
+                  Status: "failed",
+                  Remark: "out of stock"
+                },
+                {
+                  where: {
+                    userUserID: userid,
+                  },
+                }
+              );
+
+              const userDetails = await User.findAll({
+                attributes: ["UserID", "UserName", "Status"],
+                include: Wallet,
+                where: {
+                  UserName: UserName,
+                },
+              });
+
+              const countCouponcode = await Couponcode.count({
+                where: {
+                  UserID: userid,
+                },
+              });
+
+              for (user in userDetails) {
+                let userid = userDetails[user].UserID;
+
+                const countProducts = await Cart.count({
+                  where: {
+                    UserID: userid,
+                  },
+                });
+
+                const productQuantity = await Cart.findAll({
+                  include: {
+                    model: Product,
+                  },
+                  where: {
+                    UserID: userid,
+                  },
+                });
+
+                const cartTotalQuantity = await Cart.findOne({
+                  attributes: [
+                    [
+                      sequelize.fn("SUM", sequelize.col("Quantity")),
+                      "Quantity",
+                    ],
+                  ],
+                  where: {
+                    UserID: userid,
+                  },
+                });
+
+                console.log(orderId);
+
+                const Data = await Order.findOne({
+                  where: {
+                    userUserID: userid,
+                    id: orderId,
+                  },
+                  include: {
+                    model: OrderDetail,
+                    include: {
+                      model: Product,
+                    },
+                  },
+                });
+
+                const orderOrderDetails = Data.orderdetails;
+                
+                const cartCount = cartTotalQuantity.Quantity;
+
+                const walletBalance = Math.ceil(
+                  userDetails[user].wallet.Balance
+                );
+
+                const sufficientBalance = Data.PurchaseTotal - walletBalance;
+
+                await res.render("status", {
+                  userDetails: userDetails,
+                  countProducts: countProducts,
+                  walletBalance: walletBalance,
+                  productQuantity: productQuantity,
+                  cartCount: cartCount,
+                  countCouponcode: countCouponcode,
+                  Data: Data,
+                  sufficientBalance: sufficientBalance,
+                  orderId: orderId,
+                  orderOrderDetails: orderOrderDetails,
+                });
+              }
+            }
+          }
+        });
+      } catch (err) {
+        console.log("Error occured while Aunthenticattion: ", err.message);
+        res.json({
+          error: "Error occured while Aunthenticattion: ",
+        });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json(error.message);
   }
 };

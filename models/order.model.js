@@ -15,6 +15,11 @@ const Order = sequelize.define('order', {
         allowNull: false,
         defaultValue: 0
     },
+    PurchaseTotal: {
+        type: Sequelize.DECIMAL(20, 2),
+        allowNull: false,
+        defaultValue: 0
+    },
     Status: {
         type: Sequelize.ENUM("pending", "success", "failed"),
         allowNull: false,

@@ -215,9 +215,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-0 offset-md-2 offset-sm-1 pt-lg-0 pt-3">
-                        
-                        <form action="/transactions" method="GET">
-
+                        <form action="/<%= Data.orderId %>/payment" method="GET">
                         <div id="cart" class="bg-white rounded">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="h5" style="color: #6255a5;"> <b>Cart Summary</b> </div>
@@ -256,23 +254,17 @@
                             </div>
                             
                             <div class="d-flex align-items-center py-2 border-bottom" style="margin-top: -8px;"></div>
-                            <div class="display-5" style="color: #6255a5; text-align: center; font-size: 17px; margin-top: 10px; margin-bottom: 200px;">You will save $<%= discountPrice %> on this order.</div>
+                            <div class="display-5" style="color: #6255a5; text-align: center; font-size: 17px; margin-top: 10px; margin-bottom: 100px;">You will save $<%= discountPrice %> on this order.</div>
                                 
                         </div>
-                        <% if(walletBalance >= cartTotalPrice) { %>
-                        <div class="row pt-lg-3 pt-2 buttons mb-sm-0 mb-2" style="margin-top: 10px; margin-left: 45px;">
+                        <div class="row pt-lg-3 pt-2 buttons mb-sm-0 mb-2" style="margin-top: 10px; margin-left: 65px;">
                             <a href="/welcome" style="margin-top: -100px; color: #6255a5;">BACK TO SHOPPING</a>
-                            <button type="submit" class="btn btn-login" id="submit" value="Sign Up" style="height: 50px; margin-left: 60px; border-radius: 0px; width: 40%; margin-top: -110px;" data-toggle="modal">PLACE ORDER</button>
+                            <button type="submit" class="btn btn-login" id="submit" value="Sign Up" style="height: 50px; margin-left: 60px; border-radius: 0px; width: 34%; margin-top: -110px;" data-toggle="modal">PAYMENT</button>
                         </div>
-                        <% } else { %>
-                        <div class="row pt-lg-3 pt-2 buttons mb-sm-0 mb-2" style="margin-top: 10px; margin-left: 95px;">
-                            <a href="/welcome" style="margin-top: -100px; color: #6255a5;">BACK TO SHOPPING</a>
-                            <a href="/wallet" style="margin-top: -100px; color: #6255a5; margin-left: 60px;">ADD AMOUNT</a>
-                        </div>
-                        <% } %>
+                        
                         </form>
 
-                        <div style="margin-top: -605px; margin-left: 50px;">
+                        <div style="margin-top: -510px; margin-left: 50px;">
                         
                         <% if(cookieflag == 0) { %>
                             <form action="couponcode/apply/<%= cookieuserid %>" method="POST">
@@ -291,21 +283,6 @@
                         <% } %>
                         </div>
 
-                        <div style="margin-top: 260px;">
-                            <div class="d-flex align-items-center py-2 border-bottom" style="margin-top: -8px; width: 500px;"></div>
-                            <div class="d-flex align-items-center py-2" style="margin-top: 10px;">
-                                <div class="display-5" style="margin-left: 50px;">Wallet Balance</div>
-                                <div class="ml-auto d-flex" style="margin-right: 90px;">
-                                    <div style="color: #6255a5;"><b>USD</b>&nbsp;&nbsp;</div>
-                                    <div class="font-weight-bold">$<%= walletBalance %>.00</div>
-                                </div>
-                            </div>
-                            <% if(walletBalance >= cartTotalPrice) { %>
-                                <p style="margin-left: 115px; color: green; margin-top: 10px ;">You are allowed to confirm your order.</p>
-                            <% } else { %>
-                                <p style="margin-left: 125px; color: red; margin-top: 10px ;">You need to add $<%= sufficientBalance %> to your cart.</p>  
-                            <% } %>
-                        </div>  
                     </div>
                 </div>
                 <div class="text-muted"> <span class="fas fa-lock"></span> Your information is saved. </div>
