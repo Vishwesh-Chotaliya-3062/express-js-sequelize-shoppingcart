@@ -7,5 +7,7 @@ module.exports = (app) => {
 
   router.post("/login", userAuth.userAuthentication);
 
+  router.get("/logout", userAuth.getLogout);
+
   app.use("/", router);
 };

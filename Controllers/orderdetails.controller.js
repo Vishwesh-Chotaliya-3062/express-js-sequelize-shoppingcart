@@ -146,10 +146,19 @@ exports.getCart = async (req, res, next) => {
                   },
                 });
 
-                let sum = 0;
+                const sum = await Cart.findOne({
+                  attributes: [
+                    [
+                      sequelize.fn("SUM", sequelize.col("Total")),
+                      "Total",
+                    ],
+                  ],
+                  where: {
+                    UserID: userid,
+                  },
+                });
 
                 const cartDetail = await user1.carts.map((i) => {
-                  sum += i.Quantity * i.product.Price;
                   return {
                     productProductID: i.ProductID,
                     Quantity: i.Quantity,
@@ -163,12 +172,13 @@ exports.getCart = async (req, res, next) => {
                     userUserID: userid,
                   },
                 });
+                console.log("hello",sum.Total);
 
-                const purchaseTotal = sum - discountPrice;
+                const purchaseTotal = sum.Total - discountPrice;
 
                 let orderData = {
                   userUserID: userid,
-                  TotalAmount: sum,
+                  TotalAmount: sum.Total,
                   DiscountedAmount: discountPrice,
                   PurchaseTotal: purchaseTotal,
                   orderdetails: cartDetail,
@@ -277,10 +287,19 @@ exports.getCart = async (req, res, next) => {
                   },
                 });
 
-                let sum = 0;
+                const sum = await Cart.findOne({
+                  attributes: [
+                    [
+                      sequelize.fn("SUM", sequelize.col("Total")),
+                      "Total",
+                    ],
+                  ],
+                  where: {
+                    UserID: userid,
+                  },
+                });
 
                 const cartDetail = await user1.carts.map((i) => {
-                  sum += i.Quantity * i.product.Price;
                   return {
                     productProductID: i.ProductID,
                     Quantity: i.Quantity,
@@ -295,11 +314,11 @@ exports.getCart = async (req, res, next) => {
                   },
                 });
 
-                const purchaseTotal = sum - discountPrice;
+                const purchaseTotal = sum.Total - discountPrice;
 
                 let orderData = {
                   userUserID: userid,
-                  TotalAmount: sum,
+                  TotalAmount: sum.Total,
                   DiscountedAmount: discountPrice,
                   PurchaseTotal: purchaseTotal,
                   orderdetails: cartDetail,
@@ -773,7 +792,7 @@ exports.getStatus = async (req, res, next) => {
                   },
                 });
 
-                await res.render("status", {
+                await res.render("status copy", {
                   userDetails: userDetails,
                   countProducts: countProducts,
                   walletBalance: walletBalance,
@@ -886,6 +905,22 @@ exports.getStatus = async (req, res, next) => {
                   },
                 });
 
+                const outofstock = [];
+
+                for(u in Data1.orderdetails) 
+                {
+                  if(Data1.orderdetails[u].product.QuantityLeft < 1)
+                  {
+                    console.log("false");
+                  }
+                  if(Data1.orderdetails[u].product.QuantityLeft < Data1.orderdetails[u].Quantity)
+                  {
+                    console.log("false");
+                    outofstock.push(" " + Data1.orderdetails[u].product.ProductName);
+                  }
+                } 
+                console.log(outofstock);
+
                 await res.render("status", {
                   userDetails: userDetails,
                   countProducts: countProducts,
@@ -897,7 +932,8 @@ exports.getStatus = async (req, res, next) => {
                   sufficientBalance: sufficientBalance,
                   orderId: orderId,
                   orderOrderDetails: orderOrderDetails,
-                  Data1: Data1
+                  Data1: Data1,
+                  outofstock: outofstock
                 });
               }
             }

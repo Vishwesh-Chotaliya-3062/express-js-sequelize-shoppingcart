@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const {sequelize} = require("./db");
-const { sendVerifyEmail } = require("../helper/mailer.helper");
 
   const User = sequelize.define(
     "user",

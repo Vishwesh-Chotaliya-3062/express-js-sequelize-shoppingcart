@@ -54,3 +54,13 @@ exports.userAuthentication = async function (req, res, next) {
     res.status(401).json({ message: "Enter UserName and Password" });
   }
 };
+
+exports.getLogout = async function (req, res, next) {
+  
+  res.clearCookie("userid");
+  res.clearCookie("username");
+  res.clearCookie("token");
+  res.clearCookie("flag");
+
+  res.redirect("login");
+};

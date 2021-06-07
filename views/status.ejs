@@ -87,7 +87,7 @@
                                                                             <li class="nav-item">
                                                                                 <a id="nav-btn"
                                                                                     class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                                    href="#">LOGOUT</a>
+                                                                                    href="/logout">LOGOUT</a>
                                                                             </li>
                         </ul>
                     </div>
@@ -103,37 +103,108 @@
                 <img src="images/pre-login/top-logo.png" class="img-fluid" alt="" style="margin-top: -20px;">
             </div>
 
+            <% if(Data1.Status == "success") { %>
+
             <div class="container-cust" id="login-form" style="margin-bottom: 0px; margin-top: -30px;">
 
-                <div id="login-heading" style="margin-top:-20px;">
-                    <p>Payment Details</p>
+                <div style="margin-left: 260px; margin-top: 30px;">
+                    <img src="/images/SUCCESS.png" style="height: 60px; width: 60px;">
                 </div>
-                <div id="login-text-1" style="margin-top:30px">
-                    <p>We only allow users to pay with their "Shopping Cart Wallet".</p>
+                <div id="login-heading" style="margin-top:-40px;">
+                    <p>THANK YOU FOR PURCHASE</p>
                 </div>
-                <div id="login-text-1" style="margin-top: -35px; margin-left: -5px;">
-                    <p>The Purchase Amount will be automatically withdrawn from</p>
-                </div>
-                <div id="login-text-1" style="margin-top: -40px;">
-                    <p>your wallet.</p>
-                </div>
-                <div id="login-text-1" style="margin-top: 10px;">
-                    <p><%= Data1.Status %></p>
+               
+                <div style="margin-left: 140px;">
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Order Number </div>
+                        <div class="display-5" style="margin-left: 67px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            #<%= Data1.id %>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Subtotal </div>
+                        <div class="display-5" style="margin-left: 112px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            $<%= Data1.TotalAmount %>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Discount </div>
+                        <div class="display-5" style="margin-left: 110px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            $<%= Data1.DiscountedAmount %>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Purchase Total </div>
+                        <div class="display-5" style="margin-left: 72px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            $<%= Data1.PurchaseTotal %>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Order Date </div>
+                        <div class="display-5" style="margin-left: 72px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            $<%= Data1.Date %>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <% } else if(Data1.Status == "failed") { %>
+
+            <div class="container-cust" id="login-form" style="margin-bottom: 0px; margin-top: -30px;">
+                <div style="margin-left: 260px; margin-top: 30px;">
+                    <img src="/images/FAILED.png" style="height: 60px; width: 60px;">
+                </div>
+                <div id="login-heading" style="margin-top: -40px;">
+                    <p><%= outofstock %> Out of Stock</p>                    
+                </div>
+                <div>
+                <div style="margin-left: 140px;">
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Order Number </div>
+                        <div class="display-5" style="margin-left: 67px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            #<%= Data1.id %>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Subtotal </div>
+                        <div class="display-5" style="margin-left: 112px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            $<%= Data1.TotalAmount %>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Discount </div>
+                        <div class="display-5" style="margin-left: 110px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            $<%= Data1.DiscountedAmount %>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Purchase Total </div>
+                        <div class="display-5" style="margin-left: 72px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            $<%= Data1.PurchaseTotal %>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="display-5">Order Date </div>
+                        <div class="display-5" style="margin-left: 72px;">:</div>
+                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
+                            $<%= Data1.Date %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
         </div>
 
     </section>
-    <!-- <script type="text/javascript">
-        function script() {
-            const Quantity = document.getElementById('Quantity').value;
-            if (Quantity == 0) {
-                alert(`Product Deleted from your cart.`);
-            } else {
-                alert(`Product Updated in your cart.`);
-            }
-        }
-    </script> -->
 
     <script src="js/jquery-3.5.1.js"></script>
     <script src="js/popper.min.js"></script>
