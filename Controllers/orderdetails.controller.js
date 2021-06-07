@@ -515,6 +515,11 @@ exports.getPayment = async (req, res, next) => {
                 },
               });
 
+              if(!Data)
+              {
+                  res.render("error");
+              }
+
               console.log(Data);
 
               const cartCount = cartTotalQuantity.Quantity;
@@ -555,6 +560,12 @@ exports.getStatus = async (req, res, next) => {
     const userid = req.cookies.userid;
     const orderId = req.params.orderId;
     const flag = req.cookies.flag;
+
+    if(req.cookies.Refresh)
+    {
+      res.clearCookie("Refresh");
+      res.redirect("/welcome");
+    }
 
     if (!token) {
       res.render("login");
@@ -779,6 +790,8 @@ exports.getStatus = async (req, res, next) => {
 
                 await result.commit();
 
+                res.cookie("Refresh", 0);
+
                 const Data1 = await Order.findOne({
                   where: {
                     userUserID: userid,
@@ -792,7 +805,32 @@ exports.getStatus = async (req, res, next) => {
                   },
                 });
 
-                await res.render("status copy", {
+                const walletUser = await Wallet.findOne({
+                  where: {
+                    UserID: userid
+                  }
+                })
+
+                let userWalletUpdatedBalance = walletUser.Balance;
+                userWalletUpdatedBalance = Math.ceil(userWalletUpdatedBalance);
+                console.log(userWalletUpdatedBalance);
+
+                let itemsCount = await OrderDetail.findOne({
+                  attributes: [
+                    [
+                      sequelize.fn("SUM", sequelize.col("Quantity")),
+                      "Quantity",
+                    ],
+                  ],
+                  where: {
+                    orderId: orderId,
+                  },
+                });
+
+                itemsCount = itemsCount.Quantity;
+                console.log(itemsCount);
+
+                await res.render("status", {
                   userDetails: userDetails,
                   countProducts: countProducts,
                   walletBalance: walletBalance,
@@ -803,7 +841,9 @@ exports.getStatus = async (req, res, next) => {
                   sufficientBalance: sufficientBalance,
                   orderId: orderId,
                   orderOrderDetails: orderOrderDetails,
-                  Data1: Data1
+                  Data1: Data1,
+                  itemsCount: itemsCount,
+                  userWalletUpdatedBalance: userWalletUpdatedBalance
                 });
               }
             } catch (err) {
@@ -880,6 +920,11 @@ exports.getStatus = async (req, res, next) => {
                   },
                 });
 
+                if(!Data)
+                {
+                  res.render("error");
+                }
+
                 console.log(Data.Status);
 
                 const orderOrderDetails = Data.orderdetails;
@@ -921,6 +966,15 @@ exports.getStatus = async (req, res, next) => {
                 } 
                 console.log(outofstock);
 
+                const walletUser = await Wallet.findOne({
+                  where: {
+                    UserID: userid
+                  }
+                })
+
+                let userWalletUpdatedBalance = walletUser.Balance;
+                userWalletUpdatedBalance = Math.ceil(userWalletUpdatedBalance);
+
                 await res.render("status", {
                   userDetails: userDetails,
                   countProducts: countProducts,
@@ -933,7 +987,8 @@ exports.getStatus = async (req, res, next) => {
                   orderId: orderId,
                   orderOrderDetails: orderOrderDetails,
                   Data1: Data1,
-                  outofstock: outofstock
+                  outofstock: outofstock,
+                  userWalletUpdatedBalance: userWalletUpdatedBalance
                 });
               }
             }
