@@ -7,10 +7,10 @@ const { validationResult } = require("express-validator");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
-var otpGenerator = require("otp-generator");
+var otpGenerator = require("crypto-random-string");
 const { sendVerifyEmail } = require("../helper/mailer.helper");
 
-let secretcode = otpGenerator.generate(6, {
+let secretcode = otpGenerator(6, {
   upperCase: true,
   specialChars: false,
 });
@@ -26,9 +26,36 @@ exports.getUser = async (req, res, next) => {
 // Create and Save a new User
 exports.create = async (req, res) => {
   var errors = validationResult(req);
+  var emailCheck = "";
+  var checkUserEmpty = "";
+  var checkEmailEmpty = "";
+  var checkPassEmpty = "";
+  const {UserName, Email, Password} = req.body;
+  if(!UserName)
+  {
+    console.log(UserName);
+    checkUserEmpty = "Username is Empty.";
+    res.render("signup", {
+      checkUserEmpty,
+    });
+  }
+  if(!Email)
+  {
+    console.log(Email);
+    checkEmailEmpty = "Email is Empty.";
+    res.render("signup", {
+      checkEmailEmpty,
+    });
+  }
+  if(!Password)
+  {
+    checkPassEmpty = "Password is Empty.";
+    res.render("signup", {
+      checkPassEmpty,
+    });
+  }
   var alert = errors.array();
   if (!errors.isEmpty()) {
-    console.log(alert);
     res.render("signup", {
       alert,
     });
@@ -106,8 +133,9 @@ exports.create = async (req, res) => {
                 // res.json({
                 //   error: "USER WITH Email = " + user.Email + " ALREADY EXISTS",
                 // });
-
-                res.render("signup");
+                emailCheck = "Email already exists";
+                console.log(emailCheck);
+                res.render("signup", { emailCheck });
               }
             })
             .catch((err) => {
@@ -116,9 +144,9 @@ exports.create = async (req, res) => {
               });
             });
         } else {
-          res.json({
-            error: "USER WITH UserName = " + user.UserName + " ALREADY EXISTS",
-          });
+          emailCheck = "Username already exists";
+          console.log(emailCheck);
+          res.render("signup", { emailCheck });
         }
       })
       .catch((err) => {

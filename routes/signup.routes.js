@@ -9,13 +9,10 @@ module.exports = (app) => {
   router.post(
     "/signup",
     [
-      check("UserName", "This User Name must be 3+ characters long")
+      check("UserName", "User Name must be 3+ characters long")
         .exists()
         .isLength({ min: 3 }),
-      check("UserName", "User Name is empty").not().isEmpty(),
-      check("Email", "Email is empty").not().isEmpty(),
-      check("Email", "Email is not valid").exists().isEmail().normalizeEmail(),
-      check("Password", "Password is empty").not().isEmpty(),
+      check("Email", "Email is not valid").exists().isEmail(),
     ],
     user.create
   );

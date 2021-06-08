@@ -17,13 +17,16 @@ exports.userAuthentication = async function (req, res, next) {
       where: obj,
     });
   };
-
+  var checkPass = '';
+  var checkEmpty = '';
+  var checkUser = '';
   const { UserName, Password } = req.body;
   console.log(UserName);
   if (UserName && Password) {
     let user = await getUser({ UserName: UserName });
     if (!user) {
-      res.status(401).json({ message: "No such user found" });
+      checkUser = 'No such user found.';
+      await res.render("login", {checkUser});
     }
 
     bcrypt.compare(
@@ -33,7 +36,8 @@ exports.userAuthentication = async function (req, res, next) {
         if (err) {
           throw err;
         } else if (!isMatch) {
-          await res.render("login");
+          checkPass = 'You have entered incorrect password.';
+          await res.render("login", {checkPass});
         } else {
           let payload = { UserID: user.UserID, UserName: user.UserName };
           let token = jwt.sign(payload, "thisismysecret", { expiresIn: 10000 });
@@ -51,8 +55,8 @@ exports.userAuthentication = async function (req, res, next) {
       }
     );
   } else {
-    res.status(401).json({ message: "Enter UserName and Password" });
-  }
+    checkEmpty = 'Enter Username and Password.';
+    await res.render("login", {checkEmpty});  }
 };
 
 exports.getLogout = async function (req, res, next) {

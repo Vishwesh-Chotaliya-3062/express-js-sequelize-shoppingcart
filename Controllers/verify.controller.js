@@ -6,9 +6,9 @@ const { Couponcode } = require("../models/couponcode.model");
 const { sendGifts } = require("../helper/mailer.helper");
 const { dateAfterWeeks } = require("../helper/autoDate.helper");
 
-var otpGenerator = require("otp-generator");
+var otpGenerator = require("crypto-random-string");
 
-let couponcode = otpGenerator.generate(20, {});
+let couponcode = otpGenerator(15, {});
 
 let details = "FLAT 50% OFF";
 
@@ -23,8 +23,7 @@ exports.getVerify = async (req, res, next) => {
 };
 
 exports.postVerify = async function (req, res, next) {
-  // await res.redirect('login');
-
+ 
   const { UserID, secretcode } = req.body;
   if (!secretcode) {
     res.status(400).redirect("verify/" + UserID);

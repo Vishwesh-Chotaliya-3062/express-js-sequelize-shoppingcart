@@ -8,7 +8,6 @@ const { Cart } = require("../models/cart.model");
 const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
-var paginate = require("paginate")();
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 

@@ -10,42 +10,41 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
-<body>
+<body style="background-color: #eee;">
     <section id="sign-up">
-        <img src="images/pre-login/banner-with-overlay.jpg" id="forgot-pw-bg-img" alt="">
+
         <div id="forgot-pw-content" style="margin-top: -200px;">
             <div id="logo">
-                <img src="images/pre-login/top-logo.png" alt="" style="margin-top: 400px;">
+                <img src="images/logo - Copy.png" alt="" style="margin-top: 400px;">
             </div>
             <div class="container" id="forgot-pw-form" style="margin-bottom: 10px;">
                 <div id="forgot-pw-heading" style="margin-top: -20px;">
                     <p>Create an Account</p>
                 </div>
-                <div id="forgot-pw-text-1" style="margin-bottom: -0px;">
-                    <p>Enter your details to sign up</p>
-                </div>
 
-                <% if(typeof alert !='undefined' ) { %>
-                    <% alert.forEach(function(error) { %>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert"
-                            style="margin-left: 47px; width: 480px; height: 45px;background-color: #FFF; color: #6255a5; border-color: #6255a5; padding-top: 10px;">
-                            <%= error.msg %>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-                                    style="padding-top: 10px;">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                        </div>
-                        <% }) %>
+                <% if(locals.emailCheck) { %>
+                    <label for="email_error" style="color: red; margin-left: 50px; font-size: 12px;">
+                        <%= emailCheck %>
+                    </label>
+                    <% } %>
+                        <% if(typeof alert !='undefined' ) { %>
+                            <label for="password_error" style="color: red; margin-left: 50px; font-size: 12px;">
+                                <%= alert[0].msg %>
+                            </label>
                             <% } %>
-
                                 <form action="http://localhost:8080/signup" method="post" name="Form"
                                     style="margin-top: 30px;">
                                     <div class="form-group ip-text">
                                         <div class="input-auth">
-                                            <label for="username" style="margin-top: -20px;">UserName*</label>
+                                            <label for="username" style="margin-top: -10px;">Username*</label>
                                             <input type="text" class="form-control input-field" name="UserName"
                                                 id="UserName" placeholder="Enter name">
                                         </div>
+                                        <% if(locals.checkUserEmpty) { %>
+                                            <label for="email_error" style="color: red; margin-left: 50px; margin-bottom: -2px; font-size: 12px;">
+                                                <%= checkUserEmpty %>
+                                            </label>
+                                            <% } %>
                                     </div>
 
                                     <div class="form-group ip-text">
@@ -54,6 +53,11 @@
                                             <input type="text" class="form-control input-field" name="Email" id="Email"
                                                 placeholder="Enter your email address">
                                         </div>
+                                        <% if(locals.checkEmailEmpty) { %>
+                                            <label for="email_error" style="color: red; margin-left: 50px; margin-bottom: -2px; font-size: 12px;">
+                                                <%= checkEmailEmpty %>
+                                            </label>
+                                            <% } %>
                                     </div>
 
                                     <div class="form-group ip-text">
@@ -63,11 +67,16 @@
                                                 id="Password" placeholder="Enter your password"
                                                 style="background: url(images/eye.png) no-repeat scroll 440px 17px; background-color: white; padding-left:10px;">
                                         </div>
+                                        <% if(locals.checkPassEmpty) { %>
+                                            <label for="email_error" style="color: red; margin-left: 50px; margin-bottom: -2px; font-size: 12px;">
+                                                <%= checkPassEmpty %>
+                                            </label>
+                                            <% } %>
                                     </div>
 
                                     <div class="form-group ip-text">
                                         <div class="input-auth">
-                                            <label for="status">Status</label>
+                                            <label for="status">Status (Activate Email to get $500)</label>
                                             <input type="text" class="form-control input-field" name="Status"
                                                 id="Status" readonly>
                                         </div>
