@@ -18,8 +18,7 @@ exports.getHistory = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
-     if(req.cookies.Refresh)
-    { 
+    if (req.cookies.Refresh) {
       console.log(req.cookies.Refresh);
       res.clearCookie("Refresh");
     }
@@ -56,22 +55,22 @@ exports.getHistory = async (req, res, next) => {
 
             const getOrder = await Order.count({
               where: {
-                userUserID: userid
-              }
+                userUserID: userid,
+              },
             });
 
             console.log(getOrder);
 
             const countCouponcode = await Couponcode.count({
               where: {
-                UserID: userid
+                UserID: userid,
               },
             });
-            
+
             const couponcodeDetails = await Couponcode.findAll({
               where: {
-                UserID: userid
-              }
+                UserID: userid,
+              },
             });
 
             for (user in userDetails) {
@@ -100,7 +99,7 @@ exports.getHistory = async (req, res, next) => {
               const Data = await Order.findAll({
                 where: {
                   userUserID: userid,
-                  Status: "failed"
+                  Status: "failed",
                 },
                 include: {
                   model: OrderDetail,
@@ -113,7 +112,7 @@ exports.getHistory = async (req, res, next) => {
               const Data1 = await Order.findAll({
                 where: {
                   userUserID: userid,
-                  Status: "success"
+                  Status: "success",
                 },
                 include: {
                   model: OrderDetail,
@@ -126,7 +125,7 @@ exports.getHistory = async (req, res, next) => {
               const Data2 = await Order.findAll({
                 where: {
                   userUserID: userid,
-                  Status: "pending"
+                  Status: "pending",
                 },
                 include: {
                   model: OrderDetail,
@@ -147,7 +146,7 @@ exports.getHistory = async (req, res, next) => {
                 getOrder: getOrder,
                 Data: Data,
                 Data1: Data1,
-                Data2: Data2
+                Data2: Data2,
               });
             }
           }

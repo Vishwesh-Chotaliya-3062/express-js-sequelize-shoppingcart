@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const {sequelize} = require("./models/db");
+const { sequelize } = require("./models/db");
 const app = express();
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());

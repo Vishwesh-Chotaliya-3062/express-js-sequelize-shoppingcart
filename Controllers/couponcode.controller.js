@@ -16,7 +16,6 @@ exports.getCouponcode = async (req, res, next) => {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
 
-    
     if (!token) {
       res.redirect("login");
       // res.json({
@@ -49,14 +48,14 @@ exports.getCouponcode = async (req, res, next) => {
 
             const countCouponcode = await Couponcode.count({
               where: {
-                UserID: userid
+                UserID: userid,
               },
             });
-            
+
             const couponcodeDetails = await Couponcode.findAll({
               where: {
-                UserID: userid
-              }
+                UserID: userid,
+              },
             });
 
             for (user in userDetails) {
@@ -89,7 +88,7 @@ exports.getCouponcode = async (req, res, next) => {
                 cartCount: cartCount,
                 link: link,
                 countCouponcode: countCouponcode,
-                couponcodeDetails: couponcodeDetails
+                couponcodeDetails: couponcodeDetails,
               });
             }
           }

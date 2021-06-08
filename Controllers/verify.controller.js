@@ -1,15 +1,14 @@
-const {sequelize} = require("../models/db");
-const {User} = require("../models/user.model");
-const {Wallet} = require("../models/wallet.model");
-const {Secretcode} = require("../models/secretcode.model");
-const {Couponcode} = require("../models/couponcode.model");
+const { sequelize } = require("../models/db");
+const { User } = require("../models/user.model");
+const { Wallet } = require("../models/wallet.model");
+const { Secretcode } = require("../models/secretcode.model");
+const { Couponcode } = require("../models/couponcode.model");
 const { sendGifts } = require("../helper/mailer.helper");
-const { dateAfterWeeks } = require('../helper/autoDate.helper');
+const { dateAfterWeeks } = require("../helper/autoDate.helper");
 
 var otpGenerator = require("otp-generator");
 
-let couponcode = otpGenerator.generate(20, {
-});
+let couponcode = otpGenerator.generate(20, {});
 
 let details = "FLAT 50% OFF";
 
@@ -53,12 +52,9 @@ exports.postVerify = async function (req, res, next) {
         where: { Email: user.Email },
         transaction: verifyTransaction,
       });
-  
-      sendGifts(
-        { UserName: user.UserName, Email: user.Email },
-        couponcode
-      )  
-      
+
+      sendGifts({ UserName: user.UserName, Email: user.Email }, couponcode);
+
       await verifyTransaction.commit();
       return res.redirect("login");
     }

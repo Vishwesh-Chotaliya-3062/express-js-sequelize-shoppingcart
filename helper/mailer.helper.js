@@ -22,8 +22,7 @@ exports.sendVerifyEmail = (user, secretcode) => {
     from: "v.d.chotaliya31@gmail.com",
     to: user.Email,
     subject: "Please verify email to Activate your account!",
-    html: 
-    `
+    html: `
     <h2>Verify Your Email Address</h2>
     This is an automatic message from Shopping Cart registration system.<br><br>
     Thanks ${user.UserName} for creating your account on Shopping Cart.<br><br>
@@ -79,7 +78,6 @@ exports.sendGifts = (user, couponcode) => {
         </ol>
         </h3>
         </div>`,
-     
   };
 
   transporter.sendMail(verifyMail, (err, info) => {

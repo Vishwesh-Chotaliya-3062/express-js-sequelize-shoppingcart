@@ -28,59 +28,60 @@
 
           <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
             <ul class="navbar-nav" style="margin-left: auto;">
-                  <li class="nav-item">
-                    <a class="nav-link purple-link" href="/welcome">HOME</a>
-                  </li>
+              <li class="nav-item">
+                <a class="nav-link purple-link" href="/welcome">HOME</a>
+              </li>
 
+              <li class="nav-item">
+                <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
+                    <%= walletBalance %>
+                  </b>)</a>
+              </li>
+
+              <% if(!cartCount) { %>
+                <li class="nav-item">
+                  <a class="nav-link purple-link" href="/cart">CART</a>
+                </li>
+
+                <% } else{ %>
                   <li class="nav-item">
-                    <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
+                    <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                        <%= cartCount %>
                       </b>)</a>
                   </li>
+                  <% } %>
 
-                  <% if(!cartCount) { %>
-                    <li class="nav-item">
-                      <a class="nav-link purple-link" href="/cart">CART</a>
-                    </li>
-
-                    <% } else{ %>
+                    <% if(!countCouponcode) { %>
                       <li class="nav-item">
-                        <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
-                            <%= cartCount %>
-                          </b>)</a>
+                        <a class="nav-link purple-link" href="/couponcode">COUPON CODE</a>
                       </li>
-                      <% } %>
 
-                        <% if(!countCouponcode) { %>
+                      <% } else{ %>
+                        <li class="nav-item">
+                          <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
+                              <%= countCouponcode %>
+                            </b>)</a>
+                        </li>
+                        <% } %>
                           <li class="nav-item">
-                            <a class="nav-link purple-link" href="/couponcode">COUPON CODE</a>
+                            <a class="nav-link purple-link" href="/history">
+                              MY ORDERS
+                            </a>
                           </li>
-
-                          <% } else{ %>
-                            <li class="nav-item">
-                              <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
-                                  <%= countCouponcode %>
-                                </b>)</a>
-                            </li>
-                            <% } %>
-                            <li class="nav-item">
-                              <a class="nav-link purple-link" href="/history">
-                                  MY ORDERS
-                              </a>
-                          </li>
-                              <% for(let user in userDetails) { %>
-                                <% if(userDetails[user].Status=='pending' ) { %>
+                          <% for(let user in userDetails) { %>
+                            <% if(userDetails[user].Status=='pending' ) { %>
+                              <li class="nav-item">
+                                <a id="nav-btn" style="width: 150px;"
+                                  class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                  href="<%= link %>" role="button">VERIFY</a>
+                              </li>
+                              <% } %>
+                                <% } %>
                                   <li class="nav-item">
-                                    <a id="nav-btn" style="width: 150px;"
+                                    <a id="nav-btn"
                                       class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                      href="<%= link %>" role="button">VERIFY</a>
+                                      href="/logout">LOGOUT</a>
                                   </li>
-                                  <% } %>
-                                    <% } %>
-                                      <li class="nav-item">
-                                        <a id="nav-btn"
-                                          class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                          href="/logout">LOGOUT</a>
-                                      </li>
             </ul>
           </div>
         </div>
@@ -92,119 +93,106 @@
 
     <div class="container">
 
-        <% if(getOrder == 0) { %>
+      <% if(getOrder==0) { %>
+        <div id="filter-result-heading">
+          <h3>You have not ordered anything right now.</h3>
+        </div>
+        <% } %>
+
+          <% if(getOrder> 0 ) { %>
+
+
             <div id="filter-result-heading">
-                <h3>You have not ordered anything right now.</h3>
+              <h3 style="text-align: center; font-size: 35px;">Total <%= getOrder %> Orders.</h3>
             </div>
-            <% } %>
+            <% if(!Data2.length) { %>
+              <div id="filter-result-heading">
+                <h3>No Pending Orders</h3>
+              </div>
+              <% } else { %>
 
-                <% if(getOrder > 0 ) { %>
-
-                    
-                    <div id="filter-result-heading">
-                        <h3 style="text-align: center; font-size: 35px;">Total <%= getOrder %> Orders.</h3>
-                    </div>
-                    <% if(!Data2.length) { %>
-                    <div id="filter-result-heading">
-                      <h3>No Pending Orders</h3>
-                    </div>
-                    <% } else { %>
-                    
-                    <div id="filter-result-heading">
-                      <h3>Pending Orders</h3>
-                    </div>
-                  <div class="col-12 col-sm-12 col-md-12 grid-table table-responsive-xl">
-                    <table class="table" style="border: 1px solid #6255a5;">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="align-middle text-center">Order<br>ID</th>
-                                <th scope="col" class="align-middle text-center">DATE</th>
-                                <th scope="col" class="align-middle text-center">Details</th>
-                                <th scope="col" class="align-middle text-center">Price</th>
-                                <th scope="col" class="align-middle text-center">Quantity</th>
-                                <th scope="col" class="align-middle text-center">SubTotal</th>
-                                <th scope="col" class="align-middle text-center">Discount</th>
-                                <th scope="col" class="align-middle text-center">PurchaseTotal</th>
-                                <th scope="col" class="align-middle text-center">Status</th>
-                                <th scope="col" class="align-middle text-center">Remark</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (u in Data2) { %>
-                                <tr>
-                                    <td class="align-middle text-center">#<%= Data2[u].id %></td>
-                                    <td class="align-middle text-center" style="max-width: 85px;"><%= Data2[u].Date.getDate()+'/'+(Data2[u].Date.getMonth()+1)+'/'+Data2[u].Date.getFullYear() %></td>
-                                    <td class="align-middle" style="min-width: 220px;"><% for (u1 in Data2[u].orderdetails) { %><p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= Data2[u].orderdetails[u1].product.ProductName %> by <%= Data2[u].orderdetails[u1].product.CompanyName %></p><% } %></td>
-                                    <td class="align-middle text-right"><% for (u1 in Data2[u].orderdetails) { %><p style="display: table-row-group;">$<%= Data2[u].orderdetails[u1].product.Price %></p><% } %></td>
-                                    <td class="align-middle text-right" ><% for (u1 in Data2[u].orderdetails) { %><p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= Data2[u].orderdetails[u1].Quantity %></p><% } %></td>
-                                    <td class="align-middle text-center" >$<%= Data2[u].TotalAmount %></td>
-                                    <td class="align-middle text-center" >$<%= Data2[u].DiscountedAmount %></td>
-                                    <td class="align-middle text-center" >$<%= Data2[u].PurchaseTotal %></td>
-                                    <td class="align-middle text-center" style="max-width: 70px;" ><a type="button" href="/<%= Data2[u].id %>/payment" style=" color: blue;" aria-label="view details & options"><%= Data2[u].Status %></a></td>
-                                    <td class="align-middle text-center" style="max-width: 140px;"><%= Data2[u].Remark %></td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
-                <% } %>
-                <% if(!Data1.length) { %>
-                  <div id="filter-result-heading">
-                    <h3>No Success Orders</h3>
-                  </div>
-                  <% } else { %>
-                    <div id="filter-result-heading">
-                      <h3>Success Orders</h3>
-                    </div>
-
-                  <div class="col-12 col-sm-12 col-md-12 grid-table table-responsive-xl">
-                    <table class="table" style="border: 1px solid #6255a5;">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="align-middle text-center">Order<br>ID</th>
-                                <th scope="col" class="align-middle text-center">DATE</th>
-                                <th scope="col" class="align-middle text-center">Details</th>
-                                <th scope="col" class="align-middle text-center">Price</th>
-                                <th scope="col" class="align-middle text-center">Quantity</th>
-                                <th scope="col" class="align-middle text-center">SubTotal</th>
-                                <th scope="col" class="align-middle text-center">Discount</th>
-                                <th scope="col" class="align-middle text-center">PurchaseTotal</th>
-                                <th scope="col" class="align-middle text-center">Status</th>
-                                <th scope="col" class="align-middle text-center">Remark</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (u in Data1) { %>
-                                <tr>
-                                    <td class="align-middle text-center">#<%= Data1[u].id %></td>
-                                    <td class="align-middle text-center" style="max-width: 85px;"><%= Data1[u].Date.getDate()+'/'+(Data1[u].Date.getMonth()+1)+'/'+Data1[u].Date.getFullYear() %></td>
-                                    <td class="align-middle" style="min-width: 220px;"><% for (u1 in Data1[u].orderdetails) { %><p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= Data1[u].orderdetails[u1].product.ProductName %> by <%= Data1[u].orderdetails[u1].product.CompanyName %></p><% } %></td>
-                                    <td class="align-middle text-right"><% for (u1 in Data1[u].orderdetails) { %><p style="display: table-row-group;">$<%= Data1[u].orderdetails[u1].product.Price %></p><% } %></td>
-                                    <td class="align-middle text-right" ><% for (u1 in Data1[u].orderdetails) { %><p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= Data1[u].orderdetails[u1].Quantity %></p><% } %></td>
-                                    <td class="align-middle text-center" >$<%= Data1[u].TotalAmount %></td>
-                                    <td class="align-middle text-center" >$<%= Data1[u].DiscountedAmount %></td>
-                                    <td class="align-middle text-center" >$<%= Data1[u].PurchaseTotal %></td>
-                                    <td class="align-middle text-center" style="max-width: 70px; color: green;" ><%= Data1[u].Status %></a></td>
-                                    <td class="align-middle text-center" style="max-width: 140px;"><%= Data1[u].Remark %></td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
-                <% } %>
-
-                <% if(!Data.length) { %>
-                  <div id="filter-result-heading">
-                    <h3>No Failed Orders</h3>
-                  </div>
-                  <% } else { %>
-                <div id="filter-result-heading" style="margin-top: 50px;">
-                  <h3>Failed Orders</h3>
+                <div id="filter-result-heading">
+                  <h3>Pending Orders</h3>
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 grid-table table-responsive-xl">
                   <table class="table" style="border: 1px solid #6255a5;">
-                      <thead>
-                          <tr>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="align-middle text-center">Order<br>ID</th>
+                        <th scope="col" class="align-middle text-center">DATE</th>
+                        <th scope="col" class="align-middle text-center">Details</th>
+                        <th scope="col" class="align-middle text-center">Price</th>
+                        <th scope="col" class="align-middle text-center">Quantity</th>
+                        <th scope="col" class="align-middle text-center">SubTotal</th>
+                        <th scope="col" class="align-middle text-center">Discount</th>
+                        <th scope="col" class="align-middle text-center">PurchaseTotal</th>
+                        <th scope="col" class="align-middle text-center">Status</th>
+                        <th scope="col" class="align-middle text-center">Remark</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for (u in Data2) { %>
+                        <tr>
+                          <td class="align-middle text-center">#<%= Data2[u].id %>
+                          </td>
+                          <td class="align-middle text-center" style="max-width: 85px;">
+                            <%= Data2[u].Date.getDate()+'/'+(Data2[u].Date.getMonth()+1)+'/'+Data2[u].Date.getFullYear()
+                              %>
+                          </td>
+                          <td class="align-middle" style="min-width: 220px;">
+                            <% for (u1 in Data2[u].orderdetails) { %>
+                              <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=
+                                  Data2[u].orderdetails[u1].product.ProductName %> by <%=
+                                    Data2[u].orderdetails[u1].product.CompanyName %>
+                              </p>
+                              <% } %>
+                          </td>
+                          <td class="align-middle text-right">
+                            <% for (u1 in Data2[u].orderdetails) { %>
+                              <p style="display: table-row-group;">$<%= Data2[u].orderdetails[u1].product.Price %>
+                              </p>
+                              <% } %>
+                          </td>
+                          <td class="align-middle text-right">
+                            <% for (u1 in Data2[u].orderdetails) { %>
+                              <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
+                                  Data2[u].orderdetails[u1].Quantity %>
+                              </p>
+                              <% } %>
+                          </td>
+                          <td class="align-middle text-center">$<%= Data2[u].TotalAmount %>
+                          </td>
+                          <td class="align-middle text-center">$<%= Data2[u].DiscountedAmount %>
+                          </td>
+                          <td class="align-middle text-center">$<%= Data2[u].PurchaseTotal %>
+                          </td>
+                          <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
+                              href="/<%= Data2[u].id %>/payment" style=" color: blue;"
+                              aria-label="view details & options">
+                              <%= Data2[u].Status %>
+                            </a></td>
+                          <td class="align-middle text-center" style="max-width: 140px;">
+                            <%= Data2[u].Remark %>
+                          </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                  </table>
+                </div>
+                <% } %>
+                  <% if(!Data1.length) { %>
+                    <div id="filter-result-heading">
+                      <h3>No Success Orders</h3>
+                    </div>
+                    <% } else { %>
+                      <div id="filter-result-heading">
+                        <h3>Success Orders</h3>
+                      </div>
+
+                      <div class="col-12 col-sm-12 col-md-12 grid-table table-responsive-xl">
+                        <table class="table" style="border: 1px solid #6255a5;">
+                          <thead>
+                            <tr>
                               <th scope="col" class="align-middle text-center">Order<br>ID</th>
                               <th scope="col" class="align-middle text-center">DATE</th>
                               <th scope="col" class="align-middle text-center">Details</th>
@@ -215,34 +203,141 @@
                               <th scope="col" class="align-middle text-center">PurchaseTotal</th>
                               <th scope="col" class="align-middle text-center">Status</th>
                               <th scope="col" class="align-middle text-center">Remark</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <% for (u in Data) { %>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% for (u in Data1) { %>
                               <tr>
-                                  <td class="align-middle text-center">#<%= Data[u].id %></td>
-                                  <td class="align-middle text-center" style="max-width: 85px;"><%= Data[u].Date.getDate()+'/'+(Data[u].Date.getMonth()+1)+'/'+Data[u].Date.getFullYear() %></td>
-                                  <td class="align-middle" style="min-width: 220px;"><% for (u1 in Data[u].orderdetails) { %><p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= Data[u].orderdetails[u1].product.ProductName %> by <%= Data[u].orderdetails[u1].product.CompanyName %></p><% } %></td>
-                                  <td class="align-middle text-right"><% for (u1 in Data[u].orderdetails) { %><p style="display: table-row-group;">$<%= Data[u].orderdetails[u1].product.Price %></p><% } %></td>
-                                  <td class="align-middle text-right" ><% for (u1 in Data[u].orderdetails) { %><p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= Data[u].orderdetails[u1].Quantity %></p><% } %></td>
-                                  <td class="align-middle text-center" >$<%= Data[u].TotalAmount %></td>
-                                  <td class="align-middle text-center" >$<%= Data[u].DiscountedAmount %></td>
-                                  <td class="align-middle text-center" >$<%= Data[u].PurchaseTotal %></td>
-                                  <td class="align-middle text-center" style="max-width: 70px; color: red"><a type="button" href="/<%= Data[u].id %>/payment" style=" color: red;" aria-label="view details & options"><%= Data[u].Status %></a></td>
-                                  <td class="align-middle text-center" style="max-width: 140px;"><%= Data[u].Remark %></td>
+                                <td class="align-middle text-center">#<%= Data1[u].id %>
+                                </td>
+                                <td class="align-middle text-center" style="max-width: 85px;">
+                                  <%=
+                                    Data1[u].Date.getDate()+'/'+(Data1[u].Date.getMonth()+1)+'/'+Data1[u].Date.getFullYear()
+                                    %>
+                                </td>
+                                <td class="align-middle" style="min-width: 220px;">
+                                  <% for (u1 in Data1[u].orderdetails) { %>
+                                    <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=
+                                        Data1[u].orderdetails[u1].product.ProductName %> by <%=
+                                          Data1[u].orderdetails[u1].product.CompanyName %>
+                                    </p>
+                                    <% } %>
+                                </td>
+                                <td class="align-middle text-right">
+                                  <% for (u1 in Data1[u].orderdetails) { %>
+                                    <p style="display: table-row-group;">$<%= Data1[u].orderdetails[u1].product.Price %>
+                                    </p>
+                                    <% } %>
+                                </td>
+                                <td class="align-middle text-right">
+                                  <% for (u1 in Data1[u].orderdetails) { %>
+                                    <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
+                                        Data1[u].orderdetails[u1].Quantity %>
+                                    </p>
+                                    <% } %>
+                                </td>
+                                <td class="align-middle text-center">$<%= Data1[u].TotalAmount %>
+                                </td>
+                                <td class="align-middle text-center">$<%= Data1[u].DiscountedAmount %>
+                                </td>
+                                <td class="align-middle text-center">$<%= Data1[u].PurchaseTotal %>
+                                </td>
+                                <td class="align-middle text-center" style="max-width: 70px; color: green;">
+                                  <%= Data1[u].Status %></a>
+                                </td>
+                                <td class="align-middle text-center" style="max-width: 140px;">
+                                  <%= Data1[u].Remark %>
+                                </td>
                               </tr>
-                          <% } %>
-                      </tbody>
-                  </table>
-              </div>
-              <% } %>
-                    <% } %>
+                              <% } %>
+                          </tbody>
+                        </table>
+                      </div>
+                      <% } %>
+
+                        <% if(!Data.length) { %>
+                          <div id="filter-result-heading">
+                            <h3>No Failed Orders</h3>
+                          </div>
+                          <% } else { %>
+                            <div id="filter-result-heading" style="margin-top: 50px;">
+                              <h3>Failed Orders</h3>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 grid-table table-responsive-xl">
+                              <table class="table" style="border: 1px solid #6255a5;">
+                                <thead>
+                                  <tr>
+                                    <th scope="col" class="align-middle text-center">Order<br>ID</th>
+                                    <th scope="col" class="align-middle text-center">DATE</th>
+                                    <th scope="col" class="align-middle text-center">Details</th>
+                                    <th scope="col" class="align-middle text-center">Price</th>
+                                    <th scope="col" class="align-middle text-center">Quantity</th>
+                                    <th scope="col" class="align-middle text-center">SubTotal</th>
+                                    <th scope="col" class="align-middle text-center">Discount</th>
+                                    <th scope="col" class="align-middle text-center">PurchaseTotal</th>
+                                    <th scope="col" class="align-middle text-center">Status</th>
+                                    <th scope="col" class="align-middle text-center">Remark</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% for (u in Data) { %>
+                                    <tr>
+                                      <td class="align-middle text-center">#<%= Data[u].id %>
+                                      </td>
+                                      <td class="align-middle text-center" style="max-width: 85px;">
+                                        <%=
+                                          Data[u].Date.getDate()+'/'+(Data[u].Date.getMonth()+1)+'/'+Data[u].Date.getFullYear()
+                                          %>
+                                      </td>
+                                      <td class="align-middle" style="min-width: 220px;">
+                                        <% for (u1 in Data[u].orderdetails) { %>
+                                          <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=
+                                              Data[u].orderdetails[u1].product.ProductName %> by <%=
+                                                Data[u].orderdetails[u1].product.CompanyName %>
+                                          </p>
+                                          <% } %>
+                                      </td>
+                                      <td class="align-middle text-right">
+                                        <% for (u1 in Data[u].orderdetails) { %>
+                                          <p style="display: table-row-group;">$<%=
+                                              Data[u].orderdetails[u1].product.Price %>
+                                          </p>
+                                          <% } %>
+                                      </td>
+                                      <td class="align-middle text-right">
+                                        <% for (u1 in Data[u].orderdetails) { %>
+                                          <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
+                                              Data[u].orderdetails[u1].Quantity %>
+                                          </p>
+                                          <% } %>
+                                      </td>
+                                      <td class="align-middle text-center">$<%= Data[u].TotalAmount %>
+                                      </td>
+                                      <td class="align-middle text-center">$<%= Data[u].DiscountedAmount %>
+                                      </td>
+                                      <td class="align-middle text-center">$<%= Data[u].PurchaseTotal %>
+                                      </td>
+                                      <td class="align-middle text-center" style="max-width: 70px; color: red"><a
+                                          type="button" href="/<%= Data[u].id %>/payment" style=" color: red;"
+                                          aria-label="view details & options">
+                                          <%= Data[u].Status %>
+                                        </a></td>
+                                      <td class="align-middle text-center" style="max-width: 140px;">
+                                        <%= Data[u].Remark %>
+                                      </td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                              </table>
+                            </div>
+                            <% } %>
+                              <% } %>
     </div>
 
-</section>
-<div style="margin-bottom: 50px; text-align: center;">
+  </section>
+  <div style="margin-bottom: 50px; text-align: center;">
     <a href="/home" style="color: #eee;">HOME</a>
-</div>  
+  </div>
 
 
   <script src="js/jquery-3.5.1.js"></script>

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const {sequelize} = require("../models/db");
-const {User} = require("../models/user.model");
+const { sequelize } = require("../models/db");
+const { User } = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 
 exports.getAuthentication = async (req, res, next) => {
@@ -13,7 +13,7 @@ exports.getAuthentication = async (req, res, next) => {
 
 exports.userAuthentication = async function (req, res, next) {
   const getUser = async (obj) => {
-      return await User.findOne({
+    return await User.findOne({
       where: obj,
     });
   };
@@ -56,7 +56,6 @@ exports.userAuthentication = async function (req, res, next) {
 };
 
 exports.getLogout = async function (req, res, next) {
-  
   res.clearCookie("userid");
   res.clearCookie("username");
   res.clearCookie("token");

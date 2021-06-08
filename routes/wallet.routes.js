@@ -6,7 +6,7 @@ module.exports = (app) => {
   router.get("/wallet", wallet.getWallet);
 
   router.post("/wallet", wallet.addWallet);
-  
+
   // router.post("/wall/added/:productid", cart.addToCart);
 
   app.use("/", router);

@@ -12,7 +12,7 @@ var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 exports.getWallet = async (req, res, next) => {
-  try {     
+  try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
 
@@ -48,7 +48,7 @@ exports.getWallet = async (req, res, next) => {
 
             const countCouponcode = await Couponcode.count({
               where: {
-                UserID : userid,
+                UserID: userid,
               },
             });
 
@@ -94,18 +94,18 @@ exports.getWallet = async (req, res, next) => {
 };
 
 exports.addWallet = async (req, res, next) => {
-    const Amount = req.body.Amount; 
-    const UserID = req.cookies.userid;
-    console.log("Amount:", Amount);
-    
-    try {
-      await sequelize.query("CALL addWallet( :UserID, :Amount)", {
-        replacements: { Amount, UserID },
-        logging: false,
-      });
-      return res.redirect("/wallet");
-    } catch (e) {
-      console.log(e);
-      return res.send(500).send("Something went wrong!");
-    }
-  };
+  const Amount = req.body.Amount;
+  const UserID = req.cookies.userid;
+  console.log("Amount:", Amount);
+
+  try {
+    await sequelize.query("CALL addWallet( :UserID, :Amount)", {
+      replacements: { Amount, UserID },
+      logging: false,
+    });
+    return res.redirect("/wallet");
+  } catch (e) {
+    console.log(e);
+    return res.send(500).send("Something went wrong!");
+  }
+};

@@ -1,23 +1,22 @@
 var express = require("express");
 var app = express();
-const {sequelize} = require("../models/db");
-const {User} = require("../models/user.model");
-const {Product} = require("../models/product.model");
-const {Wallet} = require("../models/wallet.model");
-const {Cart} = require("../models/cart.model");
+const { sequelize } = require("../models/db");
+const { User } = require("../models/user.model");
+const { Product } = require("../models/product.model");
+const { Wallet } = require("../models/wallet.model");
+const { Cart } = require("../models/cart.model");
 const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
-var paginate = require('paginate')();
+var paginate = require("paginate")();
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 exports.userAuthorization = async (req, res, next) => {
   try {
     const token = req.cookies.token;
-   
-    if(req.cookies.Refresh)
-    { 
+
+    if (req.cookies.Refresh) {
       console.log(req.cookies.Refresh);
       res.clearCookie("Refresh");
     }
@@ -43,10 +42,10 @@ exports.userAuthorization = async (req, res, next) => {
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
             const u = await User.findOne({
-              where :{
-                UserName : UserName
-              }
-            })
+              where: {
+                UserName: UserName,
+              },
+            });
             await res.cookie("userid", u.UserID);
             console.log("user", UserName);
 
@@ -64,7 +63,7 @@ exports.userAuthorization = async (req, res, next) => {
 
             const countCouponcode = await Couponcode.count({
               where: {
-                UserID : u.UserID,
+                UserID: u.UserID,
               },
             });
 
@@ -74,16 +73,13 @@ exports.userAuthorization = async (req, res, next) => {
 
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
-                  [
-                    sequelize.fn("SUM", sequelize.col("Quantity")),
-                    "Quantity",
-                  ],
+                  [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
                 ],
                 where: {
                   UserID: userid,
                 },
               });
-  
+
               const cartCount = cartTotalQuantity.Quantity;
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
@@ -93,9 +89,9 @@ exports.userAuthorization = async (req, res, next) => {
                 countProducts: countProducts,
                 productDetails: productDetails,
                 walletBalance: walletBalance,
-                cartCount : cartCount,
+                cartCount: cartCount,
                 link: link,
-                countCouponcode: countCouponcode
+                countCouponcode: countCouponcode,
               });
             }
           }

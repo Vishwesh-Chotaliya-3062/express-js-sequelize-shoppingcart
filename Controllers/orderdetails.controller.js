@@ -148,10 +148,7 @@ exports.getCart = async (req, res, next) => {
 
                 const sum = await Cart.findOne({
                   attributes: [
-                    [
-                      sequelize.fn("SUM", sequelize.col("Total")),
-                      "Total",
-                    ],
+                    [sequelize.fn("SUM", sequelize.col("Total")), "Total"],
                   ],
                   where: {
                     UserID: userid,
@@ -172,7 +169,7 @@ exports.getCart = async (req, res, next) => {
                     userUserID: userid,
                   },
                 });
-                console.log("hello",sum.Total);
+                console.log("hello", sum.Total);
 
                 const purchaseTotal = sum.Total - discountPrice;
 
@@ -289,10 +286,7 @@ exports.getCart = async (req, res, next) => {
 
                 const sum = await Cart.findOne({
                   attributes: [
-                    [
-                      sequelize.fn("SUM", sequelize.col("Total")),
-                      "Total",
-                    ],
+                    [sequelize.fn("SUM", sequelize.col("Total")), "Total"],
                   ],
                   where: {
                     UserID: userid,
@@ -515,9 +509,8 @@ exports.getPayment = async (req, res, next) => {
                 },
               });
 
-              if(!Data)
-              {
-                  res.render("error");
+              if (!Data) {
+                res.render("error");
               }
 
               console.log(Data);
@@ -561,8 +554,7 @@ exports.getStatus = async (req, res, next) => {
     const orderId = req.params.orderId;
     const flag = req.cookies.flag;
 
-    if(req.cookies.Refresh)
-    {
+    if (req.cookies.Refresh) {
       res.clearCookie("Refresh");
       res.redirect("/welcome");
     }
@@ -587,19 +579,18 @@ exports.getStatus = async (req, res, next) => {
             await res.cookie("username", UserName);
             console.log("user", UserName);
 
-
             const result = await sequelize.transaction();
 
-            try { 
-            const userAddress = await Useraddress.findOne({
-              where: {
-                UserID : userid
-              }
-            });
-            
-            const newAddress = userAddress.Address;
-            const newCity =  userAddress.City + "-" + userAddress.Zipcode;
-            const newAll = userAddress.State + ", " + userAddress.Country;
+            try {
+              const userAddress = await Useraddress.findOne({
+                where: {
+                  UserID: userid,
+                },
+              });
+
+              const newAddress = userAddress.Address;
+              const newCity = userAddress.City + "-" + userAddress.Zipcode;
+              const newAll = userAddress.State + ", " + userAddress.Country;
 
               const userDetails = await User.findAll({
                 attributes: ["UserID", "UserName", "Status"],
@@ -665,36 +656,27 @@ exports.getStatus = async (req, res, next) => {
                 const Quantity = [];
                 const QuantityLeft = [];
 
-                for(u in orderOrderDetails)
-                {
+                for (u in orderOrderDetails) {
                   ID.push(orderOrderDetails[u].product.ProductID);
                   Quantity.push(orderOrderDetails[u].Quantity);
                   QuantityLeft.push(orderOrderDetails[u].product.QuantityLeft);
 
-                  if(orderOrderDetails[u].product.QuantityLeft < 1)
-                  {
-                    throw new Error(
-                      `One of the items is out of stock`
-                    );
-                  }
-
-                  else if(orderOrderDetails[u].product.QuantityLeft < orderOrderDetails[u].Quantity)
-                  {
-                    throw new Error(
-                      `One of the items is out of stock`
-                    );
+                  if (orderOrderDetails[u].product.QuantityLeft < 1) {
+                    throw new Error(`One of the items is out of stock`);
+                  } else if (
+                    orderOrderDetails[u].product.QuantityLeft <
+                    orderOrderDetails[u].Quantity
+                  ) {
+                    throw new Error(`One of the items is out of stock`);
                   }
                 }
 
                 const flagT = await sequelize.transaction();
                 try {
-                  if(flag == 0)
-                  {
-                    throw new Error(
-                      `No coupon`
-                    );
+                  if (flag == 0) {
+                    throw new Error(`No coupon`);
                   }
-                  
+
                   await Couponcode.update(
                     {
                       Status: "used",
@@ -710,8 +692,7 @@ exports.getStatus = async (req, res, next) => {
                   );
 
                   await flagT.commit();
-                }
-                catch {
+                } catch {
                   await flagT.rollback();
                 }
 
@@ -722,15 +703,14 @@ exports.getStatus = async (req, res, next) => {
                 );
 
                 const sufficientBalance = Data.PurchaseTotal - walletBalance;
-                
+
                 const updatedBalance = walletBalance - Data.PurchaseTotal;
-                
+
                 const walletT = await sequelize.transaction();
                 try {
-                  
                   await Wallet.update(
                     {
-                      Balance: updatedBalance
+                      Balance: updatedBalance,
                     },
                     {
                       where: {
@@ -743,23 +723,21 @@ exports.getStatus = async (req, res, next) => {
                   );
 
                   await walletT.commit();
-                }
-                catch {
+                } catch {
                   await walletT.rollback();
                 }
 
                 const succesT = await sequelize.transaction();
                 try {
-                  
                   await Order.update(
                     {
                       Status: "success",
-                      Remark: "order placed"
+                      Remark: "order placed",
                     },
                     {
                       where: {
                         userUserID: userid,
-                        id: orderId
+                        id: orderId,
                       },
                     },
                     {
@@ -768,34 +746,33 @@ exports.getStatus = async (req, res, next) => {
                   );
 
                   await succesT.commit();
-                }
-                catch {
+                } catch {
                   await succesT.rollback();
                 }
-                  
+
                 console.log("ID", ID);
                 console.log("Quantity", Quantity);
                 console.log("Quantity Left", QuantityLeft);
 
-                for(u in orderOrderDetails){  
-
-                  const minus = orderOrderDetails[u].product.QuantityLeft - orderOrderDetails[u].Quantity;
+                for (u in orderOrderDetails) {
+                  const minus =
+                    orderOrderDetails[u].product.QuantityLeft -
+                    orderOrderDetails[u].Quantity;
                   console.log(minus);
 
                   await Product.update(
                     {
-                      QuantityLeft: minus
+                      QuantityLeft: minus,
                     },
                     {
                       where: {
-                        ProductID: orderOrderDetails[u].productProductID
-                      }
+                        ProductID: orderOrderDetails[u].productProductID,
+                      },
                     },
                     {
-                      transaction: result
+                      transaction: result,
                     }
                   );
-
                 }
 
                 await result.commit();
@@ -817,9 +794,9 @@ exports.getStatus = async (req, res, next) => {
 
                 const walletUser = await Wallet.findOne({
                   where: {
-                    UserID: userid
-                  }
-                })
+                    UserID: userid,
+                  },
+                });
 
                 let userWalletUpdatedBalance = walletUser.Balance;
                 userWalletUpdatedBalance = Math.ceil(userWalletUpdatedBalance);
@@ -856,7 +833,7 @@ exports.getStatus = async (req, res, next) => {
                   userWalletUpdatedBalance: userWalletUpdatedBalance,
                   newAddress: newAddress,
                   newCity: newCity,
-                  newAll: newAll
+                  newAll: newAll,
                 });
               }
             } catch (err) {
@@ -865,35 +842,33 @@ exports.getStatus = async (req, res, next) => {
               await Order.update(
                 {
                   Status: "failed",
-                  Remark: "out of stock"
+                  Remark: "out of stock",
                 },
                 {
                   where: {
                     userUserID: userid,
-                    id: orderId
+                    id: orderId,
                   },
                 }
               );
 
-              
-            
               const userAddress = await Useraddress.findOne({
                 where: {
-                  UserID : userid
-                }
+                  UserID: userid,
+                },
               });
-              
-              const newAddress = userAddress.Address;
-              const newCity =  userAddress.City + "-" + userAddress.Zipcode;
-              const newAll = userAddress.State + ", " + userAddress.Country; 
 
-                const userDetails = await User.findAll({
-                  attributes: ["UserID", "UserName", "Status"],
-                  include: Wallet,
-                  where: {
-                    UserName: UserName,
-                  },
-                });
+              const newAddress = userAddress.Address;
+              const newCity = userAddress.City + "-" + userAddress.Zipcode;
+              const newAll = userAddress.State + ", " + userAddress.Country;
+
+              const userDetails = await User.findAll({
+                attributes: ["UserID", "UserName", "Status"],
+                include: Wallet,
+                where: {
+                  UserName: UserName,
+                },
+              });
 
               const countCouponcode = await Couponcode.count({
                 where: {
@@ -946,15 +921,14 @@ exports.getStatus = async (req, res, next) => {
                   },
                 });
 
-                if(!Data)
-                {
+                if (!Data) {
                   res.render("error");
                 }
 
                 console.log(Data.Status);
 
                 const orderOrderDetails = Data.orderdetails;
-                
+
                 const cartCount = cartTotalQuantity.Quantity;
 
                 const walletBalance = Math.ceil(
@@ -978,25 +952,27 @@ exports.getStatus = async (req, res, next) => {
 
                 const outofstock = [];
 
-                for(u in Data1.orderdetails) 
-                {
-                  if(Data1.orderdetails[u].product.QuantityLeft < 1)
-                  {
+                for (u in Data1.orderdetails) {
+                  if (Data1.orderdetails[u].product.QuantityLeft < 1) {
                     console.log("false");
                   }
-                  if(Data1.orderdetails[u].product.QuantityLeft < Data1.orderdetails[u].Quantity)
-                  {
+                  if (
+                    Data1.orderdetails[u].product.QuantityLeft <
+                    Data1.orderdetails[u].Quantity
+                  ) {
                     console.log("false");
-                    outofstock.push(" " + Data1.orderdetails[u].product.ProductName);
+                    outofstock.push(
+                      " " + Data1.orderdetails[u].product.ProductName
+                    );
                   }
-                } 
+                }
                 console.log(outofstock);
 
                 const walletUser = await Wallet.findOne({
                   where: {
-                    UserID: userid
-                  }
-                })
+                    UserID: userid,
+                  },
+                });
 
                 let userWalletUpdatedBalance = walletUser.Balance;
                 userWalletUpdatedBalance = Math.ceil(userWalletUpdatedBalance);
@@ -1032,7 +1008,7 @@ exports.getStatus = async (req, res, next) => {
                   itemsCount: itemsCount,
                   newAddress: newAddress,
                   newCity: newCity,
-                  newAll: newAll
+                  newAll: newAll,
                 });
               }
             }

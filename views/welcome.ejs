@@ -37,7 +37,9 @@
                                 </li>
                                 <% } %>
                                     <li class="nav-item">
-                                        <a class="nav-link purple-link" href="/wallet">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
+                                        <a class="nav-link purple-link" href="/wallet">WALLET( $<b
+                                                style="color: #6255a6;">
+                                                <%= walletBalance %>
                                             </b> )</a>
                                     </li>
 
@@ -54,7 +56,7 @@
                                             </li>
                                             <% } %>
 
-                                                <% if(countCouponcode <= 0) { %>
+                                                <% if(countCouponcode <=0) { %>
                                                     <li class="nav-item">
                                                         <a class="nav-link purple-link" href="/couponcode">COUPON
                                                             CODE</a>
@@ -67,12 +69,12 @@
                                                                 </b>)</a>
                                                         </li>
                                                         <% } %>
-                                                            
-                                                        <li class="nav-item">
-                                                            <a class="nav-link purple-link" href="/history">
-                                                                MY ORDERS
-                                                            </a>
-                                                        </li>
+
+                                                            <li class="nav-item">
+                                                                <a class="nav-link purple-link" href="/history">
+                                                                    MY ORDERS
+                                                                </a>
+                                                            </li>
                                                             <% for(let user in userDetails) { %>
                                                                 <% if(userDetails[user].Status=='pending' ) { %>
                                                                     <li class="nav-item">
@@ -107,74 +109,73 @@
                 <div class="row res-row">
                     <% for (let product in productDetails) { %>
                         <div class="col-lg-4 col-sm-6 col-12">
-                                <div class="res-book" style="width: 100%;">
-                                    <div class="row">
-                                        <div class="col-xl-12" style="width: 100%;">
-                                            <div class="img-book">
-                                                <img src="images/Search/1.jpg" class="img-fluid">
-                                            </div>
+                            <div class="res-book" style="width: 100%;">
+                                <div class="row">
+                                    <div class="col-xl-12" style="width: 100%;">
+                                        <div class="img-book">
+                                            <img src="images/Search/1.jpg" class="img-fluid">
                                         </div>
-                                        <div class="col-xl-12">
-                                            <div class="res-book-info" style="background-color: white;">
-                                                <div class="res-book-info-wrapper">
-                                                    <div class="res-book-title" style="display: inline-block;">
-                                                        <h3 style="color: #6255a6;">
-                                                            <%= productDetails[product].ProductName %>
-                                                        </h3>
-                                                    </div>
-                                                    <div class="res-book-company"
-                                                        style="display: inline-block; margin-bottom: 10px;">
-                                                        <p style="font-size: 15px;">
-                                                            &nbsp; by <%= productDetails[product].CompanyName %>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="res-book-info" style="background-color: white;">
+                                            <div class="res-book-info-wrapper">
+                                                <div class="res-book-title" style="display: inline-block;">
+                                                    <h3 style="color: #6255a6;">
+                                                        <%= productDetails[product].ProductName %>
+                                                    </h3>
+                                                </div>
+                                                <div class="res-book-company"
+                                                    style="display: inline-block; margin-bottom: 10px;">
+                                                    <p style="font-size: 15px;">
+                                                        &nbsp; by <%= productDetails[product].CompanyName %>
+                                                    </p>
+                                                </div>
+                                                <div class="res-book-content">
+                                                    <div style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                        <div class="img-icon"><img src="images/university.png" alt="">
+                                                        </div>
+                                                        <p>Price : $<%= productDetails[product].Price %>
+                                                                <p
+                                                                    style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">
+                                                                    each</p>
                                                         </p>
                                                     </div>
-                                                    <div class="res-book-content">
-                                                        <div
-                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px;">
-                                                            <div class="img-icon"><img src="images/university.png"
-                                                                    alt=""></div>
-                                                            <p>Price : $<%= productDetails[product].Price %> 
-                                                                <p style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">each</p>
-                                                            </p>
+                                                    <div style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                        <div class="img-icon"><img src="images/pages.png" alt="">
                                                         </div>
-                                                        <div
-                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px;">
-                                                            <div class="img-icon"><img src="images/pages.png" alt="">
-                                                            </div>
-                                                            <p>Quantity Left : <%= productDetails[product].QuantityLeft
-                                                                    %>
-                                                            </p>
-                                                        </div>
-                                                        <div id="star-rating"
-                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px; ">
-                                                            <img src="images/star.png" class="img-fluid" alt="">
-                                                            <img src="images/star.png" class="img-fluid" alt="">
-                                                            <img src="images/star.png" class="img-fluid" alt="">
-                                                            <img src="images/star.png" class="img-fluid" alt="">
-                                                            <img src="images/star.png" class="img-fluid" alt="">
-                                                            <p>100 Reviews</p>
-                                                        </div>
-                                                        <% for(let user in userDetails) { %>
-                                                            <% if(userDetails[user].Status=='active' ) { %>
-                                                                <form
-                                                                    action="/cart/added/<%= productDetails[product].ProductID %>"
-                                                                    method="POST">
-                                                                    <div
-                                                                        style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
-                                                                        <button type="submit" class="btn btn-login"
-                                                                            style="height: 40px;"
-                                                                            onclick="return script()">ADD TO
-                                                                            CART</button>
-                                                                    </div>
-                                                                </form>
-                                                                <% } %>
-                                                                    <% } %>
+                                                        <p>Quantity Left : <%= productDetails[product].QuantityLeft %>
+                                                        </p>
                                                     </div>
+                                                    <div id="star-rating"
+                                                        style="display: inline-flex; width: 100%; margin-bottom: 5px; ">
+                                                        <img src="images/star.png" class="img-fluid" alt="">
+                                                        <img src="images/star.png" class="img-fluid" alt="">
+                                                        <img src="images/star.png" class="img-fluid" alt="">
+                                                        <img src="images/star.png" class="img-fluid" alt="">
+                                                        <img src="images/star.png" class="img-fluid" alt="">
+                                                        <p>100 Reviews</p>
+                                                    </div>
+                                                    <% for(let user in userDetails) { %>
+                                                        <% if(userDetails[user].Status=='active' ) { %>
+                                                            <form
+                                                                action="/cart/added/<%= productDetails[product].ProductID %>"
+                                                                method="POST">
+                                                                <div
+                                                                    style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
+                                                                    <button type="submit" class="btn btn-login"
+                                                                        style="height: 40px;"
+                                                                        onclick="return script()">ADD TO
+                                                                        CART</button>
+                                                                </div>
+                                                            </form>
+                                                            <% } %>
+                                                                <% } %>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                         <% } %>
                 </div>

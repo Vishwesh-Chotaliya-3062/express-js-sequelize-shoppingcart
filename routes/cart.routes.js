@@ -4,7 +4,7 @@ module.exports = (app) => {
   var router = require("express").Router();
 
   router.get("/cart", cart.getCart);
-  
+
   router.post("/cart/added/:productid", cart.addToCart);
 
   router.post("/cart/updated/:productid", cart.updateCart);

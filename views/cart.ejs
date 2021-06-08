@@ -30,62 +30,62 @@
                     <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
                         id="navbarSupportedContent">
                         <ul class="navbar-nav" style="margin-left: auto;">
-                                    <li class="nav-item">
-                                        <a class="nav-link purple-link" href="/welcome">HOME</a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link purple-link" href="/welcome">HOME</a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link purple-link" href="/wallet">WALLET( $<b style="color: #6255a6;">
+                                        <%= walletBalance %>
+                                    </b>)</a>
+                            </li>
+
+                            <% if(!cartCount) { %>
+                                <li class="nav-item">
+                                    <a class="nav-link purple-link" href="/cart">CART</a>
+                                </li>
+
+                                <% } else{ %>
                                     <li class="nav-item">
-                                        <a class="nav-link purple-link" href="/wallet">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
+                                        <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                                                <%= cartCount %>
                                             </b>)</a>
                                     </li>
+                                    <% } %>
 
-                                    <% if(!cartCount) { %>
-                                        <li class="nav-item">
-                                            <a class="nav-link purple-link" href="/cart">CART</a>
-                                        </li>
-
-                                        <% } else{ %>
+                                        <% if(!countCouponcode) { %>
                                             <li class="nav-item">
-                                                <a class="nav-link purple-link" href="/cart">CART(<b
-                                                        style="color: #6255a6;">
-                                                        <%= cartCount %>
-                                                    </b>)</a>
+                                                <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                    CODE</a>
                                             </li>
-                                            <% } %>
 
-                                                <% if(!countCouponcode) { %>
+                                            <% } else{ %>
+                                                <li class="nav-item">
+                                                    <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                        CODE (<b style="color: #6255a6;">
+                                                            <%= countCouponcode %>
+                                                        </b>)</a>
+                                                </li>
+                                                <% } %>
                                                     <li class="nav-item">
-                                                        <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                            CODE</a>
+                                                        <a class="nav-link purple-link" href="/history">
+                                                            MY ORDERS
+                                                        </a>
                                                     </li>
-
-                                                    <% } else{ %>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                                CODE (<b style="color: #6255a6;">
-                                                                    <%= countCouponcode %>
-                                                                </b>)</a>
-                                                        </li>
-                                                        <% } %>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link purple-link" href="/history">
-                                                                MY ORDERS
-                                                            </a>
-                                                        </li>
-                                                            <% for(let user in userDetails) { %>
-                                                                <% if(userDetails[user].Status=='pending' ) { %>
+                                                    <% for(let user in userDetails) { %>
+                                                        <% if(userDetails[user].Status=='pending' ) { %>
+                                                            <li class="nav-item">
+                                                                <a id="nav-btn" style="width: 150px;"
+                                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                    href="<%= link %>" role="button">VERIFY</a>
+                                                            </li>
+                                                            <% } %>
+                                                                <% } %>
                                                                     <li class="nav-item">
-                                                                        <a id="nav-btn" style="width: 150px;"
+                                                                        <a id="nav-btn"
                                                                             class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                            href="<%= link %>" role="button">VERIFY</a>
+                                                                            href="/logout">LOGOUT</a>
                                                                     </li>
-                                                                    <% } %>
-                                                                        <% } %>
-                                                                            <li class="nav-item">
-                                                                                <a id="nav-btn"
-                                                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                                    href="/logout">LOGOUT</a>
-                                                                            </li>
                         </ul>
                     </div>
                 </div>
@@ -112,19 +112,20 @@
                         <div id="filter-result-heading" style="border: 1px; border-radius: 20px; background-color: white;
                                 display: inline-block; margin-top: -90px; margin-bottom: 15px; 
                                 margin-left: 820px; height: 105px; width: 373px;">
-                            <div class="res-book-info" style="border-radius: 15px;" >
-                                
+                            <div class="res-book-info" style="border-radius: 15px;">
+
                                 <form action="/orderdetails" method="POST">
                                     <div style="text-align: center; margin-top: 7px;">
-                                        <div class="res-book-title" >
+                                        <div class="res-book-title">
                                             <h5 style="color: #6255a6;">
                                                 Subtotal (<%= cartCount %> items): $<%= cartTotalPrice.Total %>
                                             </h5>
                                         </div>
-                                        <p style="font-size: 12px; margin-top: -2px;">Have a Coupon code? Apply on next page.</p>
-                                        <div
-                                            style="display: inline-flex; width: 80%;margin-top: -8px;">
-                                            <button type="submit" class="btn btn-login" style="height: 32px; border-radius: 8px; font-size: medium;">
+                                        <p style="font-size: 12px; margin-top: -2px;">Have a Coupon code? Apply on next
+                                            page.</p>
+                                        <div style="display: inline-flex; width: 80%;margin-top: -8px;">
+                                            <button type="submit" class="btn btn-login"
+                                                style="height: 32px; border-radius: 8px; font-size: medium;">
                                                 Proceed to Buy
                                             </button>
                                         </div>
@@ -140,114 +141,110 @@
                                 <% for (let product1 in productQuantity) { %>
 
                                     <div class="col-lg-4 col-sm-6 col-12">
-                                            <div class="res-book" style="width: 100%;">
-                                                <div class="row">
-                                                    <div class="col-xl-12" style="width: 100%;">
-                                                        <div class="img-book">
-                                                            <img src="images/Search/1.jpg" class="img-fluid">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xl-12">
-                                                        <div class="res-book-info">
-                                                            <div class="res-book-info-wrapper"  style="background-color: white;">
-                                                                <div class="res-book-title"
-                                                                    style="display: inline-block;">
-                                                                    <h3 style="color: #6255a6;">
-                                                                        <%= productQuantity[product1].product.ProductName
-                                                                            %>
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="res-book-company"
-                                                                    style="display: inline-block; margin-bottom: 10px;">
-                                                                    <p style="font-size: 15px;">
-                                                                        &nbsp; by <%=
-                                                                            productQuantity[product1].product.CompanyName
-                                                                            %>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="res-book-content"
-                                                                    style="margin-bottom: -15px;">
-                                                                    <div
-                                                                        style="display: inline-flex; width: 100%; margin-bottom: 10px;">
-                                                                        <div class="img-icon"><img
-                                                                                src="images/pages.png" alt="">
-                                                                        </div>
-                                                                        <p>Price : $<%=
-                                                                                productQuantity[product1].product.Price
-                                                                                %>
-                                                                            <p style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">each</p>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div style="display: inline-flex; width: 100%; ">
-                                                                        <div class="img-icon"><img
-                                                                                src="images/pages.png" alt="">
-                                                                        </div>
-                                                                        <p>Total : $<%= productQuantity[product1].Total
-                                                                                %>
-                                                                        </p>
-                                                                    </div>
-                                                                    <form
-                                                                        action="/cart/updated/<%= productQuantity[product1].product.ProductID %>"
-                                                                        method="POST">
-                                                                        <div
-                                                                            style="display: inline-flex; width: 100%; margin-top: 10px; margin-bottom: -10px;">
-                                                                            <div class="img-icon"><img
-                                                                                    src="images/university.png" alt="">
-                                                                            </div>
-                                                                            <div>
-                                                                                <p>Quantity:</p>
-                                                                            </div>
-                                                                            <div class=""
-                                                                                style="width:70px; right: auto; margin-left: 8px; margin-top: -8px;">
-                                                                                <select name="Quantity"
-                                                                                    class="form-control" id="Quantity">
-                                                                                    <option
-                                                                                        value="<%= productQuantity[product1].Quantity %>"
-                                                                                        selected hidden>
-                                                                                        <%= productQuantity[product1].Quantity
-                                                                                            %>
-                                                                                    </option>
-                                                                                    <option value="0">0 (delete)
-                                                                                    </option>
-                                                                                    <% for(let i=1;
-                                                                                        i<=productQuantity[product1].product.QuantityLeft
-                                                                                        ; i++) { %>
-                                                                                        <option value="<%= i %>">
-                                                                                            <%= i %>
-                                                                                        </option>
-                                                                                        <% } %>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div
-                                                                            style="display: inline-flex; width: 62.5%;">
-                                                                            <button type="submit" class="btn btn-login"
-                                                                                style="height: 40px; width: 94%;"
-                                                                                onclick="return script()">UPDATE
-                                                                                CART</button>
-                                                                        </div>
-                                                                    </form>
-                                                                    <form
-                                                                        action="/cart/deleted/<%= productQuantity[product1].product.ProductID %>"
-                                                                        method="POST">
-
-                                                                        <div
-                                                                            style="display: inline-flex; width: 32.5%; margin-top: -56px; margin-left: 224px; ">
-                                                                            <button type="submit" class="btn btn-login"
-                                                                                style="height: 40px;">
-                                                                                REMOVE
-                                                                            </button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
+                                        <div class="res-book" style="width: 100%;">
+                                            <div class="row">
+                                                <div class="col-xl-12" style="width: 100%;">
+                                                    <div class="img-book">
+                                                        <img src="images/Search/1.jpg" class="img-fluid">
                                                     </div>
                                                 </div>
+
+                                                <div class="col-xl-12">
+                                                    <div class="res-book-info">
+                                                        <div class="res-book-info-wrapper"
+                                                            style="background-color: white;">
+                                                            <div class="res-book-title" style="display: inline-block;">
+                                                                <h3 style="color: #6255a6;">
+                                                                    <%= productQuantity[product1].product.ProductName %>
+                                                                </h3>
+                                                            </div>
+                                                            <div class="res-book-company"
+                                                                style="display: inline-block; margin-bottom: 10px;">
+                                                                <p style="font-size: 15px;">
+                                                                    &nbsp; by <%=
+                                                                        productQuantity[product1].product.CompanyName %>
+                                                                </p>
+                                                            </div>
+                                                            <div class="res-book-content" style="margin-bottom: -15px;">
+                                                                <div
+                                                                    style="display: inline-flex; width: 100%; margin-bottom: 10px;">
+                                                                    <div class="img-icon"><img src="images/pages.png"
+                                                                            alt="">
+                                                                    </div>
+                                                                    <p>Price : $<%=
+                                                                            productQuantity[product1].product.Price %>
+                                                                            <p
+                                                                                style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">
+                                                                                each</p>
+                                                                    </p>
+                                                                </div>
+                                                                <div style="display: inline-flex; width: 100%; ">
+                                                                    <div class="img-icon"><img src="images/pages.png"
+                                                                            alt="">
+                                                                    </div>
+                                                                    <p>Total : $<%= productQuantity[product1].Total %>
+                                                                    </p>
+                                                                </div>
+                                                                <form
+                                                                    action="/cart/updated/<%= productQuantity[product1].product.ProductID %>"
+                                                                    method="POST">
+                                                                    <div
+                                                                        style="display: inline-flex; width: 100%; margin-top: 10px; margin-bottom: -10px;">
+                                                                        <div class="img-icon"><img
+                                                                                src="images/university.png" alt="">
+                                                                        </div>
+                                                                        <div>
+                                                                            <p>Quantity:</p>
+                                                                        </div>
+                                                                        <div class=""
+                                                                            style="width:70px; right: auto; margin-left: 8px; margin-top: -8px;">
+                                                                            <select name="Quantity" class="form-control"
+                                                                                id="Quantity">
+                                                                                <option
+                                                                                    value="<%= productQuantity[product1].Quantity %>"
+                                                                                    selected hidden>
+                                                                                    <%= productQuantity[product1].Quantity
+                                                                                        %>
+                                                                                </option>
+                                                                                <option value="0">0 (delete)
+                                                                                </option>
+                                                                                <% for(let i=1;
+                                                                                    i<=productQuantity[product1].product.QuantityLeft
+                                                                                    ; i++) { %>
+                                                                                    <option value="<%= i %>">
+                                                                                        <%= i %>
+                                                                                    </option>
+                                                                                    <% } %>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div style="display: inline-flex; width: 62.5%;">
+                                                                        <button type="submit" class="btn btn-login"
+                                                                            style="height: 40px; width: 94%;"
+                                                                            onclick="return script()">UPDATE
+                                                                            CART</button>
+                                                                    </div>
+                                                                </form>
+                                                                <form
+                                                                    action="/cart/deleted/<%= productQuantity[product1].product.ProductID %>"
+                                                                    method="POST">
+
+                                                                    <div
+                                                                        style="display: inline-flex; width: 32.5%; margin-top: -56px; margin-left: 224px; ">
+                                                                        <button type="submit" class="btn btn-login"
+                                                                            style="height: 40px;">
+                                                                            REMOVE
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
                                             </div>
+                                        </div>
                                     </div>
                                     <% } %>
                             </div>

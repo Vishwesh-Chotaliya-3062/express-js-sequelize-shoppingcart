@@ -30,62 +30,62 @@
                     <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
                         id="navbarSupportedContent">
                         <ul class="navbar-nav" style="margin-left: auto;">
-                                    <li class="nav-item">
-                                        <a class="nav-link purple-link" href="/welcome">HOME</a>
-                                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link purple-link" href="/welcome">HOME</a>
+                            </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link purple-link" href="/wallet">WALLET( $<b style="color: #6255a6;">
+                                        <%= walletBalance %>
+                                    </b>)</a>
+                            </li>
+
+                            <% if(!cartCount) { %>
+                                <li class="nav-item">
+                                    <a class="nav-link purple-link" href="/cart">CART</a>
+                                </li>
+
+                                <% } else{ %>
                                     <li class="nav-item">
-                                        <a class="nav-link purple-link" href="/wallet">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
+                                        <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                                                <%= cartCount %>
                                             </b>)</a>
                                     </li>
+                                    <% } %>
 
-                                    <% if(!cartCount) { %>
-                                        <li class="nav-item">
-                                            <a class="nav-link purple-link" href="/cart">CART</a>
-                                        </li>
-
-                                        <% } else{ %>
+                                        <% if(!countCouponcode) { %>
                                             <li class="nav-item">
-                                                <a class="nav-link purple-link" href="/cart">CART(<b
-                                                        style="color: #6255a6;">
-                                                        <%= cartCount %>
-                                                    </b>)</a>
+                                                <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                    CODE</a>
                                             </li>
-                                            <% } %>
 
-                                                <% if(!countCouponcode) { %>
+                                            <% } else{ %>
+                                                <li class="nav-item">
+                                                    <a class="nav-link purple-link" href="/couponcode">COUPON
+                                                        CODE (<b style="color: #6255a6;">
+                                                            <%= countCouponcode %>
+                                                        </b>)</a>
+                                                </li>
+                                                <% } %>
                                                     <li class="nav-item">
-                                                        <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                            CODE</a>
+                                                        <a class="nav-link purple-link" href="/history">
+                                                            MY ORDERS
+                                                        </a>
                                                     </li>
-
-                                                    <% } else{ %>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                                CODE (<b style="color: #6255a6;">
-                                                                    <%= countCouponcode %>
-                                                                </b>)</a>
-                                                        </li>
-                                                        <% } %>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link purple-link" href="/history">
-                                                                MY ORDERS
-                                                            </a>
-                                                        </li>
-                                                            <% for(let user in userDetails) { %>
-                                                                <% if(userDetails[user].Status=='pending' ) { %>
+                                                    <% for(let user in userDetails) { %>
+                                                        <% if(userDetails[user].Status=='pending' ) { %>
+                                                            <li class="nav-item">
+                                                                <a id="nav-btn" style="width: 150px;"
+                                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                    href="<%= link %>" role="button">VERIFY</a>
+                                                            </li>
+                                                            <% } %>
+                                                                <% } %>
                                                                     <li class="nav-item">
-                                                                        <a id="nav-btn" style="width: 150px;"
+                                                                        <a id="nav-btn"
                                                                             class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                            href="<%= link %>" role="button">VERIFY</a>
+                                                                            href="/logout">LOGOUT</a>
                                                                     </li>
-                                                                    <% } %>
-                                                                        <% } %>
-                                                                            <li class="nav-item">
-                                                                                <a id="nav-btn"
-                                                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                                    href="/logout">LOGOUT</a>
-                                                                            </li>
                         </ul>
                     </div>
                 </div>
@@ -94,38 +94,39 @@
     </section>
 
     <section id="add-type">
-      
+
         <div class="container">
-          <div id="add-type-content">
-        
-            <div class="add-type-heading">
-                <h3>Wallet Amount: $<%= walletBalance %>.00</h3>
-                <h4 style="color: #6255a6; font-size: x-large; margin-bottom: 30px;">Add Balance</h4>
-            </div>
-  
-            <div class="row">
-  
-              <div class="col-xl-6">
-  
-                  <form action="/wallet" method="POST">
-                    <div class="ip-field">
-                      <label for="amount" class="add-type-lbl">Amount*</label>
-                      <input type="number" class="form-control input-field" name="Amount" id="Amount" placeholder="Enter amount" min="0" step=".00" value="0">
-                    </div>
-  
-                    <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px; margin-left: -480px;">
-                        <button type="submit" class="btn btn-login" id="submit" value="Sign Up" style="width: 10%; height: 35px;"
-                            data-toggle="modal">ADD</button>
-                    </div>
-                  </form>
+            <div id="add-type-content">
+
+                <div class="add-type-heading">
+                    <h3>Wallet Amount: $<%= walletBalance %>.00</h3>
+                    <h4 style="color: #6255a6; font-size: x-large; margin-bottom: 30px;">Add Balance</h4>
                 </div>
-                
-              </div>
-  
+
+                <div class="row">
+
+                    <div class="col-xl-6">
+
+                        <form action="/wallet" method="POST">
+                            <div class="ip-field">
+                                <label for="amount" class="add-type-lbl">Amount*</label>
+                                <input type="number" class="form-control input-field" name="Amount" id="Amount"
+                                    placeholder="Enter amount" min="0" step=".00" value="0">
+                            </div>
+
+                            <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px; margin-left: -480px;">
+                                <button type="submit" class="btn btn-login" id="submit" value="Sign Up"
+                                    style="width: 10%; height: 35px;" data-toggle="modal">ADD</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
             </div>
-  
-          </div>
-      </section>
+
+        </div>
+    </section>
 
     <!-- <script type="text/javascript">
         function script() {

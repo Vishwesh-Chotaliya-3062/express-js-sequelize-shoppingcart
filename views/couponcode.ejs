@@ -28,59 +28,60 @@
 
           <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
             <ul class="navbar-nav" style="margin-left: auto;">
-                  <li class="nav-item">
-                    <a class="nav-link purple-link" href="/welcome">HOME</a>
-                  </li>
+              <li class="nav-item">
+                <a class="nav-link purple-link" href="/welcome">HOME</a>
+              </li>
 
+              <li class="nav-item">
+                <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
+                    <%= walletBalance %>
+                  </b>)</a>
+              </li>
+
+              <% if(!cartCount) { %>
+                <li class="nav-item">
+                  <a class="nav-link purple-link" href="/cart">CART</a>
+                </li>
+
+                <% } else{ %>
                   <li class="nav-item">
-                    <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;"><%= walletBalance %>
+                    <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                        <%= cartCount %>
                       </b>)</a>
                   </li>
+                  <% } %>
 
-                  <% if(!cartCount) { %>
-                    <li class="nav-item">
-                      <a class="nav-link purple-link" href="/cart">CART</a>
-                    </li>
-
-                    <% } else{ %>
+                    <% if(!countCouponcode) { %>
                       <li class="nav-item">
-                        <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
-                            <%= cartCount %>
-                          </b>)</a>
+                        <a class="nav-link purple-link" href="/couponcode">COUPON CODE</a>
                       </li>
-                      <% } %>
 
-                        <% if(!countCouponcode) { %>
+                      <% } else{ %>
+                        <li class="nav-item">
+                          <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
+                              <%= countCouponcode %>
+                            </b>)</a>
+                        </li>
+                        <% } %>
                           <li class="nav-item">
-                            <a class="nav-link purple-link" href="/couponcode">COUPON CODE</a>
+                            <a class="nav-link purple-link" href="/history">
+                              MY ORDERS
+                            </a>
                           </li>
-
-                          <% } else{ %>
-                            <li class="nav-item">
-                              <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
-                                  <%= countCouponcode %>
-                                </b>)</a>
-                            </li>
-                            <% } %>
-                            <li class="nav-item">
-                              <a class="nav-link purple-link" href="/history">
-                                  MY ORDERS
-                              </a>
-                          </li>
-                              <% for(let user in userDetails) { %>
-                                <% if(userDetails[user].Status=='pending' ) { %>
+                          <% for(let user in userDetails) { %>
+                            <% if(userDetails[user].Status=='pending' ) { %>
+                              <li class="nav-item">
+                                <a id="nav-btn" style="width: 150px;"
+                                  class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                  href="<%= link %>" role="button">VERIFY</a>
+                              </li>
+                              <% } %>
+                                <% } %>
                                   <li class="nav-item">
-                                    <a id="nav-btn" style="width: 150px;"
+                                    <a id="nav-btn"
                                       class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                      href="<%= link %>" role="button">VERIFY</a>
+                                      href="/logout">LOGOUT</a>
                                   </li>
-                                  <% } %>
-                                    <% } %>
-                                      <li class="nav-item">
-                                        <a id="nav-btn"
-                                          class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                          href="/logout">LOGOUT</a>
-                                      </li>
             </ul>
           </div>
         </div>
@@ -92,84 +93,82 @@
 
     <div class="container">
 
-        <% if(countCouponcode==0) { %>
+      <% if(countCouponcode==0) { %>
+        <div id="filter-result-heading">
+          <h3>You do not have any Coupon codes.</h3>
+        </div>
+        <% } %>
+
+          <% if(countCouponcode>0 ) { %>
+
             <div id="filter-result-heading">
-                <h3>You do not have any Coupon codes.</h3>
+              <h3>Total <%= countCouponcode %> Coupon codes available for you.</h3>
+            </div>
+
+            <div id="filter-result">
+
+              <div class="row res-row">
+
+                <% for (let c1 in couponcodeDetails) { %>
+
+                  <div class="col-lg-4 col-sm-6 col-12">
+                    <div style="border: 5px dotted #6255a5; border-radius: 15px; width: 505px; height: 500px;">
+                      <div class="res-book">
+                        <div class="row" style="width: 525px;">
+                          <div class="col-xl-12" style="width: 100%;">
+                            <div class="img-book">
+                              <img src="images/Search/1.jpg" class="img-fluid">
+                            </div>
+                          </div>
+
+                          <div class="col-xl-12">
+                            <div class="res-book-info" style="background-color: white;">
+                              <div class="res-book-info-wrapper" style="height: 210px; width: 503px;">
+                                <div class="res-book-title" style="margin-bottom: 10px;">
+                                  <h3 style="color: #6255a6; display: inline-block;">
+                                    <%= couponcodeDetails[c1].Details %>
+                                      <h4 style="margin-left: 190px; margin-top: -35px;">(<%=
+                                          couponcodeDetails[c1].Status %>)</h4>
+                                  </h3>
+                                </div>
+
+                                <div class="res-book-content" style="margin-bottom: -15px;">
+                                  <div style="display: inline-flex; width: 100%; margin-bottom: 20px;">
+
+                                    <p>Lorem ipsum dolor sit amet, et nam pertinax gloriatur. Sea te minim soleat
+                                      senserit, ex quo luptatum tacimates voluptatum, salutandi delicatissimi eam ea. In
+                                      sed nullam laboramus appellantur, mei ei omnis dolorem mnesarchum.
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div class="res-book-content" style="margin-bottom: 0px;">
+                                  <div style="display: inline-flex; width: 100%; margin-bottom: 10px;">
+                                    <div class="img-icon"><img src="images/university.png" alt="">
+                                    </div>
+                                    <p>Use Coupon Code : <b><span style="background: #eee;
+                                                                      padding: 3px; color: #6255a6;">
+                                          <%= couponcodeDetails[c1].CouponCode %>
+                                        </span></b>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </a>
+                  </div>
+                  <% } %>
+              </div>
             </div>
             <% } %>
-
-                <% if(countCouponcode>0 ) { %>
-
-                    <div id="filter-result-heading">
-                        <h3>Total <%= countCouponcode %> Coupon codes available for you.</h3>
-                    </div>
-
-                    <div id="filter-result">
-
-                        <div class="row res-row" >
-
-                            <% for (let c1 in couponcodeDetails) { %>
-
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div style="border: 5px dotted #6255a5; border-radius: 15px; width: 505px; height: 500px;">
-                                        <div class="res-book">
-                                            <div class="row" style="width: 525px;">
-                                                <div class="col-xl-12" style="width: 100%;">
-                                                    <div class="img-book">
-                                                        <img src="images/Search/1.jpg" class="img-fluid">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xl-12">
-                                                    <div class="res-book-info" style="background-color: white;">
-                                                        <div class="res-book-info-wrapper" style="height: 210px; width: 503px;">
-                                                            <div class="res-book-title"
-                                                                style="margin-bottom: 10px;">
-                                                                 <h3 style="color: #6255a6; display: inline-block;">
-                                                                    <%= couponcodeDetails[c1].Details
-                                                                        %><h4 style="margin-left: 190px; margin-top: -35px;">(<%= couponcodeDetails[c1].Status %>)</h4>
-                                                                </h3>
-                                                            </div>
-
-                                                            <div class="res-book-content"
-                                                                style="margin-bottom: -15px;">
-                                                                <div
-                                                                    style="display: inline-flex; width: 100%; margin-bottom: 20px;">
-                                                                    
-                                                                    <p>Lorem ipsum dolor sit amet, et nam pertinax gloriatur. Sea te minim soleat senserit, ex quo luptatum tacimates voluptatum, salutandi delicatissimi eam ea. In sed nullam laboramus appellantur, mei ei omnis dolorem mnesarchum.
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="res-book-content"
-                                                                style="margin-bottom: 0px;">
-                                                                <div
-                                                                    style="display: inline-flex; width: 100%; margin-bottom: 10px;">
-                                                                    <div class="img-icon"><img
-                                                                            src="images/university.png" alt="">
-                                                                    </div>
-                                                                    <p>Use Coupon Code : <b><span style="background: #eee;
-                                                                      padding: 3px; color: #6255a6;"><%= couponcodeDetails[c1].CouponCode
-                                                                      %></span></b>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </a>
-                                </div>
-                                <% } %>
-                        </div>
-                    </div>
-                    <% } %>
     </div>
 
-</section>
+  </section>
 
 
   <script src="js/jquery-3.5.1.js"></script>
