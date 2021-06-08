@@ -53,9 +53,9 @@ exports.getWallet = async (req, res, next) => {
             });
 
             for (user in userDetails) {
-              let link = `/verify/${userid}`;
+              
               let userid = userDetails[user].UserID;
-
+              let link = `/verify/${userid}`;
               // for(product1 in productQuantity){
               //   console.log(productQuantity[product1].product.ProductName);
               // }
