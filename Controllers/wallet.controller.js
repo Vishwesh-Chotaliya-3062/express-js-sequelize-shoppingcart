@@ -53,6 +53,7 @@ exports.getWallet = async (req, res, next) => {
             });
 
             for (user in userDetails) {
+              let link = `/verify/${userid}`;
               let userid = userDetails[user].UserID;
 
               // for(product1 in productQuantity){
@@ -77,6 +78,7 @@ exports.getWallet = async (req, res, next) => {
                 walletBalance: walletBalance,
                 cartCount: cartCount,
                 countCouponcode: countCouponcode,
+                link: link,
               });
             }
           }
