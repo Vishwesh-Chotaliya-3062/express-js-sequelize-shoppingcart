@@ -45,12 +45,12 @@
 
                             <% if(!cartCount) { %>
                                 <li class="nav-item">
-                                    <a class="nav-link purple-link" href="/cart">CART</a>
+                                    <a class="nav-link purple-link" href="/cart" style="color: #6255a5;">CART</a>
                                 </li>
 
                                 <% } else{ %>
                                     <li class="nav-item">
-                                        <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                                        <a class="nav-link purple-link" href="/cart" style="color: #6255a5;">CART(<b style="color: #6255a6;">
                                                 <%= cartCount %>
                                             </b>)</a>
                                     </li>
@@ -178,6 +178,7 @@
                                                 data-toggle="modal" style="width: 100%; height: 35px;">SAVE
                                                 ADDRESS</button>
                                         </div>
+                                        <label style="margin-top: 20px; color: red;">Your Address is not saved.</label>
                                         <% } %>
                                             <% if(useraddress) { %>
                                                 <div class="h5" style="color: #6255a5; margin-top: -10px;"> <b>Billing
@@ -251,7 +252,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <label>Your Address is saved.</label>
+                                                <label style="color: #6255a5;">Your Address is saved.</label>
                                                 <% } %>
                                 </form>
                             </div>

@@ -467,6 +467,17 @@ exports.getPayment = async (req, res, next) => {
               },
             });
 
+            const userAddress = await Useraddress.findOne({
+              where: {
+                UserID: userid
+              }
+            });
+
+            if(!userAddress)
+            {
+              res.redirect('/orderdetails');
+            }
+
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
 

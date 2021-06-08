@@ -64,7 +64,7 @@
                         </li>
                         <% } %>
                           <li class="nav-item">
-                            <a class="nav-link purple-link" href="/history">
+                            <a class="nav-link purple-link" href="/history" style="color: #6255a5;">
                               MY ORDERS
                             </a>
                           </li>
@@ -153,7 +153,7 @@
                               </p>
                               <% } %>
                           </td>
-                          <td class="align-middle text-right">
+                          <td class="align-middle text-center">
                             <% for (u1 in Data2[u].orderdetails) { %>
                               <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
                                   Data2[u].orderdetails[u1].Quantity %>
@@ -229,7 +229,7 @@
                                     </p>
                                     <% } %>
                                 </td>
-                                <td class="align-middle text-right">
+                                <td class="align-middle text-center">
                                   <% for (u1 in Data1[u].orderdetails) { %>
                                     <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
                                         Data1[u].orderdetails[u1].Quantity %>
@@ -304,7 +304,7 @@
                                           </p>
                                           <% } %>
                                       </td>
-                                      <td class="align-middle text-right">
+                                      <td class="align-middle text-center">
                                         <% for (u1 in Data[u].orderdetails) { %>
                                           <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
                                               Data[u].orderdetails[u1].Quantity %>
