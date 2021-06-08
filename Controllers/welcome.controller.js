@@ -8,12 +8,19 @@ const {Cart} = require("../models/cart.model");
 const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
+var paginate = require('paginate')();
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 exports.userAuthorization = async (req, res, next) => {
   try {
     const token = req.cookies.token;
+   
+    if(req.cookies.Refresh)
+    { 
+      console.log(req.cookies.Refresh);
+      res.clearCookie("Refresh");
+    }
 
     if (!token) {
       // res.json({
@@ -88,7 +95,7 @@ exports.userAuthorization = async (req, res, next) => {
                 walletBalance: walletBalance,
                 cartCount : cartCount,
                 link: link,
-                countCouponcode: countCouponcode,
+                countCouponcode: countCouponcode
               });
             }
           }

@@ -33,7 +33,7 @@ exports.userAuthentication = async function (req, res, next) {
         if (err) {
           throw err;
         } else if (!isMatch) {
-          res.json({ msg: "Password doest not match" });
+          await res.render("login");
         } else {
           let payload = { UserID: user.UserID, UserName: user.UserName };
           let token = jwt.sign(payload, "thisismysecret", { expiresIn: 10000 });

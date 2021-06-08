@@ -11,7 +11,6 @@
 </head>
 
 <body>
-
     <section id="sign-up">
         <img src="images/pre-login/banner-with-overlay.jpg" id="forgot-pw-bg-img" alt="">
         <div id="forgot-pw-content" style="margin-top: -200px;">
@@ -29,9 +28,9 @@
                 <% if(typeof alert !='undefined' ) { %>
                     <% alert.forEach(function(error) { %>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert"
-                            style="margin-left: 47px; width: 480px; background-color: #FFF; color: #6255a5; border-color: #6255a5;">
+                            style="margin-left: 47px; width: 480px; height: 45px;background-color: #FFF; color: #6255a5; border-color: #6255a5; padding-top: 10px;">
                             <%= error.msg %>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding-top: 10px;">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                         </div>

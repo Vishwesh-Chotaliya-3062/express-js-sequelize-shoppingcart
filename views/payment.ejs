@@ -28,12 +28,6 @@
                     <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
                         id="navbarSupportedContent">
                         <ul class="navbar-nav" style="margin-left: auto;">
-                            <% for(let user in userDetails) { %>
-                                <li class="nav-item">
-                                    <a class="nav-link purple-link">Welcome <b style="color: #6255a6;">&nbsp;<%=
-                                                userDetails[user].UserName %>!</b></a>
-                                </li>
-                                <% } %>
                                     <li class="nav-item">
                                         <a class="nav-link purple-link" href="/welcome">HOME</a>
                                     </li>
@@ -71,14 +65,17 @@
                                                                 </b>)</a>
                                                         </li>
                                                         <% } %>
-
+                                                        <li class="nav-item">
+                                                            <a class="nav-link purple-link" href="/history">
+                                                                MY ORDERS
+                                                            </a>
+                                                        </li>
                                                             <% for(let user in userDetails) { %>
                                                                 <% if(userDetails[user].Status=='pending' ) { %>
                                                                     <li class="nav-item">
                                                                         <a id="nav-btn" style="width: 150px;"
                                                                             class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                            href="<%= link %>" role="button">VERIFY
-                                                                            EMAIL</a>
+                                                                            href="<%= link %>" role="button">VERIFY</a>
                                                                     </li>
                                                                     <% } %>
                                                                         <% } %>

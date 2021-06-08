@@ -19,6 +19,11 @@ exports.getCart = async (req, res, next) => {
     let cookieflag = 0;
     res.cookie("flag", cookieflag);
 
+    if (req.cookies.Refresh) {
+      console.log(req.cookies.Refresh);
+      res.clearCookie("Refresh");
+    }
+
     if (!token) {
       res.redirect("login");
       // res.json({
@@ -51,7 +56,7 @@ exports.getCart = async (req, res, next) => {
 
             const countCouponcode = await Couponcode.count({
               where: {
-                UserID : userid,
+                UserID: userid,
               },
             });
 
@@ -108,7 +113,7 @@ exports.getCart = async (req, res, next) => {
                 cartCount: cartCount,
                 link: link,
                 countCouponcode: countCouponcode,
-                cartTotalPrice: cartTotalPrice
+                cartTotalPrice: cartTotalPrice,
               });
             }
           }
@@ -126,7 +131,6 @@ exports.getCart = async (req, res, next) => {
 };
 
 exports.addToCart = async (req, res, next) => {
-
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
 
@@ -145,22 +149,25 @@ exports.addToCart = async (req, res, next) => {
       model: Product,
       where: {
         ProductID: ProductID,
-        UserID: UserID
+        UserID: UserID,
       },
     });
 
     console.log(cartProductQuantity);
 
-    if(productQuantity.QuantityLeft <= 0)
-    {
+    if (productQuantity.QuantityLeft <= 0) {
       return res.redirect("/welcome");
-    }
-    else{
-
-    
-    if (cartProductQuantity) {
-      if (cartProductQuantity.Quantity >= productQuantity.QuantityLeft) {
-        return res.redirect("/welcome");
+    } else {
+      if (cartProductQuantity) {
+        if (cartProductQuantity.Quantity >= productQuantity.QuantityLeft) {
+          return res.redirect("/welcome");
+        } else {
+          await sequelize.query("CALL AddToCart( :UserID, :ProductID)", {
+            replacements: { UserID, ProductID },
+            logging: false,
+          });
+          return res.redirect("/welcome");
+        }
       } else {
         await sequelize.query("CALL AddToCart( :UserID, :ProductID)", {
           replacements: { UserID, ProductID },
@@ -168,14 +175,7 @@ exports.addToCart = async (req, res, next) => {
         });
         return res.redirect("/welcome");
       }
-    } else {
-      await sequelize.query("CALL AddToCart( :UserID, :ProductID)", {
-        replacements: { UserID, ProductID },
-        logging: false,
-      });
-      return res.redirect("/welcome");
     }
-  }
     // return res.status(200).send("SuccessFull!");
   } catch (e) {
     console.log(e);

@@ -67,14 +67,18 @@
                                                                 </b>)</a>
                                                         </li>
                                                         <% } %>
-
+                                                            
+                                                        <li class="nav-item">
+                                                            <a class="nav-link purple-link" href="/history">
+                                                                MY ORDERS
+                                                            </a>
+                                                        </li>
                                                             <% for(let user in userDetails) { %>
                                                                 <% if(userDetails[user].Status=='pending' ) { %>
                                                                     <li class="nav-item">
-                                                                        <a id="nav-btn" style="width: 150px;"
+                                                                        <a id="nav-btn" style="width: 100px;"
                                                                             class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                            href="<%= link %>" role="button">VERIFY
-                                                                            EMAIL</a>
+                                                                            href="<%= link %>" role="button">VERIFY</a>
                                                                     </li>
                                                                     <% } %>
                                                                         <% } %>
@@ -175,7 +179,7 @@
                         <% } %>
                 </div>
             </div>
-
+        </div>
     </section>
 
     <!-- <script type="text/javascript">

@@ -587,9 +587,19 @@ exports.getStatus = async (req, res, next) => {
             await res.cookie("username", UserName);
             console.log("user", UserName);
 
+
             const result = await sequelize.transaction();
 
-            try {
+            try { 
+            const userAddress = await Useraddress.findOne({
+              where: {
+                UserID : userid
+              }
+            });
+            
+            const newAddress = userAddress.Address;
+            const newCity =  userAddress.City + "-" + userAddress.Zipcode;
+            const newAll = userAddress.State + ", " + userAddress.Country;
 
               const userDetails = await User.findAll({
                 attributes: ["UserID", "UserName", "Status"],
@@ -843,7 +853,10 @@ exports.getStatus = async (req, res, next) => {
                   orderOrderDetails: orderOrderDetails,
                   Data1: Data1,
                   itemsCount: itemsCount,
-                  userWalletUpdatedBalance: userWalletUpdatedBalance
+                  userWalletUpdatedBalance: userWalletUpdatedBalance,
+                  newAddress: newAddress,
+                  newCity: newCity,
+                  newAll: newAll
                 });
               }
             } catch (err) {
@@ -857,17 +870,30 @@ exports.getStatus = async (req, res, next) => {
                 {
                   where: {
                     userUserID: userid,
+                    id: orderId
                   },
                 }
               );
 
-              const userDetails = await User.findAll({
-                attributes: ["UserID", "UserName", "Status"],
-                include: Wallet,
+              
+            
+              const userAddress = await Useraddress.findOne({
                 where: {
-                  UserName: UserName,
-                },
+                  UserID : userid
+                }
               });
+              
+              const newAddress = userAddress.Address;
+              const newCity =  userAddress.City + "-" + userAddress.Zipcode;
+              const newAll = userAddress.State + ", " + userAddress.Country; 
+
+                const userDetails = await User.findAll({
+                  attributes: ["UserID", "UserName", "Status"],
+                  include: Wallet,
+                  where: {
+                    UserName: UserName,
+                  },
+                });
 
               const countCouponcode = await Couponcode.count({
                 where: {
@@ -975,6 +1001,20 @@ exports.getStatus = async (req, res, next) => {
                 let userWalletUpdatedBalance = walletUser.Balance;
                 userWalletUpdatedBalance = Math.ceil(userWalletUpdatedBalance);
 
+                let itemsCount = await OrderDetail.findOne({
+                  attributes: [
+                    [
+                      sequelize.fn("SUM", sequelize.col("Quantity")),
+                      "Quantity",
+                    ],
+                  ],
+                  where: {
+                    orderId: orderId,
+                  },
+                });
+
+                itemsCount = itemsCount.Quantity;
+
                 await res.render("status", {
                   userDetails: userDetails,
                   countProducts: countProducts,
@@ -988,7 +1028,11 @@ exports.getStatus = async (req, res, next) => {
                   orderOrderDetails: orderOrderDetails,
                   Data1: Data1,
                   outofstock: outofstock,
-                  userWalletUpdatedBalance: userWalletUpdatedBalance
+                  userWalletUpdatedBalance: userWalletUpdatedBalance,
+                  itemsCount: itemsCount,
+                  newAddress: newAddress,
+                  newCity: newCity,
+                  newAll: newAll
                 });
               }
             }

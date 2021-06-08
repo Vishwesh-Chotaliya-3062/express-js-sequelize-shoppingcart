@@ -4,19 +4,26 @@ const { sequelize } = require("../models/db");
 const { User } = require("../models/user.model");
 const { Wallet } = require("../models/wallet.model");
 const { Cart } = require("../models/cart.model");
+const { Product } = require("../models/product.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 
 var cookieParser = require("cookie-parser");
 const { Couponcode } = require("../models/couponcode.model");
+const { Order, OrderDetail } = require("../models/order.model");
+
 app.use(cookieParser());
 
-exports.getCouponcode = async (req, res, next) => {
+exports.getHistory = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
+     if(req.cookies.Refresh)
+    { 
+      console.log(req.cookies.Refresh);
+      res.clearCookie("Refresh");
+    }
 
-    
     if (!token) {
       res.redirect("login");
       // res.json({
@@ -46,6 +53,14 @@ exports.getCouponcode = async (req, res, next) => {
                 UserName: UserName,
               },
             });
+
+            const getOrder = await Order.count({
+              where: {
+                userUserID: userid
+              }
+            });
+
+            console.log(getOrder);
 
             const countCouponcode = await Couponcode.count({
               where: {
@@ -82,14 +97,57 @@ exports.getCouponcode = async (req, res, next) => {
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-              await res.render("couponcode", {
+              const Data = await Order.findAll({
+                where: {
+                  userUserID: userid,
+                  Status: "failed"
+                },
+                include: {
+                  model: OrderDetail,
+                  include: {
+                    model: Product,
+                  },
+                },
+              });
+
+              const Data1 = await Order.findAll({
+                where: {
+                  userUserID: userid,
+                  Status: "success"
+                },
+                include: {
+                  model: OrderDetail,
+                  include: {
+                    model: Product,
+                  },
+                },
+              });
+
+              const Data2 = await Order.findAll({
+                where: {
+                  userUserID: userid,
+                  Status: "pending"
+                },
+                include: {
+                  model: OrderDetail,
+                  include: {
+                    model: Product,
+                  },
+                },
+              });
+
+              await res.render("history", {
                 userDetails: userDetails,
                 countProducts: countProducts,
                 walletBalance: walletBalance,
                 cartCount: cartCount,
                 link: link,
                 countCouponcode: countCouponcode,
-                couponcodeDetails: couponcodeDetails
+                couponcodeDetails: couponcodeDetails,
+                getOrder: getOrder,
+                Data: Data,
+                Data1: Data1,
+                Data2: Data2
               });
             }
           }

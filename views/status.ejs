@@ -30,12 +30,6 @@
                     <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
                         id="navbarSupportedContent">
                         <ul class="navbar-nav" style="margin-left: auto;">
-                            <% for(let user in userDetails) { %>
-                                <li class="nav-item">
-                                    <a class="nav-link purple-link">Welcome <b style="color: #6255a6;">&nbsp;<%=
-                                                userDetails[user].UserName %>!</b></a>
-                                </li>
-                                <% } %>
                                     <li class="nav-item">
                                         <a class="nav-link purple-link" href="/welcome">HOME</a>
                                     </li>
@@ -73,14 +67,17 @@
                                                                 </b>)</a>
                                                         </li>
                                                         <% } %>
-
+                                                        <li class="nav-item">
+                                                            <a class="nav-link purple-link" href="/history">
+                                                                MY ORDERS
+                                                            </a>
+                                                        </li>
                                                             <% for(let user in userDetails) { %>
                                                                 <% if(userDetails[user].Status=='pending' ) { %>
                                                                     <li class="nav-item">
                                                                         <a id="nav-btn" style="width: 150px;"
                                                                             class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                            href="<%= link %>" role="button">VERIFY
-                                                                            EMAIL</a>
+                                                                            href="<%= link %>" role="button">VERIFY</a>
                                                                     </li>
                                                                     <% } %>
                                                                         <% } %>
@@ -98,7 +95,7 @@
 
     <section id="login">
 
-        <div id="login-content" style="margin-top: 55px; ">
+        <div id="login-content" style="margin-top: 54px; ">
             <div id="logo">
                 <img src="images/pre-login/top-logo.png" class="img-fluid" alt="" style="margin-top: -20px;">
             </div>
@@ -131,11 +128,11 @@
                                                         </tr>
                                                         <tr>
                                                             <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> SubTotal (<%= itemsCount %> items) </td>
-                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> <%= Data1.TotalAmount %> </td>
+                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> $<%= Data1.TotalAmount %> </td>
                                                         </tr>
                                                         <tr>
                                                             <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;"> Discount </td>
-                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;"> <%= Data1.DiscountedAmount %> </td>
+                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;"> $<%= Data1.DiscountedAmount %> </td>
                                                         </tr>
                                                     </table>
                                                 </td>
@@ -145,7 +142,7 @@
                                                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                                         <tr>
                                                             <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> TOTAL </td>
-                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> $115.00 </td>
+                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> $<%= Data1.PurchaseTotal %> </td>
                                                         </tr>
                                                     </table>
                                                 </td>
@@ -163,7 +160,7 @@
                                                             <tr>
                                                                 <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
                                                                     <p style="font-weight: 800;">Delivery Address</p>
-                                                                    <p>675 Massachusetts Avenue<br>11th Floor<br>Cambridge, MA 02139</p>
+                                                                    <p><%= newAddress %>,<br><%= newCity %>,<br><%= newAll %></p>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -172,8 +169,97 @@
                                                         <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                                             <tr>
                                                                 <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                                    <p style="font-weight: 800;">Estimated Delivery Date</p>
-                                                                    <p>January 1st, 2016</p>
+                                                                    <p style="font-weight: 800;">Order Confirmation Date</p>
+                                                                    <p><%= Data1.Date %></p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div id="login-btn" style="margin-top: -10px; margin-left: 10px;">
+                    <a href="/welcome" style="color: #6255a5; margin-right: 70px;">BACK TO SHOPPING</a>
+                    <a href="/history" style="margin-top: 0px; color: #6255a5; margin-right: 70px;">ORDER HISTORY</a>
+                </div>
+            </div>
+
+            <% } else if(Data1.Status == "failed") { %>
+
+            <div class="container-cust" id="login-form" style="margin-bottom: 0px; margin-top: -30px;">
+                <div style="margin-left: 260px; margin-top: 30px;">
+                    <img src="/images/FAILED.png" style="height: 60px; width: 60px;">
+                </div>
+                <div id="login-heading" style="margin-top: -40px;">
+                    <p style="color: red;"><%= outofstock %> Out of Stock</p>                    
+                </div>
+
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: -30px;">
+                    <tr>
+                        <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
+                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                                <tr>
+                                    <td align="center" style="padding: 35px 35px 20px 35px; background-color: #ffffff;" bgcolor="#ffffff">
+                                        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                                            
+                                            <tr>
+                                                <td align="left" style="padding-top: 20px;">
+                                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                                        <tr>
+                                                            <td width="75%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;"> Order Failure # </td>
+                                                            <td width="25%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;"> <%= Data1.id %> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> SubTotal (<%= itemsCount %> items) </td>
+                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;"> $<%= Data1.TotalAmount %> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;"> Discount </td>
+                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;"> $<%= Data1.DiscountedAmount %> </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" style="padding-top: 20px;">
+                                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                                        <tr>
+                                                            <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> TOTAL </td>
+                                                            <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> $<%= Data1.PurchaseTotal %> </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" height="100%" valign="top" width="100%" style="padding: 0 35px 35px 35px; background-color: #ffffff;" bgcolor="#ffffff">
+                                        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:660px;">
+                                            <tr>
+                                                <td align="center" valign="top" style="font-size:0;">
+                                                    <div style="display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;">
+                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px; margin-right: 50px;">
+                                                            <tr>
+                                                                <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
+                                                                    <p style="font-weight: 800;">Delivery Address</p>
+                                                                    <p><%= newAddress %>,<br><%= newCity %>,<br><%= newAll %></p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div style="display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;">
+                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
+                                                            <tr>
+                                                                <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
+                                                                    <p style="font-weight: 800;">Order Failure Date</p>
+                                                                    <p><%= Data1.Date %></p>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -185,57 +271,13 @@
                                 </tr>
                                 
                             </table>
+                            
                         </td>
                     </tr>
                 </table>
-            </div>
-
-            <% } else if(Data1.Status == "failed") { %>
-
-            <div class="container-cust" id="login-form" style="margin-bottom: 0px; margin-top: -30px;">
-                <div style="margin-left: 260px; margin-top: 30px;">
-                    <img src="/images/FAILED.png" style="height: 60px; width: 60px;">
-                </div>
-                <div id="login-heading" style="margin-top: -40px;">
-                    <p><%= outofstock %> Out of Stock</p>                    
-                </div>
-                <div>
-                <div style="margin-left: 140px;">
-                    <div class="d-flex align-items-center">
-                        <div class="display-5">Order Number </div>
-                        <div class="display-5" style="margin-left: 67px;">:</div>
-                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
-                            #<%= Data1.id %>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div class="display-5">Subtotal </div>
-                        <div class="display-5" style="margin-left: 112px;">:</div>
-                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
-                            $<%= Data1.TotalAmount %>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div class="display-5">Discount </div>
-                        <div class="display-5" style="margin-left: 110px;">:</div>
-                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
-                            $<%= Data1.DiscountedAmount %>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div class="display-5">Purchase Total </div>
-                        <div class="display-5" style="margin-left: 72px;">:</div>
-                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
-                            $<%= Data1.PurchaseTotal %>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div class="display-5">Order Date </div>
-                        <div class="display-5" style="margin-left: 72px;">:</div>
-                        <div class="ml-auto font-weight-bold" style="margin-right: 140px;">
-                            $<%= Data1.Date %>
-                        </div>
-                    </div>
+                <div id="login-btn" style="margin-top: -10px; margin-left: 10px;">
+                    <a href="/welcome" style="color: #6255a5; margin-right: 70px;">BACK TO SHOPPING</a>
+                    <a href="/<%= orderId %>/payment" style="margin-top: 0px; color: #6255a5; margin-right: 70px;">RETRY</a>
                 </div>
             </div>
             <% } %>
