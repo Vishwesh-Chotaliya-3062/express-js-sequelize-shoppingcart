@@ -20,7 +20,8 @@
 
             <div id="forgot-pw-text-1" style="margin-top: 20px;">
                 <p style="color: #47cf48;"><img src="/images/Artboard 1.png"
-                        style="width: 15px; height: 15px; transform: translateY(-2px);" alt=""> Verify email and get $500 in your
+                        style="width: 15px; height: 15px; transform: translateY(-2px);" alt=""> Verify email and get
+                    $500 in your
                     wallet.</p>
             </div>
             <div class="container-cust" id="login-form" style="margin-bottom: 0px; margin-top: -30px;">
@@ -32,7 +33,7 @@
                 <div id="login-text-1">
                     <p>Enter your username and password to login</p>
                 </div>
-               
+
                 <form action="/login" method="post" name="Form">
                     <div class="form-group ip-text" style="margin-top: -10px;">
                         <div class="input-auth">
@@ -41,15 +42,17 @@
                                 placeholder="Enter your name">
                         </div>
                         <% if(locals.checkEmpty) { %>
-                            <label for="password_error" style="color: red; margin-left: 50px; margin-bottom: -5px; font-size: 12px; ">
+                            <label for="password_error"
+                                style="color: red; margin-left: 50px; margin-bottom: -5px; font-size: 12px; ">
                                 <%= checkEmpty %>
                             </label>
                             <% } %>
-                            <% if(locals.checkUser) { %>
-                                <label for="password_error" style="color: red; margin-left: 50px; margin-bottom: -5px; font-size: 12px; ">
-                                    <%= checkUser %>
-                                </label>
-                                <% } %>
+                                <% if(locals.checkUser) { %>
+                                    <label for="password_error"
+                                        style="color: red; margin-left: 50px; margin-bottom: -5px; font-size: 12px; ">
+                                        <%= checkUser %>
+                                    </label>
+                                    <% } %>
                     </div>
                     <div class="form-group ip-text">
                         <div class="input-auth">

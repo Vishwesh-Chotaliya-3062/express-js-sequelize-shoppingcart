@@ -30,25 +30,22 @@ exports.create = async (req, res) => {
   var checkUserEmpty = "";
   var checkEmailEmpty = "";
   var checkPassEmpty = "";
-  const {UserName, Email, Password} = req.body;
-  if(!UserName)
-  {
+  const { UserName, Email, Password } = req.body;
+  if (!UserName) {
     console.log(UserName);
     checkUserEmpty = "Username is Empty.";
     res.render("signup", {
       checkUserEmpty,
     });
   }
-  if(!Email)
-  {
+  if (!Email) {
     console.log(Email);
     checkEmailEmpty = "Email is Empty.";
     res.render("signup", {
       checkEmailEmpty,
     });
   }
-  if(!Password)
-  {
+  if (!Password) {
     checkPassEmpty = "Password is Empty.";
     res.render("signup", {
       checkPassEmpty,

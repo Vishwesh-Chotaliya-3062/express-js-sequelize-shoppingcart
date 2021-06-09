@@ -469,13 +469,12 @@ exports.getPayment = async (req, res, next) => {
 
             const userAddress = await Useraddress.findOne({
               where: {
-                UserID: userid
-              }
+                UserID: userid,
+              },
             });
 
-            if(!userAddress)
-            {
-              res.redirect('/orderdetails');
+            if (!userAddress) {
+              res.redirect("/orderdetails");
             }
 
             for (user in userDetails) {

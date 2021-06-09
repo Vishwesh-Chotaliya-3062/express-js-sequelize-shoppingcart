@@ -23,7 +23,6 @@ exports.getVerify = async (req, res, next) => {
 };
 
 exports.postVerify = async function (req, res, next) {
- 
   const { UserID, secretcode } = req.body;
   if (!secretcode) {
     res.status(400).redirect("verify/" + UserID);

@@ -167,18 +167,18 @@
                           <td class="align-middle text-center">$<%= Data2[u].PurchaseTotal %>
                           </td>
                           <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
-                              href="/orderdetails" style=" color: blue;"
-                              aria-label="view details & options">
+                              href="/orderdetails" style=" color: blue;" aria-label="view details & options">
                               <%= Data2[u].Status %>
                             </a></td>
                           <td class="align-middle text-center" style="max-width: 140px;">
                             <%= Data2[u].Remark %>
                           </td>
-                          <td class="align-middle text-center" style="max-width: 70px;"><a type="button" onclick="return confirm('Are you sure you want to delete this order?');"
-                            href="/history/delete/<%= Data2[u].id %>" style=" color: #6255a5;"
-                            aria-label="view details & options">
-                            <img src="images/delete.png">
-                          </a></td>
+                          <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
+                              onclick="return confirm('Are you sure you want to delete this order?');"
+                              href="/history/delete/<%= Data2[u].id %>" style=" color: #6255a5;"
+                              aria-label="view details & options">
+                              <img src="images/delete.png">
+                            </a></td>
                         </tr>
                         <% } %>
                     </tbody>
@@ -253,17 +253,18 @@
                                 <td class="align-middle text-center" style="max-width: 140px;">
                                   <%= Data1[u].Remark %>
                                 </td>
-                                <td class="align-middle text-center" style="max-width: 70px;"><a type="button" onclick="return confirm('Are you sure you want to delete this order?');"
-                                  href="/history/delete/<%= Data1[u].id %>" style=" color: #6255a5;"
-                                  aria-label="view details & options">
-                                  <img src="images/delete.png">
-                                </a></td>
+                                <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
+                                    onclick="return confirm('Are you sure you want to delete this order?');"
+                                    href="/history/delete/<%= Data1[u].id %>" style=" color: #6255a5;"
+                                    aria-label="view details & options">
+                                    <img src="images/delete.png">
+                                  </a></td>
                               </tr>
                               <% } %>
                           </tbody>
                         </table>
                       </div>
-                      <% } %> 
+                      <% } %>
 
                         <% if(!Data.length) { %>
                           <div id="filter-result-heading">
@@ -327,19 +328,20 @@
                                       </td>
                                       <td class="align-middle text-center">$<%= Data[u].PurchaseTotal %>
                                       </td>
-                                      <td class="align-middle text-center"><a
-                                          type="button" href="/<%= Data[u].id %>/payment" style=" color: red;"
+                                      <td class="align-middle text-center"><a type="button"
+                                          href="/<%= Data[u].id %>/payment" style=" color: red;"
                                           aria-label="view details & options">
                                           <%= Data[u].Status %>
                                         </a></td>
                                       <td class="align-middle text-center" style="max-width: 140px;">
                                         <%= Data[u].Remark %>
                                       </td>
-                                      <td class="align-middle text-center" style="max-width: 70px;"><a type="button" onclick="return confirm('Are you sure you want to delete this order?');"
-                                        href="/history/delete/<%= Data[u].id %>" style=" color: #6255a5;"
-                                        aria-label="view details & options">
-                                        <img src="images/delete.png">
-                                      </a></td>
+                                      <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
+                                          onclick="return confirm('Are you sure you want to delete this order?');"
+                                          href="/history/delete/<%= Data[u].id %>" style=" color: #6255a5;"
+                                          aria-label="view details & options">
+                                          <img src="images/delete.png">
+                                        </a></td>
                                     </tr>
                                     <% } %>
                                 </tbody>
