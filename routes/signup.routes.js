@@ -11,7 +11,7 @@ module.exports = (app) => {
     [
       check("UserName", "User Name must be 3+ characters long")
         .exists()
-        .isLength({ min: 3 }),
+        .isLength({ min: 4 }),
       check("Email", "Email is not valid").exists().isEmail(),
     ],
     user.create
