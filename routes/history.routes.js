@@ -5,5 +5,7 @@ module.exports = (app) => {
 
   router.get("/history", history.getHistory);
 
+  router.get("/history/delete/:orderId", history.deleteOrder);
+
   app.use("/", router);
 };

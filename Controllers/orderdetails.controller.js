@@ -180,7 +180,7 @@ exports.getCart = async (req, res, next) => {
                   PurchaseTotal: purchaseTotal,
                   orderdetails: cartDetail,
                   Status: "pending",
-                  Remark: "order not placed",
+                  Remark: "payment pending",
                 };
 
                 const order = await Order.create(orderData, {
@@ -317,7 +317,7 @@ exports.getCart = async (req, res, next) => {
                   PurchaseTotal: purchaseTotal,
                   orderdetails: cartDetail,
                   Status: "pending",
-                  Remark: "order not placed",
+                  Remark: "payment pending",
                 };
 
                 const order = await Order.create(orderData, {

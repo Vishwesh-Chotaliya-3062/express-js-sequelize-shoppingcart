@@ -162,3 +162,18 @@ exports.getHistory = async (req, res, next) => {
     return res.status(500).json(error.message);
   }
 };
+
+exports.deleteOrder = async (req, res, next) => {
+  const orderId = req.params.orderId;
+  console.log("Delete:", orderId);
+
+  try {
+    await sequelize.query("CALL DeleteOrder( :orderId)", {
+      replacements: { orderId },
+    });
+    return res.redirect("/history");
+  } catch (e) {
+    console.log(e);
+    return res.send(500).send("Something went wrong!");
+  }
+};
