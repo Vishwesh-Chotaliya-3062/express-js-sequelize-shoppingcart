@@ -32,6 +32,11 @@ const Order = sequelize.define(
       allowNull: true,
       defaultValue: "Payment pending",
     },
+    Coupon: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: "No Coupon Applied",
+    },
   },
   {
     timestamps: true,

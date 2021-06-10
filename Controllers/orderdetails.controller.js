@@ -173,6 +173,14 @@ exports.getCart = async (req, res, next) => {
 
                 const purchaseTotal = sum.Total - discountPrice;
 
+                const coupon = await Couponcode.findOne({
+                  where: {
+                    UserID : userid
+                  }
+                });
+
+                console.log(coupon.Details);
+
                 let orderData = {
                   userUserID: userid,
                   TotalAmount: sum.Total,
@@ -181,6 +189,7 @@ exports.getCart = async (req, res, next) => {
                   orderdetails: cartDetail,
                   Status: "pending",
                   Remark: "payment pending",
+                  Coupon: coupon.Details
                 };
 
                 const order = await Order.create(orderData, {
@@ -318,6 +327,7 @@ exports.getCart = async (req, res, next) => {
                   orderdetails: cartDetail,
                   Status: "pending",
                   Remark: "payment pending",
+                  Coupon: "No"
                 };
 
                 const order = await Order.create(orderData, {

@@ -127,6 +127,7 @@
                         <th scope="col" class="align-middle text-center">Discount</th>
                         <th scope="col" class="align-middle text-center">PurchaseTotal</th>
                         <th scope="col" class="align-middle text-center">Status</th>
+                        <th scope="col" class="align-middle text-center">Coupon</th>
                         <th scope="col" class="align-middle text-center">Remark</th>
                       </tr>
                     </thead>
@@ -141,7 +142,7 @@
                           </td>
                           <td class="align-middle" style="min-width: 220px;">
                             <% for (u1 in Data2[u].orderdetails) { %>
-                              <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=
+                              <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <%=
                                   Data2[u].orderdetails[u1].product.ProductName %> by <%=
                                     Data2[u].orderdetails[u1].product.CompanyName %>
                               </p>
@@ -166,11 +167,13 @@
                           </td>
                           <td class="align-middle text-center">$<%= Data2[u].PurchaseTotal %>
                           </td>
-                          <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
+                          <td class="align-middle" style="max-width: 70px;"><a type="button"
                               href="/orderdetails" style=" color: blue;" aria-label="view details & options">
                               <%= Data2[u].Status %>
                             </a></td>
-                          <td class="align-middle text-center" style="max-width: 140px;">
+                          <td class="align-middle text-center"><%= Data2[u].Coupon %>
+                          </td>
+                          <td class="align-middle text-center" style="max-width: 50px;">
                             <%= Data2[u].Remark %>
                           </td>
                           <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
@@ -207,6 +210,7 @@
                               <th scope="col" class="align-middle text-center">Discount</th>
                               <th scope="col" class="align-middle text-center">PurchaseTotal</th>
                               <th scope="col" class="align-middle text-center">Status</th>
+                              <th scope="col" class="align-middle text-center">Coupon</th>
                               <th scope="col" class="align-middle text-center">Remark</th>
                             </tr>
                           </thead>
@@ -222,7 +226,7 @@
                                 </td>
                                 <td class="align-middle" style="min-width: 220px;">
                                   <% for (u1 in Data1[u].orderdetails) { %>
-                                    <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=
+                                    <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <%=
                                         Data1[u].orderdetails[u1].product.ProductName %> by <%=
                                           Data1[u].orderdetails[u1].product.CompanyName %>
                                     </p>
@@ -250,7 +254,9 @@
                                 <td class="align-middle text-center" style="max-width: 70px; color: green;">
                                   <%= Data1[u].Status %></a>
                                 </td>
-                                <td class="align-middle text-center" style="max-width: 140px;">
+                                <td class="align-middle text-center"><%= Data1[u].Coupon %>
+                                </td>
+                                <td class="align-middle text-center" style="max-width: 50px;">
                                   <%= Data1[u].Remark %>
                                 </td>
                                 <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
@@ -287,6 +293,7 @@
                                     <th scope="col" class="align-middle text-center">Discount</th>
                                     <th scope="col" class="align-middle text-center">PurchaseTotal</th>
                                     <th scope="col" class="align-middle text-center">Status</th>
+                                    <th scope="col" class="align-middle text-center">Coupon</th>
                                     <th scope="col" class="align-middle text-center">Remark</th>
                                   </tr>
                                 </thead>
@@ -302,7 +309,7 @@
                                       </td>
                                       <td class="align-middle" style="min-width: 220px;">
                                         <% for (u1 in Data[u].orderdetails) { %>
-                                          <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=
+                                          <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <%=
                                               Data[u].orderdetails[u1].product.ProductName %> by <%=
                                                 Data[u].orderdetails[u1].product.CompanyName %>
                                           </p>
@@ -328,12 +335,14 @@
                                       </td>
                                       <td class="align-middle text-center">$<%= Data[u].PurchaseTotal %>
                                       </td>
-                                      <td class="align-middle text-center"><a type="button"
+                                      <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
                                           href="/<%= Data[u].id %>/payment" style=" color: red;"
                                           aria-label="view details & options">
                                           <%= Data[u].Status %>
-                                        </a></td>
-                                      <td class="align-middle text-center" style="max-width: 140px;">
+                                      </a></td>
+                                      <td class="align-middle text-center"><%= Data[u].Coupon %>
+                                      </td>
+                                      <td class="align-middle text-center" style="max-width: 50px;">
                                         <%= Data[u].Remark %>
                                       </td>
                                       <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
