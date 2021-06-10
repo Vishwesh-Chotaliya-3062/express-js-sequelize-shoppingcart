@@ -17,6 +17,7 @@ exports.userAuthentication = async function (req, res, next) {
       where: obj,
     });
   };
+  
   var checkPass = "";
   var checkEmpty = "";
   var checkUser = "";
