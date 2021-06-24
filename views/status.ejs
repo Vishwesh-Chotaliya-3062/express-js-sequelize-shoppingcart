@@ -80,11 +80,18 @@
                                                             </li>
                                                             <% } %>
                                                                 <% } %>
-                                                                    <li class="nav-item">
-                                                                        <a id="nav-btn"
-                                                                            class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                            href="/logout">LOGOUT</a>
-                                                                    </li>
+                                                                <li class="nav-item">
+                                                                    <div class="dropdown">
+                                                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <img src="images/reviewer-<%= userDetails[user].UserID %>.png" alt="">
+                                                                        </a>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                            <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                                                            <a class="dropdown-item" href="/changepassword">Change Password</a>
+                                                                            <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
                         </ul>
                     </div>
                 </div>

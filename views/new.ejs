@@ -1,0 +1,148 @@
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <title>Change Password</title>
+    <link href="/https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+  
+  <body style="background-color: #eee;">
+  
+    <section id="nav-header" style="height: 100px;">
+      <header>
+        <nav class="navbar navbar-expand-md fixed-top white-nav">
+          <div class="container">
+            <div class="img-logo">
+              <a href="/welcome" class="navbar-brand">
+                <img src="images/logo.png" class="img-fluid" alt="">
+              </a>
+            </div>
+  
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+  
+            <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
+              <ul class="navbar-nav" style="margin-left: auto;">
+                <li class="nav-item">
+                  <a class="nav-link purple-link" href="/welcome">HOME</a>
+                </li>
+  
+                <li class="nav-item">
+                  <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
+                      <%= walletBalance %>
+                    </b>)</a>
+                </li>
+  
+                <% if(!cartCount) { %>
+                  <li class="nav-item">
+                    <a class="nav-link purple-link" href="/cart">CART</a>
+                  </li>
+  
+                  <% } else{ %>
+                    <li class="nav-item">
+                      <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                          <%= cartCount %>
+                        </b>)</a>
+                    </li>
+                    <% } %>
+  
+                      <% if(!countCouponcode) { %>
+                        <li class="nav-item">
+                          <a class="nav-link purple-link" href="/couponcode" style="color: #6255a5;">COUPON CODE</a>
+                        </li>
+  
+                        <% } else{ %>
+                          <li class="nav-item">
+                            <a class="nav-link purple-link" href="/couponcode" style="color: #6255a5;">COUPON CODE (<b
+                                style="color: #6255a6;">
+                                <%= countCouponcode %>
+                              </b>)</a>
+                          </li>
+                          <% } %>
+                            <li class="nav-item">
+                              <a class="nav-link purple-link" href="/history">
+                                MY ORDERS
+                              </a>
+                            </li>
+                            <% for(let user in userDetails) { %>
+                              <% if(userDetails[user].Status=='pending' ) { %>
+                                <li class="nav-item">
+                                  <a id="nav-btn" style="width: 150px;"
+                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                    href="<%= link %>" role="button">VERIFY EMAIL</a>
+                                </li>
+                                <% } %>
+                                  <% } %>
+                                  <li class="nav-item">
+                                    <div class="dropdown">
+                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="images/reviewer-<%= userDetails[user].UserID %>.png" alt="">
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                            <a class="dropdown-item" href="/changepassword">Change Password</a>
+                                            <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                        </div>
+                                    </div>
+                                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </section>
+
+    <section id="change-pw">
+        <img src="images/pre-login/banner-with-overlay.jpg" id="forgot-pw-bg-img" alt="">
+        <div id="forgot-pw-content">
+            <div id="logo">
+                <img src="images/pre-login/top-logo.png" alt="" style="margin-top: 80px;">
+            </div>
+            <div class="container" id="forgot-pw-form" style="margin-bottom: 50px;">
+                <div id="forgot-pw-heading">
+                    <p>Change Password?</p>
+                </div>
+                <div id="forgot-pw-text-1">
+                    <p>Enter your new password to change your password</p>
+                </div>
+                <form>
+
+                    <div class="form-group ip-text">
+                        <div class="input-auth">
+                            <label for="email">Old Password</label>
+                            <input type="password" class="form-control input-field" id="email" placeholder="Enter your old password" style="background: url(images/eye.png) no-repeat scroll 440px 17px; background-color: white; padding-left:10px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group ip-text">
+                        <div class="input-auth">
+                            <label for="email">New Password</label>
+                            <input type="password" class="form-control input-field" id="email" placeholder="Enter your new password" style="background: url(images/eye.png) no-repeat scroll 440px 17px; background-color: white; padding-left:10px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group ip-text">
+                        <div class="input-auth">
+                            <label for="email">Confirm Password</label>
+                            <input type="password" class="form-control input-field" id="email" placeholder="Enter your confirm password" style="background: url(images/eye.png) no-repeat scroll 440px 17px; background-color: white; padding-left:10px;">
+                        </div>
+                    </div>
+
+                    <div id="forgot-pw-btn">
+                        <button type="submit" class="btn btn-forgot-pw">SUBMIT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </section>
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+</body>

@@ -33,9 +33,7 @@ exports.getCart = async (req, res, next) => {
 
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.json({
-              error: "Unauthorized",
-            });
+            res.redirect("login");
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -444,7 +442,7 @@ exports.getPayment = async (req, res, next) => {
     const orderId = req.params.orderId;
 
     if (!token) {
-      res.render("login");
+      res.redirect("login");
       // res.json({
       //   error: "Unauthorized",
       // });
@@ -454,7 +452,7 @@ exports.getPayment = async (req, res, next) => {
 
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.render("login");
+            res.redirect("login");
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -580,7 +578,7 @@ exports.getStatus = async (req, res, next) => {
     }
 
     if (!token) {
-      res.render("login");
+      res.redirect("login");
       // res.json({
       //   error: "Unauthorized",
       // });
@@ -590,7 +588,7 @@ exports.getStatus = async (req, res, next) => {
 
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.render("login");
+            res.redirect("login");
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);

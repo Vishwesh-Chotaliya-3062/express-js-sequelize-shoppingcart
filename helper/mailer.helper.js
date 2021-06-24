@@ -88,3 +88,23 @@ exports.sendGifts = (user, couponcode) => {
     }
   });
 };
+
+exports.sendPasswordChanged = (user) => {
+  const verifyMail = {
+    from: "v.d.chotaliya31@gmail.com",
+    to: user.Email,
+    subject: "Your password is changed",
+    html: `<h1>Hello ${user.UserName}</h1>
+    
+        This is an automatic message from Shopping Cart Security System.<br><br>
+        This is to inform you that your account password is now changed.`,
+  };
+
+  transporter.sendMail(verifyMail, (err, info) => {
+    if (err) {
+      console.log(err.message);
+    } else {
+      console.log("Mail sent: ", info.response);
+    }
+  });
+};

@@ -14,6 +14,7 @@ app.use(cookieParser());
 exports.userAuthorization = async (req, res, next) => {
   try {
     const token = req.cookies.token;
+    const Add = req.cookies.Add;
 
     if (req.cookies.Refresh) {
       console.log(req.cookies.Refresh);
@@ -31,9 +32,7 @@ exports.userAuthorization = async (req, res, next) => {
 
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.json({
-              error: "Unauthorized",
-            });
+            res.redirect("login");
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -90,7 +89,9 @@ exports.userAuthorization = async (req, res, next) => {
                 walletBalance: walletBalance,
                 cartCount: cartCount,
                 link: link,
+                userid: userid,
                 countCouponcode: countCouponcode,
+                Add: Add
               });
             }
           }

@@ -34,9 +34,7 @@ exports.getHistory = async (req, res, next) => {
 
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.json({
-              error: "Unauthorized",
-            });
+            res.redirect("login");
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
