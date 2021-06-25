@@ -42,13 +42,13 @@
                                 placeholder="Enter your name">
                         </div>
                         <% if(locals.checkEmpty) { %>
-                            <label for="password_error"
+                            <label class='label1' for="password_error"
                                 style="color: red; margin-left: 50px; margin-bottom: -5px; font-size: 12px; ">
                                 <%= checkEmpty %>
                             </label>
                             <% } %>
                                 <% if(locals.checkUser) { %>
-                                    <label for="password_error"
+                                    <label class='label1' for="password_error"
                                         style="color: red; margin-left: 50px; margin-bottom: -5px; font-size: 12px; ">
                                         <%= checkUser %>
                                     </label>
@@ -59,22 +59,20 @@
                             <label for="password">Password</label>
                             <label for="forgot" style="display: inline-block; margin-left: 271px; color: #6255a5">Forgot
                                 Password?</label>
-                            <input type="password" class="form-control input-field" name="Password" id="Password"
-                                placeholder="Enter your password"
-                                style="background: url(images/eye.png) no-repeat scroll 440px 17px; background-color: white; padding-left:10px; margin-bottom: 0px;">
+                            <input type="password" class="form-control input-field" style="height: 50px;" name="Password" id="Password"
+                                placeholder="Enter your password">
                         </div>
-                        <% if(locals.checkPass) { %>
-                            <label for="password_error" style="color: red; margin-left: 50px; font-size: 12px;">
-                                <%= checkPass %>
-                            </label>
-                            <% } %>
                     </div>
+                    <% if(locals.checkPass) { %>
+                        <label for="password_error" class='label1' style="color: red; margin-left: 50px; margin-top: -20px; font-size: 12px;">
+                            <%= checkPass %>
+                        </label>
+                        <% } %>
 
                     <div class="form-group ip-cb">
                         <div class="input-auth">
-                            <input type="checkbox" id="exampleCheck1" style="margin-bottom: 30px;">
-                            <label for="exampleCheck1" style="vertical-align: middle; margin-top: -10px;">Remember
-                                me</label>
+                            <input type="checkbox" id="exampleCheck1" style="margin-bottom: 30px;" onclick="hello2()">
+                            <label for="exampleCheck1" style="vertical-align: middle; margin-top: -10px;">Show Password</label>
                         </div>
                     </div>
                     <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
@@ -91,6 +89,24 @@
 
     </section>
 
+    <script>
+        function hello2() {
+          var x = document.getElementById('Password');
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
+        }
+
+        setTimeout(function() {
+            var alerts = document.getElementsByClassName("label1");
+        
+            for( var i = 0; i < alerts.length; i++ ) {
+                alerts[i].style.display = "none";
+            }
+        }, 2000);
+    </script>
     <script src="js/jquery-3.5.1.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
