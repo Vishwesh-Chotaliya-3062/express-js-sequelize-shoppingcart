@@ -23,12 +23,12 @@
                 </div>
 
                 <% if(locals.emailCheck) { %>
-                    <label for="email_error" style="color: red; margin-left: 50px; font-size: 12px;">
+                    <label class='label1' for="email_error" style="color: red; margin-left: 50px; font-size: 12px;">
                         <%= emailCheck %>
                     </label>
                     <% } %>
                         <% if(typeof alert !='undefined' ) { %>
-                            <label for="password_error" style="color: red; margin-left: 50px; font-size: 12px;">
+                            <label class='label1' for="password_error" style="color: red; margin-left: 50px; font-size: 12px;">
                                 <%= alert[0].msg %>
                             </label>
                             <% } %>
@@ -41,7 +41,7 @@
                                                 id="UserName" placeholder="Enter name">
                                         </div>
                                         <% if(locals.checkUserEmpty) { %>
-                                            <label for="email_error"
+                                            <label class='label1' for="email_error"
                                                 style="color: red; margin-left: 50px; margin-bottom: -2px; font-size: 12px;">
                                                 <%= checkUserEmpty %>
                                             </label>
@@ -55,28 +55,25 @@
                                                 placeholder="Enter your email address">
                                         </div>
                                         <% if(locals.checkEmailEmpty) { %>
-                                            <label for="email_error"
+                                            <label class='label1' for="email_error"
                                                 style="color: red; margin-left: 50px; margin-bottom: -2px; font-size: 12px;">
                                                 <%= checkEmailEmpty %>
                                             </label>
                                             <% } %>
                                     </div>
-
                                     <div class="form-group ip-text">
                                         <div class="input-auth">
                                             <label for="password">Password*</label>
-                                            <input type="password" class="form-control input-field" name="Password"
-                                                id="Password" placeholder="Enter your password"
-                                                style="background: url(images/eye.png) no-repeat scroll 440px 17px; background-color: white; padding-left:10px;">
+                                            <input type="password" class="form-control input-field" style="height: 50px; padding-left: 10px;" id="Password" name="Password" placeholder="Enter your password" >
+                                            <img src="images/eye-slash.png" id="togglePassword" onclick="hello2()" style="margin-left: 430px; margin-top: -30px;">
                                         </div>
                                         <% if(locals.checkPassEmpty) { %>
-                                            <label for="email_error"
-                                                style="color: red; margin-left: 50px; margin-bottom: -2px; font-size: 12px;">
+                                            <label class='label1' for="password_error"
+                                                style="color: red; margin-left: 50px; margin-bottom: -5px; font-size: 12px; ">
                                                 <%= checkPassEmpty %>
                                             </label>
                                             <% } %>
                                     </div>
-
                                     <div class="form-group ip-text">
                                         <div class="input-auth">
                                             <label for="status">Status (Activate Email to get $500)</label>
@@ -97,16 +94,38 @@
 
     </section>
 
-    <!-- <script type="text/javascript">
-        function validateForm() {
-          alert("You are successfully registered. Please Login to continue.")
-        }
-    </script> -->
+    <script type="text/javascript">
+        setTimeout(function() {
+            var alerts = document.getElementsByClassName("label1");
+        
+            for( var i = 0; i < alerts.length; i++ ) {
+                alerts[i].style.display = "none";
+            }
+        }, 2000);
+    </script>
 
     <script type="text/javascript">
         document.getElementById('Status').value = 'pending';
     </script>
 
+    <script>
+        function hello2() {
+        var link = document.getElementById('togglePassword');
+        var new1 = link.getAttribute("src");
+        if (new1 === "images/eye-slash.png") {
+            link.setAttribute('src', "images/eye.png");
+        } else {
+            link.setAttribute('src', "images/eye-slash.png");
+        }
+
+        var x = document.getElementById('Password');
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+        }
+    </script>
     <script src="js/jquery-3.5.1.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
