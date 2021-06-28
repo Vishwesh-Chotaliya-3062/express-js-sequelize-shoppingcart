@@ -9,6 +9,7 @@ const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 var cookieParser = require("cookie-parser");
+const { ProfileImage } = require("../models/profileImage.model");
 app.use(cookieParser());
 
 exports.userAuthorization = async (req, res, next) => {
@@ -46,6 +47,15 @@ exports.userAuthorization = async (req, res, next) => {
             });
             await res.cookie("userid", u.UserID);
             console.log("user", UserName);
+
+            const ab = await ProfileImage.findOne({
+              where: {
+                UserID: u.UserID,
+              }
+            });
+            if(ab){
+              console.log(ab.Image);
+            }
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
@@ -91,7 +101,8 @@ exports.userAuthorization = async (req, res, next) => {
                 link: link,
                 userid: userid,
                 countCouponcode: countCouponcode,
-                Add: Add
+                Add: Add,
+                ab: ab
               });
             }
           }

@@ -6,10 +6,12 @@ const { Wallet } = require("../models/wallet.model");
 const { Cart } = require("../models/cart.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
+var path = require('path');
 
 var cookieParser = require("cookie-parser");
 const { Couponcode } = require("../models/couponcode.model");
 const { Useraddress } = require("../models/useraddress.model");
+const { ProfileImage } = require("../models/profileImage.model");
 app.use(cookieParser());
 
 exports.getUserProfile = async (req, res, next) => {
@@ -29,7 +31,6 @@ exports.getUserProfile = async (req, res, next) => {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
-
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -60,8 +61,8 @@ exports.getUserProfile = async (req, res, next) => {
 
             const userAddress = await Useraddress.findOne({
               where: {
-                UserID : userid
-              }
+                UserID: userid,
+              },
             });
 
             for (user in userDetails) {
@@ -96,7 +97,7 @@ exports.getUserProfile = async (req, res, next) => {
                 countCouponcode: countCouponcode,
                 couponcodeDetails: couponcodeDetails,
                 userAddress: userAddress,
-                userid: userid
+                userid: userid,
               });
             }
           }
@@ -130,7 +131,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
-
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -139,51 +139,82 @@ exports.getUserAddressProfile = async (req, res, next) => {
             await res.cookie("username", UserName);
             console.log("user", UserName);
 
-            const { UserProfileName, UserProfileEmail, addr, addrCity, addrState, addrZip, addrCountry } = req.body;
+            const {
+              UserProfileName,
+              UserProfileEmail,
+              addr,
+              addrCity,
+              addrState,
+              addrZip,
+              addrCountry,
+            } = req.body;
+            // const UserName = UserProfileName;
+            // const Email = UserProfileEmail;
             const UserID = req.params.userid;
             const Address = addr;
             const City = addrCity;
             const State = addrState;
             const Zipcode = addrZip;
             const Country = addrCountry;
-            const useraddress = { UserID, Address, City, State, Zipcode, Country };
-            
+            const useraddress = {
+              UserID,
+              Address,
+              City,
+              State,
+              Zipcode,
+              Country,
+            };
+
             console.log(req.body);
-            
+
             if (!req.files)
-                return res.status(400).send('No files were uploaded.');
+              return res.status(400).send("No files were uploaded.");
             var file = req.files.UserProfileImage;
-            var img_name = file.name;
-            console.log(img_name);
-            
+            var ext = path.extname(file.name);
+            console.log(ext);
+            var Image = UserID + "_Profile" + ext;
+        
+            console.log(Image);
+            const ab = await ProfileImage.findOne({
+              where: {
+                UserID: UserID,
+              }
+            });
+            if(ab){
+              await ProfileImage.destroy({
+                where: {
+                  UserID: UserID
+                }
+              })
+            }
             // if (UserProfileImage){
-            //   if(UserProfileImage.mimetype == "image/jpeg" || UserProfileImage.mimetype == "image/png"|| UserProfileImage.mimetype == "image/gif" ){
-                                 
-            //     UserProfileImage.mv('public/images/upload_images/'+ UserProfileImage.name, function(err) {
-                               
-            //         if (err)
-   
-            //           return res.status(500).send(err);
-            //               var sql = "INSERT INTO `users_image`(`first_name`,`last_name`,`mob_no`,`user_name`, `password` ,`image`) VALUES ('" + fname + "','" + lname + "','" + mob + "','" + name + "','" + pass + "','" + img_name + "')";
-   
-            //                   var query = db.query(sql, function(err, result) {
-            //                        res.redirect('profile/'+result.insertId);
-            //                   });
-            //              });
-            // } else {
-            //   message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-            //   res.render('index.ejs',{message: message});
-            // }
-            // }
+            if (
+              file.mimetype == "image/jpeg" ||
+              file.mimetype == "image/png" ||
+              file.mimetype == "image/gif"
+            ) {
+              file.mv(
+                "views/images/upload_images/" + Image,
+                async function (err) {
+                  if (err) return res.status(500).send(err);
+                  const imageUpload = { UserID, Image };
+                  await ProfileImage.create(imageUpload);
+                }
+              );
+            } else {
+              message =
+                "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+              await res.redirect("/userprofile");
+            }
 
             const userAddress = await Useraddress.findOne({
               where: {
                 UserID: userid,
               },
             });
-        
+
             if (!userAddress) {
-              console.log("not")
+              console.log("not");
               await Useraddress.create(useraddress);
             } else {
               await Useraddress.update(
@@ -192,20 +223,17 @@ exports.getUserAddressProfile = async (req, res, next) => {
                   City: addrCity,
                   State: addrState,
                   Zipcode: addrZip,
-                  Country: addrCountry
+                  Country: addrCountry,
                 },
                 {
-                where: 
-                {
-                  UserID: userid,
-                },
+                  where: {
+                    UserID: userid,
+                  },
                 }
               );
-              
             }
 
             await res.redirect("/userprofile");
-            
           }
         });
       } catch (err) {

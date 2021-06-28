@@ -3,9 +3,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const { sequelize } = require("./models/db");
 const app = express();
-
 const fileUpload = require('express-fileupload');
-app.use(fileUpload());
 
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
@@ -16,6 +14,8 @@ app.set("views", "views");
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(fileUpload());
 
 try {
   sequelize.authenticate();
