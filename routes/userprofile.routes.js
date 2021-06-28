@@ -5,8 +5,8 @@ module.exports = (app) => {
   
     router.get("/userprofile", userProfile.getUserProfile);
   
-    // router.post("/userprofile", userProfile.postUserProfile);
-  
+    router.post("/:userid/userprofile", userProfile.getUserAddressProfile);
+
     app.use("/", router);
 };
   

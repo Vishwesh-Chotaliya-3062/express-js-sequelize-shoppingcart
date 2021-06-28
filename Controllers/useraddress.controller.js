@@ -18,15 +18,15 @@ exports.getUserAddress = async (req, res, next) => {
     });
 
     if (!alreadyAddress) {
-      Useraddress.create(useraddress);
+      await Useraddress.create(useraddress);
     } else {
-      Useraddress.destroy({
+      await Useraddress.destroy({
         where: {
           UserID: UserID,
         },
       });
 
-      Useraddress.create(useraddress);
+      await Useraddress.create(useraddress);
     }
     console.log("user address", useraddress);
     return res.redirect("/orderdetails");

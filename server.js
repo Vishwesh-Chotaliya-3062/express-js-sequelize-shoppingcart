@@ -3,6 +3,10 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const { sequelize } = require("./models/db");
 const app = express();
+
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 

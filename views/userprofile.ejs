@@ -1,12 +1,13 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
-    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="shortcut icon" href="/images/favicon.ico">
     <title>My Profile</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/dropdown.css">
 </head>
   
 <body style="background-color: #eee;">
@@ -17,7 +18,7 @@
           <div class="container">
             <div class="img-logo">
               <a href="/welcome" class="navbar-brand">
-                <img src="images/logo.png" class="img-fluid" alt="">
+                <img src="/images/logo.png" class="img-fluid" alt="">
               </a>
             </div>
   
@@ -81,7 +82,7 @@
                                   <li class="nav-item">
                                     <div class="dropdown">
                                         <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="images/reviewer-<%= userDetails[user].UserID %>.png" alt="">
+                                            <img src="/images/reviewer-1.png" alt="">
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="/userprofile">Update Profile</a>
@@ -105,21 +106,21 @@
 
     <section id="user-profile">
         <div class="container">
+          <form action="/<%= userid %>/userprofile" method="POST">
             <div id="user-profile-details">
-
                 <div class="user-profile-heading">
                     <h3>Basic Profile Details</h3>
                 </div>
-                <div class="column" style="margin-left: -15px;">
+                <div class="row" style="margin-left: -10px;">
                     <% for(u in userDetails) { %>
                     <div class="col-xl-6 col-md-6 col-12">
                         <label for="user-profile-fname" class="add-note-lbl">Username*</label>
-                        <input type="text" class="form-control input-field" id="user-profile-fname" value="<%= userDetails[u].UserName %>" required>
+                        <input type="text" class="form-control input-field" id="UserProfileName" name="UserProfileName" value="<%= userDetails[u].UserName %>" required>
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-12">
                         <label for="user-profile-email" class="add-note-lbl">Email*</label>
-                        <input type="text" class="form-control input-field" id="user-profile-email" value="<%= userDetails[u].Email %>" required>
+                        <input type="text" class="form-control input-field" id="UserProfileEmail" name="UserProfileEmail" value="<%= userDetails[u].Email %>" required>
                     </div>
                     <% } %>
 
@@ -127,67 +128,105 @@
                         <label for="user-profile-display-picture" class="add-note-lbl">Display Picture</label><br>
                         <label for="user-profile-display-picture" class="input-file">
                             <div class="inside-lbl">
-                                <img src="images/Add-notes/upload-file.png" alt=""><br>
+                                <img src="/images/Add-notes/upload-file.png" alt=""><br>
                                 <p>Upload a photo</p>
                             </div>
                         </label>
-                        <input type="file" class="form-control input-field" id="user-profile-display-picture" accept="images/*" placeholder="Upload a photo">
+                        <input type="file" class="form-control input-field" id="user-profile-display-picture" name="UserProfileImage" accept="images/*" placeholder="Upload a photo">
                     </div>
-
                 </div>
-
             </div>
-
+            <% if(userAddress) { %>
             <div id="address-details">
 
                 <div class="user-profile-heading">
                     <h3>Address Details</h3>
                 </div>
 
-                <div class="column" style="margin-left: -15px;">
-
+                <div class="row" style="margin-left: -10px;">
                     <div class="col-xl-6 col-md-6 col-12">
-                        <label for="addr-ln-1" class="add-note-lbl">Address</label>
-                        <textarea style="height: 90px; margin-bottom: 25px;" class="form-control input-field" id="addr-ln-1" placeholder="Enter your address"></textarea>
+                        <label for="addr-ln-1" class="add-note-lbl">Address*</label>
+                        <textarea style="height: 90px; margin-bottom: 25px;" class="form-control input-field" id="addr" name="addr" required><%= userAddress.Address %></textarea>
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-12">
-                        <label for="addr-city" class="add-note-lbl">City*</label>
-                        <input type="text" class="form-control input-field" id="addr-city" placeholder="Enter your city">
+                        <label for="addrCity" class="add-note-lbl">City*</label>
+                        <input type="text" class="form-control input-field" id="addrCity" name="addrCity" value="<%= userAddress.City %>" required>
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-12">
-                        <label for="addr-state" class="add-note-lbl">State*</label>
-                        <input type="text" class="form-control input-field" id="addr-state" placeholder="Enter your state">
+                        <label for="addrState" class="add-note-lbl">State*</label>
+                        <input type="text" class="form-control input-field" id="addrState" name="addrState" value="<%= userAddress.State %>" required>
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-12">
-                        <label for="addr-zip" class="add-note-lbl">ZipCode*</label>
-                        <input type="text" class="form-control input-field" id="addr-zip" placeholder="Enter your zipcode">
+                        <label for="addrZip" class="add-note-lbl">ZipCode*</label>
+                        <input type="number" min="0" class="form-control input-field" id="addrZip" name="addrZip" value="<%= userAddress.Zipcode %>" required>
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-12">
-                        <label for="addr-cnty" class="add-note-lbl">Country*</label>
+                        <label for="addrCountry" class="add-note-lbl">Country*</label>
                         <div>
-                            <select class="form-control" id="addr-cnty" style="margin-bottom: 25px;" " required>
-                                <option value="" selected hidden>Select your country</option>
-                                <option value="Professional">India</option>
-                                <option value="High School">USA</option>
-                                <option value="High School">UK</option>
-                                <option value="High School">Canada</option>
+                            <select class="form-control" id="addrCountry" name="addrCountry" style="margin-bottom: 25px;">
+                                <option value="<%= userAddress.Country %>" selected hidden><%= userAddress.Country %></option>
+                                <option value="INDIA">INDIA</option>
+                                <option value="USA">USA</option>
+                                <option value="UK">UK</option>
+                                <option value="CANADA">CANADA</option>
                             </select>
                         </div>
-
                     </div>
+                </div>
+            </div>
+            <% } %>
+            <% if(!userAddress) { %>
+              <div id="address-details">
 
+                <div class="user-profile-heading">
+                    <h3>Address Details</h3>
                 </div>
 
-            </div>
+                <div class="row" style="margin-left: -15px;">
+                    <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addr-ln-1" class="add-note-lbl">Address*</label>
+                        <textarea style="height: 90px; margin-bottom: 25px;" id="addr" name="addr" class="form-control input-field" placeholder="Enter your Address" required></textarea>
+                    </div>
 
-            <div class="user-profile-btn" style="display: inline-block; margin-bottom: 50px;">
-                <a class="btn btn-cmn btn-user-profile" href="#">SUBMIT</a>
-            </div>
+                    <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addrCity" class="add-note-lbl">City*</label>
+                        <input type="text" class="form-control input-field" id="addrCity" name="addrCity" placeholder="Enter your City" required>
+                    </div>
 
+                    <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addrState" class="add-note-lbl">State*</label>
+                        <input type="text" class="form-control input-field" id="addrState" name="addrState" placeholder="Enter your State" required>
+                    </div>
+
+                    <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addrZip" class="add-note-lbl">ZipCode*</label>
+                        <input type="number" min="0" class="form-control input-field" id="addrZip" name="addrZip" placeholder="Enter your Zipcode" required>
+                    </div>
+
+                    <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addrCountry" class="add-note-lbl">Country*</label>
+                        <div>
+                            <select class="form-control" id="addrCountry" name="addrCountry" style="margin-bottom: 25px;" required>
+                                <option value="" selected hidden>Select your country</option>
+                                <option value="INDIA">INDIA</option>
+                                <option value="USA">USA</option>
+                                <option value="UK">UK</option>
+                                <option value="CANADA">CANADA</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
+              <button type="submit" class="btn btn-login" style="width: 150px; margin-left: -1060px;" id="submit" value="Sign Up"
+                  data-toggle="modal">SUBMIT</button>
+            </div>
+            </form>
         </div>
     </section>
 
