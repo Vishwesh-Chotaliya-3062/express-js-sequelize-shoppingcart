@@ -53,10 +53,7 @@ exports.userAuthorization = async (req, res, next) => {
                 UserID: u.UserID,
               }
             });
-            if(ab){
-              console.log(ab.Image);
-            }
-
+            
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
               include: Wallet,

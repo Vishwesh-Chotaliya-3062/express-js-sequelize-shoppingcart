@@ -12,6 +12,7 @@ const jwt = require("jsonwebtoken");
 var cookieParser = require("cookie-parser");
 const { Useraddress } = require("../models/useraddress.model");
 const { OrderDetail, Order } = require("../models/order.model");
+const { ProfileImage } = require("../models/profileImage.model");
 app.use(cookieParser());
 
 exports.getCart = async (req, res, next) => {
@@ -54,6 +55,12 @@ exports.getCart = async (req, res, next) => {
               where: {
                 UserID: cookieuserid,
               },
+            });
+
+            const ab = await ProfileImage.findOne({
+              where: {
+                UserID: cookieuserid,
+              }
             });
 
             const useraddress = await Useraddress.findOne({
@@ -187,7 +194,7 @@ exports.getCart = async (req, res, next) => {
                   orderdetails: cartDetail,
                   Status: "pending",
                   Remark: "payment pending",
-                  Coupon: coupon.Details
+                  Coupon: coupon.Details,
                 };
 
                 const order = await Order.create(orderData, {
@@ -235,6 +242,7 @@ exports.getCart = async (req, res, next) => {
                   useraddress: useraddress,
                   sufficientBalance: sufficientBalance,
                   Data: Data,
+                  ab: ab
                 });
               }
             } else {
@@ -372,6 +380,7 @@ exports.getCart = async (req, res, next) => {
                   cartTotalPrice: cartTotalPrice,
                   useraddress: useraddress,
                   Data: Data,
+                  ab: ab
                 });
               }
             }
@@ -469,6 +478,12 @@ exports.getPayment = async (req, res, next) => {
               },
             });
 
+            const ab = await ProfileImage.findOne({
+              where: {
+                UserID: userid,
+              }
+            });
+
             const countCouponcode = await Couponcode.count({
               where: {
                 UserID: userid,
@@ -549,6 +564,7 @@ exports.getPayment = async (req, res, next) => {
                 Data: Data,
                 sufficientBalance: sufficientBalance,
                 orderId: orderId,
+                ab: ab
               });
             }
           }
@@ -596,7 +612,7 @@ exports.getStatus = async (req, res, next) => {
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
             console.log("user", UserName);
-
+            
             const result = await sequelize.transaction();
 
             try {
@@ -609,6 +625,12 @@ exports.getStatus = async (req, res, next) => {
               const newAddress = userAddress.Address;
               const newCity = userAddress.City + "-" + userAddress.Zipcode;
               const newAll = userAddress.State + ", " + userAddress.Country;
+
+              const ab = await ProfileImage.findOne({
+                where: {
+                  UserID: userid,
+                }
+              });
 
               const userDetails = await User.findAll({
                 attributes: ["UserID", "UserName", "Status"],
@@ -852,6 +874,7 @@ exports.getStatus = async (req, res, next) => {
                   newAddress: newAddress,
                   newCity: newCity,
                   newAll: newAll,
+                  ab: ab
                 });
               }
             } catch (err) {
@@ -869,6 +892,12 @@ exports.getStatus = async (req, res, next) => {
                   },
                 }
               );
+
+              const ab = await ProfileImage.findOne({
+                where: {
+                  UserID: userid,
+                }
+              });
 
               const userAddress = await Useraddress.findOne({
                 where: {
@@ -1027,6 +1056,7 @@ exports.getStatus = async (req, res, next) => {
                   newAddress: newAddress,
                   newCity: newCity,
                   newAll: newAll,
+                  ab: ab
                 });
               }
             }

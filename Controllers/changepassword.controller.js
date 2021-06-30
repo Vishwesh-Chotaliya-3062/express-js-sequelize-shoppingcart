@@ -12,6 +12,7 @@ const { sendPasswordChanged } = require("../helper/mailer.helper");
 
 var cookieParser = require("cookie-parser");
 const { Couponcode } = require("../models/couponcode.model");
+const { ProfileImage } = require("../models/profileImage.model");
 app.use(cookieParser());
 
 exports.getChangePassword = async (req, res, next) => {
@@ -45,6 +46,12 @@ exports.getChangePassword = async (req, res, next) => {
               where: {
                 UserName: UserName,
               },
+            });
+
+            const ab = await ProfileImage.findOne({
+              where: {
+                UserID: userid,
+              }
             });
 
             const countCouponcode = await Couponcode.count({
@@ -89,6 +96,7 @@ exports.getChangePassword = async (req, res, next) => {
                 userid: userid,
                 countCouponcode: countCouponcode,
                 couponcodeDetails: couponcodeDetails,
+                ab: ab
               });
             }
           }
@@ -171,6 +179,12 @@ exports.postChangePassword = async (req, res, next) => {
                       },
                     });
 
+                    const ab = await ProfileImage.findOne({
+                      where: {
+                        UserID: userid,
+                      }
+                    });
+
                     for (user in userDetails) {
                       let userid = userDetails[user].UserID;
 
@@ -206,7 +220,8 @@ exports.postChangePassword = async (req, res, next) => {
                         userid: userid,
                         countCouponcode: countCouponcode,
                         couponcodeDetails: couponcodeDetails,
-                        checkPass: checkPass
+                        checkPass: checkPass,
+                        ab: ab
                       });
                     }
                   } else {
@@ -225,6 +240,12 @@ exports.postChangePassword = async (req, res, next) => {
                       where: {
                         UserName: UserName,
                       },
+                    });
+
+                    const ab = await ProfileImage.findOne({
+                      where: {
+                        UserID: userid,
+                      }
                     });
 
                     const countCouponcode = await Couponcode.count({
@@ -274,7 +295,8 @@ exports.postChangePassword = async (req, res, next) => {
                         userid: userid,
                         countCouponcode: countCouponcode,
                         couponcodeDetails: couponcodeDetails,
-                        checkConfirmPass: checkConfirmPass
+                        checkConfirmPass: checkConfirmPass,
+                        ab: ab
                       });
                     }
                     }

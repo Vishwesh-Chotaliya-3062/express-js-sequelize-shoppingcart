@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/orderdetails.css">
     <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
     <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css'>
-    <link rel="stylesheet" href="css/dropdown.css">
+    <link rel="stylesheet" href="/css/dropdown.css">
 </head>
 
 <body style="background-color: #eee">
@@ -86,15 +86,22 @@
                                                                 <% } %>
                                                                 <li class="nav-item">
                                                                     <div class="dropdown">
+                                                                        <% if(ab) { %>
                                                                         <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <img src="images/reviewer-<%= userDetails[user].UserID %>.png" alt="">
-                                                                        </a>
+                                                                            <img src="/images/upload_images/<%= ab.Image %>" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                                                        </a> 
+                                                                        <% } %>
+                                                                        <% if(!ab) { %>
+                                                                            <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                <img src="images/default-profile-picture1.jpg" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                                                              </a> 
+                                                                        <% } %>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="/userprofile">Update Profile</a>
                                                                             <a class="dropdown-item" href="/changepassword">Change Password</a>
                                                                             <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
                                                                         </div>
-                                                                    </div>
+                                                                      </div>
                                                                 </li>
                         </ul>
                     </div>

@@ -9,6 +9,7 @@ const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 
 var cookieParser = require("cookie-parser");
+const { ProfileImage } = require("../models/profileImage.model");
 app.use(cookieParser());
 
 exports.getWallet = async (req, res, next) => {
@@ -36,6 +37,12 @@ exports.getWallet = async (req, res, next) => {
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
             console.log("user", UserName);
+
+            const ab = await ProfileImage.findOne({
+              where: {
+                UserID: userid,
+              }
+            });
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
@@ -77,6 +84,7 @@ exports.getWallet = async (req, res, next) => {
                 cartCount: cartCount,
                 countCouponcode: countCouponcode,
                 link: link,
+                ab: ab
               });
             }
           }

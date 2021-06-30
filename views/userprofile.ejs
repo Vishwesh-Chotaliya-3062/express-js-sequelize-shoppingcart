@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
     <link rel="stylesheet" href="/css/dropdown.css">
+    <link rel="stylesheet" href="/css/profile.scss">
 </head>
   
 <body style="background-color: #eee;">
@@ -81,15 +82,22 @@
                                   <% } %>
                                   <li class="nav-item">
                                     <div class="dropdown">
+                                        <% if(ab) { %>
                                         <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="/images/reviewer-1.png" alt="">
-                                        </a>
+                                            <img src="images/upload_images/<%= ab.Image %>" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                        </a> 
+                                        <% } %>
+                                        <% if(!ab) { %>
+                                          <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="images/default-profile-picture1.jpg" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                          </a> 
+                                        <% } %>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="/userprofile">Update Profile</a>
                                             <a class="dropdown-item" href="/changepassword">Change Password</a>
                                             <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
                                         </div>
-                                    </div>
+                                      </div>
                                 </li>
               </ul>
             </div>
@@ -98,11 +106,7 @@
       </header>
     </section>
 
-    <section id="add-note">
-        <div class="add-note-header">
-            <h1>User Profile</h1>
-        </div>
-    </section>
+    
 
     <section id="user-profile">
         <div class="container">
@@ -111,33 +115,43 @@
                 <div class="user-profile-heading">
                     <h3>Basic Profile Details</h3>
                 </div>
-                <div class="row" style="margin-left: -10px;">
+                <div class="col-xl-6 col-md-6 col-12" style="margin-left: 0px; margin-top: 80px; width: 150px;">
+                  <label for="user-profile-display-picture" class="input-file" style="border-color: #eee;">
+                    <div class="inside-lbl">
+                      <% if(ab) { %>
+                        <img src="images/upload_images/<%= ab.Image %>" class="image1" style="border-radius: 50%; border: 4px solid #6255a5; height: 150px; width: 150px;" alt=""><br>
+                      <% } %>
+                      <% if(!ab) { %>
+                        <img src="images/profile default.jpg" style="border-radius: 50%; height: 150px; width: 150px;" alt=""><br>
+                      <% } %>
+                        <p>Upload a photo</p>
+                    </div>
+                  </label>
+                  <input type="file" class="form-control input-field" id="user-profile-display-picture" name="UserProfileImage" accept="image/png, image/gif, image/jpeg" placeholder="Upload a photo">
+              </div>
+                <% if(locals.message) { %>
+                <label for="password_error" class='label1' style="color: red; margin-left: 50px; margin-top: -20px; font-size: 12px;">
+                    <%= message %>
+                </label>
+                <% } %>
+                <div class="column" style="margin-left: 220px; margin-top: -175px;">
                     <% for(u in userDetails) { %>
                     <div class="col-xl-6 col-md-6 col-12">
                         <label for="user-profile-fname" class="add-note-lbl">Username*</label>
-                        <input type="text" class="form-control input-field" id="UserProfileName" name="UserProfileName" value="<%= userDetails[u].UserName %>" required>
+                        <input type="text" class="form-control input-field" id="UserProfileName" name="UserProfileName" value="<%= userDetails[u].UserName %>" style="border: 1px solid #6255a5;" required disabled>
+                        <img src="images/edit.png" id="toggleEditUsername" onclick="hello1()" style="margin-left: 430px; margin-top: -57px; width: 17px;">
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-12">
                         <label for="user-profile-email" class="add-note-lbl">Email*</label>
-                        <input type="text" class="form-control input-field" id="UserProfileEmail" name="UserProfileEmail" value="<%= userDetails[u].Email %>" required>
+                        <input type="text" class="form-control input-field" id="UserProfileEmail" name="UserProfileEmail" value="<%= userDetails[u].Email %>" style="border: 1px solid #6255a5;" required disabled>
+                        <img src="images/edit.png" id="toggleEditEmail" onclick="hello2()" style="margin-left: 430px; margin-top: -57px; width: 17px;">
                     </div>
                     <% } %>
-
-                    <div class="col-xl-6 col-md-6 col-12">
-                        <label for="user-profile-display-picture" class="add-note-lbl">Display Picture</label><br>
-                        <label for="user-profile-display-picture" class="input-file">
-                            <div class="inside-lbl">
-                                <img src="/images/Add-notes/upload-file.png" alt=""><br>
-                                <p>Upload a photo</p>
-                            </div>
-                        </label>
-                        <input type="file" class="form-control input-field" id="user-profile-display-picture" name="UserProfileImage" accept="images/*" placeholder="Upload a photo">
-                    </div>
                 </div>
             </div>
             <% if(userAddress) { %>
-            <div id="address-details">
+            <div id="address-details" style="margin-top: -25px;">
 
                 <div class="user-profile-heading">
                     <h3>Address Details</h3>
@@ -249,6 +263,31 @@
             </div>
         </div>
     </footer>
+
+    <script>
+      function hello1() {
+        var link = document.getElementById("UserProfileName");
+        link.disabled = link.disabled ? false : true;
+        var link1 = document.getElementById("toggleEditUsername");
+        var new1 = link1.getAttribute("src");
+        if (new1 === "images/edit.png") {
+          link1.setAttribute('src', "images/edit-slash.png");
+        } else {
+          link1.setAttribute('src', "images/edit.png");
+        }
+      }  
+    </script>
+    <script>
+      function hello2() {
+        var link = document.getElementById("UserProfileEmail");
+        link.disabled = link.disabled ? false : true;
+        var new1 = link.getAttribute("src");
+        if (new1 === "images/edit-slash.png") {
+          link.setAttribute('src', "images/edit.png");
+        } else {
+          link.setAttribute('src', "images/edit.png");
+        }      }  
+    </script>
   
     <script src="js/jquery-3.5.1.js"></script>
     <script src="js/popper.min.js"></script>

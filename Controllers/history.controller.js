@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 var cookieParser = require("cookie-parser");
 const { Couponcode } = require("../models/couponcode.model");
 const { Order, OrderDetail } = require("../models/order.model");
+const { ProfileImage } = require("../models/profileImage.model");
 
 app.use(cookieParser());
 
@@ -49,6 +50,12 @@ exports.getHistory = async (req, res, next) => {
               where: {
                 UserName: UserName,
               },
+            });
+
+            const ab = await ProfileImage.findOne({
+              where: {
+                UserID: userid,
+              }
             });
 
             const getOrder = await Order.count({
@@ -145,6 +152,7 @@ exports.getHistory = async (req, res, next) => {
                 Data: Data,
                 Data1: Data1,
                 Data2: Data2,
+                ab: ab
               });
             }
           }
