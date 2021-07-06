@@ -75,7 +75,7 @@ exports.getUserProfile = async (req, res, next) => {
                 UserID: userid,
               },
             });
-
+            
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;
@@ -408,8 +408,76 @@ exports.getUserAddressProfile = async (req, res, next) => {
                         );
                       } else {
                         message =
-                          "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-                        await res.redirect("/userprofile");
+                          "This format is not allowed";
+                          const userDetails = await User.findAll({
+                            attributes: ["UserID", "UserName", "Email", "Status"],
+                            include: Wallet,
+                            where: {
+                              UserName: UserName,
+                            },
+                          });
+              
+                          const countCouponcode = await Couponcode.count({
+                            where: {
+                              UserID: userid,
+                            },
+                          });
+              
+                          const couponcodeDetails = await Couponcode.findAll({
+                            where: {
+                              UserID: userid,
+                            },
+                          });
+              
+                          const userAddress = await Useraddress.findOne({
+                            where: {
+                              UserID: userid,
+                            },
+                          });
+              
+                          const ab = await ProfileImage.findOne({
+                            where: {
+                              UserID: userid,
+                            },
+                          });
+              
+                          for (user in userDetails) {
+                            let userid = userDetails[user].UserID;
+                            let link = `/verify/${userid}`;
+              
+                            const countProducts = await Cart.count({
+                              where: {
+                                UserID: userid,
+                              },
+                            });
+              
+                            const cartTotalQuantity = await Cart.findOne({
+                              attributes: [
+                                [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                              ],
+                              where: {
+                                UserID: userid,
+                              },
+                            });
+              
+                            const cartCount = cartTotalQuantity.Quantity;
+              
+                            const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
+              
+                            await res.render("userprofile", {
+                              userDetails: userDetails,
+                              countProducts: countProducts,
+                              walletBalance: walletBalance,
+                              cartCount: cartCount,
+                              link: link,
+                              countCouponcode: countCouponcode,
+                              couponcodeDetails: couponcodeDetails,
+                              userAddress: userAddress,
+                              userid: userid,
+                              ab: ab,
+                              message: message
+                            });
+                          }
                       }
                     }
                     
@@ -559,8 +627,76 @@ exports.getUserAddressProfile = async (req, res, next) => {
                         );
                       } else {
                         message =
-                          "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-                        await res.redirect("/userprofile");
+                          "This format is not allowed";
+                          const userDetails = await User.findAll({
+                            attributes: ["UserID", "UserName", "Email", "Status"],
+                            include: Wallet,
+                            where: {
+                              UserName: UserName,
+                            },
+                          });
+              
+                          const countCouponcode = await Couponcode.count({
+                            where: {
+                              UserID: userid,
+                            },
+                          });
+              
+                          const couponcodeDetails = await Couponcode.findAll({
+                            where: {
+                              UserID: userid,
+                            },
+                          });
+              
+                          const userAddress = await Useraddress.findOne({
+                            where: {
+                              UserID: userid,
+                            },
+                          });
+              
+                          const ab = await ProfileImage.findOne({
+                            where: {
+                              UserID: userid,
+                            },
+                          });
+              
+                          for (user in userDetails) {
+                            let userid = userDetails[user].UserID;
+                            let link = `/verify/${userid}`;
+              
+                            const countProducts = await Cart.count({
+                              where: {
+                                UserID: userid,
+                              },
+                            });
+              
+                            const cartTotalQuantity = await Cart.findOne({
+                              attributes: [
+                                [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                              ],
+                              where: {
+                                UserID: userid,
+                              },
+                            });
+              
+                            const cartCount = cartTotalQuantity.Quantity;
+              
+                            const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
+              
+                            await res.render("userprofile", {
+                              userDetails: userDetails,
+                              countProducts: countProducts,
+                              walletBalance: walletBalance,
+                              cartCount: cartCount,
+                              link: link,
+                              countCouponcode: countCouponcode,
+                              couponcodeDetails: couponcodeDetails,
+                              userAddress: userAddress,
+                              userid: userid,
+                              ab: ab,
+                              message: message
+                            });
+                          }
                       }
                     }
   
@@ -615,40 +751,108 @@ exports.getUserAddressProfile = async (req, res, next) => {
                   var file = req.files.UserProfileImage;
     
                   // if (UserProfileImage){
-                  if (
-                    file.mimetype == "image/jpeg" ||
-                    file.mimetype == "image/png" ||
-                    file.mimetype == "image/gif"
-                  ) {
-                    var ext = path.extname(file.name);
-                    var Image = UserID + "_Profile" + ext;
-    
-                    const ab = await ProfileImage.findOne({
-                      where: {
-                        UserID: UserID,
-                      },
-                    });
-                    if (ab) {
-                      await ProfileImage.destroy({
+                    if (
+                      file.mimetype == "image/jpeg" ||
+                      file.mimetype == "image/png" ||
+                      file.mimetype == "image/gif"
+                    ) {
+                      var ext = path.extname(file.name);
+                      var Image = UserID + "_Profile" + ext;
+      
+                      const ab = await ProfileImage.findOne({
                         where: {
                           UserID: UserID,
                         },
                       });
-                    }
-    
-                    file.mv(
-                      "views/images/upload_images/" + Image,
-                      async function (err) {
-                        if (err) return res.status(500).send(err);
-                        const imageUpload = { UserID, Image };
-                        await ProfileImage.create(imageUpload);
+                      if (ab) {
+                        await ProfileImage.destroy({
+                          where: {
+                            UserID: UserID,
+                          },
+                        });
                       }
-                    );
-                  } else {
-                    message =
-                      "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-                    await res.redirect("/userprofile");
-                  }
+      
+                      file.mv(
+                        "views/images/upload_images/" + Image,
+                        async function (err) {
+                          if (err) return res.status(500).send(err);
+                          const imageUpload = { UserID, Image };
+                          await ProfileImage.create(imageUpload);
+                        }
+                      );
+                    } else {
+                      message =
+                            "This format is not allowed";
+                            const userDetails = await User.findAll({
+                              attributes: ["UserID", "UserName", "Email", "Status"],
+                              include: Wallet,
+                              where: {
+                                UserName: UserName,
+                              },
+                            });
+                
+                            const countCouponcode = await Couponcode.count({
+                              where: {
+                                UserID: userid,
+                              },
+                            });
+                
+                            const couponcodeDetails = await Couponcode.findAll({
+                              where: {
+                                UserID: userid,
+                              },
+                            });
+                
+                            const userAddress = await Useraddress.findOne({
+                              where: {
+                                UserID: userid,
+                              },
+                            });
+                
+                            const ab = await ProfileImage.findOne({
+                              where: {
+                                UserID: userid,
+                              },
+                            });
+                
+                            for (user in userDetails) {
+                              let userid = userDetails[user].UserID;
+                              let link = `/verify/${userid}`;
+                
+                              const countProducts = await Cart.count({
+                                where: {
+                                  UserID: userid,
+                                },
+                              });
+                
+                              const cartTotalQuantity = await Cart.findOne({
+                                attributes: [
+                                  [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                                ],
+                                where: {
+                                  UserID: userid,
+                                },
+                              });
+                
+                              const cartCount = cartTotalQuantity.Quantity;
+                
+                              const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
+                
+                              await res.render("userprofile", {
+                                userDetails: userDetails,
+                                countProducts: countProducts,
+                                walletBalance: walletBalance,
+                                cartCount: cartCount,
+                                link: link,
+                                countCouponcode: countCouponcode,
+                                couponcodeDetails: couponcodeDetails,
+                                userAddress: userAddress,
+                                userid: userid,
+                                ab: ab,
+                                message: message
+                              });
+                            }
+                    }
                 }
               }
               if(userExist && emailExist){

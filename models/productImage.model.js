@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const { sequelize } = require("./db");
+const { Product } = require("./product.model");
 
 const ProductImage = sequelize.define(
   "productimage",
@@ -14,8 +15,8 @@ const ProductImage = sequelize.define(
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "user",
-          key: "UserID",
+          model: "product",
+          key: "ProductID",
         },
     },
     Image: {
@@ -27,5 +28,11 @@ const ProductImage = sequelize.define(
     freezeTableName: true,
   }
 );
+
+Product.hasOne(ProductImage, {
+  foreignKey: "ProductID",
+  onDelete: "CASCADE",
+});
+ProductImage.belongsTo(Product, { foreignKey: "ProductID", onDelete: "CASCADE" });
 
 module.exports = { ProductImage };

@@ -10,6 +10,7 @@ const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
+const { ProductImage } = require("../models/productImage.model");
 app.use(cookieParser());
 
 exports.userAuthorization = async (req, res, next) => {
@@ -71,7 +72,7 @@ exports.userAuthorization = async (req, res, next) => {
                 UserID: u.UserID,
               },
             });
-
+            
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;

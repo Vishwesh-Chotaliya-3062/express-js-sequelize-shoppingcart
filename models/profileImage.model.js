@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const { sequelize } = require("./db");
+const { User } = require("./user.model");
 
 const ProfileImage = sequelize.define(
   "profileimage",
@@ -27,5 +28,11 @@ const ProfileImage = sequelize.define(
     freezeTableName: true,
   }
 );
+
+User.hasOne(ProfileImage, {
+  foreignKey: "UserID",
+  onDelete: "CASCADE",
+});
+ProfileImage.belongsTo(User, { foreignKey: "UserID", onDelete: "CASCADE" });
 
 module.exports = { ProfileImage };

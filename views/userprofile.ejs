@@ -144,12 +144,6 @@
             <input type="file" class="form-control input-field" id="user-profile-display-picture"
               name="UserProfileImage" accept="image/png, image/gif, image/jpeg" placeholder="Upload a photo">
           </div>
-          <% if(locals.message) { %>
-            <label for="password_error" class='label1'
-              style="color: red; margin-left: 50px; margin-top: -20px; font-size: 12px;">
-              <%= message %>
-            </label>
-            <% } %>
             
               <div class="column" style="margin-left: 220px; margin-top: -175px;">
                 <% for(u in userDetails) { %>
@@ -200,6 +194,12 @@
                   <% } %>
               </div>
         </div>
+        <% if(locals.message) { %>
+          <label for="password_error" class='label1'
+            style="color: red; margin-left: 5px; margin-top: -10px; font-size: 12px;">
+            <%= message %>
+          </label>
+          <% } %>
         <% if(userAddress) { %>
           <div id="address-details" style="margin-top: -25px;">
 
