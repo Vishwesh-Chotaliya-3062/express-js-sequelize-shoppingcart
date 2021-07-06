@@ -263,9 +263,6 @@ exports.postAddProduct = async (req, res, next) => {
                           transaction: addProductImageTransaction
                         });
 
-                        fs.unlinkSync("views/images/upload_product_images/" + Image);
-                        fs.unlinkSync("views/images/upload_product_images/" + ProductName + "_" + CompanyName + "_" + Category + "_" + SubCategory + ".png")
-
                         await addProductImageTransaction.commit();
 
                       }
@@ -321,7 +318,7 @@ exports.postAddProduct = async (req, res, next) => {
               });
 
               const cartCount = cartTotalQuantity.Quantity;
-
+              
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
               await res.render("addproduct", {
