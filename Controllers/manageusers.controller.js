@@ -7,6 +7,7 @@ const { Cart } = require("../models/cart.model");
 const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
 
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
@@ -44,7 +45,13 @@ exports.getManageUsers = async (req, res, next) => {
               }
             });
 
-            const allUserDetails = await User.findAll();
+            const allUserDetails = await User.findAll({
+                where: {
+                  UserName: {
+                    [Op.not]: 'admin'
+                  }
+                }
+            });
 
             const userDetails = await User.findAll({
               include: Wallet,

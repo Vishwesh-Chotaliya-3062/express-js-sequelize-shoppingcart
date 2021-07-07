@@ -47,7 +47,15 @@ exports.userAuthentication = async function (req, res, next) {
           res.cookie("token", token);
           console.log("Generated Token:", token);
           console.log(user.Status);
-          await res.redirect("welcome");
+          if(UserName == 'admin')
+          {
+            await res.cookie("userid", user.UserID);
+            await res.cookie("username", user.UserName);
+            await res.redirect("manageusers");
+          }
+          else{
+            await res.redirect("welcome");
+          }
           // res.json({
           //   msg: "Hello there, This is your Authentication Token",
           //   token: token,
