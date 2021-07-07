@@ -36,39 +36,38 @@
               <li class="nav-item">
                 <a class="nav-link purple-link" href="/manageusers"><b style="color: #6255a5;">MANAGE USERS</b></a>
               </li>
-                          <% for(let user in userDetails) { %>
-                            <% if(userDetails[user].Status=='pending' ) { %>
-                              <li class="nav-item">
-                                <a id="nav-btn" style="width: 150px;"
-                                  class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                  href="<%= link %>" role="button">VERIFY EMAIL</a>
-                              </li>
-                              <% } %>
+              <% for(let user in userDetails) { %>
+                <% if(userDetails[user].Status=='pending' ) { %>
+                  <li class="nav-item">
+                    <a id="nav-btn" style="width: 150px;"
+                      class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                      href="<%= link %>" role="button">VERIFY EMAIL</a>
+                  </li>
+                  <% } %>
+                    <% } %>
+                      <li class="nav-item">
+                        <div class="dropdown">
+                          <% if(ab) { %>
+                            <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <img src="images/upload_images/<%= ab.Image %>"
+                                style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                            </a>
+                            <% } %>
+                              <% if(!ab) { %>
+                                <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="false">
+                                  <img src="images/default-profile-picture1.jpg"
+                                    style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                </a>
                                 <% } %>
-                                  <li class="nav-item">
-                                    <div class="dropdown">
-                                      <% if(ab) { %>
-                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
-                                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          <img src="images/upload_images/<%= ab.Image %>"
-                                            style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                        </a>
-                                        <% } %>
-                                          <% if(!ab) { %>
-                                            <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
-                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                              <img src="images/default-profile-picture1.jpg"
-                                                style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                            </a>
-                                            <% } %>
-                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="/userprofile">Update Profile</a>
-                                                <a class="dropdown-item" href="/changepassword">Change Password</a>
-                                                <a class="dropdown-item" href="/logout"
-                                                  style="color: #6255a5;">LOGOUT</a>
-                                              </div>
-                                    </div>
-                                  </li>
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                    <a class="dropdown-item" href="/changepassword">Change Password</a>
+                                    <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                  </div>
+                        </div>
+                      </li>
             </ul>
           </div>
         </div>
@@ -102,20 +101,20 @@
           <div class="table-responsive">
             <table id="pager" class="table tablesorter data-table">
               <thead>
-                <tr style="background-color: white;">
-                  <th scope="col" class="sr-col">USERID</th>
-                  <th scope="col" class="sort-needed">USERNAME</th>
-                  <th scope="col">EMAIL</th>
-                  <th scope="col">STATUS</th>
-                  <th scope="col">CREATED AT</th>
-                  <th scope="col">UPDATED AT</th>
-                  <th scope="col">DELETED AT</th>
+                <tr>
+                  <th scope="col" id="userID" class="sr-col">USERID</th>
+                  <th scope="col" id="userNAME" class="sort-needed">USERNAME</th>
+                  <th scope="col" id="userEMAIL">EMAIL</th>
+                  <th scope="col" id="userSTATUS">STATUS</th>
+                  <th scope="col" id="userCREATION">CREATED AT</th>
+                  <th scope="col" id="userUPDATION">UPDATED AT</th>
+                  <th scope="col" id="userDELETION">DELETED AT</th>
                   <th scope="col" class="action-th">ACTION</th>
                 </tr>
               </thead>
               <tbody class="common-tbody">
                 <% for(u in allUserDetails) { %>
-                  <tr style="background-color: white;">
+                  <tr>
                     <td class="sr-col">
                       <%= allUserDetails[u].UserID %>
                     </td>
@@ -145,8 +144,7 @@
                         </td>
                         <% } %>
                           <td class="action-img-td">
-                            <a type="button"
-                              onclick="return confirm('Are you sure you want to delete this user?');"
+                            <a type="button" onclick="return confirm('Are you sure you want to delete this user?');"
                               href="/manageusers/delete/<%= allUserDetails[u].UserID %>" style=" color: #6255a5;"
                               aria-label="view details & options">
                               <img src="images/delete.png">
@@ -180,10 +178,32 @@
           } else {
             tr[i].style.display = "none";
           }
-        }       
+        }
       }
     }
-    </script>
+  </script>
+
+  <script>
+    var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
+
+    var comparer = function (idx, asc) {
+      return function (a, b) {
+        return function (v1, v2) {
+          return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+        }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+      }
+    };
+
+    Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
+      th.addEventListener('click', function () {
+        var table = th.closest('table');
+        while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
+        Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
+          .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+          .forEach(function (tr) { table.appendChild(tr) });
+      })
+    });
+  </script>
 
   <script src="js/jquery-3.5.1.js"></script>
   <script src="js/popper.min.js"></script>
