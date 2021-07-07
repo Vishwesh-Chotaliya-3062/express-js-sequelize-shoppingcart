@@ -204,6 +204,64 @@ exports.postAddProduct = async (req, res, next) => {
               const addProductTransaction = await sequelize.transaction();
               try{
 
+                const checkSKUAlready = await Product.findOne({
+                  where: {
+                      SKU : SKU
+                  }
+                });
+
+                if(checkSKUAlready)
+                {
+                  const message1 = "Duplicate SKU for product";
+                  const ab = await ProfileImage.findOne({
+                    where: {
+                      UserID: userid,
+                    }
+                  });
+      
+                  const userDetails = await User.findAll({
+                    attributes: ["UserID", "UserName", "Status"],
+                    include: Wallet,
+                    where: {
+                      UserName: UserName,
+                    },
+                  });
+      
+                  const countCouponcode = await Couponcode.count({
+                    where: {
+                      UserID: userid,
+                    },
+                  });
+      
+                  for (user in userDetails) {
+                    let userid = userDetails[user].UserID;
+                    let link = `/verify/${userid}`;
+      
+                    const cartTotalQuantity = await Cart.findOne({
+                      attributes: [
+                        [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                      ],
+                      where: {
+                        UserID: userid,
+                      },
+                    });
+      
+                    const cartCount = cartTotalQuantity.Quantity;
+      
+                    const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
+      
+                    await res.render("addproduct", {
+                      userDetails: userDetails,
+                      walletBalance: walletBalance,
+                      cartCount: cartCount,
+                      countCouponcode: countCouponcode,
+                      link: link,
+                      ab: ab,
+                      message1
+                    });
+                  }
+                }
+
                 const product = {
                   ProductName: ProductName,
                   SKU: SKU,
@@ -253,11 +311,11 @@ exports.postAddProduct = async (req, res, next) => {
                           if (err) {
                             console.log(err)
                           } else {
-                            image.write("views/images/upload_product_images/" + ProductName + "_" + CompanyName + "_" + Category + "_" + SubCategory + ".png")
+                            image.write("views/images/upload_product_images/" + ProductName + "_" + CompanyName + "_" + Category + "_" + SubCategory + ".png");
                           }
                         })
                         sharp("views/images/upload_product_images/" + Image).resize({ height: 253, width: 448 }).toFile("views/images/upload_product_images/" + Image1 + ".png");
-                        Image = Image1 + ".png"
+                        Image = Image1 + ".png";
                         const imageUpload = { ProductID, Image };
                         await ProductImage.create(imageUpload, {
                           transaction: addProductImageTransaction

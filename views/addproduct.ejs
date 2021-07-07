@@ -30,46 +30,12 @@
           <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
             <ul class="navbar-nav" style="margin-left: auto;">
               <li class="nav-item">
-                <a class="nav-link purple-link" href="/addproduct">HOME</a>
+                <a class="nav-link purple-link" href="/addproduct"><b style="color: #6255a5;">ADD PRODUCTS</b></a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
-                    <%= walletBalance %>
-                  </b>)</a>
+                <a class="nav-link purple-link" href="/manageusers">MANAGE USERS</a>
               </li>
-
-              <% if(!cartCount) { %>
-                <li class="nav-item">
-                  <a class="nav-link purple-link" href="/cart">CART</a>
-                </li>
-
-                <% } else{ %>
-                  <li class="nav-item">
-                    <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
-                        <%= cartCount %>
-                      </b>)</a>
-                  </li>
-                  <% } %>
-
-                    <% if(!countCouponcode) { %>
-                      <li class="nav-item">
-                        <a class="nav-link purple-link" href="/couponcode" style="color: #6255a5;">COUPON CODE</a>
-                      </li>
-
-                      <% } else{ %>
-                        <li class="nav-item">
-                          <a class="nav-link purple-link" href="/couponcode" style="color: #6255a5;">COUPON CODE (<b
-                              style="color: #6255a6;">
-                              <%= countCouponcode %>
-                            </b>)</a>
-                        </li>
-                        <% } %>
-                          <li class="nav-item">
-                            <a class="nav-link purple-link" href="/history">
-                              MY ORDERS
-                            </a>
-                          </li>
                           <% for(let user in userDetails) { %>
                             <% if(userDetails[user].Status=='pending' ) { %>
                               <li class="nav-item">
@@ -138,6 +104,12 @@
               <div class="ip-field">
                 <label for="" class="add-admin-lbl">* SKU</label>
                 <input type="text" class="form-control input-field" id="SKU" name="SKU" placeholder="Enter product SKU" required>
+                <% if(locals.message1) { %>
+                  <label for="password_error" class='label1'
+                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                    <%= message1 %>
+                  </label>
+                  <% } %>
               </div>
               <div class="ip-field">
                 <label for="" class="add-admin-lbl">* Price</label>
@@ -183,6 +155,16 @@
     </div>
     </div>
   </section>
+
+  <script>
+    setTimeout(function() {
+            var alerts = document.getElementsByClassName("label1");
+        
+            for( var i = 0; i < alerts.length; i++ ) {
+                alerts[i].style.display = "none";
+            }
+    }, 2000);
+  </script>
 
   <script src="js/jquery-3.5.1.js"></script>
   <script src="js/popper.min.js"></script>
