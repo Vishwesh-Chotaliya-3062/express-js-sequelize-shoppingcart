@@ -50,8 +50,11 @@ exports.getManageUsers = async (req, res, next) => {
                   UserName: {
                     [Op.not]: 'admin'
                   }
-                }
+                },
+                paranoid: false
             });
+            
+            console.log(allUserDetails);
 
             const userDetails = await User.findAll({
               include: Wallet,
@@ -109,15 +112,34 @@ exports.getManageUsers = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
     const userid = req.params.userid;
-    console.log("Delete:", userid);
   
     try {
-      await sequelize.query("CALL DeleteUser( :userid)", {
-        replacements: { userid },
+      await User.destroy({
+        where: {
+          UserID: userid
+        }
       });
+
       await res.redirect("/manageusers");
     } catch (e) {
       console.log(e);
       return res.send(500).send("Something went wrong!");
     }
+};
+
+exports.restoreUser = async (req, res, next) => {
+  const userid = req.params.userid;
+
+  try {
+    await User.restore({
+      where: {
+        UserID: userid
+      }
+    });
+
+    await res.redirect("/manageusers");
+  } catch (e) {
+    console.log(e);
+    return res.send(500).send("Something went wrong!");
+  }
 };

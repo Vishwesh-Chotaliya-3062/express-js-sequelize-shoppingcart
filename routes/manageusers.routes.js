@@ -5,6 +5,8 @@ module.exports = (app) => {
     router.get("/manageusers", manageUsers.getManageUsers);
   
     router.get("/manageusers/delete/:userid", manageUsers.deleteUser);
+
+    router.get("/manageusers/restore/:userid", manageUsers.restoreUser);
   
     app.use("/", router);
-  };
+};
