@@ -18,11 +18,19 @@ exports.getManageUsers = async (req, res, next) => {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
 
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName !== "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
         console.log("Authentication Token:", token);
@@ -30,7 +38,6 @@ exports.getManageUsers = async (req, res, next) => {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
-
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);

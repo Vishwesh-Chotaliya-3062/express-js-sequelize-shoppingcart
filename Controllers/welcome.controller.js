@@ -24,9 +24,6 @@ exports.userAuthorization = async (req, res, next) => {
     }
 
     if (!token) {
-      // res.json({
-      //   error: "Unauthorized",
-      // });
       res.redirect("login");
     } else {
       try {
@@ -48,6 +45,11 @@ exports.userAuthorization = async (req, res, next) => {
             });
             await res.cookie("userid", u.UserID);
             console.log("user", UserName);
+
+            if(UserName === "admin")
+            {
+              await res.redirect("/manageusers");
+            }
 
             const ab = await ProfileImage.findOne({
               where: {
