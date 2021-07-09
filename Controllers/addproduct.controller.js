@@ -36,9 +36,6 @@ exports.getAddProduct = async (req, res, next) => {
     
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
         console.log("Authentication Token:", token);
@@ -123,11 +120,18 @@ exports.postAddProduct = async (req, res, next) => {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
 
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName !== "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
     if (!token) {
-      res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
         console.log("Authentication Token:", token);
@@ -182,9 +186,6 @@ exports.postAddProduct = async (req, res, next) => {
               for (user in userDetails) {
                 let userid = userDetails[user].UserID;
                 let link = `/verify/${userid}`;
-                // for(product1 in productQuantity){
-                //   console.log(productQuantity[product1].product.ProductName);
-                // }
   
                 const cartTotalQuantity = await Cart.findOne({
                   attributes: [

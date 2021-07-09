@@ -19,6 +19,18 @@ exports.getHistory = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
+
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+    
     if (req.cookies.Refresh) {
       console.log(req.cookies.Refresh);
       res.clearCookie("Refresh");
@@ -26,9 +38,6 @@ exports.getHistory = async (req, res, next) => {
 
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
         console.log("Authentication Token:", token);
@@ -140,6 +149,18 @@ exports.getHistory = async (req, res, next) => {
                 },
               });
 
+              const OrderData = await Order.findAll({
+                where: {
+                  userUserID: userid
+                },
+                include: {
+                  model: OrderDetail,
+                  include: {
+                    model: Product,
+                  },
+                },
+              });
+
               await res.render("history", {
                 userDetails: userDetails,
                 countProducts: countProducts,
@@ -149,9 +170,7 @@ exports.getHistory = async (req, res, next) => {
                 countCouponcode: countCouponcode,
                 couponcodeDetails: couponcodeDetails,
                 getOrder: getOrder,
-                Data: Data,
-                Data1: Data1,
-                Data2: Data2,
+                OrderData: OrderData,
                 ab: ab
               });
             }
@@ -170,6 +189,20 @@ exports.getHistory = async (req, res, next) => {
 };
 
 exports.deleteOrder = async (req, res, next) => {
+  
+  const userid = req.cookies.userid;
+
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
   const orderId = req.params.orderId;
   console.log("Delete:", orderId);
 

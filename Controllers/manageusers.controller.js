@@ -119,7 +119,17 @@ exports.getManageUsers = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
     const userid = req.params.userid;
-  
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName !== "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
     try {
       await User.destroy({
         where: {
@@ -136,6 +146,16 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.restoreUser = async (req, res, next) => {
   const userid = req.params.userid;
+  const aq = await User.findOne({
+    where: {
+      UserID: userid
+    }
+  });
+
+  if(aq.UserName !== "admin")
+  {
+    await res.render("notauthorizederror");
+  }
 
   try {
     await User.restore({

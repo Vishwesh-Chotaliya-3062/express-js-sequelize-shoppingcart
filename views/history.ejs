@@ -7,391 +7,282 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="css/dropdown.css">
 </head>
 
-<body style="background-color: #eee;">
+  <body style="background-color: #eee;">
 
-  <section id="nav-header" style="height: 100px;">
-    <header>
-      <nav class="navbar navbar-expand-md fixed-top white-nav">
-        <div class="container">
-          <div class="img-logo">
-            <a href="/welcome" class="navbar-brand">
-              <img src="images/logo.png" class="img-fluid" alt="">
-            </a>
-          </div>
-
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
-            <ul class="navbar-nav" style="margin-left: auto;">
-              <li class="nav-item">
-                <a class="nav-link purple-link" href="/welcome">HOME</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
-                    <%= walletBalance %>
-                  </b>)</a>
-              </li>
-
-              <% if(!cartCount) { %>
+    <section id="nav-header" style="height: 100px;">
+      <header>
+        <nav class="navbar navbar-expand-md fixed-top white-nav">
+          <div class="container">
+            <div class="img-logo">
+              <a href="/welcome" class="navbar-brand">
+                <img src="images/logo.png" class="img-fluid" alt="">
+              </a>
+            </div>
+  
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+  
+            <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
+              <ul class="navbar-nav" style="margin-left: auto;">
                 <li class="nav-item">
-                  <a class="nav-link purple-link" href="/cart">CART</a>
+                  <a class="nav-link purple-link" href="/welcome">HOME</a>
                 </li>
-
-                <% } else{ %>
+  
+                <li class="nav-item">
+                  <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
+                      <%= walletBalance %>
+                    </b>)</a>
+                </li>
+  
+                <% if(!cartCount) { %>
                   <li class="nav-item">
-                    <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
-                        <%= cartCount %>
-                      </b>)</a>
+                    <a class="nav-link purple-link" href="/cart">CART</a>
                   </li>
-                  <% } %>
-
-                    <% if(!countCouponcode) { %>
-                      <li class="nav-item">
-                        <a class="nav-link purple-link" href="/couponcode">COUPON CODE</a>
-                      </li>
-
-                      <% } else{ %>
+                  <% } else{ %>
+                    <li class="nav-item">
+                      <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                          <%= cartCount %>
+                        </b>)</a>
+                    </li>
+                    <% } %>
+  
+                      <% if(!countCouponcode) { %>
                         <li class="nav-item">
-                          <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
-                              <%= countCouponcode %>
-                            </b>)</a>
+                          <a class="nav-link purple-link" href="/couponcode">COUPON CODE</a>
                         </li>
-                        <% } %>
+                        <% } else{ %>
                           <li class="nav-item">
-                            <a class="nav-link purple-link" href="/history" style="color: #6255a5;">
-                              MY ORDERS
-                            </a>
+                            <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
+                                <%= countCouponcode %>
+                              </b>)</a>
                           </li>
-                          <% for(let user in userDetails) { %>
-                            <% if(userDetails[user].Status=='pending' ) { %>
-                              <li class="nav-item">
-                                <a id="nav-btn" style="width: 150px;"
-                                  class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                  href="<%= link %>" role="button">VERIFY EMAIL</a>
-                              </li>
-                              <% } %>
-                                <% } %>
+                          <% } %>
+                            <li class="nav-item">
+                              <a class="nav-link purple-link" href="/history" style="color: #6255a5;">
+                                MY ORDERS
+                              </a>
+                            </li>
+                            <% for(let user in userDetails) { %>
+                              <% if(userDetails[user].Status=='pending' ) { %>
                                 <li class="nav-item">
-                                  <div class="dropdown">
-                                      <% if(ab) { %>
-                                      <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          <img src="images/upload_images/<%= ab.Image %>" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                      </a> 
-                                      <% } %>
-                                      <% if(!ab) { %>
+                                  <a id="nav-btn" style="width: 150px;"
+                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                    href="<%= link %>" role="button">VERIFY EMAIL</a>
+                                </li>
+                                <% } %>
+                                  <% } %>
+                                  <li class="nav-item">
+                                    <div class="dropdown">
+                                        <% if(ab) { %>
                                         <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          <img src="images/default-profile-picture1.jpg" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                            <img src="images/upload_images/<%= ab.Image %>" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
                                         </a> 
-                                      <% } %>
-                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                          <a class="dropdown-item" href="/userprofile">Update Profile</a>
-                                          <a class="dropdown-item" href="/changepassword">Change Password</a>
-                                          <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                        <% } %>
+                                        <% if(!ab) { %>
+                                          <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="images/default-profile-picture1.jpg" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                          </a> 
+                                        <% } %>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                            <a class="dropdown-item" href="/changepassword">Change Password</a>
+                                            <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                        </div>
                                       </div>
-                                    </div>
-                              </li>
-            </ul>
+                                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
-    </header>
-  </section>
+        </nav>
+      </header>
+    </section>
 
-  <section id="filters" style="margin-top: 30px;">
-
-    <div class="container">
+  
+<section id="manage-category" style="margin-top: 30px;">
+  <div class="container">
+    <div id="manage-category-table">
 
       <% if(getOrder==0) { %>
         <div id="filter-result-heading">
-          <h3>You have not ordered anything right now.</h3>
+          <h3 style="color: #6255a5; font-size: 25px;">You have not ordered anything right now.</h3>
         </div>
         <% } %>
 
-          <% if(getOrder> 0 ) { %>
+      <% if(getOrder> 0 ) { %>
+      <div class="table-wrapper-inner">
+        <div class="table-heading-1">
+          <h3 style="margin-left: -40px;">My Orders</h3>
+        </div>
 
+        <div class="col-md-6 col-12 d-flex justify-content-end align-items-center" style="margin-left: 620px;">
+          <input type="text" class="form-control search-ip input-field common-search" onkeyup="myFunction()"
+            style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
+            id="myInput" placeholder="Search by Order Status...">
+          <a class="btn btn-search btn-cmn common-btn" style="margin-right: -50px;" id="mng-ctg-btn">SEARCH</a>
+        </div>
+        <br>
 
-            <div id="filter-result-heading">
-              <h3 style="text-align: center; font-size: 35px;">Total <%= getOrder %> Orders.</h3>
-            </div>
-            <% if(!Data2.length) { %>
-              <div id="filter-result-heading">
-                <h3>No Pending Orders</h3>
-              </div>
+        <div class="table-responsive" style="width: 1300px; margin-left: -40px;">
+          <table id="pager" class="table tablesorter data-table">
+            <thead>
+              <tr>
+                <th scope="col" class="sr-col">Order<br>ID</th>
+                <th scope="col" class="sort-needed">DATE</th>
+                <th scope="col">DETAILS</th>
+                <th scope="col">PRICE</th>
+                <th scope="col" class="sr-col">QUANTITY</th>
+                <th scope="col">SUBTOTAL</th>
+                <th scope="col">DISCOUNT</th>
+                <th scope="col">PURCHASE<br>&nbsp;&nbsp;&nbsp;&nbsp;TOTAL</th>
+                <th scope="col">STATUS</th>
+                <th scope="col">COUPON</th>
+                <th scope="col">REMARK</th>
+                <th scope="col" class="action-th">ACTION</th>
+              </tr>
+            </thead>
+            <tbody class="common-tbody">
+              <% for(u in OrderData) { %>
+              <tr>
+              <td class="sr-col">
+                <%= OrderData[u].id %>
+              </td>
+              <td>
+                <%= OrderData[u].Date.getDate()+'/'+(OrderData[u].Date.getMonth()+1)+'/'+OrderData[u].Date.getFullYear() %>
+              </td>
+              <td style="min-width: 250px;">
+                <% for (u1 in OrderData[u].orderdetails) { %>
+                  <p style="display: table-row-group;">- <%=
+                    OrderData[u].orderdetails[u1].product.ProductName %> by <%=
+                    OrderData[u].orderdetails[u1].product.CompanyName %>
+                  </p>
+                  <% } %>
+              </td>
+              <td>
+                <% for (u1 in OrderData[u].orderdetails) { %>
+                  <p style="display: table-row-group;">
+                    $<%= OrderData[u].orderdetails[u1].product.Price %>
+                  </p>
+                  <% } %>
+              </td>
+              <td>
+                <% for (u1 in OrderData[u].orderdetails) { %>
+                  <p style="display: table-row-group;">
+                    <%= OrderData[u].orderdetails[u1].Quantity %>
+                  </p>
+                  <% } %>
+              </td>
+              <td>
+                $<%= OrderData[u].TotalAmount  %>
+              </td>
+              <td>
+                $<%= OrderData[u].DiscountedAmount  %>
+              </td>
+              <td>
+                $<%= OrderData[u].PurchaseTotal %>
+              </td>
+              <% if(OrderData[u].Status == "success") { %>
+              <td style="color: green;">
+                <%= OrderData[u].Status %>
+              </td>
+              <% } else if(OrderData[u].Status == "pending") { %>
+              <td>
+                <a type="button" href="/orderdetails" style="color: #6255a5;" aria-label="view details & options">
+                <%= OrderData[u].Status %>
+                </a>
+              </td> 
               <% } else { %>
+              <td>
+                <a type="button" href="/<%= OrderData[u].id %>/payment" style="color: red;" aria-label="view details & options">
+                <%= OrderData[u].Status %>
+                </a>
+              </td>  
+              <% } %> 
+              <% if(OrderData[u].Coupon == "No") { %>
+              <td>
+                <%= OrderData[u].Coupon %>
+              </td>
+              <% } else { %>
+              <td>
+                <%= OrderData[u].Coupon %>
+              </td>  
+              <% } %> 
+              <td>
+                <%= OrderData[u].Remark %>
+              </td>
+              <td class="action-img-td">
+                <a type="button" onclick="return confirm('Are you sure you want to delete this order?');"
+                  href="/history/delete/<%= OrderData[u].id %>" style=" color: #6255a5;"
+                  aria-label="view details & options">
+                  <img src="images/delete.png">
+                </a>
+              </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
 
-                <div id="filter-result-heading">
-                  <h3>Pending Orders</h3>
-                </div>
-                <div class="col-12 col-sm-12 col-md-12 grid-table table-responsive-xl">
-                  <table class="table" style="border: 1px solid #6255a5;">
-                    <thead>
-                      <tr>
-                        <th scope="col" class="align-middle text-center">Order<br>ID</th>
-                        <th scope="col" class="align-middle text-center">DATE</th>
-                        <th scope="col" class="align-middle text-center">Details</th>
-                        <th scope="col" class="align-middle text-center">Price</th>
-                        <th scope="col" class="align-middle text-center">Quantity</th>
-                        <th scope="col" class="align-middle text-center">SubTotal</th>
-                        <th scope="col" class="align-middle text-center">Discount</th>
-                        <th scope="col" class="align-middle text-center">PurchaseTotal</th>
-                        <th scope="col" class="align-middle text-center">Status</th>
-                        <th scope="col" class="align-middle text-center">Coupon</th>
-                        <th scope="col" class="align-middle text-center">Remark</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% for (u in Data2) { %>
-                        <tr>
-                          <td class="align-middle text-center">#<%= Data2[u].id %>
-                          </td>
-                          <td class="align-middle text-center" style="max-width: 85px;">
-                            <%= Data2[u].Date.getDate()+'/'+(Data2[u].Date.getMonth()+1)+'/'+Data2[u].Date.getFullYear()
-                              %>
-                          </td>
-                          <td class="align-middle" style="min-width: 220px;">
-                            <% for (u1 in Data2[u].orderdetails) { %>
-                              <p style="display: table-row-group;">&nbsp;&nbsp;- <%=
-                                  Data2[u].orderdetails[u1].product.ProductName %> by <%=
-                                    Data2[u].orderdetails[u1].product.CompanyName %>
-                              </p>
-                              <% } %>
-                          </td>
-                          <td class="align-middle text-right">
-                            <% for (u1 in Data2[u].orderdetails) { %>
-                              <p style="display: table-row-group;">$<%= Data2[u].orderdetails[u1].product.Price %>
-                              </p>
-                              <% } %>
-                          </td>
-                          <td class="align-middle text-center">
-                            <% for (u1 in Data2[u].orderdetails) { %>
-                              <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
-                                  Data2[u].orderdetails[u1].Quantity %>
-                              </p>
-                              <% } %>
-                          </td>
-                          <td class="align-middle text-center">$<%= Data2[u].TotalAmount %>
-                          </td>
-                          <td class="align-middle text-center">$<%= Data2[u].DiscountedAmount %>
-                          </td>
-                          <td class="align-middle text-center">$<%= Data2[u].PurchaseTotal %>
-                          </td>
-                          <td class="align-middle" style="max-width: 70px;"><a type="button"
-                              href="/orderdetails" style=" color: blue;" aria-label="view details & options">
-                              <%= Data2[u].Status %>
-                            </a></td>
-                          <td class="align-middle text-center"><%= Data2[u].Coupon %>
-                          </td>
-                          <td class="align-middle text-center" style="max-width: 50px;">
-                            <%= Data2[u].Remark %>
-                          </td>
-                          <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
-                              onclick="return confirm('Are you sure you want to delete this order?');"
-                              href="/history/delete/<%= Data2[u].id %>" style=" color: #6255a5;"
-                              aria-label="view details & options">
-                              <img src="images/delete.png">
-                            </a></td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                  </table>
-                </div>
-                <% } %>
-                  <% if(!Data1.length) { %>
-                    <div id="filter-result-heading">
-                      <h3>No Success Orders</h3>
-                    </div>
-                    <% } else { %>
-                      <div id="filter-result-heading" style="margin-top: 50px;">
-                        <h3>Success Orders</h3>
-                      </div>
-
-                      <div class="col-12 col-sm-12 col-md-12 grid-table table-responsive-xl">
-                        <table class="table" style="border: 1px solid #6255a5;">
-                          <thead>
-                            <tr>
-                              <th scope="col" class="align-middle text-center">Order<br>ID</th>
-                              <th scope="col" class="align-middle text-center">DATE</th>
-                              <th scope="col" class="align-middle text-center">Details</th>
-                              <th scope="col" class="align-middle text-center">Price</th>
-                              <th scope="col" class="align-middle text-center">Quantity</th>
-                              <th scope="col" class="align-middle text-center">SubTotal</th>
-                              <th scope="col" class="align-middle text-center">Discount</th>
-                              <th scope="col" class="align-middle text-center">PurchaseTotal</th>
-                              <th scope="col" class="align-middle text-center">Status</th>
-                              <th scope="col" class="align-middle text-center">Coupon</th>
-                              <th scope="col" class="align-middle text-center">Remark</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <% for (u in Data1) { %>
-                              <tr>
-                                <td class="align-middle text-center">#<%= Data1[u].id %>
-                                </td>
-                                <td class="align-middle text-center" style="max-width: 85px;">
-                                  <%=
-                                    Data1[u].Date.getDate()+'/'+(Data1[u].Date.getMonth()+1)+'/'+Data1[u].Date.getFullYear()
-                                    %>
-                                </td>
-                                <td class="align-middle" style="min-width: 220px;">
-                                  <% for (u1 in Data1[u].orderdetails) { %>
-                                    <p style="display: table-row-group;">&nbsp;&nbsp;- <%=
-                                        Data1[u].orderdetails[u1].product.ProductName %> by <%=
-                                          Data1[u].orderdetails[u1].product.CompanyName %>
-                                    </p>
-                                    <% } %>
-                                </td>
-                                <td class="align-middle text-right">
-                                  <% for (u1 in Data1[u].orderdetails) { %>
-                                    <p style="display: table-row-group;">$<%= Data1[u].orderdetails[u1].product.Price %>
-                                    </p>
-                                    <% } %>
-                                </td>
-                                <td class="align-middle text-center">
-                                  <% for (u1 in Data1[u].orderdetails) { %>
-                                    <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
-                                        Data1[u].orderdetails[u1].Quantity %>
-                                    </p>
-                                    <% } %>
-                                </td>
-                                <td class="align-middle text-center">$<%= Data1[u].TotalAmount %>
-                                </td>
-                                <td class="align-middle text-center">$<%= Data1[u].DiscountedAmount %>
-                                </td>
-                                <td class="align-middle text-center">$<%= Data1[u].PurchaseTotal %>
-                                </td>
-                                <td class="align-middle text-center" style="max-width: 70px; color: green;">
-                                  <%= Data1[u].Status %></a>
-                                </td>
-                                <td class="align-middle text-center"><%= Data1[u].Coupon %>
-                                </td>
-                                <td class="align-middle text-center" style="max-width: 50px;">
-                                  <%= Data1[u].Remark %>
-                                </td>
-                                <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
-                                    onclick="return confirm('Are you sure you want to delete this order?');"
-                                    href="/history/delete/<%= Data1[u].id %>" style=" color: #6255a5;"
-                                    aria-label="view details & options">
-                                    <img src="images/delete.png">
-                                  </a></td>
-                              </tr>
-                              <% } %>
-                          </tbody>
-                        </table>
-                      </div>
-                      <% } %>
-
-                        <% if(!Data.length) { %>
-                          <div id="filter-result-heading">
-                            <h3>No Failed Orders</h3>
-                          </div>
-                          <% } else { %>
-                            <div id="filter-result-heading" style="margin-top: 50px;">
-                              <h3>Failed Orders</h3>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 grid-table table-responsive-xl">
-                              <table class="table" style="border: 1px solid #6255a5;">
-                                <thead>
-                                  <tr>
-                                    <th scope="col" class="align-middle text-center">Order<br>ID</th>
-                                    <th scope="col" class="align-middle text-center">DATE</th>
-                                    <th scope="col" class="align-middle text-center">Details</th>
-                                    <th scope="col" class="align-middle text-center">Price</th>
-                                    <th scope="col" class="align-middle text-center">Quantity</th>
-                                    <th scope="col" class="align-middle text-center">SubTotal</th>
-                                    <th scope="col" class="align-middle text-center">Discount</th>
-                                    <th scope="col" class="align-middle text-center">PurchaseTotal</th>
-                                    <th scope="col" class="align-middle text-center">Status</th>
-                                    <th scope="col" class="align-middle text-center">Coupon</th>
-                                    <th scope="col" class="align-middle text-center">Remark</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <% for (u in Data) { %>
-                                    <tr>
-                                      <td class="align-middle text-center">#<%= Data[u].id %>
-                                      </td>
-                                      <td class="align-middle text-center" style="max-width: 85px;">
-                                        <%=
-                                          Data[u].Date.getDate()+'/'+(Data[u].Date.getMonth()+1)+'/'+Data[u].Date.getFullYear()
-                                          %>
-                                      </td>
-                                      <td class="align-middle" style="min-width: 220px;">
-                                        <% for (u1 in Data[u].orderdetails) { %>
-                                          <p style="display: table-row-group;">&nbsp;&nbsp;- <%=
-                                              Data[u].orderdetails[u1].product.ProductName %> by <%=
-                                                Data[u].orderdetails[u1].product.CompanyName %>
-                                          </p>
-                                          <% } %>
-                                      </td>
-                                      <td class="align-middle text-right">
-                                        <% for (u1 in Data[u].orderdetails) { %>
-                                          <p style="display: table-row-group;">$<%=
-                                              Data[u].orderdetails[u1].product.Price %>
-                                          </p>
-                                          <% } %>
-                                      </td>
-                                      <td class="align-middle text-center">
-                                        <% for (u1 in Data[u].orderdetails) { %>
-                                          <p style="display: table-row-group;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=
-                                              Data[u].orderdetails[u1].Quantity %>
-                                          </p>
-                                          <% } %>
-                                      </td>
-                                      <td class="align-middle text-center">$<%= Data[u].TotalAmount %>
-                                      </td>
-                                      <td class="align-middle text-center">$<%= Data[u].DiscountedAmount %>
-                                      </td>
-                                      <td class="align-middle text-center">$<%= Data[u].PurchaseTotal %>
-                                      </td>
-                                      <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
-                                          href="/<%= Data[u].id %>/payment" style=" color: red;"
-                                          aria-label="view details & options">
-                                          <%= Data[u].Status %>
-                                      </a></td>
-                                      <td class="align-middle text-center"><%= Data[u].Coupon %>
-                                      </td>
-                                      <td class="align-middle text-center" style="max-width: 50px;">
-                                        <%= Data[u].Remark %>
-                                      </td>
-                                      <td class="align-middle text-center" style="max-width: 70px;"><a type="button"
-                                          onclick="return confirm('Are you sure you want to delete this order?');"
-                                          href="/history/delete/<%= Data[u].id %>" style=" color: #6255a5;"
-                                          aria-label="view details & options">
-                                          <img src="images/delete.png">
-                                        </a></td>
-                                    </tr>
-                                    <% } %>
-                                </tbody>
-                              </table>
-                            </div>
-                            <% } %>
-                              <% } %>
+      </div>
+      <% } %>
+      <div id="pageNavPosition" class="pager-nav" style="margin-bottom: 30px;"></div>
     </div>
-
-  </section>
-  <div style="margin-bottom: 50px; text-align: center;">
-    <a href="/home" style="color: #eee;">HOME</a>
   </div>
+</section>
+<div style="margin-bottom: 50px; text-align: center;">
+  <a href="/home" style="color: #eee;">HOME</a>
+</div>
 
   <script>
-    $(document).ready( function () {
-    $('#table').DataTable();
-    } );
+    function myFunction() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("pager");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[8];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
+
+  <script>
+    var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
+
+    var comparer = function (idx, asc) {
+      return function (a, b) {
+        return function (v1, v2) {
+          return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+        }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+      }
+    };
+
+    Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
+      th.addEventListener('click', function () {
+        var table = th.closest('table');
+        while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
+        Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
+          .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+          .forEach(function (tr) { table.appendChild(tr) });
+      })
+    });
   </script>
 
   <script src="js/jquery-3.5.1.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/script.js"></script>
-  <script src="cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-
 
 </body>

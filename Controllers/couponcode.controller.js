@@ -17,11 +17,19 @@ exports.getCouponcode = async (req, res, next) => {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
 
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
         console.log("Authentication Token:", token);

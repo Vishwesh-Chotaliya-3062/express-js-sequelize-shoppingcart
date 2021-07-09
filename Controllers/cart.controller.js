@@ -20,6 +20,17 @@ exports.getCart = async (req, res, next) => {
     let cookieflag = 0;
     res.cookie("flag", cookieflag);
 
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
     if (req.cookies.Refresh) {
       console.log(req.cookies.Refresh);
       res.clearCookie("Refresh");
@@ -139,6 +150,16 @@ exports.getCart = async (req, res, next) => {
 exports.addToCart = async (req, res, next) => {
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
+    const aq = await User.findOne({
+      where: {
+        UserID: UserID
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
 
   console.log(ProductID, UserID);
 
@@ -192,6 +213,18 @@ exports.addToCart = async (req, res, next) => {
 exports.updateCart = async (req, res, next) => {
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
+
+    const aq = await User.findOne({
+      where: {
+        UserID: UserID
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
   const Quantity = req.body.Quantity;
   console.log("Update:", ProductID, UserID);
 
@@ -210,6 +243,18 @@ exports.updateCart = async (req, res, next) => {
 exports.deleteCart = async (req, res, next) => {
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
+
+    const aq = await User.findOne({
+      where: {
+        UserID: UserID
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
   console.log("Delete:", ProductID, UserID);
 
   try {

@@ -20,13 +20,21 @@ exports.getCart = async (req, res, next) => {
     const token = req.cookies.token;
     const cookieuserid = req.cookies.userid;
 
+    const aq = await User.findOne({
+      where: {
+        UserID: cookieuserid
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
     cookieflag = req.cookies.flag;
     console.log("Flag", cookieflag);
 
     if (!token) {
-      // res.json({
-      //   error: "Unauthorized",
-      // });
       res.redirect("login");
     } else {
       try {
@@ -400,6 +408,18 @@ exports.getCart = async (req, res, next) => {
 
 exports.checkCouponCode = async (req, res, next) => {
   const UserID = req.params.userid;
+
+    const aq = await User.findOne({
+      where: {
+        UserID: UserID
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
+
   const CouponCode = req.body.CouponCode;
 
   console.log("Userid:", UserID);
@@ -434,6 +454,18 @@ exports.checkCouponCode = async (req, res, next) => {
 
 exports.removeCouponCode = async (req, res, next) => {
   try {
+    const userid = req.cookies.userid;
+
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
     let flag = 0;
     res.clearCookie("flag");
     res.cookie("flag", flag);
@@ -448,13 +480,21 @@ exports.getPayment = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
+
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
     const orderId = req.params.orderId;
 
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
         console.log("Authentication Token:", token);
@@ -585,6 +625,17 @@ exports.getStatus = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
+
+    const aq = await User.findOne({
+      where: {
+        UserID: userid
+      }
+    });
+
+    if(aq.UserName === "admin")
+    {
+      await res.render("notauthorizederror");
+    }
     const orderId = req.params.orderId;
     const flag = req.cookies.flag;
 

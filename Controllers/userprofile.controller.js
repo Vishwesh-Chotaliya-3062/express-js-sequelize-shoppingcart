@@ -15,7 +15,6 @@ var cookieParser = require("cookie-parser");
 const { Couponcode } = require("../models/couponcode.model");
 const { Useraddress } = require("../models/useraddress.model");
 const { ProfileImage } = require("../models/profileImage.model");
-const { ProductImage } = require("../models/productImage.model");
 
 app.use(cookieParser());
 
@@ -26,9 +25,6 @@ exports.getUserProfile = async (req, res, next) => {
 
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
         console.log("Authentication Token:", token);

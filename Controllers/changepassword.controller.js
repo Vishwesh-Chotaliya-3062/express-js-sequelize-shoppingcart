@@ -22,8 +22,6 @@ exports.getChangePassword = async (req, res, next) => {
 
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
       // });
     } else {
       try {
@@ -225,10 +223,6 @@ exports.postChangePassword = async (req, res, next) => {
                       });
                     }
                   } else {
-                    // await res.redirect("changepassword");
-                    // res.json({
-                    //   msg: "Your password matched",
-                    // });
                     if(Confirm_Pass !== New_Pass)
                     {
                     const checkConfirmPass =
