@@ -95,19 +95,11 @@ exports.create = async (req, res) => {
                             include: { model: Wallet },
                           })
                             .then(async (data) => {
-                              // res.json({
-                              //   UserID: data.UserID,
-                              //   UserName: data.UserName,
-                              //   Email: data.Email,
-                              //   Status: data.Status,
-                              // });
 
                               await Secretcode.create({
                                 Email: req.body.Email,
                                 Code: secretcode,
                               });
-
-                              // sequelize.addHook('afterCreate')
 
                               sendVerifyEmail(
                                 { UserName: data.UserName, Email: data.Email },
@@ -127,9 +119,6 @@ exports.create = async (req, res) => {
                   }
                 });
               } else {
-                // res.json({
-                //   error: "USER WITH Email = " + user.Email + " ALREADY EXISTS",
-                // });
                 emailCheck = "Email already exists";
                 console.log(emailCheck);
                 res.render("signup", { emailCheck });

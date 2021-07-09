@@ -35,7 +35,7 @@ exports.postVerify = async function (req, res, next) {
     });
     if (verified) {
       user.Status = "active";
-      user.wallet.Balance = 500;
+      user.wallet.Balance = process.env.GIFT_AMOUNT || 500; 
       console.log(user.UserID);
       await Couponcode.create({
         UserID: user.UserID,
