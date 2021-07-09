@@ -12,12 +12,12 @@ const ProductImage = sequelize.define(
       allowNull: false,
     },
     ProductID: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "product",
-          key: "ProductID",
-        },
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: "product",
+        key: "ProductID",
+      },
     },
     Image: {
       type: Sequelize.STRING,
@@ -33,6 +33,9 @@ Product.hasOne(ProductImage, {
   foreignKey: "ProductID",
   onDelete: "CASCADE",
 });
-ProductImage.belongsTo(Product, { foreignKey: "ProductID", onDelete: "CASCADE" });
+ProductImage.belongsTo(Product, {
+  foreignKey: "ProductID",
+  onDelete: "CASCADE",
+});
 
 module.exports = { ProductImage };

@@ -22,12 +22,11 @@ exports.getCart = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: cookieuserid
-      }
+        UserID: cookieuserid,
+      },
     });
 
-    if(aq.UserName === "admin")
-    {
+    if (aq.UserName === "admin") {
       await res.render("notauthorizederror");
     }
 
@@ -68,7 +67,7 @@ exports.getCart = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: cookieuserid,
-              }
+              },
             });
 
             const useraddress = await Useraddress.findOne({
@@ -188,8 +187,8 @@ exports.getCart = async (req, res, next) => {
 
                 const coupon = await Couponcode.findOne({
                   where: {
-                    UserID : userid
-                  }
+                    UserID: userid,
+                  },
                 });
 
                 console.log(coupon.Details);
@@ -250,7 +249,7 @@ exports.getCart = async (req, res, next) => {
                   useraddress: useraddress,
                   sufficientBalance: sufficientBalance,
                   Data: Data,
-                  ab: ab
+                  ab: ab,
                 });
               }
             } else {
@@ -341,7 +340,7 @@ exports.getCart = async (req, res, next) => {
                   orderdetails: cartDetail,
                   Status: "pending",
                   Remark: "payment pending",
-                  Coupon: "No"
+                  Coupon: "No",
                 };
 
                 const order = await Order.create(orderData, {
@@ -388,7 +387,7 @@ exports.getCart = async (req, res, next) => {
                   cartTotalPrice: cartTotalPrice,
                   useraddress: useraddress,
                   Data: Data,
-                  ab: ab
+                  ab: ab,
                 });
               }
             }
@@ -409,16 +408,15 @@ exports.getCart = async (req, res, next) => {
 exports.checkCouponCode = async (req, res, next) => {
   const UserID = req.params.userid;
 
-    const aq = await User.findOne({
-      where: {
-        UserID: UserID
-      }
-    });
+  const aq = await User.findOne({
+    where: {
+      UserID: UserID,
+    },
+  });
 
-    if(aq.UserName === "admin")
-    {
-      await res.render("notauthorizederror");
-    }
+  if (aq.UserName === "admin") {
+    await res.render("notauthorizederror");
+  }
 
   const CouponCode = req.body.CouponCode;
 
@@ -458,12 +456,11 @@ exports.removeCouponCode = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName === "admin")
-    {
+    if (aq.UserName === "admin") {
       await res.render("notauthorizederror");
     }
     let flag = 0;
@@ -483,12 +480,11 @@ exports.getPayment = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName === "admin")
-    {
+    if (aq.UserName === "admin") {
       await res.render("notauthorizederror");
     }
     const orderId = req.params.orderId;
@@ -521,7 +517,7 @@ exports.getPayment = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const countCouponcode = await Couponcode.count({
@@ -604,7 +600,7 @@ exports.getPayment = async (req, res, next) => {
                 Data: Data,
                 sufficientBalance: sufficientBalance,
                 orderId: orderId,
-                ab: ab
+                ab: ab,
               });
             }
           }
@@ -628,12 +624,11 @@ exports.getStatus = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName === "admin")
-    {
+    if (aq.UserName === "admin") {
       await res.render("notauthorizederror");
     }
     const orderId = req.params.orderId;
@@ -663,7 +658,7 @@ exports.getStatus = async (req, res, next) => {
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
             console.log("user", UserName);
-            
+
             const result = await sequelize.transaction();
 
             try {
@@ -680,7 +675,7 @@ exports.getStatus = async (req, res, next) => {
               const ab = await ProfileImage.findOne({
                 where: {
                   UserID: userid,
-                }
+                },
               });
 
               const userDetails = await User.findAll({
@@ -925,7 +920,7 @@ exports.getStatus = async (req, res, next) => {
                   newAddress: newAddress,
                   newCity: newCity,
                   newAll: newAll,
-                  ab: ab
+                  ab: ab,
                 });
               }
             } catch (err) {
@@ -947,7 +942,7 @@ exports.getStatus = async (req, res, next) => {
               const ab = await ProfileImage.findOne({
                 where: {
                   UserID: userid,
-                }
+                },
               });
 
               const userAddress = await Useraddress.findOne({
@@ -1107,7 +1102,7 @@ exports.getStatus = async (req, res, next) => {
                   newAddress: newAddress,
                   newCity: newCity,
                   newAll: newAll,
-                  ab: ab
+                  ab: ab,
                 });
               }
             }

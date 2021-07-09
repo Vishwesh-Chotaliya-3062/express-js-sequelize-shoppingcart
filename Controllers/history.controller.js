@@ -22,15 +22,14 @@ exports.getHistory = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName === "admin")
-    {
+    if (aq.UserName === "admin") {
       await res.render("notauthorizederror");
     }
-    
+
     if (req.cookies.Refresh) {
       console.log(req.cookies.Refresh);
       res.clearCookie("Refresh");
@@ -64,7 +63,7 @@ exports.getHistory = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const getOrder = await Order.count({
@@ -110,7 +109,7 @@ exports.getHistory = async (req, res, next) => {
 
               const OrderData = await Order.findAll({
                 where: {
-                  userUserID: userid
+                  userUserID: userid,
                 },
                 include: {
                   model: OrderDetail,
@@ -130,7 +129,7 @@ exports.getHistory = async (req, res, next) => {
                 couponcodeDetails: couponcodeDetails,
                 getOrder: getOrder,
                 OrderData: OrderData,
-                ab: ab
+                ab: ab,
               });
             }
           }
@@ -148,19 +147,17 @@ exports.getHistory = async (req, res, next) => {
 };
 
 exports.deleteOrder = async (req, res, next) => {
-  
   const userid = req.cookies.userid;
 
-    const aq = await User.findOne({
-      where: {
-        UserID: userid
-      }
-    });
+  const aq = await User.findOne({
+    where: {
+      UserID: userid,
+    },
+  });
 
-    if(aq.UserName === "admin")
-    {
-      await res.render("notauthorizederror");
-    }
+  if (aq.UserName === "admin") {
+    await res.render("notauthorizederror");
+  }
 
   const orderId = req.params.orderId;
   console.log("Delete:", orderId);

@@ -12,12 +12,12 @@ const ProfileImage = sequelize.define(
       allowNull: false,
     },
     UserID: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "user",
-          key: "UserID",
-        },
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: "user",
+        key: "UserID",
+      },
     },
     Image: {
       type: Sequelize.STRING,

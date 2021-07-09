@@ -87,152 +87,152 @@
   <section id="manage-category" style="margin-top: 10px;">
     <div class="container">
       <div id="manage-category-table">
-        <% if(getUser == 0) { %>
+        <% if(getUser==0) { %>
           <div id="filter-result-heading">
             <h3 style="color: #6255a5; font-size: 25px;">No user has registered for Shopping Cart.</h3>
           </div>
           <% } %>
-          
-          <% if(getUser > 0 ) { %>
-        <div class="table-wrapper-inner">
-          <div class="table-heading-1">
-            <h3>Manage Users</h3>
-          </div>
 
-          <div class="row">
-            <div class="col-md-6 col-12">
-              <div class="search-btn">
-                <a class="btn btn-search btn-cmn" id="add-category-btn" href="add-category.html">ADD USER</a>
-              </div>
-            </div>
-            <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
-              <input type="text" class="form-control search-ip input-field common-search" onkeyup="myFunction()"
-                style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
-                id="myInput" placeholder="Search by Username...">
-              <a class="btn btn-search btn-cmn common-btn" id="mng-ctg-btn">SEARCH</a>
-            </div>
-          </div>
+            <% if(getUser> 0 ) { %>
+              <div class="table-wrapper-inner">
+                <div class="table-heading-1">
+                  <h3>Manage Users</h3>
+                </div>
 
-          <div class="table-responsive">
-            <table id="pager" class="table tablesorter data-table">
-              <thead>
-                <tr>
-                  <th scope="col" id="userID" class="sr-col">USERID</th>
-                  <th scope="col" id="userNAME" class="sr-col">USERNAME</th>
-                  <th scope="col" id="userEMAIL" class="sr-col">EMAIL</th>
-                  <th scope="col" id="userSTATUS" class="sr-col">STATUS</th>
-                  <th scope="col" id="userCREATION" class="sr-col">CREATED AT</th>
-                  <th scope="col" id="userUPDATION" class="sr-col">UPDATED AT</th>
-                  <th scope="col" id="userDELETION" class="sr-col">DELETED AT</th>
-                  <th scope="col" class="action-th" class="sr-col">ACTION</th>
-                </tr>
-              </thead>
-              <tbody class="common-tbody">
-                <% for(u in allUserDetails) { %>
-                  <tr>
-                    <% if(allUserDetails[u].deletedAt===null) { %>
-                      <td class="sr-col">
-                        <%= allUserDetails[u].UserID %>
-                      </td>
-                      <% } else { %>
-                        <td style="color: #6255a5;" class="sr-col"><b>
-                            <%= allUserDetails[u].UserID %>
-                          </b></td>
-                        <% } %>
+                <div class="row">
+                  <div class="col-md-6 col-12">
+                    <div class="search-btn">
+                      <a class="btn btn-search btn-cmn" id="add-category-btn" href="add-category.html">ADD USER</a>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
+                    <input type="text" class="form-control search-ip input-field common-search" onkeyup="myFunction()"
+                      style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
+                      id="myInput" placeholder="Search by Username...">
+                    <a class="btn btn-search btn-cmn common-btn" id="mng-ctg-btn">SEARCH</a>
+                  </div>
+                </div>
 
+                <div class="table-responsive">
+                  <table id="pager" class="table tablesorter data-table">
+                    <thead>
+                      <tr>
+                        <th scope="col" id="userID" class="sr-col">USERID</th>
+                        <th scope="col" id="userNAME" class="sr-col">USERNAME</th>
+                        <th scope="col" id="userEMAIL" class="sr-col">EMAIL</th>
+                        <th scope="col" id="userSTATUS" class="sr-col">STATUS</th>
+                        <th scope="col" id="userCREATION" class="sr-col">CREATED AT</th>
+                        <th scope="col" id="userUPDATION" class="sr-col">UPDATED AT</th>
+                        <th scope="col" id="userDELETION" class="sr-col">DELETED AT</th>
+                        <th scope="col" class="action-th" class="sr-col">ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody class="common-tbody">
+                      <% for(u in allUserDetails) { %>
+                        <tr>
                           <% if(allUserDetails[u].deletedAt===null) { %>
                             <td class="sr-col">
-                              <%= allUserDetails[u].UserName %>
+                              <%= allUserDetails[u].UserID %>
                             </td>
                             <% } else { %>
-                              <td class="sr-col" style="color: #6255a5;"><b>
-                                  <%= allUserDetails[u].UserName %>
+                              <td style="color: #6255a5;" class="sr-col"><b>
+                                  <%= allUserDetails[u].UserID %>
                                 </b></td>
                               <% } %>
 
                                 <% if(allUserDetails[u].deletedAt===null) { %>
                                   <td class="sr-col">
-                                    <%= allUserDetails[u].Email %>
+                                    <%= allUserDetails[u].UserName %>
                                   </td>
                                   <% } else { %>
                                     <td class="sr-col" style="color: #6255a5;"><b>
-                                        <%= allUserDetails[u].Email %>
+                                        <%= allUserDetails[u].UserName %>
                                       </b></td>
                                     <% } %>
 
                                       <% if(allUserDetails[u].deletedAt===null) { %>
                                         <td class="sr-col">
-                                          <%= allUserDetails[u].Status %>
+                                          <%= allUserDetails[u].Email %>
                                         </td>
                                         <% } else { %>
                                           <td class="sr-col" style="color: #6255a5;"><b>
-                                              <%= allUserDetails[u].Status %>
+                                              <%= allUserDetails[u].Email %>
                                             </b></td>
                                           <% } %>
 
                                             <% if(allUserDetails[u].deletedAt===null) { %>
                                               <td class="sr-col">
-                                                <%=
-                                                  allUserDetails[u].createdAt.getDate()+'/'+(allUserDetails[u].createdAt.getMonth()+1)+'/'+allUserDetails[u].createdAt.getFullYear()%>
+                                                <%= allUserDetails[u].Status %>
                                               </td>
                                               <% } else { %>
                                                 <td class="sr-col" style="color: #6255a5;"><b>
-                                                    <%=
-                                                      allUserDetails[u].createdAt.getDate()+'/'+(allUserDetails[u].createdAt.getMonth()+1)+'/'+allUserDetails[u].createdAt.getFullYear()%>
+                                                    <%= allUserDetails[u].Status %>
                                                   </b></td>
                                                 <% } %>
 
                                                   <% if(allUserDetails[u].deletedAt===null) { %>
                                                     <td class="sr-col">
                                                       <%=
-                                                        allUserDetails[u].updatedAt.getDate()+'/'+(allUserDetails[u].updatedAt.getMonth()+1)+'/'+allUserDetails[u].updatedAt.getFullYear()%>
+                                                        allUserDetails[u].createdAt.getDate()+'/'+(allUserDetails[u].createdAt.getMonth()+1)+'/'+allUserDetails[u].createdAt.getFullYear()%>
                                                     </td>
                                                     <% } else { %>
                                                       <td class="sr-col" style="color: #6255a5;"><b>
                                                           <%=
-                                                            allUserDetails[u].updatedAt.getDate()+'/'+(allUserDetails[u].updatedAt.getMonth()+1)+'/'+allUserDetails[u].updatedAt.getFullYear()%>
+                                                            allUserDetails[u].createdAt.getDate()+'/'+(allUserDetails[u].createdAt.getMonth()+1)+'/'+allUserDetails[u].createdAt.getFullYear()%>
                                                         </b></td>
                                                       <% } %>
 
                                                         <% if(allUserDetails[u].deletedAt===null) { %>
-                                                          <td class="sr-col">NULL</td>
+                                                          <td class="sr-col">
+                                                            <%=
+                                                              allUserDetails[u].updatedAt.getDate()+'/'+(allUserDetails[u].updatedAt.getMonth()+1)+'/'+allUserDetails[u].updatedAt.getFullYear()%>
+                                                          </td>
                                                           <% } else { %>
                                                             <td class="sr-col" style="color: #6255a5;"><b>
                                                                 <%=
-                                                                  allUserDetails[u].deletedAt.getDate()+'/'+(allUserDetails[u].deletedAt.getMonth()+1)+'/'+allUserDetails[u].deletedAt.getFullYear()%>
+                                                                  allUserDetails[u].updatedAt.getDate()+'/'+(allUserDetails[u].updatedAt.getMonth()+1)+'/'+allUserDetails[u].updatedAt.getFullYear()%>
                                                               </b></td>
                                                             <% } %>
-                                                              <% if(allUserDetails[u].deletedAt===null) { %>
-                                                                <td class="action-img-td">
-                                                                  <a type="button"
-                                                                    onclick="return confirm('Are you sure you want to delete this user?');"
-                                                                    href="/manageusers/delete/<%= allUserDetails[u].UserID %>"
-                                                                    style=" color: #6255a5;"
-                                                                    aria-label="view details & options">
-                                                                    <img src="images/delete.png">
-                                                                  </a>
-                                                                </td>
-                                                                <% } else { %>
-                                                                  <td class="action-img-td">
-                                                                    <a type="button"
-                                                                      onclick="return confirm('Are you sure you want to restore this user?');"
-                                                                      href="/manageusers/restore/<%= allUserDetails[u].UserID %>"
-                                                                      style=" color: #6255a5;"
-                                                                      aria-label="view details & options">
-                                                                      <img style="height: 20px; width: 20px;"
-                                                                        src="images/Homepage/download.png">
-                                                                    </a>
-                                                                  </td>
-                                                                <% } %>
-                  </tr>
-                  <% } %>
-              </tbody>
-            </table>
-          </div>
 
-        </div>
-        <div id="pageNavPosition" class="pager-nav" style="margin-bottom: 30px;"></div>
-        <% } %>
+                                                              <% if(allUserDetails[u].deletedAt===null) { %>
+                                                                <td class="sr-col">NULL</td>
+                                                                <% } else { %>
+                                                                  <td class="sr-col" style="color: #6255a5;"><b>
+                                                                      <%=
+                                                                        allUserDetails[u].deletedAt.getDate()+'/'+(allUserDetails[u].deletedAt.getMonth()+1)+'/'+allUserDetails[u].deletedAt.getFullYear()%>
+                                                                    </b></td>
+                                                                  <% } %>
+                                                                    <% if(allUserDetails[u].deletedAt===null) { %>
+                                                                      <td class="action-img-td">
+                                                                        <a type="button"
+                                                                          onclick="return confirm('Are you sure you want to delete this user?');"
+                                                                          href="/manageusers/delete/<%= allUserDetails[u].UserID %>"
+                                                                          style=" color: #6255a5;"
+                                                                          aria-label="view details & options">
+                                                                          <img src="images/delete.png">
+                                                                        </a>
+                                                                      </td>
+                                                                      <% } else { %>
+                                                                        <td class="action-img-td">
+                                                                          <a type="button"
+                                                                            onclick="return confirm('Are you sure you want to restore this user?');"
+                                                                            href="/manageusers/restore/<%= allUserDetails[u].UserID %>"
+                                                                            style=" color: #6255a5;"
+                                                                            aria-label="view details & options">
+                                                                            <img style="height: 20px; width: 20px;"
+                                                                              src="images/Homepage/download.png">
+                                                                          </a>
+                                                                        </td>
+                                                                        <% } %>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+              <div id="pageNavPosition" class="pager-nav" style="margin-bottom: 30px;"></div>
+              <% } %>
       </div>
     </div>
   </section>

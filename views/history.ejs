@@ -10,232 +10,244 @@
   <link rel="stylesheet" href="css/dropdown.css">
 </head>
 
-  <body style="background-color: #eee;">
+<body style="background-color: #eee;">
 
-    <section id="nav-header" style="height: 100px;">
-      <header>
-        <nav class="navbar navbar-expand-md fixed-top white-nav">
-          <div class="container">
-            <div class="img-logo">
-              <a href="/welcome" class="navbar-brand">
-                <img src="images/logo.png" class="img-fluid" alt="">
-              </a>
-            </div>
-  
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-  
-            <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
-              <ul class="navbar-nav" style="margin-left: auto;">
+  <section id="nav-header" style="height: 100px;">
+    <header>
+      <nav class="navbar navbar-expand-md fixed-top white-nav">
+        <div class="container">
+          <div class="img-logo">
+            <a href="/welcome" class="navbar-brand">
+              <img src="images/logo.png" class="img-fluid" alt="">
+            </a>
+          </div>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
+            <ul class="navbar-nav" style="margin-left: auto;">
+              <li class="nav-item">
+                <a class="nav-link purple-link" href="/welcome">HOME</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
+                    <%= walletBalance %>
+                  </b>)</a>
+              </li>
+
+              <% if(!cartCount) { %>
                 <li class="nav-item">
-                  <a class="nav-link purple-link" href="/welcome">HOME</a>
+                  <a class="nav-link purple-link" href="/cart">CART</a>
                 </li>
-  
-                <li class="nav-item">
-                  <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
-                      <%= walletBalance %>
-                    </b>)</a>
-                </li>
-  
-                <% if(!cartCount) { %>
+                <% } else{ %>
                   <li class="nav-item">
-                    <a class="nav-link purple-link" href="/cart">CART</a>
+                    <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                        <%= cartCount %>
+                      </b>)</a>
                   </li>
-                  <% } else{ %>
-                    <li class="nav-item">
-                      <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
-                          <%= cartCount %>
-                        </b>)</a>
-                    </li>
-                    <% } %>
-  
-                      <% if(!countCouponcode) { %>
+                  <% } %>
+
+                    <% if(!countCouponcode) { %>
+                      <li class="nav-item">
+                        <a class="nav-link purple-link" href="/couponcode">COUPON CODE</a>
+                      </li>
+                      <% } else{ %>
                         <li class="nav-item">
-                          <a class="nav-link purple-link" href="/couponcode">COUPON CODE</a>
+                          <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
+                              <%= countCouponcode %>
+                            </b>)</a>
                         </li>
-                        <% } else{ %>
+                        <% } %>
                           <li class="nav-item">
-                            <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
-                                <%= countCouponcode %>
-                              </b>)</a>
+                            <a class="nav-link purple-link" href="/history" style="color: #6255a5;">
+                              MY ORDERS
+                            </a>
                           </li>
-                          <% } %>
-                            <li class="nav-item">
-                              <a class="nav-link purple-link" href="/history" style="color: #6255a5;">
-                                MY ORDERS
-                              </a>
-                            </li>
-                            <% for(let user in userDetails) { %>
-                              <% if(userDetails[user].Status=='pending' ) { %>
-                                <li class="nav-item">
-                                  <a id="nav-btn" style="width: 150px;"
-                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                    href="<%= link %>" role="button">VERIFY EMAIL</a>
-                                </li>
+                          <% for(let user in userDetails) { %>
+                            <% if(userDetails[user].Status=='pending' ) { %>
+                              <li class="nav-item">
+                                <a id="nav-btn" style="width: 150px;"
+                                  class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                  href="<%= link %>" role="button">VERIFY EMAIL</a>
+                              </li>
+                              <% } %>
                                 <% } %>
-                                  <% } %>
                                   <li class="nav-item">
                                     <div class="dropdown">
-                                        <% if(ab) { %>
-                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="images/upload_images/<%= ab.Image %>" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                        </a> 
+                                      <% if(ab) { %>
+                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
+                                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          <img src="images/upload_images/<%= ab.Image %>"
+                                            style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                        </a>
                                         <% } %>
-                                        <% if(!ab) { %>
-                                          <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="images/default-profile-picture1.jpg" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                          </a> 
-                                        <% } %>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="/userprofile">Update Profile</a>
-                                            <a class="dropdown-item" href="/changepassword">Change Password</a>
-                                            <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
-                                        </div>
-                                      </div>
-                                </li>
-              </ul>
-            </div>
+                                          <% if(!ab) { %>
+                                            <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
+                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              <img src="images/default-profile-picture1.jpg"
+                                                style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                            </a>
+                                            <% } %>
+                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                                <a class="dropdown-item" href="/changepassword">Change Password</a>
+                                                <a class="dropdown-item" href="/logout"
+                                                  style="color: #6255a5;">LOGOUT</a>
+                                              </div>
+                                    </div>
+                                  </li>
+            </ul>
           </div>
-        </nav>
-      </header>
-    </section>
-
-  
-<section id="manage-category" style="margin-top: 30px;">
-  <div class="container">
-    <div id="manage-category-table">
-
-      <% if(getOrder==0) { %>
-        <div id="filter-result-heading">
-          <h3 style="color: #6255a5; font-size: 25px;">You have not ordered anything right now.</h3>
         </div>
-        <% } %>
+      </nav>
+    </header>
+  </section>
 
-      <% if(getOrder> 0 ) { %>
-      <div class="table-wrapper-inner">
-        <div class="table-heading-1">
-          <h3 style="margin-left: -40px;">My Orders</h3>
-        </div>
 
-        <div class="col-md-6 col-12 d-flex justify-content-end align-items-center" style="margin-left: 620px;">
-          <input type="text" class="form-control search-ip input-field common-search" onkeyup="myFunction()"
-            style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
-            id="myInput" placeholder="Search by Order Status...">
-          <a class="btn btn-search btn-cmn common-btn" style="margin-right: -50px;" id="mng-ctg-btn">SEARCH</a>
-        </div>
-        <br>
+  <section id="manage-category" style="margin-top: 30px;">
+    <div class="container">
+      <div id="manage-category-table">
 
-        <div class="table-responsive" style="width: 1300px; margin-left: -40px;">
-          <table id="pager" class="table tablesorter data-table">
-            <thead>
-              <tr>
-                <th scope="col" class="sr-col">Order ID</th>
-                <th scope="col" class="sr-col">DATE</th>
-                <th scope="col" class="sr-col">DETAILS</th>
-                <th scope="col" class="sr-col">PRICE</th>
-                <th scope="col" class="sr-col">QUANTITY</th>
-                <th scope="col" class="sr-col">SUBTOTAL</th>
-                <th scope="col" class="sr-col">DISCOUNT</th>
-                <th scope="col" class="sr-col">PURCHASE TOTAL</th>
-                <th scope="col" class="sr-col">STATUS</th>
-                <th scope="col" class="sr-col">COUPON</th>
-                <th scope="col" class="sr-col">REMARK</th>
-                <th scope="col" class="action-th">ACTION</th>
-              </tr>
-            </thead>
-            <tbody class="common-tbody">
-              <% for(u in OrderData) { %>
-              <tr>
-              <td class="sr-col">
-                <%= OrderData[u].id %>
-              </td>
-              <td class="sr-col">
-                <%= OrderData[u].Date.getDate()+'/'+(OrderData[u].Date.getMonth()+1)+'/'+OrderData[u].Date.getFullYear() %>
-              </td>
-              <td class="sr-col" style="min-width: 100px;">
-                <% for (u1 in OrderData[u].orderdetails) { %>
-                  <p style="display: table-row-group;">- <%=
-                    OrderData[u].orderdetails[u1].product.ProductName %> by <%=
-                    OrderData[u].orderdetails[u1].product.CompanyName %>
-                  </p>
-                  <% } %>
-              </td>
-              <td class="sr-col">
-                <% for (u1 in OrderData[u].orderdetails) { %>
-                  <p>
-                    $<%= OrderData[u].orderdetails[u1].product.Price %>
-                  </p>
-                  <% } %>
-              </td>
-              <td class="sr-col">
-                <% for (u1 in OrderData[u].orderdetails) { %>
-                  <p>
-                    <%= OrderData[u].orderdetails[u1].Quantity %>
-                  </p>
-                  <% } %>
-              </td>
-              <td class="sr-col">
-                $<%= OrderData[u].TotalAmount  %>
-              </td>
-              <td class="sr-col">
-                $<%= OrderData[u].DiscountedAmount  %>
-              </td>
-              <td class="sr-col">
-                $<%= OrderData[u].PurchaseTotal %>
-              </td>
-              <% if(OrderData[u].Status == "success") { %>
-              <td class="sr-col" style="color: green;">
-                <%= OrderData[u].Status %>
-              </td>
-              <% } else if(OrderData[u].Status == "pending") { %>
-              <td class="sr-col">
-                <a type="button" href="/orderdetails" style="color: #6255a5;" aria-label="view details & options">
-                <%= OrderData[u].Status %>
-                </a>
-              </td> 
-              <% } else { %>
-              <td class="sr-col">
-                <a type="button" href="/<%= OrderData[u].id %>/payment" style="color: red;" aria-label="view details & options">
-                <%= OrderData[u].Status %>
-                </a>
-              </td>  
-              <% } %> 
-              <% if(OrderData[u].Coupon == "No") { %>
-              <td class="sr-col">
-                <%= OrderData[u].Coupon %>
-              </td>
-              <% } else { %>
-              <td class="sr-col" style="color: #6255a5;">
-                <b><%= OrderData[u].Coupon %></b>
-              </td>  
-              <% } %> 
-              <td class="sr-col">
-                <%= OrderData[u].Remark %>
-              </td>
-              <td class="action-img-td">
-                <a type="button" onclick="return confirm('Are you sure you want to delete this order?');"
-                  href="/history/delete/<%= OrderData[u].id %>" style=" color: #6255a5;"
-                  aria-label="view details & options">
-                  <img src="images/delete.png">
-                </a>
-              </td>
-              </tr>
+        <% if(getOrder==0) { %>
+          <div id="filter-result-heading">
+            <h3 style="color: #6255a5; font-size: 25px;">You have not ordered anything right now.</h3>
+          </div>
+          <% } %>
+
+            <% if(getOrder> 0 ) { %>
+              <div class="table-wrapper-inner">
+                <div class="table-heading-1">
+                  <h3 style="margin-left: -40px;">My Orders</h3>
+                </div>
+
+                <div class="col-md-6 col-12 d-flex justify-content-end align-items-center" style="margin-left: 620px;">
+                  <input type="text" class="form-control search-ip input-field common-search" onkeyup="myFunction()"
+                    style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
+                    id="myInput" placeholder="Search by Order Status...">
+                  <a class="btn btn-search btn-cmn common-btn" style="margin-right: -50px;" id="mng-ctg-btn">SEARCH</a>
+                </div>
+                <br>
+
+                <div class="table-responsive" style="width: 1300px; margin-left: -40px;">
+                  <table id="pager" class="table tablesorter data-table">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="sr-col">Order ID</th>
+                        <th scope="col" class="sr-col">DATE</th>
+                        <th scope="col" class="sr-col">DETAILS</th>
+                        <th scope="col" class="sr-col">PRICE</th>
+                        <th scope="col" class="sr-col">QUANTITY</th>
+                        <th scope="col" class="sr-col">SUBTOTAL</th>
+                        <th scope="col" class="sr-col">DISCOUNT</th>
+                        <th scope="col" class="sr-col">PURCHASE TOTAL</th>
+                        <th scope="col" class="sr-col">STATUS</th>
+                        <th scope="col" class="sr-col">COUPON</th>
+                        <th scope="col" class="sr-col">REMARK</th>
+                        <th scope="col" class="action-th">ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody class="common-tbody">
+                      <% for(u in OrderData) { %>
+                        <tr>
+                          <td class="sr-col">
+                            <%= OrderData[u].id %>
+                          </td>
+                          <td class="sr-col">
+                            <%=
+                              OrderData[u].Date.getDate()+'/'+(OrderData[u].Date.getMonth()+1)+'/'+OrderData[u].Date.getFullYear()
+                              %>
+                          </td>
+                          <td class="sr-col" style="min-width: 100px;">
+                            <% for (u1 in OrderData[u].orderdetails) { %>
+                              <p style="display: table-row-group;">- <%=
+                                  OrderData[u].orderdetails[u1].product.ProductName %> by <%=
+                                    OrderData[u].orderdetails[u1].product.CompanyName %>
+                              </p>
+                              <% } %>
+                          </td>
+                          <td class="sr-col">
+                            <% for (u1 in OrderData[u].orderdetails) { %>
+                              <p>
+                                $<%= OrderData[u].orderdetails[u1].product.Price %>
+                              </p>
+                              <% } %>
+                          </td>
+                          <td class="sr-col">
+                            <% for (u1 in OrderData[u].orderdetails) { %>
+                              <p>
+                                <%= OrderData[u].orderdetails[u1].Quantity %>
+                              </p>
+                              <% } %>
+                          </td>
+                          <td class="sr-col">
+                            $<%= OrderData[u].TotalAmount %>
+                          </td>
+                          <td class="sr-col">
+                            $<%= OrderData[u].DiscountedAmount %>
+                          </td>
+                          <td class="sr-col">
+                            $<%= OrderData[u].PurchaseTotal %>
+                          </td>
+                          <% if(OrderData[u].Status=="success" ) { %>
+                            <td class="sr-col" style="color: green;">
+                              <%= OrderData[u].Status %>
+                            </td>
+                            <% } else if(OrderData[u].Status=="pending" ) { %>
+                              <td class="sr-col">
+                                <a type="button" href="/orderdetails" style="color: #6255a5;"
+                                  aria-label="view details & options">
+                                  <%= OrderData[u].Status %>
+                                </a>
+                              </td>
+                              <% } else { %>
+                                <td class="sr-col">
+                                  <a type="button" href="/<%= OrderData[u].id %>/payment" style="color: red;"
+                                    aria-label="view details & options">
+                                    <%= OrderData[u].Status %>
+                                  </a>
+                                </td>
+                                <% } %>
+                                  <% if(OrderData[u].Coupon=="No" ) { %>
+                                    <td class="sr-col">
+                                      <%= OrderData[u].Coupon %>
+                                    </td>
+                                    <% } else { %>
+                                      <td class="sr-col" style="color: #6255a5;">
+                                        <b>
+                                          <%= OrderData[u].Coupon %>
+                                        </b>
+                                      </td>
+                                      <% } %>
+                                        <td class="sr-col">
+                                          <%= OrderData[u].Remark %>
+                                        </td>
+                                        <td class="action-img-td">
+                                          <a type="button"
+                                            onclick="return confirm('Are you sure you want to delete this order?');"
+                                            href="/history/delete/<%= OrderData[u].id %>" style=" color: #6255a5;"
+                                            aria-label="view details & options">
+                                            <img src="images/delete.png">
+                                          </a>
+                                        </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
               <% } %>
-            </tbody>
-          </table>
-        </div>
-
+                <div id="pageNavPosition" class="pager-nav" style="margin-bottom: 30px;"></div>
       </div>
-      <% } %>
-      <div id="pageNavPosition" class="pager-nav" style="margin-bottom: 30px;"></div>
     </div>
+  </section>
+  <div style="margin-bottom: 50px; text-align: center;">
+    <a href="/home" style="color: #eee;">HOME</a>
   </div>
-</section>
-<div style="margin-bottom: 50px; text-align: center;">
-  <a href="/home" style="color: #eee;">HOME</a>
-</div>
 
   <script>
     function myFunction() {

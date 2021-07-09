@@ -33,7 +33,7 @@ const User = sequelize.define(
   },
   {
     freezeTableName: true,
-    paranoid: true
+    paranoid: true,
   }
 );
 

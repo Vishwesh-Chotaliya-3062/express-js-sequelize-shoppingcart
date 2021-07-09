@@ -17,7 +17,7 @@ exports.userAuthentication = async function (req, res, next) {
       where: obj,
     });
   };
-  
+
   var checkPass = "";
   var checkEmpty = "";
   var checkUser = "";
@@ -47,13 +47,11 @@ exports.userAuthentication = async function (req, res, next) {
           res.cookie("token", token);
           console.log("Generated Token:", token);
           console.log(user.Status);
-          if(UserName == 'admin')
-          {
+          if (UserName == "admin") {
             await res.cookie("userid", user.UserID);
             await res.cookie("username", user.UserName);
             await res.redirect("manageusers");
-          }
-          else{
+          } else {
             await res.redirect("welcome");
           }
           // res.json({

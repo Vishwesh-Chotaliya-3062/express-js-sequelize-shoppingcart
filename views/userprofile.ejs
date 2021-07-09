@@ -119,80 +119,82 @@
           <div class="user-profile-heading">
             <h3>Basic Profile Details</h3>
           </div>
-          
+
           <div class="col-xl-6 col-md-6 col-12" style="margin-left: 0px; margin-top: 80px; width: 150px;">
             <label for="user-profile-display-picture" class="input-file" style="border-color: #eee; ">
               <div class="inside-lbl">
                 <% if(ab) { %>
                   <img src="/images/upload_images/<%= ab.Image %>" class="image1"
                     style="border-radius: 50%; border: 4px solid #6255a5; height: 150px; width: 150px;" alt="">
-                      <img src="/images/edit-purple.png" class="images1"
-                      style="height: 30px; width: 30px; margin-left: 10px; margin-top: -85px;" alt="">
+                  <img src="/images/edit-purple.png" class="images1"
+                    style="height: 30px; width: 30px; margin-left: 10px; margin-top: -85px;" alt="">
                   <% } %>
                     <% if(!ab) { %>
-                      <img src="/images/profile default.jpg" class="image1" style="border-radius: 50%; height: 150px; width: 150px;"
-                        alt="">
-                        <div class="overlay">
-                          <img src="/images/edit-purple.png" class="images1"
+                      <img src="/images/profile default.jpg" class="image1"
+                        style="border-radius: 50%; height: 150px; width: 150px;" alt="">
+                      <div class="overlay">
+                        <img src="/images/edit-purple.png" class="images1"
                           style="height: 30px; width: 30px; margin-left: 10px; margin-top: -85px;" alt="">
-                        </div>
+                      </div>
                       <% } %>
-                        
-                  <p>Upload a photo</p>
+
+                        <p>Upload a photo</p>
               </div>
             </label>
             <input type="file" class="form-control input-field" id="user-profile-display-picture"
               name="UserProfileImage" accept="image/png, image/gif, image/jpeg" placeholder="Upload a photo">
           </div>
-            
-              <div class="column" style="margin-left: 220px; margin-top: -175px;">
-                <% for(u in userDetails) { %>
-                  <div class="col-xl-6 col-md-6 col-12">
-                    <label for="user-profile-fname" class="add-note-lbl">Username*</label>
-                    <input type="text" class="form-control input-field" id="UserProfileName" name="UserProfileName"
-                      value="<%= userDetails[u].UserName %>" style="border: 1px solid #6255a5;" required readonly>
-                    <img src="/images/edit.png" id="toggleEditUsername" onclick="hello1()"
-                      style="margin-left: 430px; margin-top: -57px; width: 17px;">
-                      <% if(locals.msg) { %>
-                        <label for="password_error" class='label1'
-                          style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
-                          <%= msg %>
-                        </label>
-                        <% } %>
-                        <% if(typeof alert !='undefined' ) { %>
-                          <% if(alert[0].msg == "User Name must be 3+ characters long" ) { %>
-                            <label class="label1" for="password_error" style="color: red; margin-left: 0px; margin-top: -25px; margin-bottom: 0px; font-size: 12px;">
-                              <%= alert[0].msg %>
-                            </label>
-                          <% } %> 
-                        <% } %> 
-                        
-                  </div>
 
-                  <div class="col-xl-6 col-md-6 col-12">
-                    <label for="user-profile-email" class="add-note-lbl">Email*</label>
-                    <input type="text" class="form-control input-field" id="UserProfileEmail" name="UserProfileEmail"
-                      value="<%= userDetails[u].Email %>" style="border: 1px solid #6255a5;" required readonly>
-                    <img src="/images/edit.png" id="toggleEditEmail" onClick="hello2()"
-                      style="margin-left: 430px; margin-top: -57px; width: 17px;">
-                      <% if(locals.msg1) { %>
-                        <label for="password_error" class='label1'
-                          style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
-                          <%= msg1 %>
+          <div class="column" style="margin-left: 220px; margin-top: -175px;">
+            <% for(u in userDetails) { %>
+              <div class="col-xl-6 col-md-6 col-12">
+                <label for="user-profile-fname" class="add-note-lbl">Username*</label>
+                <input type="text" class="form-control input-field" id="UserProfileName" name="UserProfileName"
+                  value="<%= userDetails[u].UserName %>" style="border: 1px solid #6255a5;" required readonly>
+                <img src="/images/edit.png" id="toggleEditUsername" onclick="hello1()"
+                  style="margin-left: 430px; margin-top: -57px; width: 17px;">
+                <% if(locals.msg) { %>
+                  <label for="password_error" class='label1'
+                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                    <%= msg %>
+                  </label>
+                  <% } %>
+                    <% if(typeof alert !='undefined' ) { %>
+                      <% if(alert[0].msg=="User Name must be 3+ characters long" ) { %>
+                        <label class="label1" for="password_error"
+                          style="color: red; margin-left: 0px; margin-top: -25px; margin-bottom: 0px; font-size: 12px;">
+                          <%= alert[0].msg %>
                         </label>
                         <% } %>
-                        <% if(typeof alert !='undefined' ) { %>
-                          <% if(alert[0].msg == "Email is not valid" ) { %>
-                          <div style="margin-bottom: -40px;">
-                            <label class="label1" for="password_error" style="color: red; margin-left: 0px; margin-top: -25px; margin-bottom: 0px; font-size: 12px;">
-                              <%= alert[0].msg %>
-                            </label>
-                          </div>
-                          <% } %> 
-                        <% } %> 
-                  </div>
-                  <% } %>
+                          <% } %>
+
               </div>
+
+              <div class="col-xl-6 col-md-6 col-12">
+                <label for="user-profile-email" class="add-note-lbl">Email*</label>
+                <input type="text" class="form-control input-field" id="UserProfileEmail" name="UserProfileEmail"
+                  value="<%= userDetails[u].Email %>" style="border: 1px solid #6255a5;" required readonly>
+                <img src="/images/edit.png" id="toggleEditEmail" onClick="hello2()"
+                  style="margin-left: 430px; margin-top: -57px; width: 17px;">
+                <% if(locals.msg1) { %>
+                  <label for="password_error" class='label1'
+                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                    <%= msg1 %>
+                  </label>
+                  <% } %>
+                    <% if(typeof alert !='undefined' ) { %>
+                      <% if(alert[0].msg=="Email is not valid" ) { %>
+                        <div style="margin-bottom: -40px;">
+                          <label class="label1" for="password_error"
+                            style="color: red; margin-left: 0px; margin-top: -25px; margin-bottom: 0px; font-size: 12px;">
+                            <%= alert[0].msg %>
+                          </label>
+                        </div>
+                        <% } %>
+                          <% } %>
+              </div>
+              <% } %>
+          </div>
         </div>
         <% if(locals.message) { %>
           <label for="password_error" class='label1'
@@ -200,111 +202,111 @@
             <%= message %>
           </label>
           <% } %>
-        <% for(u in userDetails) { %>
-        <% if(userDetails[u].UserName !== 'admin') { %>
-        <% if(userAddress) { %>
-          <div id="address-details" style="margin-top: -25px;">
+            <% for(u in userDetails) { %>
+              <% if(userDetails[u].UserName !=='admin' ) { %>
+                <% if(userAddress) { %>
+                  <div id="address-details" style="margin-top: -25px;">
 
-            <div class="user-profile-heading">
-              <h3>Address Details</h3>
-            </div>
+                    <div class="user-profile-heading">
+                      <h3>Address Details</h3>
+                    </div>
 
-            <div class="row" style="margin-left: -10px;">
-              <div class="col-xl-6 col-md-6 col-12">
-                <label for="addr-ln-1" class="add-note-lbl">Address*</label>
-                <textarea style="height: 90px; margin-bottom: 25px;" class="form-control input-field" id="addr"
-                  name="addr" required><%= userAddress.Address %></textarea>
-              </div>
+                    <div class="row" style="margin-left: -10px;">
+                      <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addr-ln-1" class="add-note-lbl">Address*</label>
+                        <textarea style="height: 90px; margin-bottom: 25px;" class="form-control input-field" id="addr"
+                          name="addr" required><%= userAddress.Address %></textarea>
+                      </div>
 
-              <div class="col-xl-6 col-md-6 col-12">
-                <label for="addrCity" class="add-note-lbl">City*</label>
-                <input type="text" class="form-control input-field" id="addrCity" name="addrCity"
-                  value="<%= userAddress.City %>" required>
-              </div>
+                      <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addrCity" class="add-note-lbl">City*</label>
+                        <input type="text" class="form-control input-field" id="addrCity" name="addrCity"
+                          value="<%= userAddress.City %>" required>
+                      </div>
 
-              <div class="col-xl-6 col-md-6 col-12">
-                <label for="addrState" class="add-note-lbl">State*</label>
-                <input type="text" class="form-control input-field" id="addrState" name="addrState"
-                  value="<%= userAddress.State %>" required>
-              </div>
+                      <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addrState" class="add-note-lbl">State*</label>
+                        <input type="text" class="form-control input-field" id="addrState" name="addrState"
+                          value="<%= userAddress.State %>" required>
+                      </div>
 
-              <div class="col-xl-6 col-md-6 col-12">
-                <label for="addrZip" class="add-note-lbl">ZipCode*</label>
-                <input type="number" min="0" class="form-control input-field" id="addrZip" name="addrZip"
-                  value="<%= userAddress.Zipcode %>" required>
-              </div>
+                      <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addrZip" class="add-note-lbl">ZipCode*</label>
+                        <input type="number" min="0" class="form-control input-field" id="addrZip" name="addrZip"
+                          value="<%= userAddress.Zipcode %>" required>
+                      </div>
 
-              <div class="col-xl-6 col-md-6 col-12">
-                <label for="addrCountry" class="add-note-lbl">Country*</label>
-                <div>
-                  <select class="form-control" id="addrCountry" name="addrCountry" style="margin-bottom: 25px;">
-                    <option value="<%= userAddress.Country %>" selected hidden>
-                      <%= userAddress.Country %>
-                    </option>
-                    <option value="INDIA">INDIA</option>
-                    <option value="USA">USA</option>
-                    <option value="UK">UK</option>
-                    <option value="CANADA">CANADA</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <% } %>
-            <% if(!userAddress) { %>
-              <div id="address-details">
-
-                <div class="user-profile-heading">
-                  <h3>Address Details</h3>
-                </div>
-
-                <div class="row" style="margin-left: -15px;">
-                  <div class="col-xl-6 col-md-6 col-12">
-                    <label for="addr-ln-1" class="add-note-lbl">Address*</label>
-                    <textarea style="height: 90px; margin-bottom: 25px;" id="addr" name="addr"
-                      class="form-control input-field" placeholder="Enter your Address" required></textarea>
-                  </div>
-
-                  <div class="col-xl-6 col-md-6 col-12">
-                    <label for="addrCity" class="add-note-lbl">City*</label>
-                    <input type="text" class="form-control input-field" id="addrCity" name="addrCity"
-                      placeholder="Enter your City" required>
-                  </div>
-
-                  <div class="col-xl-6 col-md-6 col-12">
-                    <label for="addrState" class="add-note-lbl">State*</label>
-                    <input type="text" class="form-control input-field" id="addrState" name="addrState"
-                      placeholder="Enter your State" required>
-                  </div>
-
-                  <div class="col-xl-6 col-md-6 col-12">
-                    <label for="addrZip" class="add-note-lbl">ZipCode*</label>
-                    <input type="number" min="0" class="form-control input-field" id="addrZip" name="addrZip"
-                      placeholder="Enter your Zipcode" required>
-                  </div>
-
-                  <div class="col-xl-6 col-md-6 col-12">
-                    <label for="addrCountry" class="add-note-lbl">Country*</label>
-                    <div>
-                      <select class="form-control" id="addrCountry" name="addrCountry" style="margin-bottom: 25px;"
-                        required>
-                        <option value="" selected hidden>Select your country</option>
-                        <option value="INDIA">INDIA</option>
-                        <option value="USA">USA</option>
-                        <option value="UK">UK</option>
-                        <option value="CANADA">CANADA</option>
-                      </select>
+                      <div class="col-xl-6 col-md-6 col-12">
+                        <label for="addrCountry" class="add-note-lbl">Country*</label>
+                        <div>
+                          <select class="form-control" id="addrCountry" name="addrCountry" style="margin-bottom: 25px;">
+                            <option value="<%= userAddress.Country %>" selected hidden>
+                              <%= userAddress.Country %>
+                            </option>
+                            <option value="INDIA">INDIA</option>
+                            <option value="USA">USA</option>
+                            <option value="UK">UK</option>
+                            <option value="CANADA">CANADA</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <% } %>
-              <% } %>
-              <% } %>
-                <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
-                  <button type="submit" class="btn btn-login" style="width: 150px; margin-left: -1060px;" id="submit"
-                    value="Sign Up" data-toggle="modal">SUBMIT</button>
-                </div>
+                  <% } %>
+                    <% if(!userAddress) { %>
+                      <div id="address-details">
+
+                        <div class="user-profile-heading">
+                          <h3>Address Details</h3>
+                        </div>
+
+                        <div class="row" style="margin-left: -15px;">
+                          <div class="col-xl-6 col-md-6 col-12">
+                            <label for="addr-ln-1" class="add-note-lbl">Address*</label>
+                            <textarea style="height: 90px; margin-bottom: 25px;" id="addr" name="addr"
+                              class="form-control input-field" placeholder="Enter your Address" required></textarea>
+                          </div>
+
+                          <div class="col-xl-6 col-md-6 col-12">
+                            <label for="addrCity" class="add-note-lbl">City*</label>
+                            <input type="text" class="form-control input-field" id="addrCity" name="addrCity"
+                              placeholder="Enter your City" required>
+                          </div>
+
+                          <div class="col-xl-6 col-md-6 col-12">
+                            <label for="addrState" class="add-note-lbl">State*</label>
+                            <input type="text" class="form-control input-field" id="addrState" name="addrState"
+                              placeholder="Enter your State" required>
+                          </div>
+
+                          <div class="col-xl-6 col-md-6 col-12">
+                            <label for="addrZip" class="add-note-lbl">ZipCode*</label>
+                            <input type="number" min="0" class="form-control input-field" id="addrZip" name="addrZip"
+                              placeholder="Enter your Zipcode" required>
+                          </div>
+
+                          <div class="col-xl-6 col-md-6 col-12">
+                            <label for="addrCountry" class="add-note-lbl">Country*</label>
+                            <div>
+                              <select class="form-control" id="addrCountry" name="addrCountry"
+                                style="margin-bottom: 25px;" required>
+                                <option value="" selected hidden>Select your country</option>
+                                <option value="INDIA">INDIA</option>
+                                <option value="USA">USA</option>
+                                <option value="UK">UK</option>
+                                <option value="CANADA">CANADA</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <% } %>
+                        <% } %>
+                          <% } %>
+                            <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
+                              <button type="submit" class="btn btn-login" style="width: 150px; margin-left: -1060px;"
+                                id="submit" value="Sign Up" data-toggle="modal">SUBMIT</button>
+                            </div>
       </form>
     </div>
   </section>
@@ -318,8 +320,10 @@
           <div class="footer-wrap">
             <p>Copyright &copy; TatvaSoft All Rights Reserved</p>
             <ul class="social-list">
-              <li><a href="https://www.facebook.com/vishwesh.chotaliya/"><img src="/images/facebook.png" alt=""></a></li>
-              <li><a href="https://www.linkedin.com/in/vishwesh-chotaliya-235b31143/"><img src="/images/linkedin.png" alt=""></a></li>
+              <li><a href="https://www.facebook.com/vishwesh.chotaliya/"><img src="/images/facebook.png" alt=""></a>
+              </li>
+              <li><a href="https://www.linkedin.com/in/vishwesh-chotaliya-235b31143/"><img src="/images/linkedin.png"
+                    alt=""></a></li>
               <li><a href="https://twitter.com/v_chotaliya"><img src="/images/twitter.png" alt=""></a></li>
             </ul>
           </div>
@@ -341,12 +345,12 @@
         $("#UserProfileName").attr("readonly", true);
       }
     }
-    setTimeout(function() {
-            var alerts = document.getElementsByClassName("label1");
-        
-            for( var i = 0; i < alerts.length; i++ ) {
-                alerts[i].style.display = "none";
-            }
+    setTimeout(function () {
+      var alerts = document.getElementsByClassName("label1");
+
+      for (var i = 0; i < alerts.length; i++) {
+        alerts[i].style.display = "none";
+      }
     }, 2000);
   </script>
   <script>

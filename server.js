@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const { sequelize } = require("./models/db");
 const app = express();
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload");
 
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());

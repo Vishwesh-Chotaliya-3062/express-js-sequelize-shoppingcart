@@ -83,25 +83,44 @@
                                                             </li>
                                                             <% } %>
                                                                 <% } %>
-                                                                <li class="nav-item">
-                                                                    <div class="dropdown">
-                                                                        <% if(ab) { %>
-                                                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <img src="images/upload_images/<%= ab.Image %>" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                                                        </a> 
-                                                                        <% } %>
-                                                                        <% if(!ab) { %>
-                                                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <img src="images/default-profile-picture1.jpg" style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                                                        </a> 
-                                                                        <% } %>
-                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                            <a class="dropdown-item" href="/userprofile">Update Profile</a>
-                                                                            <a class="dropdown-item" href="/changepassword">Change Password</a>
-                                                                            <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                                                    <li class="nav-item">
+                                                                        <div class="dropdown">
+                                                                            <% if(ab) { %>
+                                                                                <a style="cursor: pointer;"
+                                                                                    class="nav-link purple-link pro-pic"
+                                                                                    data-toggle="dropdown"
+                                                                                    aria-haspopup="true"
+                                                                                    aria-expanded="false">
+                                                                                    <img src="images/upload_images/<%= ab.Image %>"
+                                                                                        style="width: 40px; height: 50px; border-radius: 50%;"
+                                                                                        alt="">
+                                                                                </a>
+                                                                                <% } %>
+                                                                                    <% if(!ab) { %>
+                                                                                        <a style="cursor: pointer;"
+                                                                                            class="nav-link purple-link pro-pic"
+                                                                                            data-toggle="dropdown"
+                                                                                            aria-haspopup="true"
+                                                                                            aria-expanded="false">
+                                                                                            <img src="images/default-profile-picture1.jpg"
+                                                                                                style="width: 40px; height: 50px; border-radius: 50%;"
+                                                                                                alt="">
+                                                                                        </a>
+                                                                                        <% } %>
+                                                                                            <div class="dropdown-menu"
+                                                                                                aria-labelledby="dropdownMenuButton">
+                                                                                                <a class="dropdown-item"
+                                                                                                    href="/userprofile">Update
+                                                                                                    Profile</a>
+                                                                                                <a class="dropdown-item"
+                                                                                                    href="/changepassword">Change
+                                                                                                    Password</a>
+                                                                                                <a class="dropdown-item"
+                                                                                                    href="/logout"
+                                                                                                    style="color: #6255a5;">LOGOUT</a>
+                                                                                            </div>
                                                                         </div>
-                                                                      </div>
-                                                                </li>
+                                                                    </li>
                         </ul>
                     </div>
                 </div>
@@ -161,7 +180,8 @@
                                             <div class="row">
                                                 <div class="col-xl-12" style="width: 100%;">
                                                     <div class="img-book">
-                                                        <img src="images/upload_product_images/<%= productQuantity[product1].product.ProductName %>__<%= productQuantity[product1].product.CompanyName %>__<%= productQuantity[product1].product.Category %>__<%= productQuantity[product1].product.SubCategory %>.png" class="img-fluid">
+                                                        <img src="images/upload_product_images/<%= productQuantity[product1].product.ProductName %>__<%= productQuantity[product1].product.CompanyName %>__<%= productQuantity[product1].product.Category %>__<%= productQuantity[product1].product.SubCategory %>.png"
+                                                            class="img-fluid">
                                                     </div>
                                                 </div>
 

@@ -44,39 +44,38 @@
               <li class="nav-item">
                 <a class="nav-link purple-link" href="/manageusers">MANAGE USERS</a>
               </li>
-                          <% for(let user in userDetails) { %>
-                            <% if(userDetails[user].Status=='pending' ) { %>
-                              <li class="nav-item">
-                                <a id="nav-btn" style="width: 150px;"
-                                  class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                  href="<%= link %>" role="button">VERIFY EMAIL</a>
-                              </li>
-                              <% } %>
+              <% for(let user in userDetails) { %>
+                <% if(userDetails[user].Status=='pending' ) { %>
+                  <li class="nav-item">
+                    <a id="nav-btn" style="width: 150px;"
+                      class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                      href="<%= link %>" role="button">VERIFY EMAIL</a>
+                  </li>
+                  <% } %>
+                    <% } %>
+                      <li class="nav-item">
+                        <div class="dropdown">
+                          <% if(ab) { %>
+                            <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <img src="images/upload_images/<%= ab.Image %>"
+                                style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                            </a>
+                            <% } %>
+                              <% if(!ab) { %>
+                                <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="false">
+                                  <img src="images/default-profile-picture1.jpg"
+                                    style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                </a>
                                 <% } %>
-                                  <li class="nav-item">
-                                    <div class="dropdown">
-                                      <% if(ab) { %>
-                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
-                                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          <img src="images/upload_images/<%= ab.Image %>"
-                                            style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                        </a>
-                                        <% } %>
-                                          <% if(!ab) { %>
-                                            <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
-                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                              <img src="images/default-profile-picture1.jpg"
-                                                style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                            </a>
-                                            <% } %>
-                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="/userprofile">Update Profile</a>
-                                                <a class="dropdown-item" href="/changepassword">Change Password</a>
-                                                <a class="dropdown-item" href="/logout"
-                                                  style="color: #6255a5;">LOGOUT</a>
-                                              </div>
-                                    </div>
-                                  </li>
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                    <a class="dropdown-item" href="/changepassword">Change Password</a>
+                                    <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                  </div>
+                        </div>
+                      </li>
             </ul>
           </div>
         </div>
@@ -102,16 +101,17 @@
                 <label for="" class="add-admin-lbl">* Product Name (aka Title)</label>
                 <input type="text" class="form-control input-field" id="ProductName" name="ProductName"
                   placeholder="Enter product name" required>
-                  <% if(locals.message) { %>
-                    <label for="password_error" class='label1'
-                      style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
-                      <%= message %>
-                    </label>
-                    <% } %>
+                <% if(locals.message) { %>
+                  <label for="password_error" class='label1'
+                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                    <%= message %>
+                  </label>
+                  <% } %>
               </div>
               <div class="ip-field">
                 <label for="" class="add-admin-lbl">* SKU</label>
-                <input type="text" class="form-control input-field" id="SKU" name="SKU" placeholder="Enter product SKU" required>
+                <input type="text" class="form-control input-field" id="SKU" name="SKU" placeholder="Enter product SKU"
+                  required>
                 <% if(locals.message1) { %>
                   <label for="password_error" class='label1'
                     style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
@@ -165,12 +165,12 @@
   </section>
 
   <script>
-    setTimeout(function() {
-            var alerts = document.getElementsByClassName("label1");
-        
-            for( var i = 0; i < alerts.length; i++ ) {
-                alerts[i].style.display = "none";
-            }
+    setTimeout(function () {
+      var alerts = document.getElementsByClassName("label1");
+
+      for (var i = 0; i < alerts.length; i++) {
+        alerts[i].style.display = "none";
+      }
     }, 2000);
   </script>
 

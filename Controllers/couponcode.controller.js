@@ -19,12 +19,11 @@ exports.getCouponcode = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName === "admin")
-    {
+    if (aq.UserName === "admin") {
       await res.render("notauthorizederror");
     }
 
@@ -37,7 +36,6 @@ exports.getCouponcode = async (req, res, next) => {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
-
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -49,7 +47,7 @@ exports.getCouponcode = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const userDetails = await User.findAll({
@@ -103,7 +101,7 @@ exports.getCouponcode = async (req, res, next) => {
                 link: link,
                 countCouponcode: countCouponcode,
                 couponcodeDetails: couponcodeDetails,
-                ab: ab
+                ab: ab,
               });
             }
           }

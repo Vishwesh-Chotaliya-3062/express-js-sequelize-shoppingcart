@@ -19,12 +19,11 @@ exports.getWallet = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName === "admin")
-    {
+    if (aq.UserName === "admin") {
       await res.render("notauthorizederror");
     }
 
@@ -37,7 +36,6 @@ exports.getWallet = async (req, res, next) => {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
-
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -49,7 +47,7 @@ exports.getWallet = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const userDetails = await User.findAll({
@@ -92,7 +90,7 @@ exports.getWallet = async (req, res, next) => {
                 cartCount: cartCount,
                 countCouponcode: countCouponcode,
                 link: link,
-                ab: ab
+                ab: ab,
               });
             }
           }
@@ -113,16 +111,15 @@ exports.addWallet = async (req, res, next) => {
   const Amount = req.body.Amount;
   const UserID = req.cookies.userid;
 
-    const aq = await User.findOne({
-      where: {
-        UserID: UserID
-      }
-    });
+  const aq = await User.findOne({
+    where: {
+      UserID: UserID,
+    },
+  });
 
-    if(aq.UserName === "admin")
-    {
-      await res.render("notauthorizederror");
-    }
+  if (aq.UserName === "admin") {
+    await res.render("notauthorizederror");
+  }
 
   console.log("Amount:", Amount);
 

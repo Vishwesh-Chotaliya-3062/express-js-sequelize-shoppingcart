@@ -49,7 +49,7 @@ exports.getChangePassword = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const countCouponcode = await Couponcode.count({
@@ -94,7 +94,7 @@ exports.getChangePassword = async (req, res, next) => {
                 userid: userid,
                 countCouponcode: countCouponcode,
                 couponcodeDetails: couponcodeDetails,
-                ab: ab
+                ab: ab,
               });
             }
           }
@@ -180,7 +180,7 @@ exports.postChangePassword = async (req, res, next) => {
                     const ab = await ProfileImage.findOne({
                       where: {
                         UserID: userid,
-                      }
+                      },
                     });
 
                     for (user in userDetails) {
@@ -219,130 +219,127 @@ exports.postChangePassword = async (req, res, next) => {
                         countCouponcode: countCouponcode,
                         couponcodeDetails: couponcodeDetails,
                         checkPass: checkPass,
-                        ab: ab
+                        ab: ab,
                       });
                     }
                   } else {
-                    if(Confirm_Pass !== New_Pass)
-                    {
-                    const checkConfirmPass =
-                        "Both password does not match";
+                    if (Confirm_Pass !== New_Pass) {
+                      const checkConfirmPass = "Both password does not match";
 
-                    const userDetails = await User.findAll({
-                      attributes: ["UserID", "UserName", "Status"],
-                      include: Wallet,
-                      where: {
-                        UserName: UserName,
-                      },
-                    });
+                      const userDetails = await User.findAll({
+                        attributes: ["UserID", "UserName", "Status"],
+                        include: Wallet,
+                        where: {
+                          UserName: UserName,
+                        },
+                      });
 
-                    const ab = await ProfileImage.findOne({
-                      where: {
-                        UserID: userid,
-                      }
-                    });
-
-                    const countCouponcode = await Couponcode.count({
-                      where: {
-                        UserID: userid,
-                      },
-                    });
-
-                    const couponcodeDetails = await Couponcode.findAll({
-                      where: {
-                        UserID: userid,
-                      },
-                    });
-
-                    for (user in userDetails) {
-                      let userid = userDetails[user].UserID;
-
-                      const countProducts = await Cart.count({
+                      const ab = await ProfileImage.findOne({
                         where: {
                           UserID: userid,
                         },
                       });
 
-                      const cartTotalQuantity = await Cart.findOne({
-                        attributes: [
-                          [
-                            sequelize.fn("SUM", sequelize.col("Quantity")),
-                            "Quantity",
+                      const countCouponcode = await Couponcode.count({
+                        where: {
+                          UserID: userid,
+                        },
+                      });
+
+                      const couponcodeDetails = await Couponcode.findAll({
+                        where: {
+                          UserID: userid,
+                        },
+                      });
+
+                      for (user in userDetails) {
+                        let userid = userDetails[user].UserID;
+
+                        const countProducts = await Cart.count({
+                          where: {
+                            UserID: userid,
+                          },
+                        });
+
+                        const cartTotalQuantity = await Cart.findOne({
+                          attributes: [
+                            [
+                              sequelize.fn("SUM", sequelize.col("Quantity")),
+                              "Quantity",
+                            ],
                           ],
-                        ],
-                        where: {
-                          UserID: userid,
-                        },
-                      });
+                          where: {
+                            UserID: userid,
+                          },
+                        });
 
-                      const cartCount = cartTotalQuantity.Quantity;
+                        const cartCount = cartTotalQuantity.Quantity;
 
-                      const walletBalance = Math.ceil(
-                        userDetails[user].wallet.Balance
-                      );
+                        const walletBalance = Math.ceil(
+                          userDetails[user].wallet.Balance
+                        );
 
-                      await res.render("changepassword", {
-                        userDetails: userDetails,
-                        countProducts: countProducts,
-                        walletBalance: walletBalance,
-                        cartCount: cartCount,
-                        userid: userid,
-                        countCouponcode: countCouponcode,
-                        couponcodeDetails: couponcodeDetails,
-                        checkConfirmPass: checkConfirmPass,
-                        ab: ab
-                      });
-                    }
-                    }
-                    else if(Confirm_Pass === New_Pass){
-                        bcrypt.genSalt(saltRounds, async function (err, salt) {
-                            if (err) {
-                              throw err;
-                            } else {
-                              bcrypt.hash(
-                                req.body.New_Pass,
-                                salt,
-                                async function (err, hash) {
-                                  if (err) {
-                                    throw err;
-                                  } else {
-                                    const newpass = hash;
-                                    User.update({
-                                        Password: newpass
+                        await res.render("changepassword", {
+                          userDetails: userDetails,
+                          countProducts: countProducts,
+                          walletBalance: walletBalance,
+                          cartCount: cartCount,
+                          userid: userid,
+                          countCouponcode: countCouponcode,
+                          couponcodeDetails: couponcodeDetails,
+                          checkConfirmPass: checkConfirmPass,
+                          ab: ab,
+                        });
+                      }
+                    } else if (Confirm_Pass === New_Pass) {
+                      bcrypt.genSalt(saltRounds, async function (err, salt) {
+                        if (err) {
+                          throw err;
+                        } else {
+                          bcrypt.hash(
+                            req.body.New_Pass,
+                            salt,
+                            async function (err, hash) {
+                              if (err) {
+                                throw err;
+                              } else {
+                                const newpass = hash;
+                                User.update(
+                                  {
+                                    Password: newpass,
+                                  },
+                                  {
+                                    where: {
+                                      UserID: userid,
                                     },
-                                    {
-                                        where: {
-                                            UserID: userid
-                                        }
-                                    })
-                                    .then(async () => {
-                                        
-                                        const u1 = await User.findOne({
-                                            where: {
-                                              UserID: userid,
-                                            },
-                                        });
-
-                                        sendPasswordChanged(
-                                          { UserName: u1.UserName, Email: u1.Email }
-                                        ),
-
-                                        await res.redirect("/logout");
-                                      })
-                                    .catch(async (err) => {
-                                        console.log(err);
-                                        res.json({
-                                          error: err.message,
-                                        });
-                                      });
                                   }
-                                }
-                              );
+                                )
+                                  .then(async () => {
+                                    const u1 = await User.findOne({
+                                      where: {
+                                        UserID: userid,
+                                      },
+                                    });
+
+                                    sendPasswordChanged({
+                                      UserName: u1.UserName,
+                                      Email: u1.Email,
+                                    }),
+                                      await res.redirect("/logout");
+                                  })
+                                  .catch(async (err) => {
+                                    console.log(err);
+                                    res.json({
+                                      error: err.message,
+                                    });
+                                  });
+                              }
                             }
-                          });
-                    }
-                    else{
-                        res.render("/error");
+                          );
+                        }
+                      });
+                    } else {
+                      res.render("/error");
                     }
                   }
                 }

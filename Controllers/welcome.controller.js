@@ -46,17 +46,16 @@ exports.userAuthorization = async (req, res, next) => {
             await res.cookie("userid", u.UserID);
             console.log("user", UserName);
 
-            if(UserName === "admin")
-            {
+            if (UserName === "admin") {
               await res.redirect("/manageusers");
             }
 
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: u.UserID,
-              }
+              },
             });
-            
+
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
               include: Wallet,
@@ -74,7 +73,7 @@ exports.userAuthorization = async (req, res, next) => {
                 UserID: u.UserID,
               },
             });
-            
+
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;
@@ -102,7 +101,7 @@ exports.userAuthorization = async (req, res, next) => {
                 userid: userid,
                 countCouponcode: countCouponcode,
                 Add: Add,
-                ab: ab
+                ab: ab,
               });
             }
           }

@@ -8,9 +8,9 @@ const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 var path = require("path");
-const sharp = require('sharp');
-const Jimp = require("jimp")
-const fs = require('fs')
+const sharp = require("sharp");
+const Jimp = require("jimp");
+const fs = require("fs");
 
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
@@ -25,15 +25,14 @@ exports.getAddProduct = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName !== "admin")
-    {
+    if (aq.UserName !== "admin") {
       await res.render("notauthorizederror");
     }
-    
+
     if (!token) {
       res.redirect("login");
     } else {
@@ -43,7 +42,6 @@ exports.getAddProduct = async (req, res, next) => {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
-
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -55,7 +53,7 @@ exports.getAddProduct = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const userDetails = await User.findAll({
@@ -98,7 +96,7 @@ exports.getAddProduct = async (req, res, next) => {
                 cartCount: cartCount,
                 countCouponcode: countCouponcode,
                 link: link,
-                ab: ab
+                ab: ab,
               });
             }
           }
@@ -122,12 +120,11 @@ exports.postAddProduct = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName !== "admin")
-    {
+    if (aq.UserName !== "admin") {
       await res.render("notauthorizederror");
     }
 
@@ -139,7 +136,6 @@ exports.postAddProduct = async (req, res, next) => {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
-
           } else {
             console.log("Verified");
             var decoded = jwt_decode(token);
@@ -148,27 +144,36 @@ exports.postAddProduct = async (req, res, next) => {
             await res.cookie("username", UserName);
             console.log("user", UserName);
 
-            const {ProductName, SKU, Price, QuantityLeft, CompanyName, Category, SubCategory } = req.body;
+            const {
+              ProductName,
+              SKU,
+              Price,
+              QuantityLeft,
+              CompanyName,
+              Category,
+              SubCategory,
+            } = req.body;
             const file = req.files.Image;
 
             console.log(req.body);
             console.log(file);
 
             const checkAlready = await Product.findOne({
-                where: {
-                    ProductName: ProductName,
-                    CompanyName: CompanyName
-                }
+              where: {
+                ProductName: ProductName,
+                CompanyName: CompanyName,
+              },
             });
 
-            if(checkAlready){
-              const message = "Duplicate product (change either product name or company name)";
+            if (checkAlready) {
+              const message =
+                "Duplicate product (change either product name or company name)";
               const ab = await ProfileImage.findOne({
                 where: {
                   UserID: userid,
-                }
+                },
               });
-  
+
               const userDetails = await User.findAll({
                 attributes: ["UserID", "UserName", "Status"],
                 include: Wallet,
@@ -176,30 +181,35 @@ exports.postAddProduct = async (req, res, next) => {
                   UserName: UserName,
                 },
               });
-  
+
               const countCouponcode = await Couponcode.count({
                 where: {
                   UserID: userid,
                 },
               });
-  
+
               for (user in userDetails) {
                 let userid = userDetails[user].UserID;
                 let link = `/verify/${userid}`;
-  
+
                 const cartTotalQuantity = await Cart.findOne({
                   attributes: [
-                    [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                    [
+                      sequelize.fn("SUM", sequelize.col("Quantity")),
+                      "Quantity",
+                    ],
                   ],
                   where: {
                     UserID: userid,
                   },
                 });
-  
+
                 const cartCount = cartTotalQuantity.Quantity;
-  
-                const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
-  
+
+                const walletBalance = Math.ceil(
+                  userDetails[user].wallet.Balance
+                );
+
                 await res.render("addproduct", {
                   userDetails: userDetails,
                   walletBalance: walletBalance,
@@ -207,30 +217,27 @@ exports.postAddProduct = async (req, res, next) => {
                   countCouponcode: countCouponcode,
                   link: link,
                   ab: ab,
-                  message
+                  message,
                 });
               }
             }
-            if(!checkAlready)
-            {
+            if (!checkAlready) {
               const addProductTransaction = await sequelize.transaction();
-              try{
-
+              try {
                 const checkSKUAlready = await Product.findOne({
                   where: {
-                      SKU : SKU
-                  }
+                    SKU: SKU,
+                  },
                 });
 
-                if(checkSKUAlready)
-                {
+                if (checkSKUAlready) {
                   const message1 = "Duplicate SKU for product";
                   const ab = await ProfileImage.findOne({
                     where: {
                       UserID: userid,
-                    }
+                    },
                   });
-      
+
                   const userDetails = await User.findAll({
                     attributes: ["UserID", "UserName", "Status"],
                     include: Wallet,
@@ -238,30 +245,35 @@ exports.postAddProduct = async (req, res, next) => {
                       UserName: UserName,
                     },
                   });
-      
+
                   const countCouponcode = await Couponcode.count({
                     where: {
                       UserID: userid,
                     },
                   });
-      
+
                   for (user in userDetails) {
                     let userid = userDetails[user].UserID;
                     let link = `/verify/${userid}`;
-      
+
                     const cartTotalQuantity = await Cart.findOne({
                       attributes: [
-                        [sequelize.fn("SUM", sequelize.col("Quantity")), "Quantity"],
+                        [
+                          sequelize.fn("SUM", sequelize.col("Quantity")),
+                          "Quantity",
+                        ],
                       ],
                       where: {
                         UserID: userid,
                       },
                     });
-      
+
                     const cartCount = cartTotalQuantity.Quantity;
-      
-                    const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
-      
+
+                    const walletBalance = Math.ceil(
+                      userDetails[user].wallet.Balance
+                    );
+
                     await res.render("addproduct", {
                       userDetails: userDetails,
                       walletBalance: walletBalance,
@@ -269,7 +281,7 @@ exports.postAddProduct = async (req, res, next) => {
                       countCouponcode: countCouponcode,
                       link: link,
                       ab: ab,
-                      message1
+                      message1,
                     });
                   }
                 }
@@ -283,72 +295,100 @@ exports.postAddProduct = async (req, res, next) => {
                   Category: Category,
                   SubCategory: SubCategory,
                 };
-                
+
                 await Product.create(product, {
-                  transaction: addProductTransaction
+                  transaction: addProductTransaction,
                 });
 
                 await addProductTransaction.commit();
 
                 const a = await Product.findOne({
-                  order: [
-                    ['ProductID', 'DESC'],
-                  ],
+                  order: [["ProductID", "DESC"]],
                   limit: 1,
                 });
-                
-                const a1 = a.ProductID
+
+                const a1 = a.ProductID;
                 console.log("----ProductID-----", a1);
                 const ProductID = a1;
 
                 if (
                   file.mimetype == "image/jpeg" ||
                   file.mimetype == "image/png" ||
-                  file.mimetype == "image/gif" || 
+                  file.mimetype == "image/gif" ||
                   file.mimetype == "image/jpg"
                 ) {
                   var ext = path.extname(file.name);
-                  var Image = ProductName + "_" + CompanyName + "_" + Category + "_" + SubCategory + ext;
-                  var Image1 = ProductName + "__" + CompanyName + "__" + Category + "__" + SubCategory;
+                  var Image =
+                    ProductName +
+                    "_" +
+                    CompanyName +
+                    "_" +
+                    Category +
+                    "_" +
+                    SubCategory +
+                    ext;
+                  var Image1 =
+                    ProductName +
+                    "__" +
+                    CompanyName +
+                    "__" +
+                    Category +
+                    "__" +
+                    SubCategory;
                   console.log("Image name", Image);
-                    
+
                   file.mv(
                     "views/images/upload_product_images/" + Image,
                     async function (err) {
                       if (err) await res.status(500).send(err);
-                      const addProductImageTransaction = await sequelize.transaction();
-                      try{
-                        
-                        Jimp.read("views/images/upload_product_images/" + Image, function (err, image) {
-                          if (err) {
-                            console.log(err)
-                          } else {
-                            image.write("views/images/upload_product_images/" + ProductName + "_" + CompanyName + "_" + Category + "_" + SubCategory + ".png");
+                      const addProductImageTransaction =
+                        await sequelize.transaction();
+                      try {
+                        Jimp.read(
+                          "views/images/upload_product_images/" + Image,
+                          function (err, image) {
+                            if (err) {
+                              console.log(err);
+                            } else {
+                              image.write(
+                                "views/images/upload_product_images/" +
+                                  ProductName +
+                                  "_" +
+                                  CompanyName +
+                                  "_" +
+                                  Category +
+                                  "_" +
+                                  SubCategory +
+                                  ".png"
+                              );
+                            }
                           }
-                        })
-                        sharp("views/images/upload_product_images/" + Image).resize({ height: 253, width: 448 }).toFile("views/images/upload_product_images/" + Image1 + ".png");
+                        );
+                        sharp("views/images/upload_product_images/" + Image)
+                          .resize({ height: 253, width: 448 })
+                          .toFile(
+                            "views/images/upload_product_images/" +
+                              Image1 +
+                              ".png"
+                          );
                         Image = Image1 + ".png";
                         const imageUpload = { ProductID, Image };
                         await ProductImage.create(imageUpload, {
-                          transaction: addProductImageTransaction
+                          transaction: addProductImageTransaction,
                         });
 
                         await addProductImageTransaction.commit();
-
-                      }
-                      catch{
-                        await addProductImageTransaction.rollback();  
+                      } catch {
+                        await addProductImageTransaction.rollback();
                       }
                     }
                   );
                 } else {
-                  var message1 =
-                        "This format is not allowed";
+                  var message1 = "This format is not allowed";
                   await addProductTransaction.rollback();
                   await res.json(message1);
                 }
-              }
-              catch (err) {
+              } catch (err) {
                 await addProductTransaction.rollback();
                 await res.json(err.message);
               }
@@ -357,7 +397,7 @@ exports.postAddProduct = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const userDetails = await User.findAll({
@@ -388,7 +428,7 @@ exports.postAddProduct = async (req, res, next) => {
               });
 
               const cartCount = cartTotalQuantity.Quantity;
-              
+
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
               await res.render("addproduct", {
@@ -397,11 +437,10 @@ exports.postAddProduct = async (req, res, next) => {
                 cartCount: cartCount,
                 countCouponcode: countCouponcode,
                 link: link,
-                ab: ab
+                ab: ab,
               });
             }
           }
-          
         });
       } catch (err) {
         console.log("Error occured while Aunthenticattion: ", err.message);

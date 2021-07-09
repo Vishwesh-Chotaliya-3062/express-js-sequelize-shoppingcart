@@ -21,12 +21,11 @@ exports.getManageProducts = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName !== "admin")
-    {
+    if (aq.UserName !== "admin") {
       await res.render("notauthorizederror");
     }
 
@@ -48,17 +47,17 @@ exports.getManageProducts = async (req, res, next) => {
             console.log("user", UserName);
 
             const getProduct = await Product.count({
-              paranoid: false
+              paranoid: false,
             });
 
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const allProductDetails = await Product.findAll({
-                paranoid: false
+              paranoid: false,
             });
 
             const userDetails = await User.findAll({
@@ -99,7 +98,7 @@ exports.getManageProducts = async (req, res, next) => {
                 countCouponcode: countCouponcode,
                 link: link,
                 ab: ab,
-                getProduct: getProduct
+                getProduct: getProduct,
               });
             }
           }
@@ -117,32 +116,31 @@ exports.getManageProducts = async (req, res, next) => {
 };
 
 exports.deleteProduct = async (req, res, next) => {
-    const userid = req.cookies.userid;
-    const productid = req.params.productid;
+  const userid = req.cookies.userid;
+  const productid = req.params.productid;
 
-    const aq = await User.findOne({
+  const aq = await User.findOne({
+    where: {
+      UserID: userid,
+    },
+  });
+
+  if (aq.UserName !== "admin") {
+    await res.render("notauthorizederror");
+  }
+
+  try {
+    await Product.destroy({
       where: {
-        UserID: userid
-      }
+        ProductID: productid,
+      },
     });
 
-    if(aq.UserName !== "admin")
-    {
-      await res.render("notauthorizederror");
-    }
-
-    try {
-      await Product.destroy({
-        where: {
-          ProductID: productid
-        }
-      });
-
-      await res.redirect("/manageproducts");
-    } catch (e) {
-      console.log(e);
-      return res.send(500).send("Something went wrong!");
-    }
+    await res.redirect("/manageproducts");
+  } catch (e) {
+    console.log(e);
+    return res.send(500).send("Something went wrong!");
+  }
 };
 
 exports.restoreProduct = async (req, res, next) => {
@@ -151,20 +149,19 @@ exports.restoreProduct = async (req, res, next) => {
 
   const aq = await User.findOne({
     where: {
-      UserID: userid
-    }
+      UserID: userid,
+    },
   });
 
-  if(aq.UserName !== "admin")
-  {
+  if (aq.UserName !== "admin") {
     await res.render("notauthorizederror");
   }
 
   try {
     await Product.restore({
       where: {
-          ProductID: productid
-      }
+        ProductID: productid,
+      },
     });
 
     await res.redirect("/manageproducts");

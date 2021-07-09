@@ -20,12 +20,11 @@ exports.getManageUsers = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName !== "admin")
-    {
+    if (aq.UserName !== "admin") {
       await res.render("notauthorizederror");
     }
 
@@ -45,31 +44,31 @@ exports.getManageUsers = async (req, res, next) => {
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
             console.log("user", UserName);
-            
+
             const getUser = await User.count({
               where: {
                 UserName: {
-                  [Op.not]: 'admin'
-                }
+                  [Op.not]: "admin",
+                },
               },
-              paranoid: false
+              paranoid: false,
             });
 
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const allUserDetails = await User.findAll({
-                where: {
-                  UserName: {
-                    [Op.not]: 'admin'
-                  }
+              where: {
+                UserName: {
+                  [Op.not]: "admin",
                 },
-                paranoid: false
+              },
+              paranoid: false,
             });
-            
+
             console.log(allUserDetails);
 
             const userDetails = await User.findAll({
@@ -110,7 +109,7 @@ exports.getManageUsers = async (req, res, next) => {
                 countCouponcode: countCouponcode,
                 link: link,
                 ab: ab,
-                getUser: getUser
+                getUser: getUser,
               });
             }
           }
@@ -128,32 +127,31 @@ exports.getManageUsers = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-    const userid = req.params.userid;
-    const UserID = req.cookies.userid;
+  const userid = req.params.userid;
+  const UserID = req.cookies.userid;
 
-    const aq = await User.findOne({
+  const aq = await User.findOne({
+    where: {
+      UserID: UserID,
+    },
+  });
+
+  if (aq.UserName !== "admin") {
+    await res.render("notauthorizederror");
+  }
+
+  try {
+    await User.destroy({
       where: {
-        UserID: UserID
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName !== "admin")
-    {
-      await res.render("notauthorizederror");
-    }
-
-    try {
-      await User.destroy({
-        where: {
-          UserID: userid
-        }
-      });
-
-      await res.redirect("/manageusers");
-    } catch (e) {
-      console.log(e);
-      return res.send(500).send("Something went wrong!");
-    }
+    await res.redirect("/manageusers");
+  } catch (e) {
+    console.log(e);
+    return res.send(500).send("Something went wrong!");
+  }
 };
 
 exports.restoreUser = async (req, res, next) => {
@@ -162,20 +160,19 @@ exports.restoreUser = async (req, res, next) => {
 
   const aq = await User.findOne({
     where: {
-      UserID: UserID
-    }
+      UserID: UserID,
+    },
   });
 
-  if(aq.UserName !== "admin")
-  {
+  if (aq.UserName !== "admin") {
     await res.render("notauthorizederror");
   }
 
   try {
     await User.restore({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
     await res.redirect("/manageusers");

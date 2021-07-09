@@ -22,12 +22,11 @@ exports.getCart = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
-      }
+        UserID: userid,
+      },
     });
 
-    if(aq.UserName === "admin")
-    {
+    if (aq.UserName === "admin") {
       await res.render("notauthorizederror");
     }
 
@@ -67,7 +66,7 @@ exports.getCart = async (req, res, next) => {
             const ab = await ProfileImage.findOne({
               where: {
                 UserID: userid,
-              }
+              },
             });
 
             const countCouponcode = await Couponcode.count({
@@ -126,7 +125,7 @@ exports.getCart = async (req, res, next) => {
                 link: link,
                 countCouponcode: countCouponcode,
                 cartTotalPrice: cartTotalPrice,
-                ab: ab
+                ab: ab,
               });
             }
           }
@@ -147,16 +146,15 @@ exports.addToCart = async (req, res, next) => {
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
 
-    const aq = await User.findOne({
-      where: {
-        UserID: UserID
-      }
-    });
+  const aq = await User.findOne({
+    where: {
+      UserID: UserID,
+    },
+  });
 
-    if(aq.UserName === "admin")
-    {
-      await res.render("notauthorizederror");
-    }
+  if (aq.UserName === "admin") {
+    await res.render("notauthorizederror");
+  }
 
   console.log(ProductID, UserID);
 
@@ -211,16 +209,15 @@ exports.updateCart = async (req, res, next) => {
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
 
-    const aq = await User.findOne({
-      where: {
-        UserID: UserID
-      }
-    });
+  const aq = await User.findOne({
+    where: {
+      UserID: UserID,
+    },
+  });
 
-    if(aq.UserName === "admin")
-    {
-      await res.render("notauthorizederror");
-    }
+  if (aq.UserName === "admin") {
+    await res.render("notauthorizederror");
+  }
 
   const Quantity = req.body.Quantity;
   console.log("Update:", ProductID, UserID);
@@ -241,16 +238,15 @@ exports.deleteCart = async (req, res, next) => {
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
 
-    const aq = await User.findOne({
-      where: {
-        UserID: UserID
-      }
-    });
+  const aq = await User.findOne({
+    where: {
+      UserID: UserID,
+    },
+  });
 
-    if(aq.UserName === "admin")
-    {
-      await res.render("notauthorizederror");
-    }
+  if (aq.UserName === "admin") {
+    await res.render("notauthorizederror");
+  }
 
   console.log("Delete:", ProductID, UserID);
 
