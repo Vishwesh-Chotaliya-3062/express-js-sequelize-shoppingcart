@@ -4,18 +4,17 @@ const { sequelize } = require("../models/db");
 const { User } = require("../models/user.model");
 const { Wallet } = require("../models/wallet.model");
 const { Cart } = require("../models/cart.model");
-const { Product } = require("../models/product.model");
+const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
 
 var cookieParser = require("cookie-parser");
-const { Couponcode } = require("../models/couponcode.model");
-const { Order, OrderDetail } = require("../models/order.model");
 const { ProfileImage } = require("../models/profileImage.model");
-
+const { Product } = require("../models/product.model");
 app.use(cookieParser());
 
-exports.getHistory = async (req, res, next) => {
+exports.getManageProducts = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
@@ -26,14 +25,9 @@ exports.getHistory = async (req, res, next) => {
       }
     });
 
-    if(aq.UserName === "admin")
+    if(aq.UserName !== "admin")
     {
       await res.render("notauthorizederror");
-    }
-    
-    if (req.cookies.Refresh) {
-      console.log(req.cookies.Refresh);
-      res.clearCookie("Refresh");
     }
 
     if (!token) {
@@ -53,12 +47,8 @@ exports.getHistory = async (req, res, next) => {
             await res.cookie("username", UserName);
             console.log("user", UserName);
 
-            const userDetails = await User.findAll({
-              attributes: ["UserID", "UserName", "Status"],
-              include: Wallet,
-              where: {
-                UserName: UserName,
-              },
+            const getProduct = await Product.count({
+              paranoid: false
             });
 
             const ab = await ProfileImage.findOne({
@@ -67,9 +57,14 @@ exports.getHistory = async (req, res, next) => {
               }
             });
 
-            const getOrder = await Order.count({
+            const allProductDetails = await Product.findAll({
+                paranoid: false
+            });
+
+            const userDetails = await User.findAll({
+              include: Wallet,
               where: {
-                userUserID: userid,
+                UserName: UserName,
               },
             });
 
@@ -79,21 +74,9 @@ exports.getHistory = async (req, res, next) => {
               },
             });
 
-            const couponcodeDetails = await Couponcode.findAll({
-              where: {
-                UserID: userid,
-              },
-            });
-
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;
-
-              const countProducts = await Cart.count({
-                where: {
-                  UserID: userid,
-                },
-              });
 
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
@@ -108,29 +91,15 @@ exports.getHistory = async (req, res, next) => {
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-              const OrderData = await Order.findAll({
-                where: {
-                  userUserID: userid
-                },
-                include: {
-                  model: OrderDetail,
-                  include: {
-                    model: Product,
-                  },
-                },
-              });
-
-              await res.render("history", {
+              await res.render("manageproducts", {
                 userDetails: userDetails,
-                countProducts: countProducts,
+                allProductDetails: allProductDetails,
                 walletBalance: walletBalance,
                 cartCount: cartCount,
-                link: link,
                 countCouponcode: countCouponcode,
-                couponcodeDetails: couponcodeDetails,
-                getOrder: getOrder,
-                OrderData: OrderData,
-                ab: ab
+                link: link,
+                ab: ab,
+                getProduct: getProduct
               });
             }
           }
@@ -147,9 +116,9 @@ exports.getHistory = async (req, res, next) => {
   }
 };
 
-exports.deleteOrder = async (req, res, next) => {
-  
-  const userid = req.cookies.userid;
+exports.deleteProduct = async (req, res, next) => {
+    const userid = req.cookies.userid;
+    const productid = req.params.productid;
 
     const aq = await User.findOne({
       where: {
@@ -157,19 +126,48 @@ exports.deleteOrder = async (req, res, next) => {
       }
     });
 
-    if(aq.UserName === "admin")
+    if(aq.UserName !== "admin")
     {
       await res.render("notauthorizederror");
     }
 
-  const orderId = req.params.orderId;
-  console.log("Delete:", orderId);
+    try {
+      await Product.destroy({
+        where: {
+          ProductID: productid
+        }
+      });
+
+      await res.redirect("/manageproducts");
+    } catch (e) {
+      console.log(e);
+      return res.send(500).send("Something went wrong!");
+    }
+};
+
+exports.restoreProduct = async (req, res, next) => {
+  const userid = req.cookies.userid;
+  const productid = req.params.productid;
+
+  const aq = await User.findOne({
+    where: {
+      UserID: userid
+    }
+  });
+
+  if(aq.UserName !== "admin")
+  {
+    await res.render("notauthorizederror");
+  }
 
   try {
-    await sequelize.query("CALL DeleteOrder( :orderId)", {
-      replacements: { orderId },
+    await Product.restore({
+      where: {
+          ProductID: productid
+      }
     });
-    return res.redirect("/history");
+
+    await res.redirect("/manageproducts");
   } catch (e) {
     console.log(e);
     return res.send(500).send("Something went wrong!");

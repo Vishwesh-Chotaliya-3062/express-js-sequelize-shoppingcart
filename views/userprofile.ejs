@@ -200,6 +200,8 @@
             <%= message %>
           </label>
           <% } %>
+        <% for(u in userDetails) { %>
+        <% if(userDetails[u].UserName !== 'admin') { %>
         <% if(userAddress) { %>
           <div id="address-details" style="margin-top: -25px;">
 
@@ -297,6 +299,8 @@
                 </div>
               </div>
               <% } %>
+              <% } %>
+              <% } %>
                 <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
                   <button type="submit" class="btn btn-login" style="width: 150px; margin-left: -1060px;" id="submit"
                     value="Sign Up" data-toggle="modal">SUBMIT</button>
@@ -304,7 +308,7 @@
       </form>
     </div>
   </section>
-
+  <br><br><br>
   <hr style="margin: 0;">
   <footer class="text-left">
 

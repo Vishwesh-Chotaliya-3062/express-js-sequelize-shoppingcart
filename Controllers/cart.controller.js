@@ -150,6 +150,7 @@ exports.getCart = async (req, res, next) => {
 exports.addToCart = async (req, res, next) => {
   const ProductID = req.params.productid;
   const UserID = req.cookies.userid;
+  
     const aq = await User.findOne({
       where: {
         UserID: UserID

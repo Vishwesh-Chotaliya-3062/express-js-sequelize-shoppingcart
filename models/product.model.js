@@ -43,6 +43,7 @@ const Product = sequelize.define(
     },
   },
   {
+    paranoid: true,
     freezeTableName: true,
   }
 );

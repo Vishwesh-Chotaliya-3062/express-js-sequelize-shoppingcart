@@ -45,6 +45,15 @@ exports.getManageUsers = async (req, res, next) => {
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
             console.log("user", UserName);
+            
+            const getUser = await User.count({
+              where: {
+                UserName: {
+                  [Op.not]: 'admin'
+                }
+              },
+              paranoid: false
+            });
 
             const ab = await ProfileImage.findOne({
               where: {
@@ -100,7 +109,8 @@ exports.getManageUsers = async (req, res, next) => {
                 cartCount: cartCount,
                 countCouponcode: countCouponcode,
                 link: link,
-                ab: ab
+                ab: ab,
+                getUser: getUser
               });
             }
           }
@@ -119,9 +129,11 @@ exports.getManageUsers = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
     const userid = req.params.userid;
+    const UserID = req.cookies.userid;
+
     const aq = await User.findOne({
       where: {
-        UserID: userid
+        UserID: UserID
       }
     });
 
@@ -146,9 +158,11 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.restoreUser = async (req, res, next) => {
   const userid = req.params.userid;
+  const UserID = req.cookies.userid;
+
   const aq = await User.findOne({
     where: {
-      UserID: userid
+      UserID: UserID
     }
   });
 

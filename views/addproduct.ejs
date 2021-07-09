@@ -30,7 +30,15 @@
           <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
             <ul class="navbar-nav" style="margin-left: auto;">
               <li class="nav-item">
-                <a class="nav-link purple-link" href="/addproduct"><b style="color: #6255a5;">ADD PRODUCTS</b></a>
+                <div class="dropdown">
+
+                  <a class="nav-link purple-link"><b style="color: #6255a5;">MANAGE PRODUCTS</b></a>
+
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/addproduct">Add Products</a>
+                    <a class="dropdown-item" href="/manageproducts">Edit Products</a>
+                  </div>
+                </div>
               </li>
 
               <li class="nav-item">

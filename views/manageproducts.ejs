@@ -1,0 +1,415 @@
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Manage Products</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/dropdown.css">
+</head>
+
+<body style="background-color: #eee;">
+
+    <section id="nav-header" style="height: 100px;">
+        <header>
+            <nav class="navbar navbar-expand-md fixed-top white-nav">
+                <div class="container">
+                    <div class="img-logo">
+                        <a href="/welcome" class="navbar-brand">
+                            <img src="images/logo.png" class="img-fluid" alt="">
+                        </a>
+                    </div>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
+                        id="navbarSupportedContent">
+                        <ul class="navbar-nav" style="margin-left: auto;">
+
+                            <li class="nav-item">
+                                <div class="dropdown">
+
+                                    <a class="nav-link purple-link"><b style="color: #6255a5;">MANAGE PRODUCTS</b></a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="/addproduct">Add Products</a>
+                                        <a class="dropdown-item" href="/manageproducts">Edit Products</a>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link purple-link" href="/manageusers">MANAGE USERS</a>
+                            </li>
+                            <% for(let user in userDetails) { %>
+                                <% if(userDetails[user].Status=='pending' ) { %>
+                                    <li class="nav-item">
+                                        <a id="nav-btn" style="width: 150px;"
+                                            class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                            href="<%= link %>" role="button">VERIFY EMAIL</a>
+                                    </li>
+                                    <% } %>
+                                        <% } %>
+                                            <li class="nav-item">
+                                                <div class="dropdown">
+                                                    <% if(ab) { %>
+                                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            <img src="images/upload_images/<%= ab.Image %>"
+                                                                style="width: 40px; height: 50px; border-radius: 50%;"
+                                                                alt="">
+                                                        </a>
+                                                        <% } %>
+                                                            <% if(!ab) { %>
+                                                                <a style="cursor: pointer;"
+                                                                    class="nav-link purple-link pro-pic"
+                                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false">
+                                                                    <img src="images/default-profile-picture1.jpg"
+                                                                        style="width: 40px; height: 50px; border-radius: 50%;"
+                                                                        alt="">
+                                                                </a>
+                                                                <% } %>
+                                                                    <div class="dropdown-menu"
+                                                                        aria-labelledby="dropdownMenuButton">
+                                                                        <a class="dropdown-item"
+                                                                            href="/userprofile">Update Profile</a>
+                                                                        <a class="dropdown-item"
+                                                                            href="/changepassword">Change Password</a>
+                                                                        <a class="dropdown-item" href="/logout"
+                                                                            style="color: #6255a5;">LOGOUT</a>
+                                                                    </div>
+                                                </div>
+                                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </section>
+
+    <section id="manage-category" style="margin-top: 10px;">
+        <div class="container">
+            <div id="manage-category-table">
+                <% if(getProduct == 0) { %>
+                    <div id="filter-result-heading">
+                        <h3 style="color: #6255a5; font-size: 25px;">There are no products available at this time.</h3>
+                    </div>
+                    <% } %>
+
+                        <% if(getProduct > 0 ) { %>
+                            <div class="table-wrapper-inner">
+                                <div class="table-heading-1">
+                                    <h3>Manage Products</h3>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="search-btn">
+                                            <a class="btn btn-search btn-cmn" id="add-category-btn"
+                                                href="/addproduct">ADD
+                                                PRODUCT</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
+                                        <input type="text" class="form-control search-ip input-field common-search"
+                                            onkeyup="myFunction()"
+                                            style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
+                                            id="myInput" placeholder="Search by Productname...">
+                                        <a class="btn btn-search btn-cmn common-btn" id="mng-ctg-btn">SEARCH</a>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table id="pager" class="table tablesorter data-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="sr-col">PRODUCT ID</th>
+                                                <th scope="col" class="sr-col">PRODUCT NAME</th>
+                                                <th scope="col" class="sr-col">SKU</th>
+                                                <th scope="col" class="sr-col">PRICE</th>
+                                                <th scope="col" class="sr-col">QUANTITY<br>LEFT</th>
+                                                <th scope="col" class="sr-col">COMPANY<br>NAME</th>
+                                                <th scope="col">CATEGORY</th>
+                                                <th scope="col" class="sr-col">SUB CATEGORY</th>
+                                                <th scope="col" class="sr-col">CREATED AT</th>
+                                                <th scope="col" class="sr-col">UPDATED AT</th>
+                                                <th scope="col" class="sr-col">DELETED AT</th>
+                                                <th scope="col" class="sr-col">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="common-tbody">
+                                            <% for(u in allProductDetails) { %>
+                                                <tr>
+                                                    <% if(allProductDetails[u].deletedAt===null) { %>
+                                                        <td class="sr-col">
+                                                            <%= allProductDetails[u].ProductID %>
+                                                        </td>
+                                                        <% } else { %>
+                                                            <td style="color: #6255a5;" class="sr-col"><b>
+                                                                    <%= allProductDetails[u].ProductID %>
+                                                                </b></td>
+                                                            <% } %>
+
+                                                                <% if(allProductDetails[u].deletedAt===null) { %>
+                                                                    <td class="sr-col" style="min-width: 140px;">
+                                                                        <%= allProductDetails[u].ProductName %>
+                                                                    </td>
+                                                                    <% } else { %>
+                                                                        <td class="sr-col" style="min-width: 140px;"><b style="color: #6255a5;">
+                                                                                <%= allProductDetails[u].ProductName %>
+                                                                            </b></td>
+                                                                        <% } %>
+
+                                                                            <% if(allProductDetails[u].deletedAt===null)
+                                                                                { %>
+                                                                                <td class="sr-col">
+                                                                                    <%= allProductDetails[u].SKU %>
+                                                                                </td>
+                                                                                <% } else { %>
+                                                                                    <td class="sr-col" style="color: #6255a5;"><b>
+                                                                                            <%= allProductDetails[u].SKU
+                                                                                                %>
+                                                                                        </b></td>
+                                                                                    <% } %>
+
+                                                                                    <% if(allProductDetails[u].deletedAt===null)
+                                                                                            { %>
+                                                                                            <td>
+                                                                                                <%= allProductDetails[u].Price
+                                                                                                    %>
+                                                                                            </td>
+                                                                                            <% } else { %>
+                                                                                                <td
+                                                                                                    style="color: #6255a5;">
+                                                                                                    <b>
+                                                                                                        <%= allProductDetails[u].Price
+                                                                                                            %>
+                                                                                                    </b></td>
+                                                                                                <% } %>
+
+                                                                                        <% if(allProductDetails[u].deletedAt===null)
+                                                                                            { %>
+                                                                                            <td class="sr-col">
+                                                                                                <%= allProductDetails[u].QuantityLeft
+                                                                                                    %>
+                                                                                            </td>
+                                                                                            <% } else { %>
+                                                                                                <td class="sr-col"
+                                                                                                    style="color: #6255a5;">
+                                                                                                    <b>
+                                                                                                        <%= allProductDetails[u].QuantityLeft
+                                                                                                            %>
+                                                                                                    </b></td>
+                                                                                                <% } %>
+
+                                                                                                    <% if(allProductDetails[u].deletedAt===null)
+                                                                                                        { %>
+                                                                                                        <td class="sr-col" style="min-width: 110px;">
+                                                                                                            <%= allProductDetails[u].CompanyName
+                                                                                                                %>
+                                                                                                        </td>
+                                                                                                        <% } else { %>
+                                                                                                            <td class="sr-col"
+                                                                                                                style="color: #6255a5;">
+                                                                                                                <b>
+                                                                                                                    <%= allProductDetails[u].CompanyName
+                                                                                                                        %>
+                                                                                                                </b>
+                                                                                                            </td>
+                                                                                                            <% } %>
+                                                                                                                <% if(allProductDetails[u].deletedAt===null)
+                                                                                                                    { %>
+                                                                                                                    <td class="sr-col">
+                                                                                                                        <%= allProductDetails[u].Category
+                                                                                                                            %>
+                                                                                                                    </td>
+                                                                                                                    <% } else
+                                                                                                                        {
+                                                                                                                        %>
+                                                                                                                        <td class="sr-col"
+                                                                                                                            style="color: #6255a5;">
+                                                                                                                            <b>
+                                                                                                                                <%= allProductDetails[u].Category
+                                                                                                                                    %>
+                                                                                                                            </b>
+                                                                                                                        </td>
+                                                                                                                        <% }
+                                                                                                                            %>
+                                                                                                                            <% if(allProductDetails[u].deletedAt===null)
+                                                                                                                                {
+                                                                                                                                %>
+                                                                                                                                <td class="sr-col">
+                                                                                                                                    <%= allProductDetails[u].SubCategory
+                                                                                                                                        %>
+                                                                                                                                </td>
+                                                                                                                                <% } else
+                                                                                                                                    {
+                                                                                                                                    %>
+                                                                                                                                    <td class="sr-col"
+                                                                                                                                        style="color: #6255a5;">
+                                                                                                                                        <b>
+                                                                                                                                            <%= allProductDetails[u].SubCategory
+                                                                                                                                                %>
+                                                                                                                                        </b>
+                                                                                                                                    </td>
+                                                                                                                                    <% }
+                                                                                                                                        %>
+
+                                                                                                                                        <% if(allProductDetails[u].deletedAt===null)
+                                                                                                                                            {
+                                                                                                                                            %>
+                                                                                                                                            <td class="sr-col">
+                                                                                                                                                <%=
+                                                                                                                                                    allProductDetails[u].createdAt.getDate()+'/'+(allProductDetails[u].createdAt.getMonth()+1)+'/'+allProductDetails[u].createdAt.getFullYear()%>
+                                                                                                                                            </td>
+                                                                                                                                            <% } else
+                                                                                                                                                {
+                                                                                                                                                %>
+                                                                                                                                                <td class="sr-col"
+                                                                                                                                                    style="color: #6255a5;">
+                                                                                                                                                    <b>
+                                                                                                                                                        <%=
+                                                                                                                                                            allProductDetails[u].createdAt.getDate()+'/'+(allProductDetails[u].createdAt.getMonth()+1)+'/'+allProductDetails[u].createdAt.getFullYear()%>
+                                                                                                                                                    </b>
+                                                                                                                                                </td>
+                                                                                                                                                <% }
+                                                                                                                                                    %>
+
+                                                                                                                                                    <% if(allProductDetails[u].deletedAt===null)
+                                                                                                                                                        {
+                                                                                                                                                        %>
+                                                                                                                                                        <td class="sr-col">
+                                                                                                                                                            <%=
+                                                                                                                                                                allProductDetails[u].updatedAt.getDate()+'/'+(allProductDetails[u].updatedAt.getMonth()+1)+'/'+allProductDetails[u].updatedAt.getFullYear()%>
+                                                                                                                                                        </td>
+                                                                                                                                                        <% } else
+                                                                                                                                                            {
+                                                                                                                                                            %>
+                                                                                                                                                            <td class="sr-col"
+                                                                                                                                                                style="color: #6255a5;">
+                                                                                                                                                                <b>
+                                                                                                                                                                    <%=
+                                                                                                                                                                        allProductDetails[u].updatedAt.getDate()+'/'+(allProductDetails[u].updatedAt.getMonth()+1)+'/'+allProductDetails[u].updatedAt.getFullYear()%>
+                                                                                                                                                                </b>
+                                                                                                                                                            </td>
+                                                                                                                                                            <% }
+                                                                                                                                                                %>
+
+                                                                                                                                                                <% if(allProductDetails[u].deletedAt===null)
+                                                                                                                                                                    {
+                                                                                                                                                                    %>
+                                                                                                                                                                    <td class="sr-col">NULL
+                                                                                                                                                                    </td>
+                                                                                                                                                                    <% } else
+                                                                                                                                                                        {
+                                                                                                                                                                        %>
+                                                                                                                                                                        <td class="sr-col"
+                                                                                                                                                                            style="color: #6255a5;">
+                                                                                                                                                                            <b>
+                                                                                                                                                                                <%=
+                                                                                                                                                                                    allProductDetails[u].deletedAt.getDate()+'/'+(allProductDetails[u].deletedAt.getMonth()+1)+'/'+allProductDetails[u].deletedAt.getFullYear()%>
+                                                                                                                                                                            </b>
+                                                                                                                                                                        </td>
+                                                                                                                                                                        <% }
+                                                                                                                                                                            %>
+                                                                                                                                                                            <% if(allProductDetails[u].deletedAt===null)
+                                                                                                                                                                                {
+                                                                                                                                                                                %>
+                                                                                                                                                                                <td
+                                                                                                                                                                                    class="action-img-td">
+                                                                                                                                                                                    <a type="button"
+                                                                                                                                                                                        onclick="return confirm('Are you sure you want to delete this product?');"
+                                                                                                                                                                                        href="/manageproducts/delete/<%= allProductDetails[u].ProductID %>"
+                                                                                                                                                                                        style=" color: #6255a5;"
+                                                                                                                                                                                        aria-label="view details & options">
+                                                                                                                                                                                        <img
+                                                                                                                                                                                            src="images/delete.png">
+                                                                                                                                                                                    </a>
+                                                                                                                                                                                </td>
+                                                                                                                                                                                <% } else
+                                                                                                                                                                                    {
+                                                                                                                                                                                    %>
+                                                                                                                                                                                    <td
+                                                                                                                                                                                        class="action-img-td">
+                                                                                                                                                                                        <a type="button"
+                                                                                                                                                                                            onclick="return confirm('Are you sure you want to restore this product?');"
+                                                                                                                                                                                            href="/manageproducts/restore/<%= allProductDetails[u].ProductID %>"
+                                                                                                                                                                                            style=" color: #6255a5;"
+                                                                                                                                                                                            aria-label="view details & options">
+                                                                                                                                                                                            <img style="height: 20px; width: 20px;"
+                                                                                                                                                                                                src="images/Homepage/download.png">
+                                                                                                                                                                                        </a>
+                                                                                                                                                                                        <% }
+                                                                                                                                                                                            %>
+                                                                                                                                                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div id="pageNavPosition" class="pager-nav" style="margin-bottom: 30px;"></div>
+                            <% } %>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("pager");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
+
+        var comparer = function (idx, asc) {
+            return function (a, b) {
+                return function (v1, v2) {
+                    return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+                }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+            }
+        };
+
+        Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
+            th.addEventListener('click', function () {
+                var table = th.closest('table');
+                while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
+                Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
+                    .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+                    .forEach(function (tr) { table.appendChild(tr) });
+            })
+        });
+    </script>
+
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+
+</body>

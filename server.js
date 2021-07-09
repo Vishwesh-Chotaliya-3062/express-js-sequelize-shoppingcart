@@ -49,6 +49,7 @@ require("./routes/changepassword.routes")(app);
 require("./routes/userprofile.routes")(app);
 require("./routes/addproduct.routes")(app);
 require("./routes/manageusers.routes")(app);
+require("./routes/manageproducts.routes")(app);
 
 app.use(express.static(path.join(__dirname, "views")));
 

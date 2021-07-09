@@ -131,17 +131,17 @@
           <table id="pager" class="table tablesorter data-table">
             <thead>
               <tr>
-                <th scope="col" class="sr-col">Order<br>ID</th>
-                <th scope="col" class="sort-needed">DATE</th>
-                <th scope="col">DETAILS</th>
-                <th scope="col">PRICE</th>
+                <th scope="col" class="sr-col">Order ID</th>
+                <th scope="col" class="sr-col">DATE</th>
+                <th scope="col" class="sr-col">DETAILS</th>
+                <th scope="col" class="sr-col">PRICE</th>
                 <th scope="col" class="sr-col">QUANTITY</th>
-                <th scope="col">SUBTOTAL</th>
-                <th scope="col">DISCOUNT</th>
-                <th scope="col">PURCHASE<br>&nbsp;&nbsp;&nbsp;&nbsp;TOTAL</th>
-                <th scope="col">STATUS</th>
-                <th scope="col">COUPON</th>
-                <th scope="col">REMARK</th>
+                <th scope="col" class="sr-col">SUBTOTAL</th>
+                <th scope="col" class="sr-col">DISCOUNT</th>
+                <th scope="col" class="sr-col">PURCHASE TOTAL</th>
+                <th scope="col" class="sr-col">STATUS</th>
+                <th scope="col" class="sr-col">COUPON</th>
+                <th scope="col" class="sr-col">REMARK</th>
                 <th scope="col" class="action-th">ACTION</th>
               </tr>
             </thead>
@@ -151,10 +151,10 @@
               <td class="sr-col">
                 <%= OrderData[u].id %>
               </td>
-              <td>
+              <td class="sr-col">
                 <%= OrderData[u].Date.getDate()+'/'+(OrderData[u].Date.getMonth()+1)+'/'+OrderData[u].Date.getFullYear() %>
               </td>
-              <td style="min-width: 250px;">
+              <td class="sr-col" style="min-width: 100px;">
                 <% for (u1 in OrderData[u].orderdetails) { %>
                   <p style="display: table-row-group;">- <%=
                     OrderData[u].orderdetails[u1].product.ProductName %> by <%=
@@ -162,56 +162,56 @@
                   </p>
                   <% } %>
               </td>
-              <td>
+              <td class="sr-col">
                 <% for (u1 in OrderData[u].orderdetails) { %>
-                  <p style="display: table-row-group;">
+                  <p>
                     $<%= OrderData[u].orderdetails[u1].product.Price %>
                   </p>
                   <% } %>
               </td>
-              <td>
+              <td class="sr-col">
                 <% for (u1 in OrderData[u].orderdetails) { %>
-                  <p style="display: table-row-group;">
+                  <p>
                     <%= OrderData[u].orderdetails[u1].Quantity %>
                   </p>
                   <% } %>
               </td>
-              <td>
+              <td class="sr-col">
                 $<%= OrderData[u].TotalAmount  %>
               </td>
-              <td>
+              <td class="sr-col">
                 $<%= OrderData[u].DiscountedAmount  %>
               </td>
-              <td>
+              <td class="sr-col">
                 $<%= OrderData[u].PurchaseTotal %>
               </td>
               <% if(OrderData[u].Status == "success") { %>
-              <td style="color: green;">
+              <td class="sr-col" style="color: green;">
                 <%= OrderData[u].Status %>
               </td>
               <% } else if(OrderData[u].Status == "pending") { %>
-              <td>
+              <td class="sr-col">
                 <a type="button" href="/orderdetails" style="color: #6255a5;" aria-label="view details & options">
                 <%= OrderData[u].Status %>
                 </a>
               </td> 
               <% } else { %>
-              <td>
+              <td class="sr-col">
                 <a type="button" href="/<%= OrderData[u].id %>/payment" style="color: red;" aria-label="view details & options">
                 <%= OrderData[u].Status %>
                 </a>
               </td>  
               <% } %> 
               <% if(OrderData[u].Coupon == "No") { %>
-              <td>
+              <td class="sr-col">
                 <%= OrderData[u].Coupon %>
               </td>
               <% } else { %>
-              <td>
-                <%= OrderData[u].Coupon %>
+              <td class="sr-col" style="color: #6255a5;">
+                <b><%= OrderData[u].Coupon %></b>
               </td>  
               <% } %> 
-              <td>
+              <td class="sr-col">
                 <%= OrderData[u].Remark %>
               </td>
               <td class="action-img-td">

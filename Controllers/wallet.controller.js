@@ -115,7 +115,7 @@ exports.addWallet = async (req, res, next) => {
 
     const aq = await User.findOne({
       where: {
-        UserID: userid
+        UserID: UserID
       }
     });
 
@@ -123,7 +123,7 @@ exports.addWallet = async (req, res, next) => {
     {
       await res.render("notauthorizederror");
     }
-    
+
   console.log("Amount:", Amount);
 
   try {
