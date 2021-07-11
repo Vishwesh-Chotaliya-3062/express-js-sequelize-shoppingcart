@@ -222,8 +222,6 @@ exports.getCart = async (req, res, next) => {
                   },
                 });
 
-                console.log(Data);
-
                 await res.render("orderdetails", {
                   userDetails: userDetails,
                   countProducts: countProducts,
