@@ -36,7 +36,6 @@ exports.postVerify = async function (req, res, next) {
     if (verified) {
       user.Status = "active";
       user.wallet.Balance = process.env.GIFT_AMOUNT || 500; 
-      console.log(user.UserID);
       await Couponcode.create({
         UserID: user.UserID,
         CouponCode: couponcode,
@@ -58,7 +57,6 @@ exports.postVerify = async function (req, res, next) {
     }
     res.status(400).redirect("verify/" + UserID);
   } catch (err) {
-    console.log(err.message);
     await verifyTransaction.rollback();
     res.status(500).redirect("verify/" + UserID);
   }

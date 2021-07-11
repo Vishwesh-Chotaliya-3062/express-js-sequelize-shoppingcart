@@ -22,21 +22,15 @@ exports.getChangePassword = async (req, res, next) => {
 
     if (!token) {
       res.redirect("login");
-      // });
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
@@ -100,7 +94,6 @@ exports.getChangePassword = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -116,27 +109,18 @@ exports.postChangePassword = async (req, res, next) => {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
     const { Old_Pass, New_Pass, Confirm_Pass } = req.body;
-    console.log(req.body);
 
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const getUser = async (obj) => {
               return await User.findOne({
@@ -328,7 +312,6 @@ exports.postChangePassword = async (req, res, next) => {
                                       await res.redirect("/logout");
                                   })
                                   .catch(async (err) => {
-                                    console.log(err);
                                     res.json({
                                       error: err.message,
                                     });
@@ -351,7 +334,6 @@ exports.postChangePassword = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });

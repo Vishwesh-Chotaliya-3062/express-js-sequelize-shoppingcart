@@ -31,29 +31,20 @@ exports.getCart = async (req, res, next) => {
     }
 
     if (req.cookies.Refresh) {
-      console.log(req.cookies.Refresh);
-      res.clearCookie("Refresh");
+      await res.clearCookie("Refresh");
     }
 
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
@@ -131,7 +122,6 @@ exports.getCart = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -156,16 +146,12 @@ exports.addToCart = async (req, res, next) => {
     await res.render("notauthorizederror");
   }
 
-  console.log(ProductID, UserID);
-
   try {
     const productQuantity = await Product.findOne({
       where: {
         ProductID: ProductID,
       },
     });
-
-    console.log(productQuantity);
 
     const cartProductQuantity = await Cart.findOne({
       model: Product,
@@ -174,8 +160,6 @@ exports.addToCart = async (req, res, next) => {
         UserID: UserID,
       },
     });
-
-    console.log(cartProductQuantity);
 
     if (productQuantity.QuantityLeft <= 0) {
       return res.redirect("/welcome");
@@ -198,9 +182,7 @@ exports.addToCart = async (req, res, next) => {
         return res.redirect("/welcome");
       }
     }
-    // return res.status(200).send("SuccessFull!");
   } catch (e) {
-    console.log(e);
     return res.status(500).send("Something went wrong!");
   }
 };
@@ -220,7 +202,6 @@ exports.updateCart = async (req, res, next) => {
   }
 
   const Quantity = req.body.Quantity;
-  console.log("Update:", ProductID, UserID);
 
   try {
     await sequelize.query("CALL UpdateCart( :UserID, :ProductID, :Quantity)", {
@@ -229,7 +210,6 @@ exports.updateCart = async (req, res, next) => {
     });
     return res.redirect("/cart");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };
@@ -248,8 +228,6 @@ exports.deleteCart = async (req, res, next) => {
     await res.render("notauthorizederror");
   }
 
-  console.log("Delete:", ProductID, UserID);
-
   try {
     await sequelize.query("CALL DeleteCart( :UserID, :ProductID)", {
       replacements: { UserID, ProductID },
@@ -257,7 +235,6 @@ exports.deleteCart = async (req, res, next) => {
     });
     return res.redirect("/cart");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };

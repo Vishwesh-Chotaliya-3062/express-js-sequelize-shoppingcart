@@ -27,18 +27,14 @@ exports.getUserProfile = async (req, res, next) => {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
 
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Email", "Status"],
@@ -111,7 +107,6 @@ exports.getUserProfile = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -129,31 +124,22 @@ exports.getUserAddressProfile = async (req, res, next) => {
 
     if (!token) {
       res.redirect("/login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("/login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             var errors = validationResult(req);
             var alert = errors.array();
             if (alert.length > 1) {
               alert = alert.splice(0, 1);
-              console.log(alert);
             }
-            console.log(alert);
+
             if (!errors.isEmpty()) {
               const userDetails = await User.findAll({
                 attributes: ["UserID", "UserName", "Email", "Status"],
@@ -239,8 +225,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
                 addrZip,
                 addrCountry,
               } = req.body;
-              // const UserName = UserProfileName;
-              // const Email = UserProfileEmail;
               const UserID = userid;
               const Address = addr;
               const City = addrCity;
@@ -255,8 +239,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
                 Zipcode,
                 Country,
               };
-
-              console.log(req.body);
 
               const userAddress = await Useraddress.findOne({
                 where: {
@@ -288,7 +270,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
                 if (UserProfileName !== user1.UserName) {
                   if (userExist) {
                     var msg = "Username already exists";
-                    // await res.redirect("/userprofile")
 
                     const userDetails = await User.findAll({
                       attributes: ["UserID", "UserName", "Email", "Status"],
@@ -379,7 +360,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
                     if (req.files.UserProfileImage) {
                       var file = req.files.UserProfileImage;
 
-                      // if (UserProfileImage){
                       if (
                         file.mimetype == "image/jpeg" ||
                         file.mimetype == "image/png" ||
@@ -489,7 +469,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
                     }
 
                     if (!userAddress) {
-                      console.log("not");
                       await Useraddress.create(useraddress);
                     } else {
                       await Useraddress.update(
@@ -606,7 +585,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
                     if (req.files.UserProfileImage) {
                       var file = req.files.UserProfileImage;
 
-                      // if (UserProfileImage){
                       if (
                         file.mimetype == "image/jpeg" ||
                         file.mimetype == "image/png" ||
@@ -716,7 +694,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
                     }
 
                     if (!userAddress) {
-                      console.log("not");
                       await Useraddress.create(useraddress);
                     } else {
                       await Useraddress.update(
@@ -742,7 +719,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
 
               if (!userExist && !emailExist) {
                 if (!userAddress) {
-                  console.log("not");
                   await Useraddress.create(useraddress);
                 } else {
                   await Useraddress.update(
@@ -764,7 +740,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
                 if (req.files.UserProfileImage) {
                   var file = req.files.UserProfileImage;
 
-                  // if (UserProfileImage){
                   if (
                     file.mimetype == "image/jpeg" ||
                     file.mimetype == "image/png" ||
@@ -956,7 +931,6 @@ exports.getUserAddressProfile = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });

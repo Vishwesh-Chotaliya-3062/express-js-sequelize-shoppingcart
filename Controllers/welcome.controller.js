@@ -19,7 +19,6 @@ exports.userAuthorization = async (req, res, next) => {
     const Add = req.cookies.Add;
 
     if (req.cookies.Refresh) {
-      console.log(req.cookies.Refresh);
       res.clearCookie("Refresh");
     }
 
@@ -27,15 +26,11 @@ exports.userAuthorization = async (req, res, next) => {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
             const u = await User.findOne({
@@ -44,7 +39,6 @@ exports.userAuthorization = async (req, res, next) => {
               },
             });
             await res.cookie("userid", u.UserID);
-            console.log("user", UserName);
 
             if (UserName === "admin") {
               await res.redirect("/manageusers");
@@ -107,7 +101,6 @@ exports.userAuthorization = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });

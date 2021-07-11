@@ -121,10 +121,11 @@
             <% if(getOrder> 0 ) { %>
               <div class="table-wrapper-inner">
                 <div class="table-heading-1">
-                  <h3 style="margin-left: -40px;">My Orders</h3>
+                  <h3 style="margin-left: -45px; margin-top: -20px; margin-bottom: 40px;">My Orders</h3>
                 </div>
-
-                <div class="col-md-6 col-12 d-flex justify-content-end align-items-center" style="margin-left: 620px;">
+                <p style="margin-left: -45px;">Total <%= getOrder %> Orders.</p>
+                <div class="col-md-6 col-12 d-flex justify-content-end align-items-center"
+                  style="margin-left: 635px; margin-top: -55px;">
                   <input type="text" class="form-control search-ip input-field common-search" onkeyup="myFunction()"
                     style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
                     id="myInput" placeholder="Search by Order Status...">
@@ -132,7 +133,7 @@
                 </div>
                 <br>
 
-                <div class="table-responsive" style="width: 1300px; margin-left: -40px;">
+                <div class="table-responsive" style="width: 1320px; margin-left: -45px;">
                   <table id="pager" class="table tablesorter data-table">
                     <thead>
                       <tr>
@@ -141,7 +142,7 @@
                         <th scope="col" class="sr-col">DETAILS</th>
                         <th scope="col" class="sr-col">PRICE</th>
                         <th scope="col" class="sr-col">QUANTITY</th>
-                        <th scope="col" class="sr-col">SUBTOTAL</th>
+                        <th scope="col" class="sr-col">SUB TOTAL</th>
                         <th scope="col" class="sr-col">DISCOUNT</th>
                         <th scope="col" class="sr-col">PURCHASE TOTAL</th>
                         <th scope="col" class="sr-col">STATUS</th>
@@ -151,6 +152,32 @@
                       </tr>
                     </thead>
                     <tbody class="common-tbody">
+                      <tr style="height: 0px;">
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                        <td class="sr-col">
+                        </td>
+                      </tr>
                       <% for(u in OrderData) { %>
                         <tr>
                           <td class="sr-col">
@@ -161,10 +188,9 @@
                               OrderData[u].Date.getDate()+'/'+(OrderData[u].Date.getMonth()+1)+'/'+OrderData[u].Date.getFullYear()
                               %>
                           </td>
-                          <td class="sr-col" style="min-width: 100px;">
+                          <td class="sr-col" style="min-width: 300px;">
                             <% for (u1 in OrderData[u].orderdetails) { %>
-                              <p style="display: table-row-group;">- <%=
-                                  OrderData[u].orderdetails[u1].product.ProductName %> by <%=
+                              <p>- <%= OrderData[u].orderdetails[u1].product.ProductName %> by <%=
                                     OrderData[u].orderdetails[u1].product.CompanyName %>
                               </p>
                               <% } %>
@@ -245,56 +271,55 @@
       </div>
     </div>
   </section>
-  <div style="margin-bottom: 50px; text-align: center;">
-    <a href="/home" style="color: #eee;">HOME</a>
-  </div>
 
-  <script>
-    function myFunction() {
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("myInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("pager");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[8];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
+  <%- include('./include/footer.ejs') %>
+
+    <script>
+      function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("pager");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[8];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
           }
         }
       }
-    }
-  </script>
+    </script>
 
-  <script>
-    var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
+    <script>
+      var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
 
-    var comparer = function (idx, asc) {
-      return function (a, b) {
-        return function (v1, v2) {
-          return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
-        }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
-      }
-    };
+      var comparer = function (idx, asc) {
+        return function (a, b) {
+          return function (v1, v2) {
+            return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+          }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+        }
+      };
 
-    Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
-      th.addEventListener('click', function () {
-        var table = th.closest('table');
-        while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
-        Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
-          .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
-          .forEach(function (tr) { table.appendChild(tr) });
-      })
-    });
-  </script>
+      Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
+        th.addEventListener('click', function () {
+          var table = th.closest('table');
+          while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
+          Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
+            .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(function (tr) { table.appendChild(tr) });
+        })
+      });
+    </script>
 
-  <script src="js/jquery-3.5.1.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/script.js"></script>
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
 
 </body>

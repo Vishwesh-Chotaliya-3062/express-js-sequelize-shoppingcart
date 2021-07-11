@@ -32,18 +32,13 @@ exports.getManageUsers = async (req, res, next) => {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const getUser = await User.count({
               where: {
@@ -68,8 +63,6 @@ exports.getManageUsers = async (req, res, next) => {
               },
               paranoid: false,
             });
-
-            console.log(allUserDetails);
 
             const userDetails = await User.findAll({
               include: Wallet,
@@ -115,7 +108,6 @@ exports.getManageUsers = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -149,7 +141,6 @@ exports.deleteUser = async (req, res, next) => {
 
     await res.redirect("/manageusers");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };
@@ -177,7 +168,6 @@ exports.restoreUser = async (req, res, next) => {
 
     await res.redirect("/manageusers");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };

@@ -33,18 +33,13 @@ exports.getManageProducts = async (req, res, next) => {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const getProduct = await Product.count({
               paranoid: false,
@@ -104,7 +99,6 @@ exports.getManageProducts = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -138,7 +132,6 @@ exports.deleteProduct = async (req, res, next) => {
 
     await res.redirect("/manageproducts");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };
@@ -166,7 +159,6 @@ exports.restoreProduct = async (req, res, next) => {
 
     await res.redirect("/manageproducts");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };

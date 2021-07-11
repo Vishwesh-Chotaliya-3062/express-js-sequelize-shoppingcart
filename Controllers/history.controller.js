@@ -31,26 +31,20 @@ exports.getHistory = async (req, res, next) => {
     }
 
     if (req.cookies.Refresh) {
-      console.log(req.cookies.Refresh);
-      res.clearCookie("Refresh");
+      await res.clearCookie("Refresh");
     }
 
     if (!token) {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
@@ -135,7 +129,6 @@ exports.getHistory = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -160,7 +153,6 @@ exports.deleteOrder = async (req, res, next) => {
   }
 
   const orderId = req.params.orderId;
-  console.log("Delete:", orderId);
 
   try {
     await sequelize.query("CALL DeleteOrder( :orderId)", {
@@ -168,7 +160,6 @@ exports.deleteOrder = async (req, res, next) => {
     });
     return res.redirect("/history");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };

@@ -32,14 +32,12 @@ exports.create = async (req, res) => {
   var checkPassEmpty = "";
   const { UserName, Email, Password } = req.body;
   if (!UserName) {
-    console.log(UserName);
     checkUserEmpty = "Username is Empty.";
     res.render("signup", {
       checkUserEmpty,
     });
   }
   if (!Email) {
-    console.log(Email);
     checkEmailEmpty = "Email is Empty.";
     res.render("signup", {
       checkEmailEmpty,
@@ -108,7 +106,6 @@ exports.create = async (req, res) => {
                                 await res.redirect("verify/" + data.UserID);
                             })
                             .catch(async (err) => {
-                              console.log(err);
                               res.json({
                                 error: err.message,
                               });
@@ -120,7 +117,6 @@ exports.create = async (req, res) => {
                 });
               } else {
                 emailCheck = "Email already exists";
-                console.log(emailCheck);
                 res.render("signup", { emailCheck });
               }
             })
@@ -131,7 +127,6 @@ exports.create = async (req, res) => {
             });
         } else {
           emailCheck = "Username already exists";
-          console.log(emailCheck);
           res.render("signup", { emailCheck });
         }
       })

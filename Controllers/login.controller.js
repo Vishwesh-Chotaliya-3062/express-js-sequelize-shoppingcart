@@ -22,7 +22,6 @@ exports.userAuthentication = async function (req, res, next) {
   var checkEmpty = "";
   var checkUser = "";
   const { UserName, Password } = req.body;
-  console.log(UserName);
   if (UserName && Password) {
     let user = await getUser({ UserName: UserName });
     if (!user) {
@@ -45,8 +44,6 @@ exports.userAuthentication = async function (req, res, next) {
           user.Token = token;
           await user.save();
           res.cookie("token", token);
-          console.log("Generated Token:", token);
-          console.log(user.Status);
           if (UserName == "admin") {
             await res.cookie("userid", user.UserID);
             await res.cookie("username", user.UserName);

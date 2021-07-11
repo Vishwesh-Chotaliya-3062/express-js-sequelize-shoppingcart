@@ -31,24 +31,18 @@ exports.getCart = async (req, res, next) => {
     }
 
     cookieflag = req.cookies.flag;
-    console.log("Flag", cookieflag);
 
     if (!token) {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Email", "Status"],
@@ -181,7 +175,6 @@ exports.getCart = async (req, res, next) => {
                     userUserID: userid,
                   },
                 });
-                console.log("hello", sum.Total);
 
                 const purchaseTotal = sum.Total - discountPrice;
 
@@ -190,8 +183,6 @@ exports.getCart = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
-
-                console.log(coupon.Details);
 
                 let orderData = {
                   userUserID: userid,
@@ -370,8 +361,6 @@ exports.getCart = async (req, res, next) => {
                   },
                 });
 
-                console.log(Data);
-
                 await res.render("orderdetails", {
                   userDetails: userDetails,
                   countProducts: countProducts,
@@ -394,7 +383,6 @@ exports.getCart = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -420,10 +408,6 @@ exports.checkCouponCode = async (req, res, next) => {
 
   const CouponCode = req.body.CouponCode;
 
-  console.log("Userid:", UserID);
-
-  console.log("Coupon Code:", CouponCode);
-
   try {
     const userCouponCode = await Couponcode.findOne({
       where: {
@@ -431,7 +415,6 @@ exports.checkCouponCode = async (req, res, next) => {
       },
     });
 
-    console.log("user coupon", userCouponCode.CouponCode);
     let flag = 0;
 
     if (CouponCode !== userCouponCode.CouponCode) {
@@ -440,12 +423,10 @@ exports.checkCouponCode = async (req, res, next) => {
       return res.redirect("/orderdetails");
     } else {
       flag = 1;
-      console.log("True", flag);
       res.cookie("flag", flag);
       return res.redirect("/orderdetails");
     }
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };
@@ -468,7 +449,6 @@ exports.removeCouponCode = async (req, res, next) => {
     res.cookie("flag", flag);
     return res.redirect("/orderdetails");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };
@@ -493,18 +473,13 @@ exports.getPayment = async (req, res, next) => {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const userDetails = await User.findAll({
               attributes: ["UserID", "UserName", "Status"],
@@ -563,8 +538,6 @@ exports.getPayment = async (req, res, next) => {
                 },
               });
 
-              console.log(orderId);
-
               const Data = await Order.findOne({
                 where: {
                   userUserID: userid,
@@ -581,8 +554,6 @@ exports.getPayment = async (req, res, next) => {
               if (!Data) {
                 res.render("error");
               }
-
-              console.log(Data);
 
               const cartCount = cartTotalQuantity.Quantity;
 
@@ -606,7 +577,6 @@ exports.getPayment = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -641,23 +611,15 @@ exports.getStatus = async (req, res, next) => {
 
     if (!token) {
       res.redirect("login");
-      // res.json({
-      //   error: "Unauthorized",
-      // });
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const result = await sequelize.transaction();
 
@@ -721,8 +683,6 @@ exports.getStatus = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
-
-                console.log(orderId);
 
                 const Data = await Order.findOne({
                   where: {
@@ -836,15 +796,10 @@ exports.getStatus = async (req, res, next) => {
                   await succesT.rollback();
                 }
 
-                console.log("ID", ID);
-                console.log("Quantity", Quantity);
-                console.log("Quantity Left", QuantityLeft);
-
                 for (u in orderOrderDetails) {
                   const minus =
                     orderOrderDetails[u].product.QuantityLeft -
                     orderOrderDetails[u].Quantity;
-                  console.log(minus);
 
                   await Product.update(
                     {
@@ -886,7 +841,6 @@ exports.getStatus = async (req, res, next) => {
 
                 let userWalletUpdatedBalance = walletUser.Balance;
                 userWalletUpdatedBalance = Math.ceil(userWalletUpdatedBalance);
-                console.log(userWalletUpdatedBalance);
 
                 let itemsCount = await OrderDetail.findOne({
                   attributes: [
@@ -901,7 +855,6 @@ exports.getStatus = async (req, res, next) => {
                 });
 
                 itemsCount = itemsCount.Quantity;
-                console.log(itemsCount);
 
                 await res.render("status", {
                   userDetails: userDetails,
@@ -999,8 +952,6 @@ exports.getStatus = async (req, res, next) => {
                   },
                 });
 
-                console.log(orderId);
-
                 const Data = await Order.findOne({
                   where: {
                     userUserID: userid,
@@ -1017,8 +968,6 @@ exports.getStatus = async (req, res, next) => {
                 if (!Data) {
                   res.render("error");
                 }
-
-                console.log(Data.Status);
 
                 const orderOrderDetails = Data.orderdetails;
 
@@ -1047,19 +996,16 @@ exports.getStatus = async (req, res, next) => {
 
                 for (u in Data1.orderdetails) {
                   if (Data1.orderdetails[u].product.QuantityLeft < 1) {
-                    console.log("false");
                   }
                   if (
                     Data1.orderdetails[u].product.QuantityLeft <
                     Data1.orderdetails[u].Quantity
                   ) {
-                    console.log("false");
                     outofstock.push(
                       " " + Data1.orderdetails[u].product.ProductName
                     );
                   }
                 }
-                console.log(outofstock);
 
                 const walletUser = await Wallet.findOne({
                   where: {
@@ -1109,7 +1055,6 @@ exports.getStatus = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });

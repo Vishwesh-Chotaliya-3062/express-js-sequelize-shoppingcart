@@ -31,18 +31,13 @@ exports.getWallet = async (req, res, next) => {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const ab = await ProfileImage.findOne({
               where: {
@@ -67,9 +62,6 @@ exports.getWallet = async (req, res, next) => {
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;
-              // for(product1 in productQuantity){
-              //   console.log(productQuantity[product1].product.ProductName);
-              // }
 
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
@@ -96,7 +88,6 @@ exports.getWallet = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -121,8 +112,6 @@ exports.addWallet = async (req, res, next) => {
     await res.render("notauthorizederror");
   }
 
-  console.log("Amount:", Amount);
-
   try {
     await sequelize.query("CALL addWallet( :UserID, :Amount)", {
       replacements: { Amount, UserID },
@@ -130,7 +119,6 @@ exports.addWallet = async (req, res, next) => {
     });
     return res.redirect("/wallet");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };

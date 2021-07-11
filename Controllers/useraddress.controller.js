@@ -28,10 +28,8 @@ exports.getUserAddress = async (req, res, next) => {
 
       await Useraddress.create(useraddress);
     }
-    console.log("user address", useraddress);
     return res.redirect("/orderdetails");
   } catch (e) {
-    console.log(e);
     return res.send(500).send("Something went wrong!");
   }
 };

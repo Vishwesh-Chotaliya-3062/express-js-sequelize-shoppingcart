@@ -10,7 +10,6 @@ const jwt = require("jsonwebtoken");
 var path = require("path");
 const sharp = require("sharp");
 const Jimp = require("jimp");
-const fs = require("fs");
 
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
@@ -37,18 +36,13 @@ exports.getAddProduct = async (req, res, next) => {
       res.redirect("login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const ab = await ProfileImage.findOne({
               where: {
@@ -73,9 +67,6 @@ exports.getAddProduct = async (req, res, next) => {
             for (user in userDetails) {
               let userid = userDetails[user].UserID;
               let link = `/verify/${userid}`;
-              // for(product1 in productQuantity){
-              //   console.log(productQuantity[product1].product.ProductName);
-              // }
 
               const cartTotalQuantity = await Cart.findOne({
                 attributes: [
@@ -102,7 +93,6 @@ exports.getAddProduct = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
@@ -131,18 +121,13 @@ exports.postAddProduct = async (req, res, next) => {
     if (!token) {
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
           } else {
-            console.log("Verified");
             var decoded = jwt_decode(token);
-            console.log(decoded);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
-            console.log("user", UserName);
 
             const {
               ProductName,
@@ -154,9 +139,6 @@ exports.postAddProduct = async (req, res, next) => {
               SubCategory,
             } = req.body;
             const file = req.files.Image;
-
-            console.log(req.body);
-            console.log(file);
 
             const checkAlready = await Product.findOne({
               where: {
@@ -308,7 +290,6 @@ exports.postAddProduct = async (req, res, next) => {
                 });
 
                 const a1 = a.ProductID;
-                console.log("----ProductID-----", a1);
                 const ProductID = a1;
 
                 if (
@@ -335,7 +316,6 @@ exports.postAddProduct = async (req, res, next) => {
                     Category +
                     "__" +
                     SubCategory;
-                  console.log("Image name", Image);
 
                   file.mv(
                     "views/images/upload_product_images/" + Image,
@@ -348,7 +328,6 @@ exports.postAddProduct = async (req, res, next) => {
                           "views/images/upload_product_images/" + Image,
                           function (err, image) {
                             if (err) {
-                              console.log(err);
                             } else {
                               image.write(
                                 "views/images/upload_product_images/" +
@@ -443,7 +422,6 @@ exports.postAddProduct = async (req, res, next) => {
           }
         });
       } catch (err) {
-        console.log("Error occured while Aunthenticattion: ", err.message);
         res.json({
           error: "Error occured while Aunthenticattion: ",
         });
