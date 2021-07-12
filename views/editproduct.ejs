@@ -182,12 +182,15 @@
     function hello1() {
       var link1 = document.getElementById("toggleEditProductName");
       var new1 = link1.getAttribute("src");
+      var link2 = document.getElementById("ProductName");
+
+      var new1 = link1.getAttribute("src");
       if (new1 === "/images/edit-purple.png") {
         link1.setAttribute('src', "/images/edit-slash.png");
-        $("#ProductName").attr("readonly", false);
+        link2.removeAttribute('readonly');
       } else {
         link1.setAttribute('src', "/images/edit-purple.png");
-        $("#ProductName").attr("readonly", true);
+        link2.setAttribute('readonly', true);
       }
     }
   </script>
@@ -195,12 +198,15 @@
     function hello2() {
       var link1 = document.getElementById("toggleEditSKU");
       var new1 = link1.getAttribute("src");
+      var link2 = document.getElementById("SKU");
+
+      var new1 = link1.getAttribute("src");
       if (new1 === "/images/edit-purple.png") {
         link1.setAttribute('src', "/images/edit-slash.png");
-        $("#SKU").attr("readonly", false);
+        link2.removeAttribute('readonly');
       } else {
         link1.setAttribute('src', "/images/edit-purple.png");
-        $("#SKU").attr("readonly", true);
+        link2.setAttribute('readonly', true);
       }
     }
   </script>
@@ -208,25 +214,30 @@
     function hello3() {
       var link1 = document.getElementById("toggleEditPrice");
       var new1 = link1.getAttribute("src");
+      var link2 = document.getElementById("Price");
+
+      var new1 = link1.getAttribute("src");
       if (new1 === "/images/edit-purple.png") {
         link1.setAttribute('src', "/images/edit-slash.png");
-        $("#Price").attr("readonly", false);
+        link2.removeAttribute('readonly');
       } else {
         link1.setAttribute('src', "/images/edit-purple.png");
-        $("#Price").attr("readonly", true);
+        link2.setAttribute('readonly', true);
       }
     }
   </script>
   <script>
     function hello4() {
       var link1 = document.getElementById("toggleEditQuantity");
+      var link2 = document.getElementById("QuantityLeft");
+
       var new1 = link1.getAttribute("src");
       if (new1 === "/images/edit-purple.png") {
         link1.setAttribute('src', "/images/edit-slash.png");
-        $("#QuantityLeft").attr("readonly", false);
+        link2.removeAttribute('readonly');
       } else {
         link1.setAttribute('src', "/images/edit-purple.png");
-        $("#QuantityLeft").attr("readonly", true);
+        link2.setAttribute('readonly', true);
       }
     }
   </script>
@@ -252,12 +263,15 @@
     function hello6() {
       var link1 = document.getElementById("toggleEditCompanyName");
       var new1 = link1.getAttribute("src");
+      var link2 = document.getElementById("CompanyName");
+
+      var new1 = link1.getAttribute("src");
       if (new1 === "/images/edit-purple.png") {
         link1.setAttribute('src', "/images/edit-slash.png");
-        $("#CompanyName").attr("readonly", false);
+        link2.removeAttribute('readonly');
       } else {
         link1.setAttribute('src', "/images/edit-purple.png");
-        $("#CompanyName").attr("readonly", true);
+        link2.setAttribute('readonly', true);
       }
     }
   </script>
@@ -265,12 +279,15 @@
     function hello7() {
       var link1 = document.getElementById("toggleEditCategory");
       var new1 = link1.getAttribute("src");
+      var link2 = document.getElementById("Category");
+
+      var new1 = link1.getAttribute("src");
       if (new1 === "/images/edit-purple.png") {
         link1.setAttribute('src', "/images/edit-slash.png");
-        $("#Category").attr("readonly", false);
+        link2.removeAttribute('readonly');
       } else {
         link1.setAttribute('src', "/images/edit-purple.png");
-        $("#Category").attr("readonly", true);
+        link2.setAttribute('readonly', true);
       }
     }
   </script>
@@ -278,12 +295,15 @@
     function hello8() {
       var link1 = document.getElementById("toggleEditSubCategory");
       var new1 = link1.getAttribute("src");
+      var link2 = document.getElementById("SubCategory");
+
+      var new1 = link1.getAttribute("src");
       if (new1 === "/images/edit-purple.png") {
         link1.setAttribute('src', "/images/edit-slash.png");
-        $("#SubCategory").attr("readonly", false);
+        link2.removeAttribute('readonly');
       } else {
         link1.setAttribute('src', "/images/edit-purple.png");
-        $("#SubCategory").attr("readonly", true);
+        link2.setAttribute('readonly', true);
       }
     }
   </script>
