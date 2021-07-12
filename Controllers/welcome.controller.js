@@ -26,6 +26,8 @@ exports.userAuthorization = async (req, res, next) => {
       res.redirect("login");
     } else {
       try {
+        console.log("Authentication Token:", token);
+
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             res.redirect("login");
