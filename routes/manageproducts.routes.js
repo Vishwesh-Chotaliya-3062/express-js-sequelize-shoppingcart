@@ -15,5 +15,7 @@ module.exports = (app) => {
 
   router.get("/manageproducts/edit/:productid", editProduct.getEditProduct);
 
+  router.post("/manageproducts/edit/:productid", editProduct.postEditProduct);
+
   app.use("/", router);
 };
