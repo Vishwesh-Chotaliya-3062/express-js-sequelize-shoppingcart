@@ -1,13 +1,6 @@
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 ,user-scalable=no">
-    <link rel="shortcut icon" href="/images/favicon.ico">
+    <%- include('./include/header.link.ejs') %>
     <title>Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/responsive.css">
 </head>
 
 <body style="background-color: #eee;">
@@ -101,17 +94,10 @@
                 x.type = "password";
             }
         }
-
-        setTimeout(function () {
-            var alerts = document.getElementsByClassName("label1");
-
-            for (var i = 0; i < alerts.length; i++) {
-                alerts[i].style.display = "none";
-            }
-        }, 2000);
     </script>
-    <script src="js/jquery-3.5.1.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/script.js"></script>
+    
+    <%- include('./include/script.link.ejs') %>
+
+    <%- include('./include/script.link.ejs') %>
+    
 </body>
