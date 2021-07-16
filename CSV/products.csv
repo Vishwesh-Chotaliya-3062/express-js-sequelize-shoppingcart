@@ -1,0 +1,14 @@
+ProductName,SKU,Price,QuantityLeft,CompanyName,Category,SubCategory
+Noodles,N001,11.5,5,Maggie,Food,Grain
+T-Shirts,T002,449,16,Denim,T-shirts,Girls Clothing (2-8 Yrs)
+Vulc Sneakers,VS03,2659,16,Nike,Shoes,Bukled Shoes
+Pasta,P004,11.5,5,Yippee,Food,Grain
+Air Mask,AM005,40,25,N95,Medical,PPE
+T-Shirts,T006,3099,11,Lee-Cooper,T-shirts,Boys Clothing (2-8 Yrs)
+Buiscuit,B007,5,50,Parle-G,Food,Grain
+TV 4A Pro,TP008,15999,5,MI,Electronics,TV & Video
+Pepsi,P009,30,12,Coca-Cola,Drinks,Cold Drinks
+Washing Machine,WM010,22449,10,LG,Electronics,Automatic Appliances
+Shirts,S011,1499,12,Levis,Shirts,Boys Clothing (2-8 Yrs)
+Hand Sanitizer,HS012,100,45,Dettol,Cosmetics,Alcohol-free
+Hand Sanitizer,HS013,150,45,Lifebouy,Cosmetics,Alcohol-based

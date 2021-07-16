@@ -138,10 +138,10 @@
                         <div class="col-lg-4 col-sm-6 col-12">
                             <div class="res-book" style="width: 100%;">
                                 <div class="row">
-                                    <div class="col-xl-12" style="width: 100%;">
+                                    <div class="col-xl-12" style="width: 100%">
                                         <div class="img-book">
-                                            <img src="images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
-                                                class="img-fluid">
+                                            <img style="border: 0.5px solid #d3d2d4;" src="/images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
+                                            onerror="this.onerror=null; this.src='/images/upload_product_images/No_Image.png'" class="img-fluid">
                                         </div>
                                     </div>
                                     <div class="col-xl-12">

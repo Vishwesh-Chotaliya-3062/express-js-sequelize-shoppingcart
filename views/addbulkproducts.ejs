@@ -1,0 +1,122 @@
+<head>
+  <%- include('./include/header.link.ejs') %>
+  <title>Add Product</title>
+</head>
+
+<body style="background-color: #eee;">
+
+  <section id="nav-header" style="height: 100px;">
+    <header>
+      <nav class="navbar navbar-expand-md fixed-top white-nav">
+        <div class="container">
+          <div class="img-logo">
+            <a href="/welcome" class="navbar-brand">
+              <img src="images/logo.png" class="img-fluid" alt="">
+            </a>
+          </div>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
+            <ul class="navbar-nav" style="margin-left: auto;">
+              <li class="nav-item">
+                <div class="dropdown">
+
+                  <a class="nav-link purple-link"><b style="color: #6255a5;">MANAGE PRODUCTS</b></a>
+
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/addproduct">Add Products</a>
+                    <a class="dropdown-item" href="/manageproducts">Edit Products</a>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link purple-link" href="/manageusers">MANAGE USERS</a>
+              </li>
+              <% for(let user in userDetails) { %>
+                <% if(userDetails[user].Status=='pending' ) { %>
+                  <li class="nav-item">
+                    <a id="nav-btn" style="width: 150px;"
+                      class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                      href="<%= link %>" role="button">VERIFY EMAIL</a>
+                  </li>
+                  <% } %>
+                    <% } %>
+                      <li class="nav-item">
+                        <div class="dropdown">
+                          <% if(ab) { %>
+                            <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <img src="images/upload_images/<%= ab.Image %>"
+                                style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                            </a>
+                            <% } %>
+                              <% if(!ab) { %>
+                                <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="false">
+                                  <img src="images/default-profile-picture1.jpg"
+                                    style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                </a>
+                                <% } %>
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                    <a class="dropdown-item" href="/changepassword">Change Password</a>
+                                    <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                  </div>
+                        </div>
+                      </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </section>
+
+  <section id="add-admin">
+
+    <div class="container">
+      <div id="add-admin-content">
+
+        <div class="add-admin-headings">
+          <h3>Add Bulk Products</h3>
+        </div>
+
+        <div class="row">
+
+          <div class="col-xl-6 col-12-6 col-12">
+            <form action="/addbulkproducts" method="POST" enctype="multipart/form-data">
+              <div class="ip-field">
+                <label for="" class="add-admin-lbl">* Bulk Product CSV File</label>
+                <input type="file" style="width:80%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="ProductsCSV" name="ProductsCSV" accept=".csv, application/vnd.ms-excel" required>
+                  <% if(locals.msg) { %>
+                    <label for="password_error" class='label1'
+                      style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                      <%= msg %>
+                    </label>
+                    <% } %>       
+              </div>
+              <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
+                <button type="submit" class="btn btn-login" style="width: 100px; height: 35px; margin-left: -490px;" id="submit"
+                  value="Sign Up" data-toggle="modal" onclick="myFunction()">ADD</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+  </section>
+  <%- include('./include/footer.ejs') %>
+
+  <%- include('./include/script.label.ejs') %>
+
+  <%- include('./include/script.link.ejs') %>
+
+</body>

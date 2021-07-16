@@ -124,13 +124,13 @@
                                     <table id="pager" class="table tablesorter data-table">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="sr-col">PRODUCT ID</th>
+                                                <th scope="col" class="sr-col">ID</th>
                                                 <th scope="col" class="sr-col">PRODUCT NAME</th>
                                                 <th scope="col" class="sr-col">SKU</th>
                                                 <th scope="col" class="sr-col">PRICE</th>
                                                 <th scope="col" class="sr-col">QUANTITY<br>LEFT</th>
                                                 <th scope="col" class="sr-col">COMPANY<br>NAME</th>
-                                                <th scope="col">CATEGORY</th>
+                                                <th scope="col" class="sr-col">CATEGORY</th>
                                                 <th scope="col" class="sr-col">SUB CATEGORY</th>
                                                 <th scope="col" class="sr-col">CREATED AT</th>
                                                 <th scope="col" class="sr-col">UPDATED AT</th>
@@ -203,12 +203,12 @@
 
                                                                                         <% if(allProductDetails[u].deletedAt===null)
                                                                                             { %>
-                                                                                            <td>
+                                                                                            <td class="sr-col">
                                                                                                 <%= allProductDetails[u].Price
                                                                                                     %>
                                                                                             </td>
                                                                                             <% } else { %>
-                                                                                                <td
+                                                                                                <td class="sr-col"
                                                                                                     style="color: #6255a5;">
                                                                                                     <b>
                                                                                                         <%= allProductDetails[u].Price
@@ -370,7 +370,7 @@
                                                                                                                                                                                                 &nbsp;
 
                                                                                                                                                                                                 <a type="button"
-                                                                                                                                                                                                    onclick="return confirm('Are you sure you want to delete this product?');"
+                                                                                                                                                                                                    onclick="return confirm('Are you sure you want to delete <%= allProductDetails[u].ProductName %>?');"
                                                                                                                                                                                                     href="/manageproducts/delete/<%= allProductDetails[u].ProductID %>"
                                                                                                                                                                                                     style=" color: #6255a5;"
                                                                                                                                                                                                     aria-label="view details & options">
@@ -393,7 +393,7 @@
                                                                                                                                                                                                     &nbsp;
 
                                                                                                                                                                                                     <a type="button"
-                                                                                                                                                                                                        onclick="return confirm('Are you sure you want to restore this product?');"
+                                                                                                                                                                                                        onclick="return confirm('Are you sure you want to restore <%= allProductDetails[u].ProductName %>?');"
                                                                                                                                                                                                         href="/manageproducts/restore/<%= allProductDetails[u].ProductID %>"
                                                                                                                                                                                                         style=" color: #6255a5;"
                                                                                                                                                                                                         aria-label="view details & options">

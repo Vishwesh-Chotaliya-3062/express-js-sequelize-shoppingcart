@@ -216,7 +216,7 @@
                                                                     <% if(allUserDetails[u].deletedAt===null) { %>
                                                                       <td class="action-img-td">
                                                                         <a type="button"
-                                                                          onclick="return confirm('Are you sure you want to delete this user?');"
+                                                                          onclick="return confirm('Are you sure you want to delete <%= allUserDetails[u].UserName %>?');"
                                                                           href="/manageusers/delete/<%= allUserDetails[u].UserID %>"
                                                                           style=" color: #6255a5;"
                                                                           aria-label="view details & options">
@@ -226,7 +226,7 @@
                                                                       <% } else { %>
                                                                         <td class="action-img-td">
                                                                           <a type="button"
-                                                                            onclick="return confirm('Are you sure you want to restore this user?');"
+                                                                            onclick="return confirm('Are you sure you want to restore <%= allUserDetails[u].UserName %>?');"
                                                                             href="/manageusers/restore/<%= allUserDetails[u].UserID %>"
                                                                             style=" color: #6255a5;"
                                                                             aria-label="view details & options">

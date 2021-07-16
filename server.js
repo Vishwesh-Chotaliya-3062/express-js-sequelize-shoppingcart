@@ -48,6 +48,7 @@ require("./routes/history.routes")(app);
 require("./routes/changepassword.routes")(app);
 require("./routes/userprofile.routes")(app);
 require("./routes/addproduct.routes")(app);
+require("./routes/addbulkproducts.routes")(app);
 require("./routes/manageusers.routes")(app);
 require("./routes/manageproducts.routes")(app);
 

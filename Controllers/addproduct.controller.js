@@ -10,7 +10,6 @@ const jwt = require("jsonwebtoken");
 var path = require("path");
 const sharp = require("sharp");
 const Jimp = require("jimp");
-
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
 const { Product } = require("../models/product.model");
@@ -431,3 +430,4 @@ exports.postAddProduct = async (req, res, next) => {
     return res.status(500).json(error.message);
   }
 };
+

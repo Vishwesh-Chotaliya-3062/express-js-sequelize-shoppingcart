@@ -403,17 +403,28 @@ exports.postEditProduct = async (req, res, next) => {
                                 ".png"
                             );
                           Image = Image1 + ".png";
-                          await ProductImage.update(
-                            { Image: Image },
-                            {
-                              where: {
-                                ProductID: productid,
-                              },
-                            },
-                            {
-                              transaction: addProductImageTransaction,
+                          const productImageCheck = await ProductImage.findOne({
+                            where: {
+                              ProductID: productid
                             }
-                          );
+                          });
+                          if(productImageCheck)
+                          {
+                            await ProductImage.update(
+                              { Image: Image },
+                              {
+                                where: {
+                                  ProductID: productid,
+                                },
+                              },
+                              {
+                                transaction: addProductImageTransaction,
+                              }
+                            );
+                          }
+                          else {
+                            await ProductImage.create({ProductID: productid, Image: Image});
+                          }
   
                           await addProductImageTransaction.commit();
                         } catch {
