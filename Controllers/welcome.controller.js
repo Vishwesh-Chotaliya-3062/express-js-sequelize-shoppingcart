@@ -59,9 +59,29 @@ exports.userAuthorization = async (req, res, next) => {
               },
             });
 
-            const countProducts = await Product.count();
+            var countProducts = await Product.count();
 
-            const productDetails = await Product.findAll();
+            var perPage = 6;
+
+            var pages = Math.ceil(countProducts/perPage);
+
+            var pageNumber = (req.query.page == null) ? 1 : req.query.page;
+
+            var startFrom = (pageNumber - 1) * perPage;
+
+            var last = pageNumber - 1;
+
+            var next = last + 2;
+
+            if(pageNumber > pages)
+            {
+              await res.redirect(`/welcome?page=${pages}`);
+            }
+
+            const productDetails = await Product.findAll({
+              limit: perPage,
+              offset: startFrom
+            });
 
             const countCouponcode = await Couponcode.count({
               where: {
@@ -97,6 +117,9 @@ exports.userAuthorization = async (req, res, next) => {
                 countCouponcode: countCouponcode,
                 Add: Add,
                 ab: ab,
+                pages,
+                last,
+                next
               });
             }
           }

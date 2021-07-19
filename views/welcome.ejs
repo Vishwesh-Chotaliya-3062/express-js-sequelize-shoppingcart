@@ -1,6 +1,35 @@
 <head>
     <%- include('./include/header.link.ejs') %>
-    <title>Welcome</title>
+        <title>Welcome</title>
+        <style>
+            .center {
+                text-align: center;
+            }
+
+            .pagination {
+                display: inline-block;
+            }
+
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+                margin: 0 4px;
+            }
+
+            .pagination a.active {
+                background-color: #4CAF50;
+                color: white;
+                border: 1px solid #4CAF50;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+        </style>
 </head>
 
 <body style="background-color: #eee;">
@@ -140,8 +169,10 @@
                                 <div class="row">
                                     <div class="col-xl-12" style="width: 100%">
                                         <div class="img-book">
-                                            <img style="border: 0.5px solid #d3d2d4;" src="/images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
-                                            onerror="this.onerror=null; this.src='/images/upload_product_images/No_Image.png'" class="img-fluid">
+                                            <img style="border: 0.5px solid #d3d2d4;"
+                                                src="/images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
+                                                onerror="this.onerror=null; this.src='/images/upload_product_images/No_Image.png'"
+                                                class="img-fluid">
                                         </div>
                                     </div>
                                     <div class="col-xl-12">
@@ -241,6 +272,30 @@
             </div>
         </div>
     </section>
+
+    <div class="center">
+        <div class="pagination">
+            <% if(last==0) { %>
+                <a href="?page=<%= 1; %>">&laquo;</a>
+                <% } else { %>
+                    <a href="?page=<%= last; %>">&laquo;</a>
+                    <% } %>
+
+                        <% for(var a = 1; a <= pages; a++) { %>
+                            <a href="?page=<%= a; %>">
+                                <%= a; %>
+                            </a>
+                            <% } %>
+
+                                <% if(next >= pages) { %>
+                                    <a href="?page=<%= pages; %>">&raquo;</a>
+                                    <% } else { %>
+                                        <a href="?page=<%= next; %>">&raquo;</a>
+                                        <% } %>
+        </div>
+    </div>
+
+    <br><br>
 
     <%- include('./include/footer.ejs') %>
 
