@@ -314,7 +314,9 @@
                                     <% for(product in productQuantity) { %>
                                         <div
                                             class="d-flex jusitfy-content-between align-items-center pt-3 pb-2 border-bottom">
-                                            <div class="item pr-2"> <img src="images/Search/1.jpg" alt="" width="80"
+                                            <div class="item pr-2"> 
+                                                <img style="border: 0.5px solid #d3d2d4;" src="images/upload_product_images/<%= productQuantity[product].product.ProductName %>__<%= productQuantity[product].product.CompanyName %>__<%= productQuantity[product].product.Category %>__<%= productQuantity[product].product.SubCategory %>.png"
+                                                onerror="this.onerror=null; this.src='/images/No_Image.png'" width="80"
                                                     height="80">
                                                 <div class="number"
                                                     style="height: 31px; width: 33px; padding-top: 2px; text-align: center; background-color: #6255a5;">

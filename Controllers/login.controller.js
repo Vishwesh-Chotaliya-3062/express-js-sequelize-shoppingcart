@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 
 exports.getAuthentication = async (req, res, next) => {
   try {
-    await res.render("/login");
+    await res.render("login");
   } catch (error) {
     return res.status(500).json(500, false, error.message);
   }

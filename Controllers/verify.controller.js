@@ -53,7 +53,7 @@ exports.postVerify = async function (req, res, next) {
       sendGifts({ UserName: user.UserName, Email: user.Email }, couponcode);
 
       await verifyTransaction.commit();
-      return res.redirect("login");
+      return res.redirect("/login");
     }
     await res.status(400).redirect("verify/" + UserID);
   } catch (err) {

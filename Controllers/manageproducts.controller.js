@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
 const { Product } = require("../models/product.model");
+const { ProductImage } = require("../models/productImage.model");
 app.use(cookieParser());
 
 exports.getManageProducts = async (req, res, next) => {
@@ -51,6 +52,9 @@ exports.getManageProducts = async (req, res, next) => {
             });
 
             const allProductDetails = await Product.findAll({
+              include: {
+                model: ProductImage,
+              },
               paranoid: false,
             });
 

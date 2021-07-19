@@ -99,11 +99,11 @@
 
                         <% if(getProduct> 0 ) { %>
                             <div class="table-wrapper-inner">
-                                <div class="table-heading-1">
+                                <div class="table-heading-1" style="margin-left: -90px;">
                                     <h3>Manage Products</h3>
                                 </div>
 
-                                <div class="row">
+                                <div class="row" style="margin-left: -105px; margin-right: -115px;">
                                     <div class="col-md-6 col-12">
                                         <div class="search-btn">
                                             <a class="btn btn-search btn-cmn" id="add-category-btn"
@@ -132,6 +132,7 @@
                                                 <th scope="col" class="sr-col">COMPANY<br>NAME</th>
                                                 <th scope="col" class="sr-col">CATEGORY</th>
                                                 <th scope="col" class="sr-col">SUB CATEGORY</th>
+                                                <th scope="col" class="sr-col">IMAGE</th>
                                                 <th scope="col" class="sr-col">CREATED AT</th>
                                                 <th scope="col" class="sr-col">UPDATED AT</th>
                                                 <th scope="col" class="sr-col">DELETED AT</th>
@@ -140,6 +141,8 @@
                                         </thead>
                                         <tbody class="common-tbody">
                                             <tr style="height: 0px;">
+                                                <td class="sr-col">
+                                                </td>
                                                 <td class="sr-col">
                                                 </td>
                                                 <td class="sr-col">
@@ -293,6 +296,33 @@
                                                                                                                                                 </td>
                                                                                                                                                 <% }
                                                                                                                                                     %>
+
+                                                                                                                                                    <% if(allProductDetails[u].deletedAt===null)
+                                                                                                                                                    {
+                                                                                                                                                    %>
+                                                                                                                                                    <td
+                                                                                                                                                        class="sr-col">
+                                                                                                                                                        <% if(allProductDetails[u].productimage) { %>
+                                                                                                                                                                YES
+                                                                                                                                                        <% } else { %>
+                                                                                                                                                                NO
+                                                                                                                                                        <% } %>
+                                                                                                                                                    </td>
+                                                                                                                                                    <% } else
+                                                                                                                                                        {
+                                                                                                                                                        %>
+                                                                                                                                                        <td class="sr-col"
+                                                                                                                                                            style="color: #6255a5;">
+                                                                                                                                                            <b>
+                                                                                                                                                                <% if(allProductDetails[u].productimage) { %>
+                                                                                                                                                                        YES
+                                                                                                                                                                <% } else { %>
+                                                                                                                                                                        NO
+                                                                                                                                                                <% } %>
+                                                                                                                                                            </b>
+                                                                                                                                                        </td>
+                                                                                                                                                        <% }
+                                                                                                                                                            %>
 
                                                                                                                                                     <% if(allProductDetails[u].deletedAt===null)
                                                                                                                                                         {

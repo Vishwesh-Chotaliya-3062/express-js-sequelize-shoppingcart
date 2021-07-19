@@ -14,6 +14,7 @@ const { ProfileImage } = require("../models/profileImage.model");
 const fs = require('fs');
 const csv = require('csv-parser');
 const { Product } = require("../models/product.model");
+const { ProductImage } = require("../models/productImage.model");
 app.use(cookieParser());
 
 exports.getAddBulkProductsByCSV = async (req, res, next) => {
@@ -188,22 +189,23 @@ exports.postAddBulkProductsByCSV = async (req, res, next) => {
               await file.mv('views/images/' + file.name, async function(err) {
                 if (err)
                   await res.json(err.message);
-            
-                await res.json('File uploaded!');
+                
+                  const products = fs.createReadStream('views/images/' + file.name)
+                  .pipe(csv())
+                  .on('data', async (row) => {
+                    console.log(row);
+
+                    const c1 = await Product.create(row);
+                  })
+                  .on('end', async() => {
+                    console.log('CSV file successfully processed');
+                  });
+
+                  console.log("--------Added");
+
+                await res.redirect('/addbulkproducts');
               });
 
-              const products = fs.createReadStream('views/images/' + file.name)
-              .pipe(csv())
-              .on('data', async (row) => {
-                console.log(row);
-                const c1 = await Product.create(row);
-              })
-              .on('end', () => {
-                console.log('CSV file successfully processed');
-              });
-
-              console.log("--------Added");
-              await res.redirect('/addbulkproducts');
           } catch (error) {
             return res.json(error.message);
           }
