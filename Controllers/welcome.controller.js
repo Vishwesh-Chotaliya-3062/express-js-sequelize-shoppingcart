@@ -18,18 +18,18 @@ exports.userAuthorization = async (req, res, next) => {
     const Add = req.cookies.Add;
 
     if (req.cookies.Refresh) {
-      res.clearCookie("Refresh");
+      await res.clearCookie("Refresh");
     }
 
     if (!token) {
-      res.redirect("login");
+      await res.redirect("/login");
     } else {
       try {
         console.log("Authentication Token:", token);
 
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.redirect("login");
+            await res.redirect("/login");
           } else {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;
@@ -119,13 +119,14 @@ exports.userAuthorization = async (req, res, next) => {
                 ab: ab,
                 pages,
                 last,
-                next
+                next,
+                pageNumber
               });
             }
           }
         });
       } catch (err) {
-        res.json({
+        await res.json({
           error: "Error occured while Aunthenticattion: ",
         });
       }

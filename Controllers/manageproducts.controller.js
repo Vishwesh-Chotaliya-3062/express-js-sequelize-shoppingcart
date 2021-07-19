@@ -7,7 +7,6 @@ const { Cart } = require("../models/cart.model");
 const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
-const { Op } = require("sequelize");
 
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
@@ -30,12 +29,12 @@ exports.getManageProducts = async (req, res, next) => {
     }
 
     if (!token) {
-      res.redirect("login");
+      await res.redirect("/login");
     } else {
       try {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.redirect("login");
+            await res.redirect("login");
           } else {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;

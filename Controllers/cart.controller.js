@@ -35,12 +35,12 @@ exports.getCart = async (req, res, next) => {
     }
 
     if (!token) {
-      res.redirect("login");
+      await res.redirect("/login");
     } else {
       try {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.redirect("login");
+            await res.redirect("/login");
           } else {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;

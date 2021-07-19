@@ -3,8 +3,6 @@ const { User } = require("../models/user.model");
 const { Wallet } = require("../models/wallet.model");
 const { Secretcode } = require("../models/secretcode.model");
 const { validationResult } = require("express-validator");
-
-const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 var otpGenerator = require("crypto-random-string");
@@ -23,7 +21,6 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
-// Create and Save a new User
 exports.create = async (req, res) => {
   var errors = validationResult(req);
   var emailCheck = "";
@@ -33,25 +30,25 @@ exports.create = async (req, res) => {
   const { UserName, Email, Password } = req.body;
   if (!UserName) {
     checkUserEmpty = "Username is Empty.";
-    res.render("signup", {
+    await res.render("signup", {
       checkUserEmpty,
     });
   }
   if (!Email) {
     checkEmailEmpty = "Email is Empty.";
-    res.render("signup", {
+    await res.render("signup", {
       checkEmailEmpty,
     });
   }
   if (!Password) {
     checkPassEmpty = "Password is Empty.";
-    res.render("signup", {
+    await res.render("signup", {
       checkPassEmpty,
     });
   }
   var alert = errors.array();
   if (!errors.isEmpty()) {
-    res.render("signup", {
+    await res.render("signup", {
       alert,
     });
   } else {
@@ -106,7 +103,7 @@ exports.create = async (req, res) => {
                                 await res.redirect("verify/" + data.UserID);
                             })
                             .catch(async (err) => {
-                              res.json({
+                              await res.json({
                                 error: err.message,
                               });
                             });
@@ -117,21 +114,21 @@ exports.create = async (req, res) => {
                 });
               } else {
                 emailCheck = "Email already exists";
-                res.render("signup", { emailCheck });
+                await res.render("signup", { emailCheck });
               }
             })
-            .catch((err) => {
-              res.json({
+            .catch(async (err) => {
+              await res.json({
                 error: err.message,
               });
             });
         } else {
           emailCheck = "Username already exists";
-          res.render("signup", { emailCheck });
+          await res.render("signup", { emailCheck });
         }
       })
-      .catch((err) => {
-        res.json({
+      .catch(async(err) => {
+        await res.json({
           error: err.message,
         });
       });

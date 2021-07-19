@@ -33,12 +33,12 @@ exports.getCart = async (req, res, next) => {
     cookieflag = req.cookies.flag;
 
     if (!token) {
-      res.redirect("login");
+      await res.redirect("/login");
     } else {
       try {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.redirect("login");
+            await res.redirect("/login");
           } else {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;
@@ -468,12 +468,12 @@ exports.getPayment = async (req, res, next) => {
     const orderId = req.params.orderId;
 
     if (!token) {
-      res.redirect("login");
+      await res.redirect("/login");
     } else {
       try {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.redirect("login");
+            await res.redirect("/login");
           } else {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;
@@ -603,17 +603,17 @@ exports.getStatus = async (req, res, next) => {
     const flag = req.cookies.flag;
 
     if (req.cookies.Refresh) {
-      res.clearCookie("Refresh");
-      res.redirect("/welcome");
+      await res.clearCookie("Refresh");
+      await res.redirect("/welcome");
     }
 
     if (!token) {
-      res.redirect("login");
+      await res.redirect("/login");
     } else {
       try {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.redirect("login");
+            await res.redirect("/login");
           } else {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;
@@ -964,7 +964,7 @@ exports.getStatus = async (req, res, next) => {
                 });
 
                 if (!Data) {
-                  res.render("error");
+                  await res.render("error");
                 }
 
                 const orderOrderDetails = Data.orderdetails;

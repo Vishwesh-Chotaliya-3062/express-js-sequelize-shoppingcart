@@ -16,7 +16,7 @@ exports.getVerify = async (req, res, next) => {
   try {
     const UserID = req.params.UserID;
     const title = "Verify Account";
-    res.render("verify", { title, UserID });
+    await res.render("verify", { title, UserID });
   } catch (error) {
     return res.status(500).json(500, false, error.message);
   }
@@ -25,7 +25,7 @@ exports.getVerify = async (req, res, next) => {
 exports.postVerify = async function (req, res, next) {
   const { UserID, secretcode } = req.body;
   if (!secretcode) {
-    res.status(400).redirect("verify/" + UserID);
+    await res.status(400).redirect("verify/" + UserID);
   }
   const verifyTransaction = await sequelize.transaction();
   try {
@@ -55,9 +55,9 @@ exports.postVerify = async function (req, res, next) {
       await verifyTransaction.commit();
       return res.redirect("login");
     }
-    res.status(400).redirect("verify/" + UserID);
+    await res.status(400).redirect("verify/" + UserID);
   } catch (err) {
     await verifyTransaction.rollback();
-    res.status(500).redirect("verify/" + UserID);
+    await res.status(500).redirect("verify/" + UserID);
   }
 };

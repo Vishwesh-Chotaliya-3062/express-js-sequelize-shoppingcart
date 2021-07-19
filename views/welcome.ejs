@@ -16,14 +16,15 @@
                 padding: 8px 16px;
                 text-decoration: none;
                 transition: background-color .3s;
-                border: 1px solid #ddd;
+                border: 1px solid #eee;
+                border-radius: 50%;
                 margin: 0 4px;
             }
 
             .pagination a.active {
-                background-color: #4CAF50;
+                background-color: #6255a5;
                 color: white;
-                border: 1px solid #4CAF50;
+                border: 1px solid #6255a5;
             }
 
             .pagination a:hover:not(.active) {
@@ -281,17 +282,32 @@
                     <a href="?page=<%= last; %>">&laquo;</a>
                     <% } %>
 
-                        <% for(var a = 1; a <= pages; a++) { %>
-                            <a href="?page=<%= a; %>">
-                                <%= a; %>
-                            </a>
-                            <% } %>
-
-                                <% if(next >= pages) { %>
-                                    <a href="?page=<%= pages; %>">&raquo;</a>
-                                    <% } else { %>
-                                        <a href="?page=<%= next; %>">&raquo;</a>
+                        <% for(var a=1; a < pages; a++) { %>
+                            <% if (a==pageNumber) { %>
+                                <a class="active">
+                                    <%= a; %>
+                                </a>
+                                <% } else { %>
+                                    <a href="?page=<%= a; %>">
+                                        <%= a; %>
+                                    </a>
+                                    <% } %>
                                         <% } %>
+                                        <% if(pages >= 10) { %>
+                                        <a >...</a>
+                                        <% } %>
+
+                                            <% if (a==pageNumber) { %>
+                                                <a class="active"><%= pages %></a>
+                                                <% } else { %>
+                                                    <a href="?page=<%= pages %>"><%= pages %></a>
+                                                    <% } %>
+
+                                                        <% if(next>= pages) { %>
+                                                            <a href="?page=<%= pages; %>">&raquo;</a>
+                                                            <% } else { %>
+                                                                <a href="?page=<%= next; %>">&raquo;</a>
+                                                                <% } %>
         </div>
     </div>
 
@@ -299,6 +315,6 @@
 
     <%- include('./include/footer.ejs') %>
 
-    <%- include('./include/script.link.ejs') %>
+        <%- include('./include/script.link.ejs') %>
 
 </body>

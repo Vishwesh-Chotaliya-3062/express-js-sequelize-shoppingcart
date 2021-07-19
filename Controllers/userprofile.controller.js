@@ -24,13 +24,13 @@ exports.getUserProfile = async (req, res, next) => {
     const userid = req.cookies.userid;
 
     if (!token) {
-      res.redirect("login");
+      await res.redirect("/login");
     } else {
       try {
 
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.redirect("login");
+            await res.redirect("/login");
           } else {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;
@@ -123,12 +123,12 @@ exports.getUserAddressProfile = async (req, res, next) => {
     const userid = req.cookies.userid;
 
     if (!token) {
-      res.redirect("/login");
+      await res.redirect("/login");
     } else {
       try {
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
-            res.redirect("/login");
+            await res.redirect("/login");
           } else {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;
