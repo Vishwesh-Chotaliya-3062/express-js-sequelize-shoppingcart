@@ -1,7 +1,7 @@
 <head>
     <%- include('./include/header.link.ejs') %>
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="css/fontawesome/css/all.min.css">
+        <title>Sign Up</title>
+        <link rel="stylesheet" href="css/fontawesome/css/all.min.css">
 
 <body style="background-color: #eee;">
     <section id="sign-up">
@@ -93,29 +93,29 @@
 
     <%- include('./include/script.link.ejs') %>
 
-    <script type="text/javascript">
-        document.getElementById('Status').value = 'pending';
-    </script>
+        <script type="text/javascript">
+            document.getElementById('Status').value = 'pending';
+        </script>
 
-    <script>
-        function hello2() {
-            var link = document.getElementById('togglePassword');
-            var new1 = link.getAttribute("src");
-            if (new1 === "images/eye.png") {
-                link.setAttribute('src', "images/eye-slash.png");
-            } else {
-                link.setAttribute('src', "images/eye.png");
-            }
+        <script>
+            function hello2() {
+                var link = document.getElementById('togglePassword');
+                var new1 = link.getAttribute("src");
+                if (new1 === "images/eye.png") {
+                    link.setAttribute('src', "images/eye-slash.png");
+                } else {
+                    link.setAttribute('src', "images/eye.png");
+                }
 
-            var x = document.getElementById('Password');
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
+                var x = document.getElementById('Password');
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
             }
-        }
-    </script>
-    
-    <%- include('./include/script.link.ejs') %>
+        </script>
+
+        <%- include('./include/script.link.ejs') %>
 
 </body>

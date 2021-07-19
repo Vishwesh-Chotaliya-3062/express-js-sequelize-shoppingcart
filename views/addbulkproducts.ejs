@@ -1,6 +1,6 @@
 <head>
   <%- include('./include/header.link.ejs') %>
-  <title>Add Product</title>
+    <title>Add Product</title>
 </head>
 
 <body style="background-color: #eee;">
@@ -91,17 +91,18 @@
             <form action="/addbulkproducts" method="POST" enctype="multipart/form-data">
               <div class="ip-field">
                 <label for="" class="add-admin-lbl">* Bulk Product CSV File</label>
-                <input type="file" style="width:80%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="ProductsCSV" name="ProductsCSV" accept=".csv, application/vnd.ms-excel" required>
-                  <% if(locals.msg) { %>
-                    <label for="password_error" class='label1'
-                      style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
-                      <%= msg %>
-                    </label>
-                    <% } %>       
+                <input type="file" style="width:80%; color: #6255a5; font-weight: 700;" class="form-control input-field"
+                  id="ProductsCSV" name="ProductsCSV" accept=".csv, application/vnd.ms-excel" required>
+                <% if(locals.msg) { %>
+                  <label for="password_error" class='label1'
+                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                    <%= msg %>
+                  </label>
+                  <% } %>
               </div>
               <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
-                <button type="submit" class="btn btn-login" style="width: 100px; height: 35px; margin-left: -490px;" id="submit"
-                  value="Sign Up" data-toggle="modal" onclick="myFunction()">ADD</button>
+                <button type="submit" class="btn btn-login" style="width: 100px; height: 35px; margin-left: -490px;"
+                  id="submit" value="Sign Up" data-toggle="modal" onclick="myFunction()">ADD</button>
               </div>
             </form>
           </div>
@@ -115,8 +116,8 @@
   </section>
   <%- include('./include/footer.ejs') %>
 
-  <%- include('./include/script.label.ejs') %>
+    <%- include('./include/script.label.ejs') %>
 
-  <%- include('./include/script.link.ejs') %>
+      <%- include('./include/script.link.ejs') %>
 
 </body>

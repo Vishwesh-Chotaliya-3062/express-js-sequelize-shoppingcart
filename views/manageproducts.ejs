@@ -1,6 +1,6 @@
 <head>
     <%- include('./include/header.link.ejs') %>
-    <title>Manage Products</title>
+        <title>Manage Products</title>
 </head>
 
 <body style="background-color: #eee;">
@@ -298,39 +298,20 @@
                                                                                                                                                     %>
 
                                                                                                                                                     <% if(allProductDetails[u].deletedAt===null)
-                                                                                                                                                    {
-                                                                                                                                                    %>
-                                                                                                                                                    <td
-                                                                                                                                                        class="sr-col">
-                                                                                                                                                        <% if(allProductDetails[u].productimage) { %>
-                                                                                                                                                                YES
-                                                                                                                                                        <% } else { %>
-                                                                                                                                                                NO
-                                                                                                                                                        <% } %>
-                                                                                                                                                    </td>
-                                                                                                                                                    <% } else
-                                                                                                                                                        {
-                                                                                                                                                        %>
-                                                                                                                                                        <td class="sr-col"
-                                                                                                                                                            style="color: #6255a5;">
-                                                                                                                                                            <b>
-                                                                                                                                                                <% if(allProductDetails[u].productimage) { %>
-                                                                                                                                                                        YES
-                                                                                                                                                                <% } else { %>
-                                                                                                                                                                        NO
-                                                                                                                                                                <% } %>
-                                                                                                                                                            </b>
-                                                                                                                                                        </td>
-                                                                                                                                                        <% }
-                                                                                                                                                            %>
-
-                                                                                                                                                    <% if(allProductDetails[u].deletedAt===null)
                                                                                                                                                         {
                                                                                                                                                         %>
                                                                                                                                                         <td
                                                                                                                                                             class="sr-col">
-                                                                                                                                                            <%=
-                                                                                                                                                                allProductDetails[u].createdAt.getDate()+'/'+(allProductDetails[u].createdAt.getMonth()+1)+'/'+allProductDetails[u].createdAt.getFullYear()%>
+                                                                                                                                                            <% if(allProductDetails[u].productimage)
+                                                                                                                                                                {
+                                                                                                                                                                %>
+                                                                                                                                                                YES
+                                                                                                                                                                <% } else
+                                                                                                                                                                    {
+                                                                                                                                                                    %>
+                                                                                                                                                                    NO
+                                                                                                                                                                    <% }
+                                                                                                                                                                        %>
                                                                                                                                                         </td>
                                                                                                                                                         <% } else
                                                                                                                                                             {
@@ -338,8 +319,16 @@
                                                                                                                                                             <td class="sr-col"
                                                                                                                                                                 style="color: #6255a5;">
                                                                                                                                                                 <b>
-                                                                                                                                                                    <%=
-                                                                                                                                                                        allProductDetails[u].createdAt.getDate()+'/'+(allProductDetails[u].createdAt.getMonth()+1)+'/'+allProductDetails[u].createdAt.getFullYear()%>
+                                                                                                                                                                    <% if(allProductDetails[u].productimage)
+                                                                                                                                                                        {
+                                                                                                                                                                        %>
+                                                                                                                                                                        YES
+                                                                                                                                                                        <% } else
+                                                                                                                                                                            {
+                                                                                                                                                                            %>
+                                                                                                                                                                            NO
+                                                                                                                                                                            <% }
+                                                                                                                                                                                %>
                                                                                                                                                                 </b>
                                                                                                                                                             </td>
                                                                                                                                                             <% }
@@ -351,7 +340,7 @@
                                                                                                                                                                     <td
                                                                                                                                                                         class="sr-col">
                                                                                                                                                                         <%=
-                                                                                                                                                                            allProductDetails[u].updatedAt.getDate()+'/'+(allProductDetails[u].updatedAt.getMonth()+1)+'/'+allProductDetails[u].updatedAt.getFullYear()%>
+                                                                                                                                                                            allProductDetails[u].createdAt.getDate()+'/'+(allProductDetails[u].createdAt.getMonth()+1)+'/'+allProductDetails[u].createdAt.getFullYear()%>
                                                                                                                                                                     </td>
                                                                                                                                                                     <% } else
                                                                                                                                                                         {
@@ -360,7 +349,7 @@
                                                                                                                                                                             style="color: #6255a5;">
                                                                                                                                                                             <b>
                                                                                                                                                                                 <%=
-                                                                                                                                                                                    allProductDetails[u].updatedAt.getDate()+'/'+(allProductDetails[u].updatedAt.getMonth()+1)+'/'+allProductDetails[u].updatedAt.getFullYear()%>
+                                                                                                                                                                                    allProductDetails[u].createdAt.getDate()+'/'+(allProductDetails[u].createdAt.getMonth()+1)+'/'+allProductDetails[u].createdAt.getFullYear()%>
                                                                                                                                                                             </b>
                                                                                                                                                                         </td>
                                                                                                                                                                         <% }
@@ -371,7 +360,8 @@
                                                                                                                                                                                 %>
                                                                                                                                                                                 <td
                                                                                                                                                                                     class="sr-col">
-                                                                                                                                                                                    NULL
+                                                                                                                                                                                    <%=
+                                                                                                                                                                                        allProductDetails[u].updatedAt.getDate()+'/'+(allProductDetails[u].updatedAt.getMonth()+1)+'/'+allProductDetails[u].updatedAt.getFullYear()%>
                                                                                                                                                                                 </td>
                                                                                                                                                                                 <% } else
                                                                                                                                                                                     {
@@ -380,59 +370,79 @@
                                                                                                                                                                                         style="color: #6255a5;">
                                                                                                                                                                                         <b>
                                                                                                                                                                                             <%=
-                                                                                                                                                                                                allProductDetails[u].deletedAt.getDate()+'/'+(allProductDetails[u].deletedAt.getMonth()+1)+'/'+allProductDetails[u].deletedAt.getFullYear()%>
+                                                                                                                                                                                                allProductDetails[u].updatedAt.getDate()+'/'+(allProductDetails[u].updatedAt.getMonth()+1)+'/'+allProductDetails[u].updatedAt.getFullYear()%>
                                                                                                                                                                                         </b>
                                                                                                                                                                                     </td>
                                                                                                                                                                                     <% }
                                                                                                                                                                                         %>
+
                                                                                                                                                                                         <% if(allProductDetails[u].deletedAt===null)
                                                                                                                                                                                             {
                                                                                                                                                                                             %>
                                                                                                                                                                                             <td
-                                                                                                                                                                                                class="action-img-td">
-                                                                                                                                                                                                <a type="button"
-                                                                                                                                                                                                    href="/manageproducts/edit/<%= allProductDetails[u].ProductID %>"
-                                                                                                                                                                                                    style=" color: #6255a5;"
-                                                                                                                                                                                                    aria-label="view details & options">
-                                                                                                                                                                                                    <img
-                                                                                                                                                                                                        src="images/edit.png">
-                                                                                                                                                                                                </a>
-                                                                                                                                                                                                &nbsp;
-
-                                                                                                                                                                                                <a type="button"
-                                                                                                                                                                                                    onclick="return confirm('Are you sure you want to delete <%= allProductDetails[u].ProductName %>?');"
-                                                                                                                                                                                                    href="/manageproducts/delete/<%= allProductDetails[u].ProductID %>"
-                                                                                                                                                                                                    style=" color: #6255a5;"
-                                                                                                                                                                                                    aria-label="view details & options">
-                                                                                                                                                                                                    <img
-                                                                                                                                                                                                        src="images/delete.png">
-                                                                                                                                                                                                </a>
+                                                                                                                                                                                                class="sr-col">
+                                                                                                                                                                                                NULL
                                                                                                                                                                                             </td>
                                                                                                                                                                                             <% } else
                                                                                                                                                                                                 {
                                                                                                                                                                                                 %>
-                                                                                                                                                                                                <td
-                                                                                                                                                                                                    class="action-img-td">
-                                                                                                                                                                                                    <a type="button"
-                                                                                                                                                                                                        href="/manageproducts/edit/<%= allProductDetails[u].ProductID %>"
-                                                                                                                                                                                                        style=" color: #6255a5;"
-                                                                                                                                                                                                        aria-label="view details & options">
-                                                                                                                                                                                                        <img
-                                                                                                                                                                                                            src="images/edit-purple.png">
-                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                    &nbsp;
-
-                                                                                                                                                                                                    <a type="button"
-                                                                                                                                                                                                        onclick="return confirm('Are you sure you want to restore <%= allProductDetails[u].ProductName %>?');"
-                                                                                                                                                                                                        href="/manageproducts/restore/<%= allProductDetails[u].ProductID %>"
-                                                                                                                                                                                                        style=" color: #6255a5;"
-                                                                                                                                                                                                        aria-label="view details & options">
-                                                                                                                                                                                                        <img style="height: 20px; width: 20px;"
-                                                                                                                                                                                                            src="images/Homepage/download.png">
-                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                <td class="sr-col"
+                                                                                                                                                                                                    style="color: #6255a5;">
+                                                                                                                                                                                                    <b>
+                                                                                                                                                                                                        <%=
+                                                                                                                                                                                                            allProductDetails[u].deletedAt.getDate()+'/'+(allProductDetails[u].deletedAt.getMonth()+1)+'/'+allProductDetails[u].deletedAt.getFullYear()%>
+                                                                                                                                                                                                    </b>
                                                                                                                                                                                                 </td>
                                                                                                                                                                                                 <% }
                                                                                                                                                                                                     %>
+                                                                                                                                                                                                    <% if(allProductDetails[u].deletedAt===null)
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                        %>
+                                                                                                                                                                                                        <td
+                                                                                                                                                                                                            class="action-img-td">
+                                                                                                                                                                                                            <a type="button"
+                                                                                                                                                                                                                href="/manageproducts/edit/<%= allProductDetails[u].ProductID %>"
+                                                                                                                                                                                                                style=" color: #6255a5;"
+                                                                                                                                                                                                                aria-label="view details & options">
+                                                                                                                                                                                                                <img
+                                                                                                                                                                                                                    src="images/edit.png">
+                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                            &nbsp;
+
+                                                                                                                                                                                                            <a type="button"
+                                                                                                                                                                                                                onclick="return confirm('Are you sure you want to delete <%= allProductDetails[u].ProductName %>?');"
+                                                                                                                                                                                                                href="/manageproducts/delete/<%= allProductDetails[u].ProductID %>"
+                                                                                                                                                                                                                style=" color: #6255a5;"
+                                                                                                                                                                                                                aria-label="view details & options">
+                                                                                                                                                                                                                <img
+                                                                                                                                                                                                                    src="images/delete.png">
+                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                        </td>
+                                                                                                                                                                                                        <% } else
+                                                                                                                                                                                                            {
+                                                                                                                                                                                                            %>
+                                                                                                                                                                                                            <td
+                                                                                                                                                                                                                class="action-img-td">
+                                                                                                                                                                                                                <a type="button"
+                                                                                                                                                                                                                    href="/manageproducts/edit/<%= allProductDetails[u].ProductID %>"
+                                                                                                                                                                                                                    style=" color: #6255a5;"
+                                                                                                                                                                                                                    aria-label="view details & options">
+                                                                                                                                                                                                                    <img
+                                                                                                                                                                                                                        src="images/edit-purple.png">
+                                                                                                                                                                                                                </a>
+                                                                                                                                                                                                                &nbsp;
+
+                                                                                                                                                                                                                <a type="button"
+                                                                                                                                                                                                                    onclick="return confirm('Are you sure you want to restore <%= allProductDetails[u].ProductName %>?');"
+                                                                                                                                                                                                                    href="/manageproducts/restore/<%= allProductDetails[u].ProductID %>"
+                                                                                                                                                                                                                    style=" color: #6255a5;"
+                                                                                                                                                                                                                    aria-label="view details & options">
+                                                                                                                                                                                                                    <img style="height: 20px; width: 20px;"
+                                                                                                                                                                                                                        src="images/Homepage/download.png">
+                                                                                                                                                                                                                </a>
+                                                                                                                                                                                                            </td>
+                                                                                                                                                                                                            <% }
+                                                                                                                                                                                                                %>
                                                 </tr>
                                                 <% } %>
                                         </tbody>
@@ -449,49 +459,49 @@
 
     <%- include('./include/footer.ejs') %>
 
-    <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("pager");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+        <script>
+            function myFunction() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("pager");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
                     }
                 }
             }
-        }
-    </script>
+        </script>
 
-    <script>
-        var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
+        <script>
+            var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
 
-        var comparer = function (idx, asc) {
-            return function (a, b) {
-                return function (v1, v2) {
-                    return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
-                }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
-            }
-        };
+            var comparer = function (idx, asc) {
+                return function (a, b) {
+                    return function (v1, v2) {
+                        return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+                    }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+                }
+            };
 
-        Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
-            th.addEventListener('click', function () {
-                var table = th.closest('table');
-                while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
-                Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
-                    .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
-                    .forEach(function (tr) { table.appendChild(tr) });
-            })
-        });
-    </script>
-    
-    <%- include('./include/script.link.ejs') %>
+            Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
+                th.addEventListener('click', function () {
+                    var table = th.closest('table');
+                    while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
+                    Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
+                        .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+                        .forEach(function (tr) { table.appendChild(tr) });
+                })
+            });
+        </script>
+
+        <%- include('./include/script.link.ejs') %>
 
 </body>

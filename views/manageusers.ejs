@@ -1,6 +1,6 @@
 <head>
   <%- include('./include/header.link.ejs') %>
-  <title>Manage Users</title>
+    <title>Manage Users</title>
 </head>
 
 <body style="background-color: #eee;">
@@ -92,12 +92,12 @@
                   <h3>Manage Users</h3>
                 </div>
 
-            <div class="my-3" style="width: 40%; margin-left: 76%;"> 
-              <input type="text" class="form-control search-ip input-field common-search" onkeyup="myFunction()"
-                  style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
-                  id="myInput" placeholder="Search by Username...">
-            </div>
-                  
+                <div class="my-3" style="width: 40%; margin-left: 76%;">
+                  <input type="text" class="form-control search-ip input-field common-search" onkeyup="myFunction()"
+                    style="display: inline-block; background: url(images/search.jpg) no-repeat scroll 10px 16px; background-color: white; padding-left:40px;"
+                    id="myInput" placeholder="Search by Username...">
+                </div>
+
                 <div class="table-responsive">
                   <table id="pager" class="table tablesorter data-table">
                     <thead>
@@ -239,52 +239,52 @@
       </div>
     </div>
   </section>
-  
+
   <%- include('./include/footer.ejs') %>
 
-  <script>
-    function myFunction() {
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("myInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("pager");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
+    <script>
+      function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("pager");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
           }
         }
       }
-    }
-  </script>
+    </script>
 
-  <script>
-    var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
+    <script>
+      var getCellValue = function (tr, idx) { return tr.children[idx].innerText || tr.children[idx].textContent; }
 
-    var comparer = function (idx, asc) {
-      return function (a, b) {
-        return function (v1, v2) {
-          return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
-        }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
-      }
-    };
+      var comparer = function (idx, asc) {
+        return function (a, b) {
+          return function (v1, v2) {
+            return v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2);
+          }(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+        }
+      };
 
-    Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
-      th.addEventListener('click', function () {
-        var table = th.closest('table');
-        while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
-        Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
-          .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
-          .forEach(function (tr) { table.appendChild(tr) });
-      })
-    });
-  </script>
+      Array.prototype.slice.call(document.querySelectorAll('th')).forEach(function (th) {
+        th.addEventListener('click', function () {
+          var table = th.closest('table');
+          while (table.tagName.toUpperCase() != 'TABLE') table = table.parentNode;
+          Array.prototype.slice.call(table.querySelectorAll('tr:nth-child(n+2)'))
+            .sort(comparer(Array.prototype.slice.call(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(function (tr) { table.appendChild(tr) });
+        })
+      });
+    </script>
 
-  <%- include('./include/script.link.ejs') %>
+    <%- include('./include/script.link.ejs') %>
 
 </body>

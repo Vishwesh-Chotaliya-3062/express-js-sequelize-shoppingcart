@@ -1,7 +1,7 @@
 <head>
     <%- include('./include/header.link.ejs') %>
-    <title>Status</title>
-    <link rel="stylesheet" href="/css/orderdetails.css">
+        <title>Status</title>
+        <link rel="stylesheet" href="/css/orderdetails.css">
 
 </head>
 
@@ -128,12 +128,13 @@
                 <div class="px-sm-5 px-2">CHECKOUT</div>
                 <div class="px-sm-5 px-2">PAYMENT</div>
                 <% if(Data1.Status=="failed" ) { %>
-                <div class="px-sm-5 px-2 active" style="color: #6255a5;">FAILURE <span class="fas fa-check"></span>
-                </div>
-                <% } else { %>
-                <div class="px-sm-5 px-2 active" style="color: #6255a5;">FINISH <span class="fas fa-check"></span>
-                </div>
-                <% } %>
+                    <div class="px-sm-5 px-2 active" style="color: #6255a5;">FAILURE <span class="fas fa-check"></span>
+                    </div>
+                    <% } else { %>
+                        <div class="px-sm-5 px-2 active" style="color: #6255a5;">FINISH <span
+                                class="fas fa-check"></span>
+                        </div>
+                        <% } %>
             </div>
             <div class="progress" style="width: 50%; margin-left: 380px;">
                 <div class="progress-bar bg-success" role="progressbar" style="width:550px" aria-valuenow="25"
@@ -423,6 +424,6 @@
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <%- include('./include/footer.ejs') %>
 
-    <%- include('./include/script.link.ejs') %>
+        <%- include('./include/script.link.ejs') %>
 
 </body>

@@ -90,7 +90,6 @@ exports.create = async (req, res) => {
                             include: { model: Wallet },
                           })
                             .then(async (data) => {
-
                               await Secretcode.create({
                                 Email: req.body.Email,
                                 Code: secretcode,
@@ -127,7 +126,7 @@ exports.create = async (req, res) => {
           await res.render("signup", { emailCheck });
         }
       })
-      .catch(async(err) => {
+      .catch(async (err) => {
         await res.json({
           error: err.message,
         });

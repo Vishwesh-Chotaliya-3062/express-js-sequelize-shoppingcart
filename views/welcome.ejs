@@ -293,21 +293,25 @@
                                     </a>
                                     <% } %>
                                         <% } %>
-                                        <% if(pages >= 10) { %>
-                                        <a >...</a>
-                                        <% } %>
+                                            <% if(pages>= 10) { %>
+                                                <a>...</a>
+                                                <% } %>
 
-                                            <% if (a==pageNumber) { %>
-                                                <a class="active"><%= pages %></a>
-                                                <% } else { %>
-                                                    <a href="?page=<%= pages %>"><%= pages %></a>
-                                                    <% } %>
+                                                    <% if (a==pageNumber) { %>
+                                                        <a class="active">
+                                                            <%= pages %>
+                                                        </a>
+                                                        <% } else { %>
+                                                            <a href="?page=<%= pages %>">
+                                                                <%= pages %>
+                                                            </a>
+                                                            <% } %>
 
-                                                        <% if(next>= pages) { %>
-                                                            <a href="?page=<%= pages; %>">&raquo;</a>
-                                                            <% } else { %>
-                                                                <a href="?page=<%= next; %>">&raquo;</a>
-                                                                <% } %>
+                                                                <% if(next>= pages) { %>
+                                                                    <a href="?page=<%= pages; %>">&raquo;</a>
+                                                                    <% } else { %>
+                                                                        <a href="?page=<%= next; %>">&raquo;</a>
+                                                                        <% } %>
         </div>
     </div>
 

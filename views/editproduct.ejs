@@ -1,6 +1,6 @@
 <head>
   <%- include('./include/header.link.ejs') %>
-  <title>Edit Product</title>
+    <title>Edit Product</title>
 </head>
 
 <body style="background-color: #eee;">
@@ -88,89 +88,94 @@
         <div class="row">
 
           <div class="col-xl-6 col-12-6 col-12">
-            <form action="/manageproducts/edit/<%= productDetails.ProductID %>" method="POST" enctype="multipart/form-data">
+            <form action="/manageproducts/edit/<%= productDetails.ProductID %>" method="POST"
+              enctype="multipart/form-data">
               <div class="ip-field">
                 <label for="" class="add-admin-lbl">* Product Name (aka Title)</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="ProductName" name="ProductName"
-                  value="<%= productDetails.ProductName %>" required readonly>
+                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field"
+                  id="ProductName" name="ProductName" value="<%= productDetails.ProductName %>" required readonly>
                 <img src="/images/edit-purple.png" id="toggleEditProductName" onclick="hello1()"
-                  style="margin-left: 500px; margin-top: -57px; width: 17px;">           
-                  <% if(locals.message) { %>
-                    <label for="password_error" class='label1'
-                      style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
-                      <%= message %>
-                    </label>
-                    <% } %>       
+                  style="margin-left: 500px; margin-top: -57px; width: 17px;">
+                <% if(locals.message) { %>
+                  <label for="password_error" class='label1'
+                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                    <%= message %>
+                  </label>
+                  <% } %>
               </div>
               <div class="ip-field">
                 <label for="" class="add-admin-lbl">* SKU</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="SKU" name="SKU"
-                  value="<%= productDetails.SKU %>" required readonly>
+                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field"
+                  id="SKU" name="SKU" value="<%= productDetails.SKU %>" required readonly>
                 <img src="/images/edit-purple.png" id="toggleEditSKU" onclick="hello2()"
                   style="margin-left: 500px; margin-top: -57px; width: 17px;">
-                  <% if(locals.message1) { %>
-                    <label for="password_error" class='label1'
-                      style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
-                      <%= message1 %>
-                    </label>
-                    <% } %>
+                <% if(locals.message1) { %>
+                  <label for="password_error" class='label1'
+                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                    <%= message1 %>
+                  </label>
+                  <% } %>
               </div>
               <div class="ip-field">
                 <label for="" class="add-admin-lbl">* Price</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="Price" name="Price"
-                  value="<%= productDetails.Price %>" required readonly>
+                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field"
+                  id="Price" name="Price" value="<%= productDetails.Price %>" required readonly>
                 <img src="/images/edit-purple.png" id="toggleEditPrice" onclick="hello3()"
                   style="margin-left: 500px; margin-top: -57px; width: 17px;">
               </div>
               <div class="ip-field">
                 <label for="" class="add-admin-lbl">* Quantity</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="QuantityLeft" name="QuantityLeft"
-                  value="<%= productDetails.QuantityLeft %>" required readonly>
+                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field"
+                  id="QuantityLeft" name="QuantityLeft" value="<%= productDetails.QuantityLeft %>" required readonly>
                 <img src="/images/edit-purple.png" id="toggleEditQuantity" onclick="hello4()"
                   style="margin-left: 500px; margin-top: -57px; width: 17px;">
               </div>
               <% if(locals.productImage) { %>
-              <div class="ip-field">
-                <label for="" class="add-admin-lbl">* Product Image</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="Image" name="Image"
-                  value="<%= productImage.Image %>" required readonly>
-                <img src="/images/edit-purple.png" id="toggleEditProductImage" onclick="hello5()"
-                  style="margin-left: 500px; margin-top: -57px; width: 17px;">
-              </div>
-              <% } else { %>
-              <div class="ip-field">
-                <label for="" class="add-admin-lbl">* Product Image</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="Image" name="Image"
-                  value="Add Image" required readonly>
-                <img src="/images/edit-purple.png" id="toggleEditProductImage" onclick="hello5()"
-                  style="margin-left: 500px; margin-top: -57px; width: 17px;">
-              </div>  
-              <% } %>
-              <div class="ip-field">
-                <label for="" class="add-admin-lbl">* Brand Name (aka Company Name)</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="CompanyName" name="CompanyName"
-                  value="<%= productDetails.CompanyName %>" required readonly>
-                <img src="/images/edit-purple.png" id="toggleEditCompanyName" onclick="hello6()"
-                  style="margin-left: 500px; margin-top: -57px; width: 17px;">
-              </div>
-              <div class="ip-field">
-                <label for="" class="add-admin-lbl">* Category</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="Category" name="Category"
-                  value="<%= productDetails.Category %>" required readonly>
-                <img src="/images/edit-purple.png" id="toggleEditCategory" onclick="hello7()"
-                  style="margin-left: 500px; margin-top: -57px; width: 17px;">
-              </div>
-              <div class="ip-field">
-                <label for="" class="add-admin-lbl">* Sub Category</label>
-                <input type="text" style="width:90%; color: #6255a5; font-weight: 700;" class="form-control input-field" id="SubCategory" name="SubCategory"
-                  value="<%= productDetails.SubCategory %>" required readonly>
-                <img src="/images/edit-purple.png" id="toggleEditSubCategory" onclick="hello8()"
-                  style="margin-left: 500px; margin-top: -57px; width: 17px;">
-              </div>
-              <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
-                <button type="submit" class="btn btn-login" style="width: 150px; margin-left: -440px;" id="submit"
-                  value="Sign Up" data-toggle="modal" onclick="myFunction()">SUBMIT</button>
-              </div>
+                <div class="ip-field">
+                  <label for="" class="add-admin-lbl">* Product Image</label>
+                  <input type="text" style="width:90%; color: #6255a5; font-weight: 700;"
+                    class="form-control input-field" id="Image" name="Image" value="<%= productImage.Image %>" required
+                    readonly>
+                  <img src="/images/edit-purple.png" id="toggleEditProductImage" onclick="hello5()"
+                    style="margin-left: 500px; margin-top: -57px; width: 17px;">
+                </div>
+                <% } else { %>
+                  <div class="ip-field">
+                    <label for="" class="add-admin-lbl">* Product Image</label>
+                    <input type="text" style="width:90%; color: #6255a5; font-weight: 700;"
+                      class="form-control input-field" id="Image" name="Image" value="Add Image" required readonly>
+                    <img src="/images/edit-purple.png" id="toggleEditProductImage" onclick="hello5()"
+                      style="margin-left: 500px; margin-top: -57px; width: 17px;">
+                  </div>
+                  <% } %>
+                    <div class="ip-field">
+                      <label for="" class="add-admin-lbl">* Brand Name (aka Company Name)</label>
+                      <input type="text" style="width:90%; color: #6255a5; font-weight: 700;"
+                        class="form-control input-field" id="CompanyName" name="CompanyName"
+                        value="<%= productDetails.CompanyName %>" required readonly>
+                      <img src="/images/edit-purple.png" id="toggleEditCompanyName" onclick="hello6()"
+                        style="margin-left: 500px; margin-top: -57px; width: 17px;">
+                    </div>
+                    <div class="ip-field">
+                      <label for="" class="add-admin-lbl">* Category</label>
+                      <input type="text" style="width:90%; color: #6255a5; font-weight: 700;"
+                        class="form-control input-field" id="Category" name="Category"
+                        value="<%= productDetails.Category %>" required readonly>
+                      <img src="/images/edit-purple.png" id="toggleEditCategory" onclick="hello7()"
+                        style="margin-left: 500px; margin-top: -57px; width: 17px;">
+                    </div>
+                    <div class="ip-field">
+                      <label for="" class="add-admin-lbl">* Sub Category</label>
+                      <input type="text" style="width:90%; color: #6255a5; font-weight: 700;"
+                        class="form-control input-field" id="SubCategory" name="SubCategory"
+                        value="<%= productDetails.SubCategory %>" required readonly>
+                      <img src="/images/edit-purple.png" id="toggleEditSubCategory" onclick="hello8()"
+                        style="margin-left: 500px; margin-top: -57px; width: 17px;">
+                    </div>
+                    <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
+                      <button type="submit" class="btn btn-login" style="width: 150px; margin-left: -440px;" id="submit"
+                        value="Sign Up" data-toggle="modal" onclick="myFunction()">SUBMIT</button>
+                    </div>
             </form>
           </div>
 
@@ -184,145 +189,145 @@
 
   <%- include('./include/footer.ejs') %>
 
-  <%- include('./include/script.label.ejs') %>
+    <%- include('./include/script.label.ejs') %>
 
-  <script>
-    function hello1() {
-      var link1 = document.getElementById("toggleEditProductName");
-      var new1 = link1.getAttribute("src");
-      var link2 = document.getElementById("ProductName");
+      <script>
+        function hello1() {
+          var link1 = document.getElementById("toggleEditProductName");
+          var new1 = link1.getAttribute("src");
+          var link2 = document.getElementById("ProductName");
 
-      var new1 = link1.getAttribute("src");
-      if (new1 === "/images/edit-purple.png") {
-        link1.setAttribute('src', "/images/edit-slash-purple.png");
-        link2.removeAttribute('readonly');
-      } else {
-        link1.setAttribute('src', "/images/edit-purple.png");
-        link2.setAttribute('readonly', true);
-      }
-    }
-  </script>
-  <script>
-    function hello2() {
-      var link1 = document.getElementById("toggleEditSKU");
-      var new1 = link1.getAttribute("src");
-      var link2 = document.getElementById("SKU");
+          var new1 = link1.getAttribute("src");
+          if (new1 === "/images/edit-purple.png") {
+            link1.setAttribute('src', "/images/edit-slash-purple.png");
+            link2.removeAttribute('readonly');
+          } else {
+            link1.setAttribute('src', "/images/edit-purple.png");
+            link2.setAttribute('readonly', true);
+          }
+        }
+      </script>
+      <script>
+        function hello2() {
+          var link1 = document.getElementById("toggleEditSKU");
+          var new1 = link1.getAttribute("src");
+          var link2 = document.getElementById("SKU");
 
-      var new1 = link1.getAttribute("src");
-      if (new1 === "/images/edit-purple.png") {
-        link1.setAttribute('src', "/images/edit-slash-purple.png");
-        link2.removeAttribute('readonly');
-      } else {
-        link1.setAttribute('src', "/images/edit-purple.png");
-        link2.setAttribute('readonly', true);
-      }
-    }
-  </script>
-  <script>
-    function hello3() {
-      var link1 = document.getElementById("toggleEditPrice");
-      var new1 = link1.getAttribute("src");
-      var link2 = document.getElementById("Price");
+          var new1 = link1.getAttribute("src");
+          if (new1 === "/images/edit-purple.png") {
+            link1.setAttribute('src', "/images/edit-slash-purple.png");
+            link2.removeAttribute('readonly');
+          } else {
+            link1.setAttribute('src', "/images/edit-purple.png");
+            link2.setAttribute('readonly', true);
+          }
+        }
+      </script>
+      <script>
+        function hello3() {
+          var link1 = document.getElementById("toggleEditPrice");
+          var new1 = link1.getAttribute("src");
+          var link2 = document.getElementById("Price");
 
-      var new1 = link1.getAttribute("src");
-      if (new1 === "/images/edit-purple.png") {
-        link1.setAttribute('src', "/images/edit-slash-purple.png");
-        link2.removeAttribute('readonly');
-      } else {
-        link1.setAttribute('src', "/images/edit-purple.png");
-        link2.setAttribute('readonly', true);
-      }
-    }
-  </script>
-  <script>
-    function hello4() {
-      var link1 = document.getElementById("toggleEditQuantity");
-      var link2 = document.getElementById("QuantityLeft");
+          var new1 = link1.getAttribute("src");
+          if (new1 === "/images/edit-purple.png") {
+            link1.setAttribute('src', "/images/edit-slash-purple.png");
+            link2.removeAttribute('readonly');
+          } else {
+            link1.setAttribute('src', "/images/edit-purple.png");
+            link2.setAttribute('readonly', true);
+          }
+        }
+      </script>
+      <script>
+        function hello4() {
+          var link1 = document.getElementById("toggleEditQuantity");
+          var link2 = document.getElementById("QuantityLeft");
 
-      var new1 = link1.getAttribute("src");
-      if (new1 === "/images/edit-purple.png") {
-        link1.setAttribute('src', "/images/edit-slash-purple.png");
-        link2.removeAttribute('readonly');
-      } else {
-        link1.setAttribute('src', "/images/edit-purple.png");
-        link2.setAttribute('readonly', true);
-      }
-    }
-  </script>
-  <script>
-    function hello5() {
-      var link1 = document.getElementById("toggleEditProductImage");
-      var new1 = link1.getAttribute("src");
-      if (new1 === "/images/edit-purple.png") {
-        link1.setAttribute('src', "/images/edit-slash-purple - Copy.png");
-      } else {
-        link1.setAttribute('src', "/images/edit-purple.png");
-      }
+          var new1 = link1.getAttribute("src");
+          if (new1 === "/images/edit-purple.png") {
+            link1.setAttribute('src', "/images/edit-slash-purple.png");
+            link2.removeAttribute('readonly');
+          } else {
+            link1.setAttribute('src', "/images/edit-purple.png");
+            link2.setAttribute('readonly', true);
+          }
+        }
+      </script>
+      <script>
+        function hello5() {
+          var link1 = document.getElementById("toggleEditProductImage");
+          var new1 = link1.getAttribute("src");
+          if (new1 === "/images/edit-purple.png") {
+            link1.setAttribute('src', "/images/edit-slash-purple - Copy.png");
+          } else {
+            link1.setAttribute('src', "/images/edit-purple.png");
+          }
 
-      var x = document.getElementById('Image');
-      if (x.type === "text") {
-        x.type = "file";
-      } else {
-        x.type = "text";
-      }
-    }
-  </script>
-  <script>
-    function hello6() {
-      var link1 = document.getElementById("toggleEditCompanyName");
-      var new1 = link1.getAttribute("src");
-      var link2 = document.getElementById("CompanyName");
+          var x = document.getElementById('Image');
+          if (x.type === "text") {
+            x.type = "file";
+          } else {
+            x.type = "text";
+          }
+        }
+      </script>
+      <script>
+        function hello6() {
+          var link1 = document.getElementById("toggleEditCompanyName");
+          var new1 = link1.getAttribute("src");
+          var link2 = document.getElementById("CompanyName");
 
-      var new1 = link1.getAttribute("src");
-      if (new1 === "/images/edit-purple.png") {
-        link1.setAttribute('src', "/images/edit-slash-purple.png");
-        link2.removeAttribute('readonly');
-      } else {
-        link1.setAttribute('src', "/images/edit-purple.png");
-        link2.setAttribute('readonly', true);
-      }
-    }
-  </script>
-  <script>
-    function hello7() {
-      var link1 = document.getElementById("toggleEditCategory");
-      var new1 = link1.getAttribute("src");
-      var link2 = document.getElementById("Category");
+          var new1 = link1.getAttribute("src");
+          if (new1 === "/images/edit-purple.png") {
+            link1.setAttribute('src', "/images/edit-slash-purple.png");
+            link2.removeAttribute('readonly');
+          } else {
+            link1.setAttribute('src', "/images/edit-purple.png");
+            link2.setAttribute('readonly', true);
+          }
+        }
+      </script>
+      <script>
+        function hello7() {
+          var link1 = document.getElementById("toggleEditCategory");
+          var new1 = link1.getAttribute("src");
+          var link2 = document.getElementById("Category");
 
-      var new1 = link1.getAttribute("src");
-      if (new1 === "/images/edit-purple.png") {
-        link1.setAttribute('src', "/images/edit-slash-purple.png");
-        link2.removeAttribute('readonly');
-      } else {
-        link1.setAttribute('src', "/images/edit-purple.png");
-        link2.setAttribute('readonly', true);
-      }
-    }
-  </script>
-  <script>
-    function hello8() {
-      var link1 = document.getElementById("toggleEditSubCategory");
-      var new1 = link1.getAttribute("src");
-      var link2 = document.getElementById("SubCategory");
+          var new1 = link1.getAttribute("src");
+          if (new1 === "/images/edit-purple.png") {
+            link1.setAttribute('src', "/images/edit-slash-purple.png");
+            link2.removeAttribute('readonly');
+          } else {
+            link1.setAttribute('src', "/images/edit-purple.png");
+            link2.setAttribute('readonly', true);
+          }
+        }
+      </script>
+      <script>
+        function hello8() {
+          var link1 = document.getElementById("toggleEditSubCategory");
+          var new1 = link1.getAttribute("src");
+          var link2 = document.getElementById("SubCategory");
 
-      var new1 = link1.getAttribute("src");
-      if (new1 === "/images/edit-purple.png") {
-        link1.setAttribute('src', "/images/edit-slash-purple.png");
-        link2.removeAttribute('readonly');
-      } else {
-        link1.setAttribute('src', "/images/edit-purple.png");
-        link2.setAttribute('readonly', true);
-      }
-    }
-  </script>
-  
-  <script>
-    function myFunction() {
-      const a = document.getElementById('ProductName');
-      alert(`Product ${a.value} updated successfully`);
-    }
-  </script>
+          var new1 = link1.getAttribute("src");
+          if (new1 === "/images/edit-purple.png") {
+            link1.setAttribute('src', "/images/edit-slash-purple.png");
+            link2.removeAttribute('readonly');
+          } else {
+            link1.setAttribute('src', "/images/edit-purple.png");
+            link2.setAttribute('readonly', true);
+          }
+        }
+      </script>
 
-  <%- include('./include/script.link.ejs') %>
+      <script>
+        function myFunction() {
+          const a = document.getElementById('ProductName');
+          alert(`Product ${a.value} updated successfully`);
+        }
+      </script>
+
+      <%- include('./include/script.link.ejs') %>
 
 </body>

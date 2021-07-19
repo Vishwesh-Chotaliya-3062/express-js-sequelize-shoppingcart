@@ -27,7 +27,6 @@ exports.getUserProfile = async (req, res, next) => {
       await res.redirect("/login");
     } else {
       try {
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             await res.redirect("/login");

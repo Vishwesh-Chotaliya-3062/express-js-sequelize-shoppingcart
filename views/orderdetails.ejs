@@ -1,9 +1,9 @@
 <head>
     <%- include('./include/header.link.ejs') %>
-    <title>Order Details</title>
-    <link rel="stylesheet" href="css/orderdetails.css">
-    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
-    <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css'>
+        <title>Order Details</title>
+        <link rel="stylesheet" href="css/orderdetails.css">
+        <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
+        <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css'>
 </head>
 
 <body>
@@ -314,10 +314,11 @@
                                     <% for(product in productQuantity) { %>
                                         <div
                                             class="d-flex jusitfy-content-between align-items-center pt-3 pb-2 border-bottom">
-                                            <div class="item pr-2"> 
-                                                <img style="border: 0.5px solid #d3d2d4;" src="images/upload_product_images/<%= productQuantity[product].product.ProductName %>__<%= productQuantity[product].product.CompanyName %>__<%= productQuantity[product].product.Category %>__<%= productQuantity[product].product.SubCategory %>.png"
-                                                onerror="this.onerror=null; this.src='/images/No_Image.png'" width="80"
-                                                    height="80">
+                                            <div class="item pr-2">
+                                                <img style="border: 0.5px solid #d3d2d4;"
+                                                    src="images/upload_product_images/<%= productQuantity[product].product.ProductName %>__<%= productQuantity[product].product.CompanyName %>__<%= productQuantity[product].product.Category %>__<%= productQuantity[product].product.SubCategory %>.png"
+                                                    onerror="this.onerror=null; this.src='/images/No_Image.png'"
+                                                    width="80" height="80">
                                                 <div class="number"
                                                     style="height: 31px; width: 33px; padding-top: 2px; text-align: center; background-color: #6255a5;">
                                                     <%= productQuantity[product].Quantity %>
@@ -417,8 +418,8 @@
 
     <%- include('./include/footer.ejs') %>
 
-    <%- include('./include/script.link.ejs') %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+        <%- include('./include/script.link.ejs') %>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 
 </body>

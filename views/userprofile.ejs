@@ -1,422 +1,422 @@
 <head>
   <%- include('./include/header.link.ejs') %>
-  <title>My Profile</title>
-  <link rel="stylesheet" href="/css/profile.scss">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="/css/profile.scss">
 </head>
 
 <body style="background-color: #eee;">
 
   <% for(u in userDetails) { %>
-    <% if(userDetails[u].UserName === 'admin')  { %>
-      <section id="nav-header" style="height: 100px;">
-        <header>
-            <nav class="navbar navbar-expand-md fixed-top white-nav">
-                <div class="container">
-                    <div class="img-logo">
-                        <a href="/welcome" class="navbar-brand">
-                            <img src="images/logo.png" class="img-fluid" alt="">
-                        </a>
-                    </div>
-
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
-                        id="navbarSupportedContent">
-                        <ul class="navbar-nav" style="margin-left: auto;">
-
-                            <li class="nav-item">
-                                <div class="dropdown">
-
-                                    <a class="nav-link purple-link"><b style="color: #6255a5;">MANAGE PRODUCTS</b></a>
-
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="/addproduct">Add Products</a>
-                                        <a class="dropdown-item" href="/manageproducts">Edit Products</a>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link purple-link" href="/manageusers">MANAGE USERS</a>
-                            </li>
-                            <% for(let user in userDetails) { %>
-                                <% if(userDetails[user].Status=='pending' ) { %>
-                                    <li class="nav-item">
-                                        <a id="nav-btn" style="width: 150px;"
-                                            class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                            href="<%= link %>" role="button">VERIFY EMAIL</a>
-                                    </li>
-                                    <% } %>
-                                        <% } %>
-                                            <li class="nav-item">
-                                                <div class="dropdown">
-                                                    <% if(ab) { %>
-                                                        <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <img src="images/upload_images/<%= ab.Image %>"
-                                                                style="width: 40px; height: 50px; border-radius: 50%;"
-                                                                alt="">
-                                                        </a>
-                                                        <% } %>
-                                                            <% if(!ab) { %>
-                                                                <a style="cursor: pointer;"
-                                                                    class="nav-link purple-link pro-pic"
-                                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false">
-                                                                    <img src="images/default-profile-picture1.jpg"
-                                                                        style="width: 40px; height: 50px; border-radius: 50%;"
-                                                                        alt="">
-                                                                </a>
-                                                                <% } %>
-                                                                    <div class="dropdown-menu"
-                                                                        aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item"
-                                                                            href="/userprofile">Update Profile</a>
-                                                                        <a class="dropdown-item"
-                                                                            href="/changepassword">Change Password</a>
-                                                                        <a class="dropdown-item" href="/logout"
-                                                                            style="color: #6255a5;">LOGOUT</a>
-                                                                    </div>
-                                                </div>
-                                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-    </section>
-    <% } else { %>
+    <% if(userDetails[u].UserName==='admin' ) { %>
       <section id="nav-header" style="height: 100px;">
         <header>
           <nav class="navbar navbar-expand-md fixed-top white-nav">
             <div class="container">
               <div class="img-logo">
                 <a href="/welcome" class="navbar-brand">
-                  <img src="/images/logo.png" class="img-fluid" alt="">
+                  <img src="images/logo.png" class="img-fluid" alt="">
                 </a>
               </div>
-    
+
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
-    
-              <div class="collapse navbar-collapse" style="margin-left: auto; float: right;" id="navbarSupportedContent">
+
+              <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
+                id="navbarSupportedContent">
                 <ul class="navbar-nav" style="margin-left: auto;">
+
                   <li class="nav-item">
-                    <a class="nav-link purple-link" href="/welcome">HOME</a>
+                    <div class="dropdown">
+
+                      <a class="nav-link purple-link"><b style="color: #6255a5;">MANAGE PRODUCTS</b></a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/addproduct">Add Products</a>
+                        <a class="dropdown-item" href="/manageproducts">Edit Products</a>
+                      </div>
+                    </div>
                   </li>
-    
+
                   <li class="nav-item">
-                    <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
-                        <%= walletBalance %>
-                      </b>)</a>
+                    <a class="nav-link purple-link" href="/manageusers">MANAGE USERS</a>
                   </li>
-    
-                  <% if(!cartCount) { %>
-                    <li class="nav-item">
-                      <a class="nav-link purple-link" href="/cart">CART</a>
-                    </li>
-    
-                    <% } else{ %>
+                  <% for(let user in userDetails) { %>
+                    <% if(userDetails[user].Status=='pending' ) { %>
                       <li class="nav-item">
-                        <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
-                            <%= cartCount %>
-                          </b>)</a>
+                        <a id="nav-btn" style="width: 150px;"
+                          class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                          href="<%= link %>" role="button">VERIFY EMAIL</a>
                       </li>
                       <% } %>
-    
-                        <% if(!countCouponcode) { %>
+                        <% } %>
                           <li class="nav-item">
-                            <a class="nav-link purple-link" href="/couponcode" style="color: #6255a5;">COUPON CODE</a>
-                          </li>
-    
-                          <% } else{ %>
-                            <li class="nav-item">
-                              <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b style="color: #6255a6;">
-                                  <%= countCouponcode %>
-                                </b>)</a>
-                            </li>
-                            <% } %>
-                              <li class="nav-item">
-                                <a class="nav-link purple-link" href="/history">
-                                  MY ORDERS
+                            <div class="dropdown">
+                              <% if(ab) { %>
+                                <a style="cursor: pointer;" class="nav-link purple-link pro-pic" data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="false">
+                                  <img src="images/upload_images/<%= ab.Image %>"
+                                    style="width: 40px; height: 50px; border-radius: 50%;" alt="">
                                 </a>
-                              </li>
-                              <% for(let user in userDetails) { %>
-                                <% if(userDetails[user].Status=='pending' ) { %>
-                                  <li class="nav-item">
-                                    <a id="nav-btn" style="width: 150px;"
-                                      class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                      href="<%= link %>" role="button">VERIFY EMAIL</a>
-                                  </li>
-                                  <% } %>
+                                <% } %>
+                                  <% if(!ab) { %>
+                                    <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
+                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <img src="images/default-profile-picture1.jpg"
+                                        style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                    </a>
                                     <% } %>
-                                      <li class="nav-item">
-                                        <div class="dropdown">
-                                          <% if(ab) { %>
-                                            <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
-                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                              <img src="/images/upload_images/<%= ab.Image %>"
-                                                style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                            </a>
-                                            <% } %>
-                                              <% if(!ab) { %>
-                                                <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
-                                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                  <img src="/images/default-profile-picture1.jpg"
-                                                    style="width: 40px; height: 50px; border-radius: 50%;" alt="">
-                                                </a>
-                                                <% } %>
-                                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="/userprofile">Update Profile</a>
-                                                    <a class="dropdown-item" href="/changepassword">Change Password</a>
-                                                    <a class="dropdown-item" href="/logout"
-                                                      style="color: #6255a5;">LOGOUT</a>
-                                                  </div>
-                                        </div>
-                                      </li>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                        <a class="dropdown-item" href="/changepassword">Change Password</a>
+                                        <a class="dropdown-item" href="/logout" style="color: #6255a5;">LOGOUT</a>
+                                      </div>
+                            </div>
+                          </li>
                 </ul>
               </div>
             </div>
           </nav>
         </header>
       </section>
-    <% } %>
-  <% } %>
-
-  <section id="user-profile">
-    <div class="container">
-      <form action="/userprofile" method="POST" enctype="multipart/form-data">
-        <div id="user-profile-details">
-          <div class="user-profile-heading">
-            <h3>Basic Profile Details</h3>
-          </div>
-
-          <div class="col-xl-6 col-md-6 col-12" style="margin-left: 0px; margin-top: 80px; width: 150px;">
-            <label for="user-profile-display-picture" class="input-file" style="border-color: #eee; ">
-              <div class="inside-lbl">
-                <% if(ab) { %>
-                  <img src="/images/upload_images/<%= ab.Image %>" class="image1"
-                    style="border-radius: 50%; border: 4px solid #6255a5; height: 150px; width: 150px;" alt="">
-                  <img src="/images/edit-purple.png" class="images1"
-                    style="height: 30px; width: 30px; margin-left: 10px; margin-top: -85px;" alt="">
-                  <% } %>
-                    <% if(!ab) { %>
-                      <img src="/images/profile default.jpg" class="image1"
-                        style="border-radius: 50%; height: 150px; width: 150px;" alt="">
-                      <div class="overlay">
-                        <img src="/images/edit-purple.png" class="images1"
-                          style="height: 30px; width: 30px; margin-left: 10px; margin-top: -85px;" alt="">
-                      </div>
-                      <% } %>
-
-                        <p>Upload a photo</p>
-              </div>
-            </label>
-            <input type="file" class="form-control input-field" id="user-profile-display-picture"
-              name="UserProfileImage" accept="image/png, image/gif, image/jpeg" placeholder="Upload a photo">
-          </div>
-
-          <div class="column" style="margin-left: 220px; margin-top: -175px;">
-            <% for(u in userDetails) { %>
-              <div class="col-xl-6 col-md-6 col-12">
-                <label for="user-profile-fname" class="add-note-lbl">Username*</label>
-                <input type="text" class="form-control input-field" id="UserProfileName" name="UserProfileName"
-                  value="<%= userDetails[u].UserName %>" style="border: 1px solid #6255a5;" required readonly>
-                <img src="/images/edit.png" id="toggleEditUsername" onclick="hello1()"
-                  style="margin-left: 430px; margin-top: -57px; width: 17px;">
-                <% if(locals.msg) { %>
-                  <label for="password_error" class='label1'
-                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
-                    <%= msg %>
-                  </label>
-                  <% } %>
-                    <% if(typeof alert !='undefined' ) { %>
-                      <% if(alert[0].msg=="User Name must be 3+ characters long" ) { %>
-                        <label class="label1" for="password_error"
-                          style="color: red; margin-left: 0px; margin-top: -25px; margin-bottom: 0px; font-size: 12px;">
-                          <%= alert[0].msg %>
-                        </label>
-                        <% } %>
-                          <% } %>
-              </div>
-
-              <div class="col-xl-6 col-md-6 col-12">
-                <label for="user-profile-email" class="add-note-lbl">Email*</label>
-                <input type="text" class="form-control input-field" id="UserProfileEmail" name="UserProfileEmail"
-                  value="<%= userDetails[u].Email %>" style="border: 1px solid #6255a5;" required readonly>
-                <img src="/images/edit.png" id="toggleEditEmail" onClick="hello2()"
-                  style="margin-left: 430px; margin-top: -57px; width: 17px;">
-                <% if(locals.msg1) { %>
-                  <label for="password_error" class='label1'
-                    style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
-                    <%= msg1 %>
-                  </label>
-                  <% } %>
-                    <% if(typeof alert !='undefined' ) { %>
-                      <% if(alert[0].msg=="Email is not valid" ) { %>
-                        <div style="margin-bottom: -40px;">
-                          <label class="label1" for="password_error"
-                            style="color: red; margin-left: 0px; margin-top: -25px; margin-bottom: 0px; font-size: 12px;">
-                            <%= alert[0].msg %>
-                          </label>
-                        </div>
-                        <% } %>
-                          <% } %>
-              </div>
-              <% } %>
-          </div>
-        </div>
-        <% if(locals.message) { %>
-          <label for="password_error" class='label1'
-            style="color: red; margin-left: 5px; margin-top: -10px; font-size: 12px;">
-            <%= message %>
-          </label>
-          <% } %>
-            <% for(u in userDetails) { %>
-              <% if(userAddress) { %>
-                <div id="address-details" style="margin-top: -25px;">
-
-                  <div class="user-profile-heading">
-                    <h3>Address Details</h3>
-                  </div>
-
-                  <div class="row" style="margin-left: -10px;">
-                    <div class="col-xl-6 col-md-6 col-12">
-                      <label for="addr-ln-1" class="add-note-lbl">Address*</label>
-                      <textarea style="height: 90px; margin-bottom: 25px;" class="form-control input-field" id="addr"
-                        name="addr" required><%= userAddress.Address %></textarea>
-                    </div>
-
-                    <div class="col-xl-6 col-md-6 col-12">
-                      <label for="addrCity" class="add-note-lbl">City*</label>
-                      <input type="text" class="form-control input-field" id="addrCity" name="addrCity"
-                        value="<%= userAddress.City %>" required>
-                    </div>
-
-                    <div class="col-xl-6 col-md-6 col-12">
-                      <label for="addrState" class="add-note-lbl">State*</label>
-                      <input type="text" class="form-control input-field" id="addrState" name="addrState"
-                        value="<%= userAddress.State %>" required>
-                    </div>
-
-                    <div class="col-xl-6 col-md-6 col-12">
-                      <label for="addrZip" class="add-note-lbl">ZipCode*</label>
-                      <input type="number" min="0" class="form-control input-field" id="addrZip" name="addrZip"
-                        value="<%= userAddress.Zipcode %>" required>
-                    </div>
-
-                    <div class="col-xl-6 col-md-6 col-12">
-                      <label for="addrCountry" class="add-note-lbl">Country*</label>
-                      <div>
-                        <select class="form-control" id="addrCountry" name="addrCountry" style="margin-bottom: 25px;">
-                          <option value="<%= userAddress.Country %>" selected hidden>
-                            <%= userAddress.Country %>
-                          </option>
-                          <option value="INDIA">INDIA</option>
-                          <option value="USA">USA</option>
-                          <option value="UK">UK</option>
-                          <option value="CANADA">CANADA</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
+      <% } else { %>
+        <section id="nav-header" style="height: 100px;">
+          <header>
+            <nav class="navbar navbar-expand-md fixed-top white-nav">
+              <div class="container">
+                <div class="img-logo">
+                  <a href="/welcome" class="navbar-brand">
+                    <img src="/images/logo.png" class="img-fluid" alt="">
+                  </a>
                 </div>
-                <% } %>
-                  <% if(!userAddress) { %>
-                    <div id="address-details">
 
-                      <div class="user-profile-heading">
-                        <h3>Address Details</h3>
-                      </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                  data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
 
-                      <div class="row" style="margin-left: -15px;">
-                        <div class="col-xl-6 col-md-6 col-12">
-                          <label for="addr-ln-1" class="add-note-lbl">Address*</label>
-                          <textarea style="height: 90px; margin-bottom: 25px;" id="addr" name="addr"
-                            class="form-control input-field" placeholder="Enter your Address" required></textarea>
-                        </div>
+                <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
+                  id="navbarSupportedContent">
+                  <ul class="navbar-nav" style="margin-left: auto;">
+                    <li class="nav-item">
+                      <a class="nav-link purple-link" href="/welcome">HOME</a>
+                    </li>
 
-                        <div class="col-xl-6 col-md-6 col-12">
-                          <label for="addrCity" class="add-note-lbl">City*</label>
-                          <input type="text" class="form-control input-field" id="addrCity" name="addrCity"
-                            placeholder="Enter your City" required>
-                        </div>
+                    <li class="nav-item">
+                      <a class="nav-link purple-link" href="wallet">WALLET( $<b style="color: #6255a6;">
+                          <%= walletBalance %>
+                        </b>)</a>
+                    </li>
 
-                        <div class="col-xl-6 col-md-6 col-12">
-                          <label for="addrState" class="add-note-lbl">State*</label>
-                          <input type="text" class="form-control input-field" id="addrState" name="addrState"
-                            placeholder="Enter your State" required>
-                        </div>
+                    <% if(!cartCount) { %>
+                      <li class="nav-item">
+                        <a class="nav-link purple-link" href="/cart">CART</a>
+                      </li>
 
-                        <div class="col-xl-6 col-md-6 col-12">
-                          <label for="addrZip" class="add-note-lbl">ZipCode*</label>
-                          <input type="number" min="0" class="form-control input-field" id="addrZip" name="addrZip"
-                            placeholder="Enter your Zipcode" required>
-                        </div>
+                      <% } else{ %>
+                        <li class="nav-item">
+                          <a class="nav-link purple-link" href="/cart">CART(<b style="color: #6255a6;">
+                              <%= cartCount %>
+                            </b>)</a>
+                        </li>
+                        <% } %>
 
-                        <div class="col-xl-6 col-md-6 col-12">
-                          <label for="addrCountry" class="add-note-lbl">Country*</label>
-                          <div>
-                            <select class="form-control" id="addrCountry" name="addrCountry"
-                              style="margin-bottom: 25px;" required>
-                              <option value="" selected hidden>Select your country</option>
-                              <option value="INDIA">INDIA</option>
-                              <option value="USA">USA</option>
-                              <option value="UK">UK</option>
-                              <option value="CANADA">CANADA</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
+                          <% if(!countCouponcode) { %>
+                            <li class="nav-item">
+                              <a class="nav-link purple-link" href="/couponcode" style="color: #6255a5;">COUPON CODE</a>
+                            </li>
+
+                            <% } else{ %>
+                              <li class="nav-item">
+                                <a class="nav-link purple-link" href="/couponcode">COUPON CODE (<b
+                                    style="color: #6255a6;">
+                                    <%= countCouponcode %>
+                                  </b>)</a>
+                              </li>
+                              <% } %>
+                                <li class="nav-item">
+                                  <a class="nav-link purple-link" href="/history">
+                                    MY ORDERS
+                                  </a>
+                                </li>
+                                <% for(let user in userDetails) { %>
+                                  <% if(userDetails[user].Status=='pending' ) { %>
+                                    <li class="nav-item">
+                                      <a id="nav-btn" style="width: 150px;"
+                                        class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                        href="<%= link %>" role="button">VERIFY EMAIL</a>
+                                    </li>
+                                    <% } %>
+                                      <% } %>
+                                        <li class="nav-item">
+                                          <div class="dropdown">
+                                            <% if(ab) { %>
+                                              <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="/images/upload_images/<%= ab.Image %>"
+                                                  style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                              </a>
+                                              <% } %>
+                                                <% if(!ab) { %>
+                                                  <a style="cursor: pointer;" class="nav-link purple-link pro-pic"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="/images/default-profile-picture1.jpg"
+                                                      style="width: 40px; height: 50px; border-radius: 50%;" alt="">
+                                                  </a>
+                                                  <% } %>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                      <a class="dropdown-item" href="/userprofile">Update Profile</a>
+                                                      <a class="dropdown-item" href="/changepassword">Change
+                                                        Password</a>
+                                                      <a class="dropdown-item" href="/logout"
+                                                        style="color: #6255a5;">LOGOUT</a>
+                                                    </div>
+                                          </div>
+                                        </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </header>
+        </section>
+        <% } %>
+          <% } %>
+
+            <section id="user-profile">
+              <div class="container">
+                <form action="/userprofile" method="POST" enctype="multipart/form-data">
+                  <div id="user-profile-details">
+                    <div class="user-profile-heading">
+                      <h3>Basic Profile Details</h3>
                     </div>
-                    <% } %>
-                      <% } %>
-                        <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
-                          <button type="submit" class="btn btn-login" style="width: 150px; margin-left: -1060px;"
-                            id="submit" value="Sign Up" data-toggle="modal">SUBMIT</button>
+
+                    <div class="col-xl-6 col-md-6 col-12" style="margin-left: 0px; margin-top: 80px; width: 150px;">
+                      <label for="user-profile-display-picture" class="input-file" style="border-color: #eee; ">
+                        <div class="inside-lbl">
+                          <% if(ab) { %>
+                            <img src="/images/upload_images/<%= ab.Image %>" class="image1"
+                              style="border-radius: 50%; border: 4px solid #6255a5; height: 150px; width: 150px;"
+                              alt="">
+                            <img src="/images/edit-purple.png" class="images1"
+                              style="height: 30px; width: 30px; margin-left: 10px; margin-top: -85px;" alt="">
+                            <% } %>
+                              <% if(!ab) { %>
+                                <img src="/images/profile default.jpg" class="image1"
+                                  style="border-radius: 50%; height: 150px; width: 150px;" alt="">
+                                <div class="overlay">
+                                  <img src="/images/edit-purple.png" class="images1"
+                                    style="height: 30px; width: 30px; margin-left: 10px; margin-top: -85px;" alt="">
+                                </div>
+                                <% } %>
+
+                                  <p>Upload a photo</p>
                         </div>
-      </form>
-    </div>
-  </section>
+                      </label>
+                      <input type="file" class="form-control input-field" id="user-profile-display-picture"
+                        name="UserProfileImage" accept="image/png, image/gif, image/jpeg" placeholder="Upload a photo">
+                    </div>
 
-  <%- include('./include/footer.ejs') %>
+                    <div class="column" style="margin-left: 220px; margin-top: -175px;">
+                      <% for(u in userDetails) { %>
+                        <div class="col-xl-6 col-md-6 col-12">
+                          <label for="user-profile-fname" class="add-note-lbl">Username*</label>
+                          <input type="text" class="form-control input-field" id="UserProfileName"
+                            name="UserProfileName" value="<%= userDetails[u].UserName %>"
+                            style="border: 1px solid #6255a5;" required readonly>
+                          <img src="/images/edit.png" id="toggleEditUsername" onclick="hello1()"
+                            style="margin-left: 430px; margin-top: -57px; width: 17px;">
+                          <% if(locals.msg) { %>
+                            <label for="password_error" class='label1'
+                              style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                              <%= msg %>
+                            </label>
+                            <% } %>
+                              <% if(typeof alert !='undefined' ) { %>
+                                <% if(alert[0].msg=="User Name must be 3+ characters long" ) { %>
+                                  <label class="label1" for="password_error"
+                                    style="color: red; margin-left: 0px; margin-top: -25px; margin-bottom: 0px; font-size: 12px;">
+                                    <%= alert[0].msg %>
+                                  </label>
+                                  <% } %>
+                                    <% } %>
+                        </div>
 
-  <%- include('./include/script.link.ejs') %>
+                        <div class="col-xl-6 col-md-6 col-12">
+                          <label for="user-profile-email" class="add-note-lbl">Email*</label>
+                          <input type="text" class="form-control input-field" id="UserProfileEmail"
+                            name="UserProfileEmail" value="<%= userDetails[u].Email %>"
+                            style="border: 1px solid #6255a5;" required readonly>
+                          <img src="/images/edit.png" id="toggleEditEmail" onClick="hello2()"
+                            style="margin-left: 430px; margin-top: -57px; width: 17px;">
+                          <% if(locals.msg1) { %>
+                            <label for="password_error" class='label1'
+                              style="color: red; margin-left: 0px; margin-top: -25px; font-size: 12px;">
+                              <%= msg1 %>
+                            </label>
+                            <% } %>
+                              <% if(typeof alert !='undefined' ) { %>
+                                <% if(alert[0].msg=="Email is not valid" ) { %>
+                                  <div style="margin-bottom: -40px;">
+                                    <label class="label1" for="password_error"
+                                      style="color: red; margin-left: 0px; margin-top: -25px; margin-bottom: 0px; font-size: 12px;">
+                                      <%= alert[0].msg %>
+                                    </label>
+                                  </div>
+                                  <% } %>
+                                    <% } %>
+                        </div>
+                        <% } %>
+                    </div>
+                  </div>
+                  <% if(locals.message) { %>
+                    <label for="password_error" class='label1'
+                      style="color: red; margin-left: 5px; margin-top: -10px; font-size: 12px;">
+                      <%= message %>
+                    </label>
+                    <% } %>
+                      <% for(u in userDetails) { %>
+                        <% if(userAddress) { %>
+                          <div id="address-details" style="margin-top: -25px;">
 
-    <script>
-      function hello1() {
-        var link1 = document.getElementById("toggleEditUsername");
-        var new1 = link1.getAttribute("src");
-        if (new1 === "/images/edit.png") {
-          link1.setAttribute('src', "/images/edit-slash.png");
-          $("#UserProfileName").attr("readonly", false);
-        } else {
-          link1.setAttribute('src', "/images/edit.png");
-          $("#UserProfileName").attr("readonly", true);
-        }
-      }
-    </script>
-    <script>
-      function hello2() {
-        var link1 = document.getElementById("toggleEditEmail");
-        var new1 = link1.getAttribute("src");
-        if (new1 === "/images/edit.png") {
-          link1.setAttribute('src', "/images/edit-slash.png");
-          $("#UserProfileEmail").attr("readonly", false);
-        } else {
-          link1.setAttribute('src', "/images/edit.png");
-          $("#UserProfileEmail").attr("readonly", true);
-        }
-      }
-    </script>
+                            <div class="user-profile-heading">
+                              <h3>Address Details</h3>
+                            </div>
 
-    <%- include('./include/script.link.ejs') %>
+                            <div class="row" style="margin-left: -10px;">
+                              <div class="col-xl-6 col-md-6 col-12">
+                                <label for="addr-ln-1" class="add-note-lbl">Address*</label>
+                                <textarea style="height: 90px; margin-bottom: 25px;" class="form-control input-field"
+                                  id="addr" name="addr" required><%= userAddress.Address %></textarea>
+                              </div>
+
+                              <div class="col-xl-6 col-md-6 col-12">
+                                <label for="addrCity" class="add-note-lbl">City*</label>
+                                <input type="text" class="form-control input-field" id="addrCity" name="addrCity"
+                                  value="<%= userAddress.City %>" required>
+                              </div>
+
+                              <div class="col-xl-6 col-md-6 col-12">
+                                <label for="addrState" class="add-note-lbl">State*</label>
+                                <input type="text" class="form-control input-field" id="addrState" name="addrState"
+                                  value="<%= userAddress.State %>" required>
+                              </div>
+
+                              <div class="col-xl-6 col-md-6 col-12">
+                                <label for="addrZip" class="add-note-lbl">ZipCode*</label>
+                                <input type="number" min="0" class="form-control input-field" id="addrZip"
+                                  name="addrZip" value="<%= userAddress.Zipcode %>" required>
+                              </div>
+
+                              <div class="col-xl-6 col-md-6 col-12">
+                                <label for="addrCountry" class="add-note-lbl">Country*</label>
+                                <div>
+                                  <select class="form-control" id="addrCountry" name="addrCountry"
+                                    style="margin-bottom: 25px;">
+                                    <option value="<%= userAddress.Country %>" selected hidden>
+                                      <%= userAddress.Country %>
+                                    </option>
+                                    <option value="INDIA">INDIA</option>
+                                    <option value="USA">USA</option>
+                                    <option value="UK">UK</option>
+                                    <option value="CANADA">CANADA</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <% } %>
+                            <% if(!userAddress) { %>
+                              <div id="address-details">
+
+                                <div class="user-profile-heading">
+                                  <h3>Address Details</h3>
+                                </div>
+
+                                <div class="row" style="margin-left: -15px;">
+                                  <div class="col-xl-6 col-md-6 col-12">
+                                    <label for="addr-ln-1" class="add-note-lbl">Address*</label>
+                                    <textarea style="height: 90px; margin-bottom: 25px;" id="addr" name="addr"
+                                      class="form-control input-field" placeholder="Enter your Address"
+                                      required></textarea>
+                                  </div>
+
+                                  <div class="col-xl-6 col-md-6 col-12">
+                                    <label for="addrCity" class="add-note-lbl">City*</label>
+                                    <input type="text" class="form-control input-field" id="addrCity" name="addrCity"
+                                      placeholder="Enter your City" required>
+                                  </div>
+
+                                  <div class="col-xl-6 col-md-6 col-12">
+                                    <label for="addrState" class="add-note-lbl">State*</label>
+                                    <input type="text" class="form-control input-field" id="addrState" name="addrState"
+                                      placeholder="Enter your State" required>
+                                  </div>
+
+                                  <div class="col-xl-6 col-md-6 col-12">
+                                    <label for="addrZip" class="add-note-lbl">ZipCode*</label>
+                                    <input type="number" min="0" class="form-control input-field" id="addrZip"
+                                      name="addrZip" placeholder="Enter your Zipcode" required>
+                                  </div>
+
+                                  <div class="col-xl-6 col-md-6 col-12">
+                                    <label for="addrCountry" class="add-note-lbl">Country*</label>
+                                    <div>
+                                      <select class="form-control" id="addrCountry" name="addrCountry"
+                                        style="margin-bottom: 25px;" required>
+                                        <option value="" selected hidden>Select your country</option>
+                                        <option value="INDIA">INDIA</option>
+                                        <option value="USA">USA</option>
+                                        <option value="UK">UK</option>
+                                        <option value="CANADA">CANADA</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <% } %>
+                                <% } %>
+                                  <div id="login-btn" style="margin-bottom: 40px; margin-top: 30px;">
+                                    <button type="submit" class="btn btn-login"
+                                      style="width: 150px; margin-left: -1060px;" id="submit" value="Sign Up"
+                                      data-toggle="modal">SUBMIT</button>
+                                  </div>
+                </form>
+              </div>
+            </section>
+
+            <%- include('./include/footer.ejs') %>
+
+              <%- include('./include/script.link.ejs') %>
+
+                <script>
+                  function hello1() {
+                    var link1 = document.getElementById("toggleEditUsername");
+                    var new1 = link1.getAttribute("src");
+                    if (new1 === "/images/edit.png") {
+                      link1.setAttribute('src', "/images/edit-slash.png");
+                      $("#UserProfileName").attr("readonly", false);
+                    } else {
+                      link1.setAttribute('src', "/images/edit.png");
+                      $("#UserProfileName").attr("readonly", true);
+                    }
+                  }
+                </script>
+                <script>
+                  function hello2() {
+                    var link1 = document.getElementById("toggleEditEmail");
+                    var new1 = link1.getAttribute("src");
+                    if (new1 === "/images/edit.png") {
+                      link1.setAttribute('src', "/images/edit-slash.png");
+                      $("#UserProfileEmail").attr("readonly", false);
+                    } else {
+                      link1.setAttribute('src', "/images/edit.png");
+                      $("#UserProfileEmail").attr("readonly", true);
+                    }
+                  }
+                </script>
+
+                <%- include('./include/script.link.ejs') %>
 
 </body>

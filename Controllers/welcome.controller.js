@@ -63,9 +63,9 @@ exports.userAuthorization = async (req, res, next) => {
 
             var perPage = 6;
 
-            var pages = Math.ceil(countProducts/perPage);
+            var pages = Math.ceil(countProducts / perPage);
 
-            var pageNumber = (req.query.page == null) ? 1 : req.query.page;
+            var pageNumber = req.query.page == null ? 1 : req.query.page;
 
             var startFrom = (pageNumber - 1) * perPage;
 
@@ -73,14 +73,13 @@ exports.userAuthorization = async (req, res, next) => {
 
             var next = last + 2;
 
-            if(pageNumber > pages)
-            {
+            if (pageNumber > pages) {
               await res.redirect(`/welcome?page=${pages}`);
             }
 
             const productDetails = await Product.findAll({
               limit: perPage,
-              offset: startFrom
+              offset: startFrom,
             });
 
             const countCouponcode = await Couponcode.count({
@@ -120,7 +119,7 @@ exports.userAuthorization = async (req, res, next) => {
                 pages,
                 last,
                 next,
-                pageNumber
+                pageNumber,
               });
             }
           }

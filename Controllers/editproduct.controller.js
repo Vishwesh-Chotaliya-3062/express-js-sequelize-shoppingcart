@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 var path = require("path");
 const sharp = require("sharp");
 const Jimp = require("jimp");
-var fs = require('fs');
+var fs = require("fs");
 const { Op } = require("sequelize");
 
 var cookieParser = require("cookie-parser");
@@ -148,8 +148,7 @@ exports.postEditProduct = async (req, res, next) => {
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
 
-            if(req.files)
-            {
+            if (req.files) {
               const {
                 ProductName,
                 SKU,
@@ -159,9 +158,9 @@ exports.postEditProduct = async (req, res, next) => {
                 Category,
                 SubCategory,
               } = req.body;
-              
+
               var file = req.files.Image;
-  
+
               const checkAlready = await Product.findOne({
                 where: {
                   ProductName: ProductName,
@@ -171,7 +170,7 @@ exports.postEditProduct = async (req, res, next) => {
                   },
                 },
               });
-  
+
               if (checkAlready) {
                 const message =
                   "Duplicate product (change either product name or company name)";
@@ -180,7 +179,7 @@ exports.postEditProduct = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
-  
+
                 const userDetails = await User.findAll({
                   attributes: ["UserID", "UserName", "Status"],
                   include: Wallet,
@@ -188,7 +187,7 @@ exports.postEditProduct = async (req, res, next) => {
                     UserName: UserName,
                   },
                 });
-  
+
                 const countCouponcode = await Couponcode.count({
                   where: {
                     UserID: userid,
@@ -200,17 +199,17 @@ exports.postEditProduct = async (req, res, next) => {
                     ProductID: productid,
                   },
                 });
-    
+
                 const productImage = await ProductImage.findOne({
                   where: {
                     ProductID: productid,
                   },
                 });
-  
+
                 for (user in userDetails) {
                   let userid = userDetails[user].UserID;
                   let link = `/verify/${userid}`;
-  
+
                   const cartTotalQuantity = await Cart.findOne({
                     attributes: [
                       [
@@ -222,13 +221,13 @@ exports.postEditProduct = async (req, res, next) => {
                       UserID: userid,
                     },
                   });
-  
+
                   const cartCount = cartTotalQuantity.Quantity;
-  
+
                   const walletBalance = Math.ceil(
                     userDetails[user].wallet.Balance
                   );
-  
+
                   await res.render("editproduct", {
                     userDetails: userDetails,
                     walletBalance: walletBalance,
@@ -238,12 +237,12 @@ exports.postEditProduct = async (req, res, next) => {
                     ab: ab,
                     message,
                     productDetails: productDetails,
-                    productImage: productImage
+                    productImage: productImage,
                   });
                 }
               }
               if (!checkAlready) {
-                console.log('Not already')
+                console.log("Not already");
                 const addProductTransaction = await sequelize.transaction();
                 try {
                   const checkSKUAlready = await Product.findOne({
@@ -254,7 +253,7 @@ exports.postEditProduct = async (req, res, next) => {
                       },
                     },
                   });
-  
+
                   if (checkSKUAlready) {
                     const message1 = "Duplicate SKU for product";
                     const ab = await ProfileImage.findOne({
@@ -262,7 +261,7 @@ exports.postEditProduct = async (req, res, next) => {
                         UserID: userid,
                       },
                     });
-  
+
                     const userDetails = await User.findAll({
                       attributes: ["UserID", "UserName", "Status"],
                       include: Wallet,
@@ -270,19 +269,19 @@ exports.postEditProduct = async (req, res, next) => {
                         UserName: UserName,
                       },
                     });
-  
+
                     const countCouponcode = await Couponcode.count({
                       where: {
                         UserID: userid,
                       },
                     });
-  
+
                     const productDetails = await Product.findOne({
                       where: {
                         ProductID: productid,
                       },
                     });
-        
+
                     const productImage = await ProductImage.findOne({
                       where: {
                         ProductID: productid,
@@ -292,7 +291,7 @@ exports.postEditProduct = async (req, res, next) => {
                     for (user in userDetails) {
                       let userid = userDetails[user].UserID;
                       let link = `/verify/${userid}`;
-  
+
                       const cartTotalQuantity = await Cart.findOne({
                         attributes: [
                           [
@@ -304,13 +303,13 @@ exports.postEditProduct = async (req, res, next) => {
                           UserID: userid,
                         },
                       });
-  
+
                       const cartCount = cartTotalQuantity.Quantity;
-  
+
                       const walletBalance = Math.ceil(
                         userDetails[user].wallet.Balance
                       );
-  
+
                       await res.render("editproduct", {
                         userDetails: userDetails,
                         walletBalance: walletBalance,
@@ -320,19 +319,21 @@ exports.postEditProduct = async (req, res, next) => {
                         ab: ab,
                         message1,
                         productDetails: productDetails,
-                        productImage: productImage
+                        productImage: productImage,
                       });
                     }
                   }
-  
+
                   await Product.update(
-                    { ProductName: ProductName,
+                    {
+                      ProductName: ProductName,
                       SKU: SKU,
                       Price: Price,
                       QuantityLeft: QuantityLeft,
                       CompanyName: CompanyName,
                       Category: Category,
-                      SubCategory: SubCategory },
+                      SubCategory: SubCategory,
+                    },
                     {
                       where: {
                         ProductID: productid,
@@ -342,9 +343,9 @@ exports.postEditProduct = async (req, res, next) => {
                       transaction: addProductTransaction,
                     }
                   );
-  
+
                   await addProductTransaction.commit();
-                  
+
                   if (
                     file.mimetype == "image/jpeg" ||
                     file.mimetype == "image/png" ||
@@ -369,7 +370,7 @@ exports.postEditProduct = async (req, res, next) => {
                       Category +
                       "__" +
                       SubCategory;
-  
+
                     file.mv(
                       "views/images/upload_product_images/" + Image,
                       async function (err) {
@@ -406,11 +407,10 @@ exports.postEditProduct = async (req, res, next) => {
                           Image = Image1 + ".png";
                           const productImageCheck = await ProductImage.findOne({
                             where: {
-                              ProductID: productid
-                            }
+                              ProductID: productid,
+                            },
                           });
-                          if(productImageCheck)
-                          {
+                          if (productImageCheck) {
                             await ProductImage.update(
                               { Image: Image },
                               {
@@ -422,11 +422,13 @@ exports.postEditProduct = async (req, res, next) => {
                                 transaction: addProductImageTransaction,
                               }
                             );
+                          } else {
+                            await ProductImage.create({
+                              ProductID: productid,
+                              Image: Image,
+                            });
                           }
-                          else {
-                            await ProductImage.create({ProductID: productid, Image: Image});
-                          }
-  
+
                           await addProductImageTransaction.commit();
                         } catch {
                           await addProductImageTransaction.rollback();
@@ -443,12 +445,10 @@ exports.postEditProduct = async (req, res, next) => {
                   await res.json(err.message);
                 }
               }
-  
-              await res.redirect('/manageproducts');
-            }    
-            else if(!req.files) {
 
-              console.log("body part")
+              await res.redirect("/manageproducts");
+            } else if (!req.files) {
+              console.log("body part");
               const {
                 ProductName,
                 SKU,
@@ -458,7 +458,7 @@ exports.postEditProduct = async (req, res, next) => {
                 Category,
                 SubCategory,
               } = req.body;
-  
+
               const checkAlready = await Product.findOne({
                 where: {
                   ProductName: ProductName,
@@ -468,9 +468,9 @@ exports.postEditProduct = async (req, res, next) => {
                   },
                 },
               });
-  
+
               if (checkAlready) {
-                console.log("Already product name")
+                console.log("Already product name");
                 const message =
                   "Duplicate product (change either product name or company name)";
                 const ab = await ProfileImage.findOne({
@@ -478,7 +478,7 @@ exports.postEditProduct = async (req, res, next) => {
                     UserID: userid,
                   },
                 });
-  
+
                 const userDetails = await User.findAll({
                   attributes: ["UserID", "UserName", "Status"],
                   include: Wallet,
@@ -486,29 +486,29 @@ exports.postEditProduct = async (req, res, next) => {
                     UserName: UserName,
                   },
                 });
-  
+
                 const countCouponcode = await Couponcode.count({
                   where: {
                     UserID: userid,
                   },
                 });
-                
+
                 const productDetails = await Product.findOne({
                   where: {
                     ProductID: productid,
                   },
                 });
-    
+
                 const productImage = await ProductImage.findOne({
                   where: {
                     ProductID: productid,
                   },
                 });
-  
+
                 for (user in userDetails) {
                   let userid = userDetails[user].UserID;
                   let link = `/verify/${userid}`;
-  
+
                   const cartTotalQuantity = await Cart.findOne({
                     attributes: [
                       [
@@ -520,13 +520,13 @@ exports.postEditProduct = async (req, res, next) => {
                       UserID: userid,
                     },
                   });
-  
+
                   const cartCount = cartTotalQuantity.Quantity;
-  
+
                   const walletBalance = Math.ceil(
                     userDetails[user].wallet.Balance
                   );
-  
+
                   await res.render("editproduct", {
                     userDetails: userDetails,
                     walletBalance: walletBalance,
@@ -536,7 +536,7 @@ exports.postEditProduct = async (req, res, next) => {
                     ab: ab,
                     message,
                     productDetails: productDetails,
-                    productImage: productImage
+                    productImage: productImage,
                   });
                 }
               }
@@ -551,7 +551,7 @@ exports.postEditProduct = async (req, res, next) => {
                       },
                     },
                   });
-  
+
                   if (checkSKUAlready) {
                     const message1 = "Duplicate SKU for product";
                     const ab = await ProfileImage.findOne({
@@ -559,7 +559,7 @@ exports.postEditProduct = async (req, res, next) => {
                         UserID: userid,
                       },
                     });
-  
+
                     const userDetails = await User.findAll({
                       attributes: ["UserID", "UserName", "Status"],
                       include: Wallet,
@@ -567,7 +567,7 @@ exports.postEditProduct = async (req, res, next) => {
                         UserName: UserName,
                       },
                     });
-  
+
                     const countCouponcode = await Couponcode.count({
                       where: {
                         UserID: userid,
@@ -579,17 +579,17 @@ exports.postEditProduct = async (req, res, next) => {
                         ProductID: productid,
                       },
                     });
-        
+
                     const productImage = await ProductImage.findOne({
                       where: {
                         ProductID: productid,
                       },
                     });
-  
+
                     for (user in userDetails) {
                       let userid = userDetails[user].UserID;
                       let link = `/verify/${userid}`;
-  
+
                       const cartTotalQuantity = await Cart.findOne({
                         attributes: [
                           [
@@ -601,13 +601,13 @@ exports.postEditProduct = async (req, res, next) => {
                           UserID: userid,
                         },
                       });
-  
+
                       const cartCount = cartTotalQuantity.Quantity;
-  
+
                       const walletBalance = Math.ceil(
                         userDetails[user].wallet.Balance
                       );
-  
+
                       await res.render("editproduct", {
                         userDetails: userDetails,
                         walletBalance: walletBalance,
@@ -617,19 +617,21 @@ exports.postEditProduct = async (req, res, next) => {
                         ab: ab,
                         message1,
                         productDetails: productDetails,
-                        productImage: productImage
+                        productImage: productImage,
                       });
                     }
                   }
-  
+
                   await Product.update(
-                    { ProductName: ProductName,
+                    {
+                      ProductName: ProductName,
                       SKU: SKU,
                       Price: Price,
                       QuantityLeft: QuantityLeft,
                       CompanyName: CompanyName,
                       Category: Category,
-                      SubCategory: SubCategory, },
+                      SubCategory: SubCategory,
+                    },
                     {
                       where: {
                         ProductID: productid,
@@ -639,60 +641,58 @@ exports.postEditProduct = async (req, res, next) => {
                       transaction: updateProductTransaction,
                     }
                   );
-  
+
                   await updateProductTransaction.commit();
-                  
-                    var Image1 =
-                      ProductName +
-                      "__" +
-                      CompanyName +
-                      "__" +
-                      Category +
-                      "__" +
-                      SubCategory +
-                      ".png";
 
-                      const updateProductImageTransaction =
-                          await sequelize.transaction();
+                  var Image1 =
+                    ProductName +
+                    "__" +
+                    CompanyName +
+                    "__" +
+                    Category +
+                    "__" +
+                    SubCategory +
+                    ".png";
 
-                      try{
-                        
-                        const q1 = await ProductImage.findOne({
-                          where: {
-                            ProductID: productid
-                          }
-                        });
-                        console.log(q1.Image);
-                        fs.renameSync("views/images/upload_product_images/" + q1.Image, "views/images/upload_product_images/" + Image1);
+                  const updateProductImageTransaction =
+                    await sequelize.transaction();
 
-                        await ProductImage.update(
-                          { Image: Image1 },
-                          {
-                            where: {
-                              ProductID: productid,
-                            },
-                          },
-                          {
-                            transaction: updateProductImageTransaction,
-                          }
-                        );
+                  try {
+                    const q1 = await ProductImage.findOne({
+                      where: {
+                        ProductID: productid,
+                      },
+                    });
+                    console.log(q1.Image);
+                    fs.renameSync(
+                      "views/images/upload_product_images/" + q1.Image,
+                      "views/images/upload_product_images/" + Image1
+                    );
 
-                        await updateProductImageTransaction.commit();
-
+                    await ProductImage.update(
+                      { Image: Image1 },
+                      {
+                        where: {
+                          ProductID: productid,
+                        },
+                      },
+                      {
+                        transaction: updateProductImageTransaction,
                       }
-                      catch(err) {
-                        console.log(err.message);
-                        await updateProductImageTransaction.rollback();
-                      }
-                    
+                    );
+
+                    await updateProductImageTransaction.commit();
+                  } catch (err) {
+                    console.log(err.message);
+                    await updateProductImageTransaction.rollback();
+                  }
                 } catch (err) {
                   await updateProductTransaction.rollback();
                   await res.json(err.message);
                 }
               }
-  
-              await res.redirect('/manageproducts');
 
+              await res.redirect("/manageproducts");
             }
           }
         });
