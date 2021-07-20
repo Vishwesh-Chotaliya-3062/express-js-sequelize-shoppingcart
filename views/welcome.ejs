@@ -1,41 +1,13 @@
 <head>
     <%- include('./include/header.link.ejs') %>
         <title>Welcome</title>
-        <style>
-            .center {
-                text-align: center;
-            }
-
-            .pagination {
-                display: inline-block;
-            }
-
-            .pagination a {
-                color: black;
-                float: left;
-                padding: 8px 16px;
-                text-decoration: none;
-                transition: background-color .3s;
-                border: 1px solid #eee;
-                border-radius: 50%;
-                margin: 0 4px;
-            }
-
-            .pagination a.active {
-                background-color: #6255a5;
-                color: white;
-                border: 1px solid #6255a5;
-            }
-
-            .pagination a:hover:not(.active) {
-                background-color: #ddd;
-            }
-        </style>
+    <link rel="stylesheet" href="/css/pagination.css">     
 </head>
 
 <body style="background-color: #eee;">
 
     <section id="nav-header" style="height: 100px;">
+
         <header>
             <nav class="navbar navbar-expand-md fixed-top white-nav">
                 <div class="container">
@@ -160,20 +132,79 @@
             <div id="filter-result-heading">
                 <h3>Total <%= countProducts %> Products</h3>
             </div>
+            
+        <div id="search-select" style="width: 97.5%; margin-left: 15px;">
+            <form action="/welcome" method="POST">
+            <div class="row" id="search-options">
+                <div class="col-xl-12" id="search-note">
+                    <input style="width: 99%; border-radius: 0%;" type="text" class="form-control input-field" id="ProductName" name="ProductName" placeholder="Search products here....">
+                    <button type="submit" class="btn btn-login" style="border-radius: 0%; border: 1px solid #e3e3e3; width: 50px; height: 39px; margin-left: 1030px; margin-top: -58.5px;" onclick="return script()">
+                        <img src="images/search - Copy.jpg">
+                    </button>
+                </div>
+            </div>
+            </form>
+    
+            <div class="row" id="select-options">
+
+                <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
+    
+                    <div>
+                        <select class="form-control" style="width: 200;" pxrequired>
+                            <option value="" selected>Select Company</option>
+                            <% for(u in allUniqueCompanyName) { %>
+                                <option value="<%= allUniqueCompanyName[u].CompanyName %>"><%= allUniqueCompanyName[u].CompanyName %></option>
+                            <% } %>
+                        </select>
+                    </div>
+    
+                </div>
+    
+                <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
+    
+                    <div>
+                        <select class="form-control" style="width: 200px;" required>
+                            <option value="" selected>Select Category</option>
+                            <% for(u in allUniqueCategory) { %>
+                                <option value="<%= allUniqueCategory[u].Category %>"><%= allUniqueCategory[u].Category %></option>
+                            <% } %>
+                        </select>
+                    </div>
+    
+                </div>
+    
+                <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
+    
+                    <div>
+                        <select class="form-control" style="width: 220px;" required>
+                            <option value="" selected>Select Sub Category</option>
+                            <% for(u in allUniqueSubCategory) { %>
+                                <option value="<%= allUniqueSubCategory[u].SubCategory %>"><%= allUniqueSubCategory[u].SubCategory %></option>
+                            <% } %>
+                        </select>
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+        </div>
 
             <div id="filter-result">
 
                 <div class="row res-row">
-                    <% for (let product in productDetails) { %>
+                    <% for (let product in productDetails ) { %>
                         <div class="col-lg-4 col-sm-6 col-12">
                             <div class="res-book" style="width: 100%;">
                                 <div class="row">
                                     <div class="col-xl-12" style="width: 100%">
                                         <div class="img-book">
-                                            <img style="border: 0.5px solid #d3d2d4;"
+                                            <a href="/productdetails/<%= productDetails[product].ProductID %>">
+                                                <img style="border: 0.5px solid #d3d2d4;"
                                                 src="/images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
-                                                onerror="this.onerror=null; this.src='/images/No_Image.png'"
+                                                onerror="this.onerror=null; this.src='/images/No_Image.png'" 
                                                 class="img-fluid">
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="col-xl-12">

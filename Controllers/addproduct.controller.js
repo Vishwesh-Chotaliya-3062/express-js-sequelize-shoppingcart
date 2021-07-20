@@ -344,7 +344,7 @@ exports.postAddProduct = async (req, res, next) => {
                           }
                         );
                         sharp("views/images/upload_product_images/" + Image)
-                          .resize({ height: 253, width: 448 })
+                          .resize({ height: 253, width: 448, fit:'fill' })
                           .toFile(
                             "views/images/upload_product_images/" +
                               Image1 +

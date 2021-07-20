@@ -8,6 +8,7 @@ const { Cart } = require("../models/cart.model");
 const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
 app.use(cookieParser());
@@ -75,11 +76,61 @@ exports.userAuthorization = async (req, res, next) => {
 
             if (pageNumber > pages) {
               await res.redirect(`/welcome?page=${pages}`);
+            } 
+
+            var filters = req.query;
+            delete filters.page;
+            var productDetails;
+
+            var all = await Product.findAll();
+
+            var allUniqueCompanyName = await Product.findAll({
+              attributes: [
+                [sequelize.fn('DISTINCT', sequelize.col('CompanyName')) ,'CompanyName']
+            ]
+            });
+
+            var allUniqueCategory = await Product.findAll({
+              attributes: [
+                [sequelize.fn('DISTINCT', sequelize.col('Category')) ,'Category']
+            ]
+            });
+
+            var allUniqueSubCategory = await Product.findAll({
+              attributes: [
+                [sequelize.fn('DISTINCT', sequelize.col('SubCategory')) ,'SubCategory']
+            ]
+            });
+
+            var ProductName  = req.body.ProductName;
+            if(ProductName == null || ProductName == '')
+            {
+              productDetails = await Product.findAll({
+                limit: perPage,
+                offset: startFrom
+              });
+              console.log("NO")
+            }
+            else{
+              productDetails = await Product.findAll({
+                where: {
+                  ProductName : {
+                    [Op.like]: '%' + ProductName + '%'
+                }
+                }
+              });
+              console.log("YES")
             }
 
-            const productDetails = await Product.findAll({
-              limit: perPage,
-              offset: startFrom,
+            console.log(productDetails)
+
+            const filteredUsers = all.filter(user => {
+              let isValid = true;
+              for (key in filters) {
+                console.log(key, user[key], filters[key]);
+                isValid = isValid && user[key] == filters[key];
+              }
+              return isValid;
             });
 
             const countCouponcode = await Couponcode.count({
@@ -120,6 +171,10 @@ exports.userAuthorization = async (req, res, next) => {
                 last,
                 next,
                 pageNumber,
+                filteredUsers: filteredUsers,
+                allUniqueCategory,
+                allUniqueCompanyName,
+                allUniqueSubCategory
               });
             }
           }

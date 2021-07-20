@@ -10,9 +10,11 @@ const jwt = require("jsonwebtoken");
 
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
+const { ProductImage } = require("../models/productImage.model");
+const { Product } = require("../models/product.model");
 app.use(cookieParser());
 
-exports.getWallet = async (req, res, next) => {
+exports.getProductDetails = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const userid = req.cookies.userid;
@@ -38,6 +40,8 @@ exports.getWallet = async (req, res, next) => {
             var decoded = jwt_decode(token);
             var UserName = decoded.UserName;
             await res.cookie("username", UserName);
+
+            const productid = req.params.productid;
 
             const ab = await ProfileImage.findOne({
               where: {
@@ -74,15 +78,29 @@ exports.getWallet = async (req, res, next) => {
 
               const cartCount = cartTotalQuantity.Quantity;
 
+              const productDetails = await Product.findOne({
+                  where: {
+                      ProductID: productid
+                  }
+              })
+
+              const productImage = await ProductImage.findOne({
+                  where: {
+                      ProductID: productid
+                  }
+              })
+
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
-              await res.render("wallet", {
+              await res.render("productdetails", {
                 userDetails: userDetails,
                 walletBalance: walletBalance,
                 cartCount: cartCount,
                 countCouponcode: countCouponcode,
                 link: link,
                 ab: ab,
+                productImage: productImage,
+                productDetails: productDetails
               });
             }
           }
@@ -95,30 +113,5 @@ exports.getWallet = async (req, res, next) => {
     }
   } catch (error) {
     return res.status(500).json(error.message);
-  }
-};
-
-exports.addWallet = async (req, res, next) => {
-  const Amount = req.body.Amount;
-  const UserID = req.cookies.userid;
-
-  const aq = await User.findOne({
-    where: {
-      UserID: UserID,
-    },
-  });
-
-  if (aq.UserName === "admin") {
-    await res.render("notauthorizederror");
-  }
-
-  try {
-    await sequelize.query("CALL addWallet( :UserID, :Amount)", {
-      replacements: { Amount, UserID },
-      logging: false,
-    });
-    return res.redirect("/wallet");
-  } catch (e) {
-    return res.send(500).send("Something went wrong!");
   }
 };

@@ -5,5 +5,7 @@ module.exports = (app) => {
 
   router.get("/welcome", outofstock.userAuthorization);
 
+  router.post("/welcome", outofstock.userAuthorization);
+
   app.use("/", router);
 };

@@ -51,6 +51,7 @@ require("./routes/addproduct.routes")(app);
 require("./routes/addbulkproducts.routes")(app);
 require("./routes/manageusers.routes")(app);
 require("./routes/manageproducts.routes")(app);
+require("./routes/productdetails.routes")(app);
 
 app.use(express.static(path.join(__dirname, "views")));
 
