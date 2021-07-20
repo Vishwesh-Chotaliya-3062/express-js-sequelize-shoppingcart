@@ -125,11 +125,13 @@ exports.userAuthorization = async (req, res, next) => {
                       [Op.like]: '%' + ProductName + '%'
                     }
                   }
-                ]
+                ],
               }
 
               productDetails = await Product.findAll({
-                where: condition
+                where: condition,
+                limit: perPage,
+                offset: startFrom
               });
               console.log("YES")
             }
