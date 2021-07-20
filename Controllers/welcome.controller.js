@@ -112,12 +112,24 @@ exports.userAuthorization = async (req, res, next) => {
               console.log("NO")
             }
             else{
+              var condition = 
+              { 
+                [Op.or]: [ 
+                  { 
+                    ProductName : {
+                      [Op.like]: '%' + ProductName + '%'
+                    },
+                  },
+                  { 
+                    CompanyName: {
+                      [Op.like]: '%' + ProductName + '%'
+                    }
+                  }
+                ]
+              }
+
               productDetails = await Product.findAll({
-                where: {
-                  ProductName : {
-                    [Op.like]: '%' + ProductName + '%'
-                }
-                }
+                where: condition
               });
               console.log("YES")
             }
