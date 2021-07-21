@@ -109,7 +109,6 @@ exports.userAuthorization = async (req, res, next) => {
                 limit: perPage,
                 offset: startFrom
               });
-              console.log("NO")
             }
             else{
               var condition = 
@@ -124,6 +123,16 @@ exports.userAuthorization = async (req, res, next) => {
                     CompanyName: {
                       [Op.like]: '%' + ProductName + '%'
                     }
+                  },
+                  { 
+                    Category: {
+                      [Op.like]: '%' + ProductName + '%'
+                    }
+                  },
+                  { 
+                    SubCategory: {
+                      [Op.like]: '%' + ProductName + '%'
+                    }
                   }
                 ],
               }
@@ -133,10 +142,7 @@ exports.userAuthorization = async (req, res, next) => {
                 limit: perPage,
                 offset: startFrom
               });
-              console.log("YES")
             }
-
-            console.log(productDetails)
 
             const filteredUsers = all.filter(user => {
               let isValid = true;
@@ -188,7 +194,8 @@ exports.userAuthorization = async (req, res, next) => {
                 filteredUsers: filteredUsers,
                 allUniqueCategory,
                 allUniqueCompanyName,
-                allUniqueSubCategory
+                allUniqueSubCategory,
+                ProductName
               });
             }
           }

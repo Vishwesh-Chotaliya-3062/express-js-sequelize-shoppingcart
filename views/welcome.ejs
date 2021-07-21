@@ -1,7 +1,7 @@
 <head>
     <%- include('./include/header.link.ejs') %>
         <title>Welcome</title>
-    <link rel="stylesheet" href="/css/pagination.css">     
+        <link rel="stylesheet" href="/css/pagination.css">
 </head>
 
 <body style="background-color: #eee;">
@@ -25,20 +25,43 @@
 
                     <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
                         id="navbarSupportedContent">
-                        <ul class="navbar-nav" style="margin-left: auto;">
+                        <ul class="navbar-nav" style="margin-left: auto; margin-top: 20px;">
+
+                            <li class="nav-item" style="margin-right: 80px;">
+                                <form action="/welcome" method="POST">
+                                    <div class="row" id="search-options">
+                                        <div class="col-xl-12" id="search-note">
+                                            <input style="width: 72%; border-radius: 0%;" type="text"
+                                                class="form-control input-field" id="ProductName" name="ProductName"
+                                                placeholder="Search Products ....">
+                                            <button type="submit" class="btn btn-login"
+                                                style="font-size: 12px; border-radius: 0%; border: 1px solid #fff; width: 70px; height: 39px; margin-left: 200px; margin-top: -38.5px;"
+                                                onclick="return script()">
+                                                SEARCH
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
+
                             <% for(let user in userDetails) { %>
                                 <li class="nav-item">
-                                    <a class="nav-link purple-link">Welcome <b style="color: #6255a6;">&nbsp;<%=
-                                                userDetails[user].UserName %>!</b></a>
+                                    <a class="nav-link purple-link" href="/welcome"> Hello, <b style="color: #6255a6;">
+                                            <%= userDetails[user].UserName %>
+                                        </b></a>
                                 </li>
                                 <% } %>
-                                    <li class="nav-item">
-                                        <a class="nav-link purple-link" href="/wallet">WALLET( $<b
-                                                style="color: #6255a6;">
-                                                <%= walletBalance %>
-                                            </b> )</a>
-                                    </li>
 
+                                    <li class="nav-item">
+                                        <div class="dropdown">
+                                            <a class="nav-link purple-link" href="/cart">ACCOUNT & LISTS</a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="/wallet">Your Wallet</a>
+                                                <a class="dropdown-item" href="/history">Your Orders</a>
+                                                <a class="dropdown-item" href="/couponcode">Your Coupon Code</a>
+                                            </div>
+                                        </div>
+                                    </li>
                                     <% if(!cartCount) { %>
                                         <li class="nav-item">
                                             <a class="nav-link purple-link" href="/cart">CART</a>
@@ -52,72 +75,53 @@
                                             </li>
                                             <% } %>
 
-                                                <% if(countCouponcode <=0) { %>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                            CODE</a>
-                                                    </li>
-                                                    <% } else { %>
+                                                <% for(let user in userDetails) { %>
+                                                    <% if(userDetails[user].Status=='pending' ) { %>
                                                         <li class="nav-item">
-                                                            <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                                CODE (<b style="color: #6255a6;">
-                                                                    <%= countCouponcode %>
-                                                                </b>)</a>
+                                                            <a id="nav-btn" style="width: 100px;"
+                                                                class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
+                                                                href="<%= link %>" role="button">VERIFY</a>
                                                         </li>
                                                         <% } %>
-
-                                                            <li class="nav-item">
-                                                                <a class="nav-link purple-link" href="/history">
-                                                                    MY ORDERS
-                                                                </a>
-                                                            </li>
-                                                            <% for(let user in userDetails) { %>
-                                                                <% if(userDetails[user].Status=='pending' ) { %>
-                                                                    <li class="nav-item">
-                                                                        <a id="nav-btn" style="width: 100px;"
-                                                                            class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                            href="<%= link %>" role="button">VERIFY</a>
-                                                                    </li>
-                                                                    <% } %>
-                                                                        <% } %>
-                                                                            <li class="nav-item">
-                                                                                <div class="dropdown">
-                                                                                    <% if(ab) { %>
-                                                                                        <a style="cursor: pointer;"
-                                                                                            class="nav-link purple-link pro-pic"
-                                                                                            data-toggle="dropdown"
-                                                                                            aria-haspopup="true"
-                                                                                            aria-expanded="false">
-                                                                                            <img src="images/upload_images/<%= ab.Image %>"
-                                                                                                style="width: 40px; height: 50px; border-radius: 50%;"
-                                                                                                alt="">
-                                                                                        </a>
-                                                                                        <% } %>
-                                                                                            <% if(!ab) { %>
-                                                                                                <a style="cursor: pointer;"
-                                                                                                    class="nav-link purple-link pro-pic"
-                                                                                                    data-toggle="dropdown"
-                                                                                                    aria-haspopup="true"
-                                                                                                    aria-expanded="false">
-                                                                                                    <img src="images/default-profile-picture1.jpg"
-                                                                                                        style="width: 40px; height: 50px; border-radius: 50%;"
-                                                                                                        alt="">
-                                                                                                </a>
-                                                                                                <% } %>
-                                                                                                    <div class="dropdown-menu"
-                                                                                                        aria-labelledby="dropdownMenuButton">
-                                                                                                        <a class="dropdown-item"
-                                                                                                            href="/userprofile">Update
-                                                                                                            Profile</a>
-                                                                                                        <a class="dropdown-item"
-                                                                                                            href="/changepassword">Change
-                                                                                                            Password</a>
-                                                                                                        <a class="dropdown-item"
-                                                                                                            href="/logout"
-                                                                                                            style="color: #6255a5;">LOGOUT</a>
-                                                                                                    </div>
-                                                                                </div>
-                                                                            </li>
+                                                            <% } %>
+                                                                <li class="nav-item">
+                                                                    <div class="dropdown">
+                                                                        <% if(ab) { %>
+                                                                            <a style="cursor: pointer;"
+                                                                                class="nav-link purple-link pro-pic"
+                                                                                data-toggle="dropdown"
+                                                                                aria-haspopup="true"
+                                                                                aria-expanded="false">
+                                                                                <img src="images/upload_images/<%= ab.Image %>"
+                                                                                    style="width: 40px; height: 50px; border-radius: 50%;"
+                                                                                    alt="">
+                                                                            </a>
+                                                                            <% } %>
+                                                                                <% if(!ab) { %>
+                                                                                    <a style="cursor: pointer;"
+                                                                                        class="nav-link purple-link pro-pic"
+                                                                                        data-toggle="dropdown"
+                                                                                        aria-haspopup="true"
+                                                                                        aria-expanded="false">
+                                                                                        <img src="images/default-profile-picture1.jpg"
+                                                                                            style="width: 40px; height: 50px; border-radius: 50%;"
+                                                                                            alt="">
+                                                                                    </a>
+                                                                                    <% } %>
+                                                                                        <div class="dropdown-menu"
+                                                                                            aria-labelledby="dropdownMenuButton">
+                                                                                            <a class="dropdown-item"
+                                                                                                href="/userprofile">Your Account
+                                                                                            </a>
+                                                                                            <a class="dropdown-item"
+                                                                                                href="/changepassword">Change
+                                                                                                Password</a>
+                                                                                            <a class="dropdown-item"
+                                                                                                href="/logout"
+                                                                                                style="color: #6255a5;">LOGOUT</a>
+                                                                                        </div>
+                                                                    </div>
+                                                                </li>
 
                         </ul>
                     </div>
@@ -126,185 +130,218 @@
         </header>
     </section>
 
-    <section id="filters" style="margin-top: 30px;">
+    <section id="filters" style="margin-top: 0px;">
 
         <div class="container">
-            <div id="filter-result-heading">
-                <h3>Total <%= countProducts %> Products</h3>
-            </div>
-            
-        <div id="search-select" style="width: 97.5%; margin-left: 15px;">
-            <form action="/welcome" method="POST">
-            <div class="row" id="search-options">
-                <div class="col-xl-12" id="search-note">
-                    <input style="width: 99%; border-radius: 0%;" type="text" class="form-control input-field" id="ProductName" name="ProductName" placeholder="Search products here....">
-                    <button type="submit" class="btn btn-login" style="border-radius: 0%; border: 1px solid #e3e3e3; width: 50px; height: 39px; margin-left: 1030px; margin-top: -58.5px;" onclick="return script()">
-                        <img src="images/search - Copy.jpg">
-                    </button>
-                </div>
-            </div>
-            </form>
-    
-            <div class="row" id="select-options">
 
-                <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
-    
-                    <div>
-                        <select class="form-control" style="width: 200;" pxrequired>
-                            <option value="" selected>Select Company</option>
-                            <% for(u in allUniqueCompanyName) { %>
-                                <option value="<%= allUniqueCompanyName[u].CompanyName %>"><%= allUniqueCompanyName[u].CompanyName %></option>
-                            <% } %>
-                        </select>
+            <div id="search-select" style="width: 97.5%; margin-left: 15px; background-color: #eee;">
+
+                <div class="row" id="select-options">
+
+                    <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
+
+                        <div>
+                            <select class="form-control" style="width: 200;" pxrequired>
+                                <option value="" selected>Select Company</option>
+                                <% for(u in allUniqueCompanyName) { %>
+                                    <option value="<%= allUniqueCompanyName[u].CompanyName %>">
+                                        <%= allUniqueCompanyName[u].CompanyName %>
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div>
+
                     </div>
-    
-                </div>
-    
-                <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
-    
-                    <div>
-                        <select class="form-control" style="width: 200px;" required>
-                            <option value="" selected>Select Category</option>
-                            <% for(u in allUniqueCategory) { %>
-                                <option value="<%= allUniqueCategory[u].Category %>"><%= allUniqueCategory[u].Category %></option>
-                            <% } %>
-                        </select>
+
+                    <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
+
+                        <div>
+                            <select class="form-control" style="width: 200px;" required>
+                                <option value="" selected>Select Category</option>
+                                <% for(u in allUniqueCategory) { %>
+                                    <option value="<%= allUniqueCategory[u].Category %>">
+                                        <%= allUniqueCategory[u].Category %>
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div>
+
                     </div>
-    
-                </div>
-    
-                <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
-    
-                    <div>
-                        <select class="form-control" style="width: 220px;" required>
-                            <option value="" selected>Select Sub Category</option>
-                            <% for(u in allUniqueSubCategory) { %>
-                                <option value="<%= allUniqueSubCategory[u].SubCategory %>"><%= allUniqueSubCategory[u].SubCategory %></option>
-                            <% } %>
-                        </select>
+
+                    <div class="col-xl-2 col-md-4 col-6" style="margin-right: 50px;">
+
+                        <div>
+                            <select class="form-control" style="width: 220px;" required>
+                                <option value="" selected>Select Sub Category</option>
+                                <% for(u in allUniqueSubCategory) { %>
+                                    <option value="<%= allUniqueSubCategory[u].SubCategory %>">
+                                        <%= allUniqueSubCategory[u].SubCategory %>
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div>
+
                     </div>
-    
+
                 </div>
-    
+
             </div>
-    
-        </div>
+            <% if(locals.ProductName){ %>
+                <% if(productDetails.length==0) { %>
 
-            <div id="filter-result">
+                    <p>SORRY WE COULDN'T FIND <b style="color: #6255a5;">
+                            <%= ProductName %>
+                        </b> PRODUCT</p>
 
-                <div class="row res-row">
-                    <% for (let product in productDetails ) { %>
-                        <div class="col-lg-4 col-sm-6 col-12">
-                            <div class="res-book" style="width: 100%;">
-                                <div class="row">
-                                    <div class="col-xl-12" style="width: 100%">
-                                        <div class="img-book">
-                                            <a href="/productdetails/<%= productDetails[product].ProductID %>">
-                                                <img style="border: 0.5px solid #d3d2d4;"
-                                                src="/images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
-                                                onerror="this.onerror=null; this.src='/images/No_Image.png'" 
-                                                class="img-fluid">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12">
-                                        <div class="res-book-info" style="background-color: white;">
-                                            <div class="res-book-info-wrapper">
-                                                <div class="res-book-title" style="display: inline-block;">
-                                                    <h3 style="color: #6255a6;">
-                                                        <%= productDetails[product].ProductName %>
-                                                    </h3>
-                                                </div>
-                                                <div class="res-book-company"
-                                                    style="display: inline-block; margin-bottom: 10px;">
-                                                    <p style="font-size: 15px;">
-                                                        &nbsp; by <%= productDetails[product].CompanyName %>
-                                                    </p>
-                                                </div>
-                                                <div class="res-book-content">
-                                                    <div style="display: inline-flex; width: 100%; margin-bottom: 5px;">
-                                                        <div class="img-icon"><img src="images/university.png" alt="">
-                                                        </div>
-                                                        <p>Price : $<%= productDetails[product].Price %>
-                                                                <p
-                                                                    style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">
-                                                                    each</p>
-                                                        </p>
-                                                    </div>
-                                                    <% if(productDetails[product].QuantityLeft> 0) { %>
-                                                        <div
-                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px;">
-                                                            <div class="img-icon"><img src="images/pages.png" alt="">
+                    <% } else { %>
+
+                        <p>
+                            <%= productDetails.length %> results for &#8220;<b style="color: #6255a5;">
+                                    <%= ProductName %>&#8221;
+                                </b>
+                        </p>
+
+                        <% } %>
+                            <% } %>
+                                <div id="filter-result">
+
+                                    <div class="row res-row">
+
+                                        <% for (let product in productDetails ) { %>
+                                            <div class="col-lg-4 col-sm-6 col-12">
+                                                <div class="res-book" style="width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col-xl-12" style="width: 100%">
+                                                            <div class="img-book">
+                                                                <a
+                                                                    href="/productdetails/<%= productDetails[product].ProductID %>">
+                                                                    <img style="border: 0.5px solid #d3d2d4;"
+                                                                        src="/images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
+                                                                        onerror="this.onerror=null; this.src='/images/No_Image.png'"
+                                                                        class="img-fluid">
+                                                                </a>
                                                             </div>
-                                                            <p>Quantity Left : <%= productDetails[product].QuantityLeft
-                                                                    %>
-                                                            </p>
                                                         </div>
-                                                        <% } else if(productDetails[product].QuantityLeft <=0) { %>
-                                                            <div
-                                                                style="display: inline-flex; width: 100%; margin-bottom: 5px;">
-                                                                <p style="color: red ">Product Out of Stock
-                                                                </p>
-                                                            </div>
-                                                            <% } %>
-                                                                <div id="star-rating"
-                                                                    style="display: inline-flex; width: 100%; margin-bottom: 5px; ">
-                                                                    <img src="images/star.png" class="img-fluid" alt="">
-                                                                    <img src="images/star.png" class="img-fluid" alt="">
-                                                                    <img src="images/star.png" class="img-fluid" alt="">
-                                                                    <img src="images/star.png" class="img-fluid" alt="">
-                                                                    <img src="images/star.png" class="img-fluid" alt="">
-                                                                    <p>100 Reviews</p>
-                                                                </div>
-                                                                <% for(let user in userDetails) { %>
-                                                                    <% if(userDetails[user].Status=='active' ) { %>
-                                                                        <% if(productDetails[product].QuantityLeft> 0 )
-                                                                            { %>
-
-                                                                            <form
-                                                                                action="/cart/added/<%= productDetails[product].ProductID %>"
-                                                                                method="POST">
-                                                                                <div
-                                                                                    style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-login"
-                                                                                        style="height: 40px;"
-                                                                                        onclick="return script()">ADD TO
-                                                                                        CART</button>
+                                                        <div class="col-xl-12">
+                                                            <div class="res-book-info" style="background-color: white;">
+                                                                <div class="res-book-info-wrapper">
+                                                                    <div class="res-book-title"
+                                                                        style="display: inline-block;">
+                                                                        <h3 style="color: #6255a6;">
+                                                                            <%= productDetails[product].ProductName %>
+                                                                        </h3>
+                                                                    </div>
+                                                                    <div class="res-book-company"
+                                                                        style="display: inline-block; margin-bottom: 10px;">
+                                                                        <p style="font-size: 15px;">
+                                                                            &nbsp; by <%=
+                                                                                productDetails[product].CompanyName %>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="res-book-content">
+                                                                        <div
+                                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                                            <div class="img-icon"><img
+                                                                                    src="images/university.png" alt="">
+                                                                            </div>
+                                                                            <p>Price : $<%=
+                                                                                    productDetails[product].Price %>
+                                                                                    <p
+                                                                                        style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">
+                                                                                        each</p>
+                                                                            </p>
+                                                                        </div>
+                                                                        <% if(productDetails[product].QuantityLeft> 0) {
+                                                                            %>
+                                                                            <div
+                                                                                style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                                                <div class="img-icon"><img
+                                                                                        src="images/pages.png" alt="">
                                                                                 </div>
-                                                                            </form>
-                                                                            <% } else { %>
-                                                                                <form
-                                                                                    action="/cart/added/<%= productDetails[product].ProductID %>"
-                                                                                    method="POST">
-                                                                                    <div
-                                                                                        style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
-                                                                                        <button type="submit"
-                                                                                            class="btn btn-login"
-                                                                                            style="height: 40px;"
-                                                                                            onclick="return script()"
-                                                                                            disabled>ADD TO
-                                                                                            CART</button>
-                                                                                    </div>
-
-                                                                                </form>
+                                                                                <p>Quantity Left : <%=
+                                                                                        productDetails[product].QuantityLeft
+                                                                                        %>
+                                                                                </p>
+                                                                            </div>
+                                                                            <% } else
+                                                                                if(productDetails[product].QuantityLeft
+                                                                                <=0) { %>
+                                                                                <div
+                                                                                    style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                                                    <p style="color: red ">Product Out
+                                                                                        of Stock
+                                                                                    </p>
+                                                                                </div>
                                                                                 <% } %>
+                                                                                    <div id="star-rating"
+                                                                                        style="display: inline-flex; width: 100%; margin-bottom: 5px; ">
+                                                                                        <img src="images/star.png"
+                                                                                            class="img-fluid" alt="">
+                                                                                        <img src="images/star.png"
+                                                                                            class="img-fluid" alt="">
+                                                                                        <img src="images/star.png"
+                                                                                            class="img-fluid" alt="">
+                                                                                        <img src="images/star.png"
+                                                                                            class="img-fluid" alt="">
+                                                                                        <img src="images/star.png"
+                                                                                            class="img-fluid" alt="">
+                                                                                        <p>100 Reviews</p>
+                                                                                    </div>
+                                                                                    <% for(let user in userDetails) { %>
+                                                                                        <% if(userDetails[user].Status=='active'
+                                                                                            ) { %>
+                                                                                            <%
+                                                                                                if(productDetails[product].QuantityLeft>
+                                                                                                0 )
+                                                                                                { %>
 
-                                                                                    <% } %>
-                                                                                        <% } %>
+                                                                                                <form
+                                                                                                    action="/cart/added/<%= productDetails[product].ProductID %>"
+                                                                                                    method="POST">
+                                                                                                    <div
+                                                                                                        style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
+                                                                                                        <button
+                                                                                                            type="submit"
+                                                                                                            class="btn btn-login"
+                                                                                                            style="height: 40px;"
+                                                                                                            onclick="return script()">ADD
+                                                                                                            TO
+                                                                                                            CART</button>
+                                                                                                    </div>
+                                                                                                </form>
+                                                                                                <% } else { %>
+                                                                                                    <form
+                                                                                                        action="/cart/added/<%= productDetails[product].ProductID %>"
+                                                                                                        method="POST">
+                                                                                                        <div
+                                                                                                            style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
+                                                                                                            <button
+                                                                                                                type="submit"
+                                                                                                                class="btn btn-login"
+                                                                                                                style="height: 40px;"
+                                                                                                                onclick="return script()"
+                                                                                                                disabled>ADD
+                                                                                                                TO
+                                                                                                                CART</button>
+                                                                                                        </div>
+
+                                                                                                    </form>
+                                                                                                    <% } %>
+
+                                                                                                        <% } %>
+                                                                                                            <% } %>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <% } %>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <% } %>
-                </div>
-            </div>
         </div>
     </section>
-
     <div class="center">
         <div class="pagination">
             <% if(last==0) { %>
@@ -345,7 +382,6 @@
                                                                         <% } %>
         </div>
     </div>
-
     <br><br>
 
     <%- include('./include/footer.ejs') %>
