@@ -8,121 +8,7 @@
 
 <body>
 
-    <section id="nav-header" style="height: 100px;">
-        <header>
-            <nav class="navbar navbar-expand-md fixed-top white-nav">
-                <div class="container">
-                    <div class="img-logo">
-                        <a href="/welcome" class="navbar-brand">
-                            <img src="images/logo.png" class="img-fluid" alt="">
-                        </a>
-                    </div>
-
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" style="margin-left: auto; float: right;"
-                        id="navbarSupportedContent">
-                        <ul class="navbar-nav" style="margin-left: auto;">
-                            <li class="nav-item">
-                                <a class="nav-link purple-link" href="/welcome">HOME</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link purple-link" href="/wallet">WALLET( $<b style="color: #6255a6;">
-                                        <%= walletBalance %>
-                                    </b>)</a>
-                            </li>
-
-                            <% if(!cartCount) { %>
-                                <li class="nav-item">
-                                    <a class="nav-link purple-link" href="/cart" style="color: #6255a5;">CART</a>
-                                </li>
-
-                                <% } else{ %>
-                                    <li class="nav-item">
-                                        <a class="nav-link purple-link" href="/cart" style="color: #6255a5;">CART(<b
-                                                style="color: #6255a6;">
-                                                <%= cartCount %>
-                                            </b>)</a>
-                                    </li>
-                                    <% } %>
-
-                                        <% if(!countCouponcode) { %>
-                                            <li class="nav-item">
-                                                <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                    CODE</a>
-                                            </li>
-
-                                            <% } else{ %>
-                                                <li class="nav-item">
-                                                    <a class="nav-link purple-link" href="/couponcode">COUPON
-                                                        CODE (<b style="color: #6255a6;">
-                                                            <%= countCouponcode %>
-                                                        </b>)</a>
-                                                </li>
-                                                <% } %>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link purple-link" href="/history">
-                                                            MY ORDERS
-                                                        </a>
-                                                    </li>
-                                                    <% for(let user in userDetails) { %>
-                                                        <% if(userDetails[user].Status=='pending' ) { %>
-                                                            <li class="nav-item">
-                                                                <a id="nav-btn" style="width: 150px;"
-                                                                    class="nav-link btn btn-login-navbar-purple white-link d-flex align-items-center"
-                                                                    href="<%= link %>" role="button">VERIFY EMAIL</a>
-                                                            </li>
-                                                            <% } %>
-                                                                <% } %>
-                                                                    <li class="nav-item">
-                                                                        <div class="dropdown">
-                                                                            <% if(ab) { %>
-                                                                                <a style="cursor: pointer;"
-                                                                                    class="nav-link purple-link pro-pic"
-                                                                                    data-toggle="dropdown"
-                                                                                    aria-haspopup="true"
-                                                                                    aria-expanded="false">
-                                                                                    <img src="images/upload_images/<%= ab.Image %>"
-                                                                                        style="width: 40px; height: 50px; border-radius: 50%;"
-                                                                                        alt="">
-                                                                                </a>
-                                                                                <% } %>
-                                                                                    <% if(!ab) { %>
-                                                                                        <a style="cursor: pointer;"
-                                                                                            class="nav-link purple-link pro-pic"
-                                                                                            data-toggle="dropdown"
-                                                                                            aria-haspopup="true"
-                                                                                            aria-expanded="false">
-                                                                                            <img src="images/default-profile-picture1.jpg"
-                                                                                                style="width: 40px; height: 50px; border-radius: 50%;"
-                                                                                                alt="">
-                                                                                        </a>
-                                                                                        <% } %>
-                                                                                            <div class="dropdown-menu"
-                                                                                                aria-labelledby="dropdownMenuButton">
-                                                                                                <a class="dropdown-item"
-                                                                                                    href="/userprofile">Update
-                                                                                                    Profile</a>
-                                                                                                <a class="dropdown-item"
-                                                                                                    href="/changepassword">Change
-                                                                                                    Password</a>
-                                                                                                <a class="dropdown-item"
-                                                                                                    href="/logout"
-                                                                                                    style="color: #6255a5;">LOGOUT</a>
-                                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-    </section>
+    <%- include('./include/header.ejs') %>
 
     <section id="filters" style="margin-top: 10px;">
 
@@ -415,7 +301,7 @@
         </div>
 
     </section>
-
+    <br><br><br><br><br>
     <%- include('./include/footer.ejs') %>
 
         <%- include('./include/script.link.ejs') %>

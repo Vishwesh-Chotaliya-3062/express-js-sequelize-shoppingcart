@@ -10,6 +10,7 @@ const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
 var cookieParser = require("cookie-parser");
+var mysql = require('mysql');
 const { ProfileImage } = require("../models/profileImage.model");
 app.use(cookieParser());
 
@@ -79,6 +80,7 @@ exports.userAuthorization = async (req, res, next) => {
             } 
 
             var filters = req.query;
+            console.log("HEHEHEH",req.query)
             delete filters.page;
             var productDetails;
 
@@ -105,10 +107,24 @@ exports.userAuthorization = async (req, res, next) => {
             var ProductName  = req.body.ProductName;
             if(ProductName == null || ProductName == '')
             {
-              productDetails = await Product.findAll({
-                limit: perPage,
-                offset: startFrom
-              });
+              if(filters.Category){
+                
+                var av = Object.values(filters);
+
+                productDetails = await Product.findAll({
+                  limit: perPage,
+                  offset: startFrom,
+                  where: {
+                    Category: av
+                  }
+                });
+              }
+              else{
+                productDetails = await Product.findAll({
+                  limit: perPage,
+                  offset: startFrom
+                });
+              }
             }
             else{
               var condition = 
@@ -152,7 +168,7 @@ exports.userAuthorization = async (req, res, next) => {
               }
               return isValid;
             });
-
+            
             const countCouponcode = await Couponcode.count({
               where: {
                 UserID: u.UserID,
