@@ -25,7 +25,8 @@
             </div>
             <div class="py-3">
                 <h5 class="font-weight-bold" style="color: #6255a5;">Brands</h5>
-                <div class="container1">
+                <div class="container1" onmouseover="this.style.overflow='scroll'"
+                onmouseout="this.style.overflow='hidden'">
                     <input style="width: 100%; margin-bottom: 8px; border-radius: 0%;" type="text"
                         class="form-control input-field" onkeyup="myFunction()" id="CompanySearch" name="CompanySearch"
                         placeholder="Search Category ....">
@@ -51,14 +52,14 @@
                     <% if(productDetails.length==0) { %>
 
                         <p>SORRY WE COULDN'T FIND <b style="color: #6255a5;">
-                                <%= ProductName %>
+                                &#8221;<%= ProductName %>&#8221;
                             </b> PRODUCT</p>
 
                         <% } else { %>
 
                             <p style="margin-left:15px">
-                                <%= productDetails.length %> results for &#8220;<b style="color: #6255a5;">
-                                        <%= ProductName %>&#8221;
+                                <%= productDetails.length %> results for <b style="color: #6255a5;">
+                                    &#8220;<%= ProductName %>&#8221;
                                     </b>
                             </p>
 
@@ -256,10 +257,11 @@
                                                                             <% } %>
             </div>
         </div>
-        <br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <%- include('./include/footer.ejs') %>
+
 
         <script src="/js/filterBrand.js"></script>
-        <%- include('./include/footer.ejs') %>
 
             <%- include('./include/script.link.ejs') %>
 </body>
