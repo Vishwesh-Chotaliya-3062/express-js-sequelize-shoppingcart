@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const verifyAuth = require("../Controllers/verify.controller");
+  const verifyAuth = require("../controllers/verify.controller");
 
   var router = require("express").Router();
 

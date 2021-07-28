@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const couponcode = require("../Controllers/couponcode.controller");
+  const couponcode = require("../controllers/couponcode.controller");
 
   var router = require("express").Router();
 

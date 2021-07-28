@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const wallet = require("../Controllers/wallet.controller");
+  const wallet = require("../controllers/wallet.controller");
 
   var router = require("express").Router();
 

@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const changePassword = require("../Controllers/changepassword.controller");
+  const changePassword = require("../controllers/changepassword.controller");
 
   var router = require("express").Router();
 

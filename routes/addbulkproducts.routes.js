@@ -1,5 +1,5 @@
 module.exports = (app) => {
-    const addBulkProducts = require("../Controllers/addbulkproducts.controller");
+    const addBulkProducts = require("../controllers/addbulkproducts.controller");
     var router = require("express").Router();
   
     router.get("/addbulkproducts", addBulkProducts.getAddBulkProductsByCSV);

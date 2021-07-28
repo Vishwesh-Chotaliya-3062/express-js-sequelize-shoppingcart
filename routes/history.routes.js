@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const history = require("../Controllers/history.controller");
+  const history = require("../controllers/history.controller");
 
   var router = require("express").Router();
 

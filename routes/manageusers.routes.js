@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const manageUsers = require("../Controllers/manageusers.controller");
+  const manageUsers = require("../controllers/manageusers.controller");
   var router = require("express").Router();
 
   router.get("/manageusers", manageUsers.getManageUsers);

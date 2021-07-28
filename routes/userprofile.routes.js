@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const userProfile = require("../Controllers/userprofile.controller");
+  const userProfile = require("../controllers/userprofile.controller");
   const { check } = require("express-validator");
   var router = require("express").Router();
 

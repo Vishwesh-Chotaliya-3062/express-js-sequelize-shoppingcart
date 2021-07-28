@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const outofstock = require("../Controllers/welcome.controller");
+  const outofstock = require("../controllers/welcome.controller");
 
   var router = require("express").Router();
 

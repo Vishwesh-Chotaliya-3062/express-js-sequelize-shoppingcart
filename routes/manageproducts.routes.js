@@ -1,6 +1,6 @@
 module.exports = (app) => {
-  const manageProducts = require("../Controllers/manageproducts.controller");
-  const editProduct = require("../Controllers/editproduct.controller");
+  const manageProducts = require("../controllers/manageproducts.controller");
+  const editProduct = require("../controllers/editproduct.controller");
 
   var router = require("express").Router();
 
