@@ -302,6 +302,11 @@
 
     </section>
     <br><br><br><br><br>
+    <% if(productQuantity.length > 5) { %>
+        <% for(let a = 6; a <= productQuantity.length; a++) { %>
+        <br><br><br><br><br>
+        <% } %>
+    <% } %>
     <%- include('./include/footer.ejs') %>
 
         <%- include('./include/script.link.ejs') %>

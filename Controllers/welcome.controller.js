@@ -185,6 +185,11 @@ exports.userAuthorization = async (req, res, next) => {
               });
             }
 
+            var d = (540  * allUniqueCategory.length) / 9;
+            d = d + 0.0625;
+            d = -d+'px';
+            console.log(d); 
+
             const filteredUsers = all.filter(user => {
               let isValid = true;
               for (key in filters) {
@@ -236,7 +241,8 @@ exports.userAuthorization = async (req, res, next) => {
                 allUniqueCategory,
                 allUniqueCompanyName,
                 allUniqueSubCategory,
-                ProductName
+                ProductName,
+                d
               });
             }
           }
