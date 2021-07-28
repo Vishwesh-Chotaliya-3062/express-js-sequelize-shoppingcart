@@ -126,7 +126,7 @@
     cursor: pointer
 }
 
-.container1 { background-color: white; width: 220px; height: 170px; overflow-y: scroll;}
+.container1 { background-color: white; width: 245px; height: 180px; overflow-y: scroll;}
 
   label:hover {
     background:#eee;

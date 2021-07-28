@@ -27,8 +27,6 @@ exports.userAuthorization = async (req, res, next) => {
       await res.redirect("/login");
     } else {
       try {
-        console.log("Authentication Token:", token);
-
         jwt.verify(token, "thisismysecret", async (err, data) => {
           if (err) {
             await res.redirect("/login");
@@ -79,8 +77,9 @@ exports.userAuthorization = async (req, res, next) => {
               await res.redirect(`/welcome?page=${pages}`);
             } 
 
+            console.log(req.body);
+
             var filters = req.query;
-            console.log("HEHEHEH",req.query)
             delete filters.page;
             var productDetails;
 
@@ -107,9 +106,35 @@ exports.userAuthorization = async (req, res, next) => {
             var ProductName  = req.body.ProductName;
             if(ProductName == null || ProductName == '')
             {
-              if(filters.Category){
+              if(filters.Brand && filters.Category) {
+                var av = filters.Brand;
+                var va = filters.Category
+                console.log("both")
+                productDetails = await Product.findAll({
+                  limit: perPage,
+                  offset: startFrom,
+                  where: {
+                    CompanyName: av,
+                    Category: va
+                  }
+                });
+              }
+              
+              else if(filters.Brand) {
+                var av = filters.Brand;
+                console.log(av)
+
+                productDetails = await Product.findAll({
+                  limit: perPage,
+                  offset: startFrom,
+                  where: {
+                    CompanyName: av
+                  }
+                });
+              }
+              else if(filters.Category){
                 
-                var av = Object.values(filters);
+                var av = filters.Category;
 
                 productDetails = await Product.findAll({
                   limit: perPage,
