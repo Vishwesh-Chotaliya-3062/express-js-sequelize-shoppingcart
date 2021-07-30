@@ -11,263 +11,304 @@
 
         <div id="mobile-filter" style="margin-top: 20px; margin-left: 20px;">
             <div class="py-3">
-                
+
                 <h5 class="font-weight-bold" style="color: #6255a5;">Categories</h5>
+                <% if(locals.ProductName){ %>
+                    <% if(productDetails == 0) { %>
+        
+                        <p style="margin-left: 250px; margin-top: -30px; margin-bottom: 6px;">SORRY WE COULDN'T FIND <b style="color: #6255a5;">
+                                &#8221;<%= ProductName %>&#8221;
+                            </b> PRODUCT</p>
+        
+                        <% } else { %>
+                                <p style="margin-left: 210px; margin-top: -30px; margin-bottom: 6px;">
+                                    <%= pageNumber %> of <%= ProductName %> results for <b style="color: #6255a5;">
+                                        &#8220;<%= ProductName %>&#8221;
+                                        </b>
+                                </p>
+                            <% } %>
+                                <% } else { %>
+                                    <% if(locals.filters) { %>
+                                        <% } else { %>
+                                                <p style="margin-left: 210px; margin-top: -30px; margin-bottom: 6px;">
+                                                    <%= pageNumber %> of <%= countProducts %> results for <b style="color: #6255a5;">
+                                                        &#8220;<%= filters %>&#8221;
+                                                        </b>
+                                                </p>
+                                            <% } %>
+                                            <% } %>
                 <ul class="list-group" style="width: 15%;">
-                    <div class="container1" style="height: 220px; width: 225px;" onmouseover="this.style.overflow='scroll'"
-                onmouseout="this.style.overflow='hidden'">
-                    <% for(u in allUniqueCategory) { %>
-                        <a href="?Category=<%= allUniqueCategory[u].Category %>">
-                        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center category">
-                            &nbsp;&nbsp;<%= allUniqueCategory[u].Category %> 
-                            <span class="badge badge-primary badge-pill"></span> 
-                        </li>
-                        </a>
-                        <% } %>
+                    <div class="container2" onmouseover="this.style.overflow='scroll'"
+                        onmouseout="this.style.overflow='hidden'">
+                        <% for(u in allUniqueCategory) { %>
+                            <a href="?Category=<%= allUniqueCategory[u].Category %>">
+                                <li
+                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center category">
+                                    &nbsp;&nbsp;<%= allUniqueCategory[u].Category %>
+                                        <span class="badge badge-primary badge-pill"></span>
+                                </li>
+                            </a>
+                            <% } %>
                     </div>
                 </ul>
             </div>
             <div class="py-3">
                 <h5 class="font-weight-bold" style="color: #6255a5;">Brands</h5>
                 <div class="container1" onmouseover="this.style.overflow='scroll'"
-                onmouseout="this.style.overflow='hidden'">
+                    onmouseout="this.style.overflow='hidden'">
                     <input style="width: 100%; margin-bottom: 8px; border-radius: 0%;" type="text"
                         class="form-control input-field" onkeyup="myFunction()" id="CompanySearch" name="CompanySearch"
                         placeholder="Search Brand ....">
                     <form class="brand" style="margin-left: 10px;">
                         <ul id="myUL" style="list-style-type: none;" onclick="my()">
                             <% for(u in allUniqueCompanyName) { %>
-                                
+
                                 <li style="margin-left: -40px;">
-                                    <div class="form-inline d-flex align-items-center py-1"> <label class="tick"><%= allUniqueCompanyName[u].CompanyName %><input type="checkbox" name="<%= allUniqueCompanyName[u].CompanyName %>" id="<%= allUniqueCompanyName[u].CompanyName %>" onclick="location.href='?Brand=<%= allUniqueCompanyName[u].CompanyName %>'"> <span class="check"></span> </label> </div>
+                                    <div class="form-inline d-flex align-items-center py-1"> <label class="tick">
+                                            <%= allUniqueCompanyName[u].CompanyName %><input type="checkbox"
+                                                    name="<%= allUniqueCompanyName[u].CompanyName %>"
+                                                    id="<%= allUniqueCompanyName[u].CompanyName %>"
+                                                    onclick="location.href='?Brand=<%= allUniqueCompanyName[u].CompanyName %>'">
+                                                <span class="check"></span>
+                                        </label> </div>
                                 </li>
-                            <% } %>
+                                <% } %>
                         </ul>
                     </form>
                 </div>
             </div>
         </div>
 
-        <section id="filters" style="margin-left: 200px; margin-top: -480px;">
-
+        <section id="filters" style="margin-left: 200px; margin-top: -445px;">
+            
             <div class="container">
+                <div id="filter-result">
 
-                <% if(locals.ProductName){ %>
-                    <% if(productDetails.length==0) { %>
+                    <div class="row res-row">
 
-                        <p style="margin-left: 15px;">SORRY WE COULDN'T FIND <b style="color: #6255a5;">
-                                &#8221;<%= ProductName %>&#8221;
-                            </b> PRODUCT</p>
-
-                        <% } else { %>
-
-                            <p style="margin-left:15px;">
-                                <%= productDetails.length %> results for <b style="color: #6255a5;">
-                                    &#8220;<%= ProductName %>&#8221;
-                                    </b>
-                            </p>
-
-                            <% } %>
-                                <% } %>
-                                    <div id="filter-result">
-
-                                        <div class="row res-row">
-
-                                            <% for (let product in productDetails ) { %>
-                                                <div class="col-lg-4 col-sm-6 col-12">
-                                                    <div class="res-book" style="width: 100%;">
-                                                        <div class="row">
-                                                            <div class="col-xl-12" style="width: 100%">
-                                                                <div class="img-book">
-                                                                    <a
-                                                                        href="/productdetails/<%= productDetails[product].ProductID %>">
-                                                                        <img style="border: 0.5px solid #d3d2d4;"
-                                                                            src="/images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
-                                                                            onerror="this.onerror=null; this.src='/images/No_Image.png'"
-                                                                            class="img-fluid">
-                                                                    </a>
-                                                                </div>
+                        <% for (let product in productDetails ) { %>
+                            <div class="col-lg-4 col-sm-6 col-12">
+                                <div class="res-book" style="width: 100%;">
+                                    <div class="row">
+                                        <div class="col-xl-12" style="width: 100%">
+                                            <div class="img-book">
+                                                <a href="/productdetails/<%= productDetails[product].ProductID %>">
+                                                    <img style="border: 0.5px solid #d3d2d4;"
+                                                        src="/images/upload_product_images/<%= productDetails[product].ProductName %>__<%= productDetails[product].CompanyName %>__<%= productDetails[product].Category %>__<%= productDetails[product].SubCategory %>.png"
+                                                        onerror="this.onerror=null; this.src='/images/No_Image.png'"
+                                                        class="img-fluid">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <div class="res-book-info" style="background-color: white;">
+                                                <div class="res-book-info-wrapper">
+                                                    <div class="res-book-title" style="display: inline-block;">
+                                                        <h3 style="color: #6255a6;">
+                                                            <%= productDetails[product].ProductName %>
+                                                        </h3>
+                                                    </div>
+                                                    <div class="res-book-company"
+                                                        style="display: inline-block; margin-bottom: 10px;">
+                                                        <p style="font-size: 15px;">
+                                                            &nbsp; by <%= productDetails[product].CompanyName %>
+                                                        </p>
+                                                    </div>
+                                                    <div class="res-book-content">
+                                                        <div
+                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                            <div class="img-icon"><img src="images/university.png"
+                                                                    alt="">
                                                             </div>
-                                                            <div class="col-xl-12">
-                                                                <div class="res-book-info"
-                                                                    style="background-color: white;">
-                                                                    <div class="res-book-info-wrapper">
-                                                                        <div class="res-book-title"
-                                                                            style="display: inline-block;">
-                                                                            <h3 style="color: #6255a6;">
-                                                                                <%= productDetails[product].ProductName
-                                                                                    %>
-                                                                            </h3>
-                                                                        </div>
-                                                                        <div class="res-book-company"
-                                                                            style="display: inline-block; margin-bottom: 10px;">
-                                                                            <p style="font-size: 15px;">
-                                                                                &nbsp; by <%=
-                                                                                    productDetails[product].CompanyName
-                                                                                    %>
-                                                                            </p>
-                                                                        </div>
-                                                                        <div class="res-book-content">
-                                                                            <div
-                                                                                style="display: inline-flex; width: 100%; margin-bottom: 5px;">
-                                                                                <div class="img-icon"><img
-                                                                                        src="images/university.png"
-                                                                                        alt="">
-                                                                                </div>
-                                                                                <p>Price : $<%=
-                                                                                        productDetails[product].Price %>
-                                                                                        <p
-                                                                                            style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">
-                                                                                            each</p>
-                                                                                </p>
-                                                                            </div>
-                                                                            <% if(productDetails[product].QuantityLeft>
-                                                                                0) {
-                                                                                %>
-                                                                                <div
-                                                                                    style="display: inline-flex; width: 100%; margin-bottom: 5px;">
-                                                                                    <div class="img-icon"><img
-                                                                                            src="images/pages.png"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                    <p>Quantity Left : <%=
-                                                                                            productDetails[product].QuantityLeft
-                                                                                            %>
-                                                                                    </p>
-                                                                                </div>
-                                                                                <% } else
-                                                                                    if(productDetails[product].QuantityLeft
-                                                                                    <=0) { %>
-                                                                                    <div
-                                                                                        style="display: inline-flex; width: 100%; margin-bottom: 5px;">
-                                                                                        <p style="color: red ">Product
-                                                                                            Out
-                                                                                            of Stock
-                                                                                        </p>
-                                                                                    </div>
-                                                                                    <% } %>
-                                                                                        <div id="star-rating"
-                                                                                            style="display: inline-flex; width: 100%; margin-bottom: 5px; ">
-                                                                                            <img src="images/star.png"
-                                                                                                class="img-fluid"
-                                                                                                alt="">
-                                                                                            <img src="images/star.png"
-                                                                                                class="img-fluid"
-                                                                                                alt="">
-                                                                                            <img src="images/star.png"
-                                                                                                class="img-fluid"
-                                                                                                alt="">
-                                                                                            <img src="images/star.png"
-                                                                                                class="img-fluid"
-                                                                                                alt="">
-                                                                                            <img src="images/star.png"
-                                                                                                class="img-fluid"
-                                                                                                alt="">
-                                                                                            <p>100 Reviews</p>
-                                                                                        </div>
-                                                                                        <% for(let user in userDetails)
-                                                                                            { %>
-                                                                                            <% if(userDetails[user].Status=='active'
-                                                                                                ) { %>
-                                                                                                <%
-                                                                                                    if(productDetails[product].QuantityLeft>
-                                                                                                    0 )
-                                                                                                    { %>
-
-                                                                                                    <form
-                                                                                                        action="/cart/added/<%= productDetails[product].ProductID %>"
-                                                                                                        method="POST">
-                                                                                                        <div
-                                                                                                            style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
-                                                                                                            <button
-                                                                                                                type="submit"
-                                                                                                                class="btn btn-login"
-                                                                                                                style="height: 40px;"
-                                                                                                                onclick="return script()">ADD
-                                                                                                                TO
-                                                                                                                CART</button>
-                                                                                                        </div>
-                                                                                                    </form>
-                                                                                                    <% } else { %>
-                                                                                                        <form
-                                                                                                            action="/cart/added/<%= productDetails[product].ProductID %>"
-                                                                                                            method="POST">
-                                                                                                            <div
-                                                                                                                style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
-                                                                                                                <button
-                                                                                                                    type="submit"
-                                                                                                                    class="btn btn-login"
-                                                                                                                    style="height: 40px;"
-                                                                                                                    onclick="return script()"
-                                                                                                                    disabled>ADD
-                                                                                                                    TO
-                                                                                                                    CART</button>
-                                                                                                            </div>
-
-                                                                                                        </form>
-                                                                                                        <% } %>
-
-                                                                                                            <% } %>
-                                                                                                                <% } %>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <p>Price : $<%= productDetails[product].Price %>
+                                                                    <p
+                                                                        style="margin-left: 7px; color: #6255a5; margin-top: 1px; font-size: 13px;">
+                                                                        each</p>
+                                                            </p>
                                                         </div>
+                                                        <% if(productDetails[product].QuantityLeft>
+                                                            0) {
+                                                            %>
+                                                            <div
+                                                                style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                                <div class="img-icon"><img src="images/pages.png"
+                                                                        alt="">
+                                                                </div>
+                                                                <p>Quantity Left : <%=
+                                                                        productDetails[product].QuantityLeft %>
+                                                                </p>
+                                                            </div>
+                                                            <% } else if(productDetails[product].QuantityLeft <=0) { %>
+                                                                <div
+                                                                    style="display: inline-flex; width: 100%; margin-bottom: 5px;">
+                                                                    <p style="color: red ">Product
+                                                                        Out
+                                                                        of Stock
+                                                                    </p>
+                                                                </div>
+                                                                <% } %>
+                                                                    <div id="star-rating"
+                                                                        style="display: inline-flex; width: 100%; margin-bottom: 5px; ">
+                                                                        <img src="images/star.png" class="img-fluid"
+                                                                            alt="">
+                                                                        <img src="images/star.png" class="img-fluid"
+                                                                            alt="">
+                                                                        <img src="images/star.png" class="img-fluid"
+                                                                            alt="">
+                                                                        <img src="images/star.png" class="img-fluid"
+                                                                            alt="">
+                                                                        <img src="images/star.png" class="img-fluid"
+                                                                            alt="">
+                                                                        <p>100 Reviews</p>
+                                                                    </div>
+                                                                    <% for(let user in userDetails) { %>
+                                                                        <% if(userDetails[user].Status=='active' ) { %>
+                                                                            <% if(productDetails[product].QuantityLeft>
+                                                                                0 )
+                                                                                { %>
+
+                                                                                <form
+                                                                                    action="/cart/added/<%= productDetails[product].ProductID %>"
+                                                                                    method="POST">
+                                                                                    <div
+                                                                                        style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-login"
+                                                                                            style="height: 40px;"
+                                                                                            onclick="return script()">ADD
+                                                                                            TO
+                                                                                            CART</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                                <% } else { %>
+                                                                                    <form
+                                                                                        action="/cart/added/<%= productDetails[product].ProductID %>"
+                                                                                        method="POST">
+                                                                                        <div
+                                                                                            style="display: inline-flex; width: 95.5%; margin-bottom: 0px;">
+                                                                                            <button type="submit"
+                                                                                                class="btn btn-login"
+                                                                                                style="height: 40px;"
+                                                                                                onclick="return script()"
+                                                                                                disabled>ADD
+                                                                                                TO
+                                                                                                CART</button>
+                                                                                        </div>
+
+                                                                                    </form>
+                                                                                    <% } %>
+
+                                                                                        <% } %>
+                                                                                            <% } %>
                                                     </div>
                                                 </div>
-                                                <% } %>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
             </div>
         </section>
-        <div class="center">
-            <div class="pagination">
-                <% if(last==0) { %>
-                    <a href="?page=<%= 1; %>">&laquo;</a>
-                    <% } else { %>
-                        <a href="?page=<%= last; %>">&laquo;</a>
-                        <% } %>
-
-                            <% for(var a=1; a < pages; a++) { %>
-                                <% if (a==pageNumber) { %>
-                                    <a class="active">
-                                        <%= a; %>
-                                    </a>
-                                    <% } else { %>
-                                        <a href="?page=<%= a; %>">
-                                            <%= a; %>
-                                        </a>
-                                        <% } %>
-                                            <% } %>
-                                                <% if(pages>= 10) { %>
-                                                    <a>...</a>
+        <% if(productDetails.length > 0) { %>
+            <% if(ss == 0) { %>
+                <div class="center">
+                    <div class="pagination">
+                        <% if(last==0) { %>
+                            <a href="?page=<%= 1; %>">&laquo;</a>
+                            <% } else { %>
+                                <a href="?page=<%= last; %>">&laquo;</a>
+                                <% } %>
+        
+                                    <% for(var a=1; a < pages; a++) { %>
+                                        <% if (a==pageNumber) { %>
+                                            <a class="active">
+                                                <%= a; %>
+                                            </a>
+                                            <% } else { %>
+                                                    <a href="?page=<%= a; %>">
+                                                        <%= a; %>
+                                                    </a>
+                                                <% } %>
                                                     <% } %>
-
-                                                        <% if (a==pageNumber) { %>
-                                                            <a class="active">
-                                                                <%= pages %>
-                                                            </a>
-                                                            <% } else { %>
-                                                                <a href="?page=<%= pages %>">
-                                                                    <%= pages %>
-                                                                </a>
-                                                                <% } %>
-
-                                                                    <% if(next>= pages) { %>
-                                                                        <a href="?page=<%= pages; %>">&raquo;</a>
-                                                                        <% } else { %>
-                                                                            <a href="?page=<%= next; %>">&raquo;</a>
-                                                                            <% } %>
-            </div>
-        </div>
+                                                        <% if(pages>= 10) { %>
+                                                            <a>...</a>
+                                                            <% } %>
+        
+                                                                <% if (a==pageNumber) { %>
+                                                                    <a class="active">
+                                                                        <%= pages %>
+                                                                    </a>
+                                                                    <% } else { %>
+                                                                        <a href="?page=<%= pages %>">
+                                                                            <%= pages %>
+                                                                        </a>
+                                                                        <% } %>
+        
+                                                                            <% if(next>= pages) { %>
+                                                                                <a href="?page=<%= pages; %>">&raquo;</a>
+                                                                                <% } else { %>
+                                                                                    <a href="?page=<%= next; %>">&raquo;</a>
+                                                                                    <% } %>
+                    </div>
+                </div>
+                <% } else { %>
+                    <div class="center">
+                    <div class="pagination">
+                        <% if(pages > 1) { %>
+                        <% if(last==0) { %>
+                            <a href="?<%= tt %>&page=<%= 1; %>">&laquo;</a>
+                            <% } else { %>
+                                <a href="?<%= tt %>&page=<%= last; %>">&laquo;</a>
+                                <% } %>
+                                <% } %>
+        
+                                    <% for(var a=1; a < pages; a++) { %>
+                                        <% if (a==pageNumber) { %>
+                                            <a class="active">
+                                                <%= a; %>
+                                            </a>
+                                            <% } else { %>
+                                                    <a href="?<%= tt %>&page=<%= a; %>">
+                                                        <%= a; %>
+                                                    </a>
+                                                <% } %>
+                                                    <% } %>
+                                                        <% if(pages>= 10) { %>
+                                                            <a>...</a>
+                                                            <% } %>
+        
+                                                                <% if (a==pageNumber) { %>
+                                                                    <a class="active">
+                                                                        <%= pages %>
+                                                                    </a>
+                                                                    <% } else { %>
+                                                                        <a href="?<%= tt %>&page=<%= pages; %>">
+                                                                            <%= pages %>
+                                                                        </a>
+                                                                        <% } %>
+                                                                            
+                                                                        <% if(pages > 1) { %>
+                                                                            <% if(next>= pages) { %>
+                                                                                <a href="?<%= tt %>&page=<%= pages; %>">&raquo;</a>
+                                                                                <% } else { %>
+                                                                                    <a href="?<%= tt %>&page=<%= next; %>">&raquo;</a>
+                                                                                    <% } %>
+                                                                                    <% } %>
+                    </div>
+                </div>
+                <% } %>
+            <% } %>
+        
         <br><br><br>
-        <% if(productDetails.length == 0) { %>
+        <% if(productDetails.length==0 || productDetails==0) { %>
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <% } %>
-        <%- include('./include/footer.ejs') %>
+            <% } %>
+                <%- include('./include/footer.ejs') %>
 
-        <script src="/js/filterBrand.js"></script>
+                    <script src="/js/filterBrand.js"></script>
 
-            <%- include('./include/script.link.ejs') %>
+                    <%- include('./include/script.link.ejs') %>
 </body>

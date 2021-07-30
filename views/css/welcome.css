@@ -126,7 +126,9 @@
     cursor: pointer
 }
 
-.container1 { background-color: white; width: 225px; height: 180px; overflow-y: hidden;}
+.container1 { background-color: white; width: 200px; height: 180px; overflow-y: hidden;}
+
+.container2 { background-color: white; width: 200px; height: 185px; overflow-y: hidden;}
 
   label:hover {
     background:#eee;
@@ -164,7 +166,3 @@
 .rating .tick input:checked~.check {
     background-color: #6255a5
 }
-
-
-
-

@@ -414,13 +414,20 @@ exports.checkCouponCode = async (req, res, next) => {
     });
 
     let flag = 0;
-
-    if (CouponCode !== userCouponCode.CouponCode) {
+    
+    if(userCouponCode){
+      if (CouponCode !== userCouponCode.CouponCode) {
+        flag = 0;
+        res.cookie("flag", flag);
+        return res.redirect("/orderdetails");
+      } else {
+        flag = 1;
+        res.cookie("flag", flag);
+        return res.redirect("/orderdetails");
+      }
+    }
+    else {
       flag = 0;
-      res.cookie("flag", flag);
-      return res.redirect("/orderdetails");
-    } else {
-      flag = 1;
       res.cookie("flag", flag);
       return res.redirect("/orderdetails");
     }
@@ -721,10 +728,7 @@ exports.getStatus = async (req, res, next) => {
                     throw new Error(`No coupon`);
                   }
 
-                  await Couponcode.update(
-                    {
-                      Status: "used",
-                    },
+                  await Couponcode.destroy(
                     {
                       where: {
                         UserID: userid,

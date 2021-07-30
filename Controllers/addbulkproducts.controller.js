@@ -7,14 +7,11 @@ const { Cart } = require("../models/cart.model");
 const { Couponcode } = require("../models/couponcode.model");
 const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
-const path = require("path");
-const readCsvFile = require("../helper/readCSVFile.helper");
 var cookieParser = require("cookie-parser");
 const { ProfileImage } = require("../models/profileImage.model");
 const fs = require("fs");
 const csv = require("csv-parser");
 const { Product } = require("../models/product.model");
-const { ProductImage } = require("../models/productImage.model");
 app.use(cookieParser());
 
 exports.getAddBulkProductsByCSV = async (req, res, next) => {

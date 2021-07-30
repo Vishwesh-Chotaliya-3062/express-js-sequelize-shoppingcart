@@ -90,6 +90,11 @@ exports.getProductDetails = async (req, res, next) => {
                   }
               })
 
+              var p = Math.round(productDetails.Price)
+              p = p + 5;
+    
+              var d = p - productDetails.Price;
+
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
 
               await res.render("productdetails", {
@@ -100,7 +105,9 @@ exports.getProductDetails = async (req, res, next) => {
                 link: link,
                 ab: ab,
                 productImage: productImage,
-                productDetails: productDetails
+                productDetails: productDetails,
+                d,
+                p
               });
             }
           }

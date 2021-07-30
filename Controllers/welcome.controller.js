@@ -10,7 +10,6 @@ const jwt_decode = require("jwt-decode");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
 var cookieParser = require("cookie-parser");
-var mysql = require('mysql');
 const { ProfileImage } = require("../models/profileImage.model");
 app.use(cookieParser());
 
@@ -59,32 +58,9 @@ exports.userAuthorization = async (req, res, next) => {
               },
             });
 
-            var countProducts = await Product.count();
-
-            var perPage = 6;
-
-            var pages = Math.ceil(countProducts / perPage);
-
-            var pageNumber = req.query.page == null ? 1 : req.query.page;
-
-            var startFrom = (pageNumber - 1) * perPage;
-
-            var last = pageNumber - 1;
-
-            var next = last + 2;
-
-            if (pageNumber > pages) {
-              await res.redirect(`/welcome?page=${pages}`);
-            } 
-
-            console.log(req.body);
-
             var filters = req.query;
-            delete filters.page;
             var productDetails;
-
-            var all = await Product.findAll();
-
+            
             var allUniqueCompanyName = await Product.findAll({
               attributes: [
                 [sequelize.fn('DISTINCT', sequelize.col('CompanyName')) ,'CompanyName']
@@ -104,12 +80,33 @@ exports.userAuthorization = async (req, res, next) => {
             });
 
             var ProductName  = req.body.ProductName;
+            var ss = 0;
+
             if(ProductName == null || ProductName == '')
             {
               if(filters.Brand && filters.Category) {
                 var av = filters.Brand;
-                var va = filters.Category
-                console.log("both")
+                var va = filters.Category;
+
+                var countProducts = await Product.count({
+                  where: {
+                    CompanyName: av,
+                    Category: va
+                  }
+                });
+
+                var perPage = 6;
+
+                var pages = Math.ceil(countProducts / perPage);
+
+                var pageNumber = req.query.page == null ? 1 : req.query.page;
+
+                var startFrom = (pageNumber - 1) * perPage;
+
+                var last = pageNumber - 1;
+
+                var next = last + 2;
+
                 productDetails = await Product.findAll({
                   limit: perPage,
                   offset: startFrom,
@@ -117,12 +114,56 @@ exports.userAuthorization = async (req, res, next) => {
                     CompanyName: av,
                     Category: va
                   }
-                });
+                }); 
+                ss = 1;
+                
+                if(typeof av == 'string' && typeof va == 'string')
+                {
+                  var tt = "Category=" + va; 
+                  var tt1 = "Brand=" + av;
+                  tt = tt + "&" + tt1;
+                  tt = tt.replace(/,/g,"&");
+                  console.log(tt)
+                }
+                else if(typeof av) {
+                  console.log("nnn")
+                }
+                
+                var tt = Object.values(filters.Category);
+                var tt1 = Object.values(filters.Brand);
+
+                for(var i=0;i<tt.length;i++){
+                  tt[i]="Category="+tt[i];
+                }
+
+                for(var i=0;i<tt1.length;i++){
+                  tt1[i]="Brand="+tt1[i];
+                }
+                tt = tt.concat(tt1);
+                tt = tt.toString();
+                tt = tt.replace(/,/g,"&");
               }
               
               else if(filters.Brand) {
                 var av = filters.Brand;
-                console.log(av)
+
+                var countProducts = await Product.count({
+                  where: {
+                    CompanyName: av
+                  }
+                });
+
+                var perPage = 6;
+
+                var pages = Math.ceil(countProducts / perPage);
+
+                var pageNumber = req.query.page == null ? 1 : req.query.page;
+
+                var startFrom = (pageNumber - 1) * perPage;
+
+                var last = pageNumber - 1;
+
+                var next = last + 2;
 
                 productDetails = await Product.findAll({
                   limit: perPage,
@@ -131,10 +172,38 @@ exports.userAuthorization = async (req, res, next) => {
                     CompanyName: av
                   }
                 });
+                
+                ss = 1;
+                var tt = Object.values(filters.Brand);
+
+                for(var i=0;i<tt.length;i++){
+                  tt[i]="Brand="+tt[i];
+                }
+
+                tt = tt.toString();
+                tt = tt.replace(/,/g,"&");
               }
               else if(filters.Category){
                 
                 var av = filters.Category;
+
+                var countProducts = await Product.count({
+                  where: {
+                    Category: av
+                  }
+                });
+
+                var perPage = 6;
+
+                var pages = Math.ceil(countProducts / perPage);
+
+                var pageNumber = req.query.page == null ? 1 : req.query.page;
+
+                var startFrom = (pageNumber - 1) * perPage;
+
+                var last = pageNumber - 1;
+
+                var next = last + 2;
 
                 productDetails = await Product.findAll({
                   limit: perPage,
@@ -143,12 +212,42 @@ exports.userAuthorization = async (req, res, next) => {
                     Category: av
                   }
                 });
-              }
+                
+                ss = 1;
+                var tt = Object.values(filters.Category);
+
+                for(var i=0;i<tt.length;i++){
+                  tt[i]="Category="+tt[i];
+                }
+
+                tt = tt.toString();
+                tt = tt.replace(/,/g,"&");
+                }
               else{
+                var countProducts = await Product.count();
+
+                var perPage = 6;
+
+                var pages = Math.ceil(countProducts / perPage);
+
+                var pageNumber = req.query.page == null ? 1 : req.query.page;
+
+                var startFrom = (pageNumber - 1) * perPage;
+
+                var last = pageNumber - 1;
+
+                var next = last + 2;
+                
+                if (pageNumber > pages) {
+                  await res.redirect(`/welcome?page=${pages}`);
+                } 
+
                 productDetails = await Product.findAll({
                   limit: perPage,
                   offset: startFrom
                 });
+                
+                ss = 0;
               }
             }
             else{
@@ -177,28 +276,45 @@ exports.userAuthorization = async (req, res, next) => {
                   }
                 ],
               }
-
               productDetails = await Product.findAll({
-                where: condition,
-                limit: perPage,
-                offset: startFrom
-              });
+                where: condition
+              })
+              
+              if(productDetails.length !== 0)
+              {
+                var countProducts = await Product.count({
+                  where: condition
+                });
+  
+                var perPage = 6;
+  
+                var pages = Math.ceil(countProducts / perPage);
+  
+                var pageNumber = req.query.page == null ? 1 : req.query.page;
+  
+                var startFrom = (pageNumber - 1) * perPage;
+  
+                var last = pageNumber - 1;
+  
+                var next = last + 2;
+                
+                if (pageNumber > pages) {
+                  await res.redirect(`/welcome?page=${pages}`);
+                } 
+  
+                productDetails = await Product.findAll({
+                  where: condition,
+                  limit: perPage,
+                  offset: startFrom
+                });
+                
+                ss = 0;
+              }
+              else {
+                productDetails = 0
+              }
             }
 
-            var d = (540  * allUniqueCategory.length) / 9;
-            d = d + 0.0625;
-            d = -d+'px';
-            console.log(d); 
-
-            const filteredUsers = all.filter(user => {
-              let isValid = true;
-              for (key in filters) {
-                console.log(key, user[key], filters[key]);
-                isValid = isValid && user[key] == filters[key];
-              }
-              return isValid;
-            });
-            
             const countCouponcode = await Couponcode.count({
               where: {
                 UserID: u.UserID,
@@ -221,7 +337,9 @@ exports.userAuthorization = async (req, res, next) => {
               const cartCount = cartTotalQuantity.Quantity;
 
               const walletBalance = Math.ceil(userDetails[user].wallet.Balance);
-
+              delete filters.page;
+              filters = Object.values(filters);
+            
               await res.render("welcome", {
                 userDetails: userDetails,
                 countProducts: countProducts,
@@ -235,14 +353,16 @@ exports.userAuthorization = async (req, res, next) => {
                 ab: ab,
                 pages,
                 last,
+                countProducts,
                 next,
                 pageNumber,
-                filteredUsers: filteredUsers,
                 allUniqueCategory,
                 allUniqueCompanyName,
                 allUniqueSubCategory,
                 ProductName,
-                d
+                ss,
+                tt,
+                filters
               });
             }
           }
