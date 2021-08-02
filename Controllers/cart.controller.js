@@ -202,6 +202,7 @@ exports.updateCart = async (req, res, next) => {
   }
 
   const Quantity = req.body.Quantity;
+  console.log(Quantity)
 
   try {
     await sequelize.query("CALL UpdateCart( :UserID, :ProductID, :Quantity)", {
@@ -210,7 +211,7 @@ exports.updateCart = async (req, res, next) => {
     });
     return res.redirect("/cart");
   } catch (e) {
-    return res.send(500).send("Something went wrong!");
+    return res.status(500).send("Something went wrong!");
   }
 };
 
@@ -235,6 +236,6 @@ exports.deleteCart = async (req, res, next) => {
     });
     return res.redirect("/cart");
   } catch (e) {
-    return res.send(500).send("Something went wrong!");
+    return res.status(500).send("Something went wrong!");
   }
 };

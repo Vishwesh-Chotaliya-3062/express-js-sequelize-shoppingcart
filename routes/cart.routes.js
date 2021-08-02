@@ -9,7 +9,7 @@ module.exports = (app) => {
 
   router.post("/cart/updated/:productid", cart.updateCart);
 
-  router.post("/cart/deleted/:productid", cart.deleteCart);
+  router.get("/cart/deleted/:productid", cart.deleteCart);
 
   app.use("/", router);
 };
